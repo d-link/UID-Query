@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title><%= title %></title>
+
+    <link rel='stylesheet' href='./stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.css">
+
+    <script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <!-- Optional theme -->
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css"> -->
+    <!-- Latest compiled and minified JavaScript -->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script> -->
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <h3 class="title"><%= title %></h2>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h4>This system will query license server for UID usage log. Plesae input a UID you want to query as following input.</h4>
+        <form id="form" action="">
+          <div class="input-group input-group-lg">
+            <input type="text" id="uid" name="uid" class="form-control" placeholder="input UID here for query">
+            <div class="input-group-btn input-group-lg">
+              <input type="submit" class="btn btn-primary btn-lg" value="Query" />
+            </div><!-- /btn-group -->
+          </div><!-- /input-group -->
+            <hr />
+        </form>
+      </div>
+    </div>
+
+    <div class="container">
+      <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+          <tr>
+            <th>UID</th>
+            <th>Organization_ID</th>
+            <th>State</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <script type='text/javascript'>
+      $( function() {
+          $("#datatable").hide();
+      });
+
+      /* attach a submit handler to the form */
+      $("#form").submit(function(event) {
+
+        /* stop form from submitting normally */
+        event.preventDefault();
+
+        /* get some values from elements on the page: */
+        var $form = $( this ),
+            url = './api/uid/' + $('#uid').val();
+
+        /* Send the data using post */
+        var getting = $.get(url);
+
+        /* Alerts the results */
+        getting.done(function(data) {
+            $('#datatable').dataTable( data );
+            $('#datatable').show();
+        });
+      });
+    </script>
+
+  </body>
+</html>
+

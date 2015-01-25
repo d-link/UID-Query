@@ -1,0 +1,12 @@
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.navbar-header .title {
+  color: #EEE;
+}
+
+.footer {
+  background-color: #EEE;
+}
