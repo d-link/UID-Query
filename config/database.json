@@ -4,21 +4,21 @@
     "password": "license",
     "database": "license",
     "port"    : 3306,
-    "host": "localhost",
+    "host": "localhost"
   },
   "test": {
     "username": "license",
     "password": "license",
     "database": "license",
     "port"    : 3306,
-    "host": "localhost",
+    "host": "localhost"
   },
   "production": {
     "username": "license",
     "password": "license",
     "database": "license",
     "port"    : 3306,
-    "host": "localhost",
+    "host": "localhost"
   }
 }
 
