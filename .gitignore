@@ -1,5 +1,6 @@
 # Application
 .htaccess
+config/database.json
 
 # OS X
 .DS_Store*
