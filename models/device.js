@@ -23,7 +23,7 @@ exports.getDeviceLog = function(uid, callback) {
 
       console.log('connected as id ' + connection.threadId);
 
-      var sql = "SELECT device_log.device_id AS uid, organization.name AS organization_id, device_log.state, device_log.last_update AS time FROM device_log, organization WHERE device_log.organization_id = organization.id AND device_log.device_id = ?";
+      var sql = "SELECT device_log.device_id AS uid, organization.name AS organization_id, device_log.state, device_log.last_update AS time FROM device_log, organization WHERE device_log.organization_id = organization.id AND device_log.device_id = ? ORDER by time DESC";
       var sql_param = uid;
 console.log(sql_param);
 
