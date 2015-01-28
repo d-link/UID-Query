@@ -68,6 +68,9 @@
       /* attach a submit handler to the form */
       $("#form").submit(function(event) {
 
+        /* remove old datatable */
+        $('#datatable').DataTable().destroy();
+
         /* stop form from submitting normally */
         event.preventDefault();
 
