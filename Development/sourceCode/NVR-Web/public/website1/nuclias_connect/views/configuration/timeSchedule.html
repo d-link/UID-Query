@@ -1,0 +1,49 @@
+
+    <div style="position: relative;margin-bottom: 16px;" id="box111">
+        <div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'label.timeStart'|translate}}</label>
+                <div class="col-sm-4" style="width: 176px;padding-right: 0px;">
+                    <div style="width: 160px;height: 32px;">
+                        <ui-select ng-model="schedule.cyclicalType" theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.schedule.' + $select.selected|translate}}</ui-select-match>
+                            <ui-select-choices repeat="item in ['Immediate', 'SelectTime']">{{'configuration.schedule.' + item|translate}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="schedule.cyclicalType=='SelectTime'">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-4">
+                        <!-- <input type="time" class="form-control" ng-model="schedule.OneTime.startTime"/> -->
+                        <div class="input-group date-picker" uib-dropdown auto-close="outsideClick">
+                            <input type="value" class="form-control" readonly ng-model="schedule.executeTime">
+                            <a type="button" class="btn btn-default" uib-dropdown-toggle id="time-picker"><md-icon md-svg-icon="user:time"></md-icon></a>
+                            <div uib-dropdown-menu aria-labelledby="time-picker" style="margin-top: 0px;"><div uib-timepicker ng-model="mytime" use24hours="true" ng-change="timeChanged()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" style="box-shadow: 0px 1px 3px #ddd;border-radius: 4px;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-4">
+                        <p class="input-group date-picker">
+                            <input type="text" class="form-control" style="width: 160px;background-color: #fff;" readonly id="kalendae_oneTime" ng-model="schedule.scheduleStart">
+                            <a type="button" class="btn btn-default" id="btnId4" ng-click="showCalendae()"><md-icon md-svg-icon="user:date"></md-icon></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group mgb0" ng-if="hasPrivilege">
+            <div class="col-sm-12">
+                <button style="margin-left:8px;" class="btn btn-common pull-right" ng-disabled="!state.Indue" ng-click="clearSchedule();">{{'common.clear'|translate}}</button>
+                <button class="btn btn-common pull-right" ng-disabled="isFwUpgradeSchedule && (!isFwChanged || isFwUploading)"
+                        ng-click="saveSchedule();">{{'common.apply'|translate}}</button>
+                <span class="hint-span state processing-msg" ng-show="state.processing"><img src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                <span class="hint-span state success-msg" ng-show="state.isSuccess">{{state.msgTrue|translate}}</span>
+                <span class="hint-span state error-msg" ng-show="state.isError">{{state.msgFalse|translate}}</span>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,107 @@
+<div class="refreshBtn" id="netRefreshData">
+    <img class="search-icons" ng-src="images/appIcons/icon_refresh.png"/>
+</div>
+        <div ng-controller="networkController" class="grid-page" >
+             <div  class="set-height" id="accessPointPage">	 
+                   <div class="gird-containner" >
+                            <div class="ip-header-containner">
+                                    <span >{{$root.cwmName}}</span>
+                                    <span >{{$root.windowIp}}</span>
+                            </div>
+                            <div style="padding: 0.2rem;">
+                                <div class="box-containner">
+                                        <!-- <div class="box-header" style="width: 100%;height:1.5rem;display: flex;"> -->
+                                        <div class="box-header" style="width:100%;height:1.5rem;">
+                                            <div style="width: 85%;float:left;">
+                                                <span style="font-size: 0.5rem;font-weight: 450;line-height:1.5rem;">{{'common.total'|translate}}</span>
+                                        
+                                                <span class="title-im color-orange-title" style="font-style: normal;font-size: 0.7rem;color:#ef9212;">{{gridOptionsNetwork.data.length}}</span>
+                                                <span style="font-size: 0.5rem;font-weight: 450">{{'common.networks'|translate}}</span>
+
+                                                <span style="font-size: 0.5rem;font-weight: 450">{{'common.total'|translate}}</span>
+                                                <span class="title-im color-orange-title" style="font-style: normal;font-size: 0.7rem;color:#ef9212;">{{total.aps}}</span>
+                                                <span style="font-size: 0.5rem;font-weight: 450">/{{total.totalAps}}</span>
+                                                <span style="font-size: 0.5rem;font-weight: 450">{{'common.online'|translate}}  {{'common.aps'|translate}}</span>
+
+                                                <span style="font-size: 0.5rem;font-weight: 450">{{'common.total'|translate}}</span>
+                                                <span class="title-im color-orange-title" style="font-style: normal;font-size: 0.7rem;color:#ef9212;">{{total.clients}}</span>
+                                                <span style="font-size: 0.5rem;font-weight: 450">{{'common.clients'|translate}}</span>
+                                            </div>                                            
+                                            <div id="networkTools" class="clear">
+                                                <div class="btn-group" 
+                                                        is-open="isOpenNetMenu" 
+                                                        auto-close="disabled"
+                                                        uib-dropdown>		
+                                                        <button type="button" 
+                                                                id="access-ipad-btn"
+                                                                class="btn btn-cancel pull-right"
+                                                                ng-click="openNetMenu();"
+                                                                uib-dropdown-toggle >
+                                                                <img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+                                                        </button>
+                
+                                                        <div class="dropdown-menu" 
+                                                                template-url="networkSearch.html"										
+                                                                uib-dropdown-menu>
+                                                        </div>
+                                
+                                                </div>
+                                            </div>
+                                            <div style="clear:both"></div>
+                                        </div>
+                                </div>
+        
+                                <div id="networkLoading" class="la-ball-clip-rotate" style="height: 22rem;">
+                                    <div></div>
+                                </div>
+        
+                                <div  ui-grid="gridOptionsNetwork"                                   
+                                      id="network-grid"
+                                      class="grid" 
+                                      ui-grid-pagination 
+                                      ui-grid-auto-resize 
+                                      ui-grid-resize-columns 
+                                      ui-grid-selection
+                                      style="margin-right: 5px;">
+                                    <!--遮挡层，用于消除表格控件表头长按呼出菜单的BUG-->
+                                    <div style="height: 1.2rem;position: absolute;width: 100%;z-index: 1;top: 0"></div>
+        
+                                    <nodata-directive ng-show="gridOptionsNetwork.totalItems==0" desc="{{'accessPoint.noAP'|translate}}"></nodata-directive>
+                                </div>
+                            </div>
+                    </div>			
+            </div>
+        </div>
+
+
+<script type="text/ng-template" id="networkSearch.html">
+
+    <div id="networkDropMenu"
+            class="dropdown-menu-right" 							
+            uib-dropdown-menu>
+            <div class="dropdown-containner">
+                <div class="dropdown-containner-title">
+                        <span>{{ 'accessPoint.searchBy' | translate}}</span>
+                </div>
+                <div class="dropdown-containner-content">
+                        <div class="dropdown-containner-content-select">
+                            <ui-select class="uiSelect" ng-model="filterSite.select" theme="bootstrap" on-select="selectSite($item)">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected|translate}}</ui-select-match>
+                                    <ui-select-choices repeat="site in filterSites">{{site|translate}}</ui-select-choices>
+                            </ui-select>   
+                        </div>
+                        <div class="dropdown-containner-content-footer" style="padding:0.2rem;width: 100%;">
+                                <div ng-click="clean();">
+                                        <span>{{ 'common.clear' | translate}}</span>
+                                </div>
+                                <div style="visibility:hidden;;min-width:0.4rem;"></div>
+                                <div  ng-click="submitSearch()">
+                                        <span>{{ 'common.confirm' | translate}}</span>
+                                </div>
+                        </div>
+                </div>	 
+
+            </div>
+    </div>
+    </div>
+    </script>

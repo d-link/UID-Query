@@ -1,0 +1,91 @@
+<div ng-controller="profileController" class="bg-fafafa clear subpage site" ng-class="showContentSide?'':'hide-content-side'">
+
+    <div class="col-xs-2 col-md-2 content-side">
+        <div class="subpage-tree-title">
+            <md-icon md-svg-icon="modal:configuration" class="title pull-left"></md-icon>
+            <span>{{'configuration.profile'|translate}}</span>
+        </div>
+        <div class="data-show-menu-main cwm-menu" style="border-bottom: none;overflow-y: auto;">
+            <ul class="site-menu-one">
+                <li ng-repeat="site in sites">
+                    <i class="isNew" ng-if="getApplyStatus(site)"></i>
+                    <a ng-click="toggleSite(site);" ng-class="{'active':siteActive._id == site._id && showNetwork}" title="{{site.siteName}}">{{site.siteName}}</a>
+                    <ul class="site-menu-two" ng-show="siteActive._id == site._id && showNetwork">
+                        <li ng-repeat="network in site.networks">
+                            <i class="isNew" ng-if="network.modifyTime>network.applyTime"></i>
+                            <a ng-click="toggleNetwork(network);" ng-class="networkActive._id == network._id?'active':''" title="{{network.name}}">
+                                <md-icon md-svg-icon="menu11:network_icon"></md-icon>
+                                <span>{{network.name}}</span>
+                            </a>
+                            <ul class="site-menu-three" ng-show="networkActive._id == network._id && showProfile">
+                                <li ng-repeat="pro in profileItems">
+                                    <a ng-click="openSettingView(pro);" ng-class="profileActive == pro?'active':''" title="{{'configuration.menu.'+pro|translate}}" class="special-active">{{'configuration.menu.'+pro|translate}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeNoData" ng-if="!site.networks.length">
+                            <p><span>No Network yet </span><span>click '<a ng-click="goToNetwork()">HERE</a>' to view </span>
+                            </p>
+                        </li>
+                    </ul>
+                    
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-xs-10 col-md-10 content-content data-show-main form-horizontal">
+
+        <a ng-click="sideToggle()" class="side-toggle" title="{{showContentSide?'title.close':'title.open' | translate}}">
+            <md-icon ng-if="showContentSide" md-svg-src="images/common/show_hide_left.svg"></md-icon>
+            <md-icon ng-if="!showContentSide" md-svg-src="images/common/show_hide_right.svg"></md-icon>
+        </a>
+        <div class="site-main set-height">
+            <div class="site-main-title elementFlag">
+                <span>
+                    <span>{{'configuration.profile'|translate}}</span>
+                    <span ng-if="siteActive.siteName">{{'>&nbsp;&nbsp;'+siteActive.siteName}}</span>
+                    <span ng-if="networkActive.name">{{'>&nbsp;&nbsp;'+networkActive.name}}</span>
+                    <span ng-if="profileActive&&profileActive!='profileView'">>&nbsp;&nbsp;{{'configuration.menu.'+profileActive|translate}}</span>
+                </span>
+            </div>
+            <div class="site-set-height" style="overflow-y: auto;margin: 0px -16px;padding: 16px 16px 0px">
+                <div style="padding-bottom: 24px;min-width:800px;">
+                    <div ng-if="profileActive == 'profileView'">
+                        <profile-view profile-info="profileData"></profile-view>
+                    </div>
+                    <div ng-if="profileActive == 'ssid'">
+                        <site-ssid ssid-data="profileData.contents.ssid" performance-data="profileData.contents.performance" wireless-data="profileData.contents.wirelessResource" profile-id="profileData._id" ag-uuid="profileData.uuid" class="ssid-mg16"></site-ssid>
+                    </div>
+                    <div ng-if="profileActive == 'vlan'">
+                        <site-vlan vlan-data="profileData.contents.vlan" profile-id="profileData._id"></site-vlan>
+                    </div>
+                    <div ng-if="profileActive == 'bandwidthOpt'">
+                        <site-bandwith band-data="profileData.contents.bandwidthOpt" profile-id="profileData._id"></site-bandwith>
+                    </div>
+                    <div ng-if="profileActive == 'RFOptimization'">
+                        <site-rf rf-opt="profileData.contents.rfOpt" profile-id="profileData._id"></site-rf>
+                    </div>
+                    <div ng-if="profileActive == 'schedule'">
+                        <site-schedule ssid-data="profileData.contents.ssid" schedule-data="profileData.contents.schedule" profile-id="profileData._id"></site-schedule>
+                    </div>
+                    <div ng-if="profileActive == 'devSet'">
+                        <site-device dev-data="profileData.contents.devSet" profile-id="profileData._id" ag-uuid="profileData.uuid"></site-device>
+                    </div>
+                    <div ng-if="profileActive == 'performance'">
+                        <site-performance perf-data="profileData.contents.performance" profile-id="profileData._id"></site-performance>
+                    </div>
+                    <div ng-if="profileActive == 'wlanPartition'">
+                        <site-wlan wlan-data="profileData.contents.wlanPartition" profile-id="profileData._id"></site-wlan>
+                    </div>
+                    <div ng-if="profileActive == 'wirelessResource'">
+                        <site-wireless wireless-data="profileData.contents.wirelessResource" profile-id="profileData._id" ssid-list="profileData.contents.ssid"></site-wireless>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+</div>

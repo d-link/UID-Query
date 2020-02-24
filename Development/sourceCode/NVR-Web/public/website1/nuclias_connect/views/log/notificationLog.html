@@ -1,0 +1,17 @@
+<div ng-controller="notificationLogController" class="subpage set-height">
+    <uib-tabset active="activeForm" class="bg-fff">
+        <uib-tab index="0" heading="{{'common.all'|translate}}" select="changeTab('log-all')">
+            <div id="log-all" ui-grid="allOptions" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns class="grid" ng-if="showTab=='log-all'"></div>
+        </uib-tab>
+        <uib-tab index="1" heading="{{'common.critical'|translate}}" select="changeTab('log-critical')">
+            <div id="log-critical" ui-grid="criticalOptions" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns class="grid" ng-if="showTab=='log-critical'"></div>
+        </uib-tab>
+        <uib-tab index="2" heading="{{'common.warning'|translate}}" select="changeTab('log-warning')">
+            <div id="log-warning" ui-grid="warningOptions" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns class="grid" ng-if="showTab=='log-warning'"></div>
+        </uib-tab>
+        <uib-tab index="3" heading="{{'common.info'|translate}}" select="changeTab('log-info')">
+            <div id="log-info" ui-grid="infoOptions" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns class="grid" ng-if="showTab=='log-info'"></div>
+        </uib-tab>
+
+    </uib-tabset>
+</div>

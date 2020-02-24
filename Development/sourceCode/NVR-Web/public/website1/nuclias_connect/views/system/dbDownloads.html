@@ -1,0 +1,138 @@
+<!--备份页面-->
+<div class="clearfix">
+    <div ng-show="type=='download'">
+        <div class="modal-header">
+            <a class="logo">
+                <md-icon md-svg-icon="modal:downTemp"></md-icon>
+            </a><span>{{'settings.db.download'|translate}}</span>
+            <a class="close pull-right"
+               ng-click="cancel()" title="{{'title.close'|translate}}">
+                <md-icon md-svg-icon="modal:close"></md-icon>
+            </a>
+        </div>
+        <div class="modal-body">
+            <form name="backupListForm" class="form-horizontal clear">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'label.downloadTo'
+                        | translate}}</label>
+
+                    <div class="col-sm-9" ng-class="scheduleShowData.status==0?'disable':''">
+                        <label class="radio-inline">
+                            <input type="radio" value="computer" ng-model="location" ng-change="cleanUSBstorage()">{{'label.computer'
+                            | translate}}
+                            <p><span ng-show="location =='computer'"></span></p>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" value="usb" ng-model="location">{{'label.usb'
+                            | translate}}
+                            <p><span ng-show="location =='usb'"></span></p>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="backups.length!=0">
+                    <label class="col-sm-3 control-label">{{'settings.db.backupList'|translate}}</label>
+                    <ul class="col-sm-9" ng-if="backups.length>0"
+                        style="list-style: none;overflow-y: auto;max-height:240px;">
+                        <li ng-repeat="item in backups track by $index">
+                            <label class="checkbox-inline" for="d{{$index}}"
+                                   ng-click="clickDownloadCheckbox(item,$event)">{{item}}
+                                <input type="checkbox" value="{{item}}" name="mgmt" id="d{{$index}}"
+                                       class="download_backup">
+                                <p>
+                                    <span class="download_backup_span" style="display: none;"> </span>
+                                </p>
+                                <!--<md-icon md-svg-icon="modal:checkbox"></md-icon>-->
+                            </label>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="col-sm-10" ng-show="backups.length==0">
+                    <p style="font-size:18px;text-align:center;">{{'settings.db.noBackup'|translate}}</p>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer " id="db_download" style="float: right;">
+            <div class="pull-left" style="height: 32px;">
+        <span class="hint-span state processing-msg" ng-show="state.download.processing"><img
+                src="./../public/images/processing.gif" alt="processing"
+                class="mgr8">{{common.processing|translate}}</span>
+                <span class="hint-span state success-msg"
+                      ng-show="state.download.isSuccess">{{state.msgTrue|translate}}</span>
+                <span class="hint-span state error-msg"
+                      ng-show="state.download.isError">{{state.msgFalse|translate}}</span>
+                <span class="hint-span state processing-msg" style="float: right"
+                      ng-show="state.usbStorage.processing"><img
+                        src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                <span class="hint-span state error-msg" style="float: right"
+                      ng-show="state.usbStorage.isError">{{state.msgFalse|translate}}</span>
+            </div>
+            <div style="float: right;">
+                <button class="btn btn-common" type="button" ng-click="download()"
+                        ng-disabled="disableDelete || backups.length == 0">
+                    {{'settings.db.download'|translate}}
+                </button>
+                <button class="btn btn-cancel" type="button" ng-click="cancel()">{{'common.cancel'|translate}}</button>
+            </div>
+
+        </div>
+    </div>
+    <!--系统设置中显示的备份文件删除页面---------------李莉红-->
+    <div ng-show="type=='delete'">
+        <div class="modal-header">
+            <a class="logo">
+                <md-icon md-svg-icon="modal:delTemp"></md-icon>
+            </a><span>{{'common.delete'|translate}}</span>
+            <a class="close pull-right"
+               ng-click="cancel()" title="{{'title.close'|translate}}">
+                <md-icon md-svg-icon="modal:close"></md-icon>
+            </a>
+        </div>
+        <div class="modal-body">
+            <form name="backupListForm" class="form-horizontal clear">
+                <div class="form-group" ng-show="backups.length!=0">
+                    <label class="col-sm-3 control-label">{{'settings.db.backupList'|translate}}</label>
+                    <ul class="col-sm-9" ng-if="backups.length>0"
+                        style="list-style: none;overflow-y: auto;max-height:240px;">
+                        <li ng-repeat="item in backups track by $index">
+                            <label class="checkbox-inline" ng-click="clickCheckbox(item,$event)" for="{{$index}}">
+                                <input type="checkbox" value="{{item}}" id="{{$index}}" class="delete_backup">
+                                {{item}}
+                                <p>
+                                    <span class="delete_backup_span" style="display: none;"> </span>
+                                    <!--<md-icon md-svg-icon="modal:checkbox"></md-icon>-->
+                                </p>
+                            </label>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="col-sm-10" ng-show="backups.length==0">
+                    <p style="font-size:18px;text-align:center;">{{'settings.db.noBackup'|translate}}</p>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer " id="delete_backup" style="float: right;">
+            <div class="pull-left" style="height: 32px;">
+        <span class="hint-span state processing-msg" ng-show="state.delete.processing"><img
+                src="./../public/images/processing.gif" alt="processing"
+                class="mgr8">{{common.processing|translate}}</span>
+                <span class="hint-span state success-msg"
+                      ng-show="state.delete.isSuccess">{{"settings.db.deleteBackupSuccess"|translate}}</span>
+                <span class="hint-span state error-msg"
+                      ng-show="state.delete.isError">{{state.msgFalse|translate}}</span>
+            </div>
+            <div style="float: right;">
+                <button class="btn btn-common" type="button" ng-click="deleteBackup()"
+                        ng-disabled="disableDelete||backups.length==0">
+                    {{'common.delete'|translate}}
+                </button>
+                <button class="btn btn-cancel" type="button" ng-click="cancel()">{{'common.cancel'|translate}}</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

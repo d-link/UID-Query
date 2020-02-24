@@ -1,0 +1,13 @@
+<div class="row forgot-profile">
+    <input type="email" name="email" class="form-control" id="inputEmail" required placeholder="{{'login.email'|translate}}" ng-model="userInfo.email" ng-keyup="emainChange()" autocomplete="off">
+    <md-icon md-svg-icon="status:input-status" ng-show="! forgotStates.userEmail.btnDisabled"></md-icon>
+</div>
+<div class="row">
+    <span class="forgot-colorfff">{{'login.forgot.step1'|translate}}</span>
+</div>
+<div class="row">
+  <!--  <button type="submit" class="btn btn_login" ng-click="login();">Send Email</button>-->
+    <button type="submit" class="btn btn_login" ng-click="testEmail();" ng-disabled="!forgotForm.email.$dirty||forgotForm.email.$invalid">{{'login.next'|translate}}</button>
+</div>
+
+

@@ -1,0 +1,44 @@
+<div style="position: relative;margin-bottom: 16px;" id="box-date">
+    <div class="form-group">
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-4">
+            <p class="input-group date-picker" id="select-date-picker-dialog" ng-click="showCalender($event)">
+                <input type="text" class="form-control" style="width: 160px;background-color: #fff;" readonly
+                       id="calender_oneTime" ng-model="dateAndTime.date"
+                       ng-disabled="disabledDateAndTime ||!hasPrivilege">
+                <a type="button" class="btn btn-default" id="btnCalenderId"
+                   ng-disabled="disabledDateAndTime||!hasPrivilege">
+                    <md-icon md-svg-icon="user:date" ng-click="showCalender($event)"></md-icon>
+                </a>
+            </p>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-4">
+            <div class="input-group date-picker " uib-dropdown auto-close="outsideClick">
+                <input type="value" class="form-control" readonly ng-model="dateAndTime.time" ng-change="timeChanged()"
+                       ng-disabled="disabledDateAndTime||!hasPrivilege">
+                <a type="button" class="btn btn-default" uib-dropdown-toggle data-toggle="dropdown"
+                   data-disabled="true" id="time-picker"
+                   ng-disabled="disabledDateAndTime||!hasPrivilege">
+                    <md-icon md-svg-icon="user:time"></md-icon>
+                </a>
+                <div uib-dropdown-menu aria-labelledby="time-picker" style="margin-top: 0px;">
+                    <div uib-timepicker ng-model="mytime" use24hours="true" ng-change="timeChanged()" hour-step="hstep"
+                         minute-step="mstep" show-meridian="ismeridian"
+                         style="box-shadow: 0px 1px 3px #ddd;border-radius: 4px;"
+                         id="select_date">
+                    </div>
+
+                </div>
+            </div>
+            <span class="hint-span" style="width: 400px;margin-left: -15px;margin-top: 10px;">{{'settings.timeError'|translate}}</span>
+            <div class="col-sm-4" ng-class="timeError?'error':''" style="width: 170px;">
+                <span class="hint-span" style="width: 400px;margin-left: -15px;margin-top: 10px;">{{'settings.timeError'|translate}}</span>
+            </div>
+        </div>
+
+    </div>
+</div>

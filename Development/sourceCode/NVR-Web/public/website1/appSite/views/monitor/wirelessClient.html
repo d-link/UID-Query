@@ -1,0 +1,150 @@
+<div class="refreshBtn" id="wiRefreshData">
+	<img class="search-icons" ng-src="images/appIcons/icon_refresh.png"/>
+</div>
+<div ng-controller="wirelessClientController" class="grid-page">
+	<div class="set-height" id="wirelessPage">	 
+	 	<div class="gird-containner">
+			<div class="ip-header-containner">
+					<span >{{$root.cwmName}}</span>
+					<span >{{$root.windowIp}}</span>
+			</div>
+			<div style="padding: 0.2rem;">
+			<div class="box-containner">
+					<div class="box-header" style="width:65%">	
+						<h3>
+							{{'common.total'|translate}}
+							<i style="font-style: normal;font-size: 0.8rem;color: #ef9212;">
+								{{total}}
+							</i> 
+							{{'common.online'|translate}}{{'common.clients'|translate}}
+						</h3>	 
+					</div>
+						
+						<div class="clear" id="wirTools" >
+							<!--查找-->
+									<div class="btn-group" 
+										is-open="isOpenWirelessMenu" 
+										auto-close="disabled"
+										uib-dropdown>		
+										<button type="button" 
+												class="btn btn-cancel pull-right" 
+												ng-click="openWirelessClientMenu();"	
+												uib-dropdown-toggle >
+												<img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+										</button>
+
+										<div class="dropdown-menu" 
+											template-url="wirelessClient.html"										
+											uib-dropdown-menu>
+										</div>
+								</div>
+								<!-- <div class="fn-btn-sepbar"></div> -->
+
+							<!--查找 yl-->
+							<!-- <button id="wiRefreshData" type="button" class="btn btn-cancel pull-right" style="background-color: #192860;margin-left: 0.2rem;margin-bottom: 0.2rem;">
+								<img class="search-icons" ng-src="images/appIcons/icon_refresh.png"/>
+							</button> -->
+					</div>
+			</div>
+						
+					<div id="wirelessLoading" class="la-ball-clip-rotate" style="height: 22rem;">
+								<div></div>
+					</div>	
+					
+					<div id="connected_client"  
+						ui-grid="connectedClientOptions" 
+						style="margin-right: 5px;"
+						class="grid" 
+						ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection>
+						<!--遮挡层，用于消除表格控件表头长按呼出菜单的BUG-->
+						<div style="height: 1.2rem;position: absolute;width: 100%;z-index: 1;top: 0"></div>
+						<nodata-directive ng-show="connectedClientOptions.data.length==0" desc="{{'wireless.noConnectedClients'|translate}}"></nodata-directive>
+					</div>
+			</div>
+		</div> 		
+	</div>
+</div>
+
+
+
+<script type="text/ng-template" id="wirelessClient.html">
+
+	<div class="dropdown-menu-right"   
+		 id="wirelessPointDropMenu"
+	     uib-dropdown-menu >
+
+	<div class="dropdown-containner">
+			<div class="dropdown-containner-title">
+				<span>{{ 'accessPoint.searchBy' | translate}}</span>
+			</div>
+			<div class="dropdown-containner-content">
+
+					<div class="dropdown-containner-content-select" >
+							<ui-select class="uiSelect" ng-model="select.site" theme="bootstrap" on-select="changeSite()">
+								<ui-select-match  placeholder="{{'common.pickone'|translate}}">
+									{{$select.selected.siteName|translate}}
+								</ui-select-match>
+								<ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+								</ui-select-choices>
+							</ui-select>
+					</div>
+
+					<div class="dropdown-containner-content-select" >
+							<ui-select class="uiSelect" ng-model="select.network" theme="bootstrap" >
+								<ui-select-match  placeholder="{{'common.pickone'|translate}}">
+										{{$select.selected.name|translate}}
+								</ui-select-match>
+								<ui-select-choices repeat="net in select.site.networks">
+										{{net.name|translate}}
+								</ui-select-choices>
+							</ui-select>
+					</div>
+
+					<div class="dropdown-containner-content-select" >
+							<ui-select class="uiSelect" ng-model="select.client" theme="bootstrap"on-select="changeLHSite($index,$item);">
+								<ui-select-match  placeholder="{{'common.pickone'|translate}}">
+										{{'wireless.'+$select.selected.name|translate}}
+								</ui-select-match>
+								<ui-select-choices repeat="client in clients">
+										{{'wireless.'+client.name|translate}}
+										<!-- {{client.name}} -->
+								</ui-select-choices>
+							</ui-select>
+					</div>
+					  <div class="dropdown-containner-content-title-left">
+							<span>{{ 'common.searchKey' | translate}}</span>
+					  </div>
+
+					  <div style="margin-top:0.3rem;">	 
+							<div style="width:41%;float:left;">
+									<ui-select class="uiSelect" ng-model="searchData.type" theme="bootstrap" ng-change="addressTypeChange()">
+											<ui-select-match placeholder="{{'common.pickone'|translate}}">
+												{{'wireless.'+$select.selected|translate}}
+											</ui-select-match>
+											<ui-select-choices repeat="type in searchTypes">
+												{{'wireless.'+type|translate}}
+											</ui-select-choices>
+									</ui-select>    
+							</div>
+							<div id="wirelessPointInput" style="width:58%;float:left;margin-left:0.1rem;">
+									<input  style="height: 1.3rem;" 
+											ng-change="addressTextChange()"  
+											id="searchAddressText" 
+											ng-model="addressText" type="text" class="form-control"
+											placeholder="{{'common.searchKey'|translate}}"/>
+							</div>
+					</div>	
+					  <div class="dropdown-containner-content-footer" style="margin-top:2rem;">
+								 <div ng-click="cleanSearchBox()">
+										<span>{{ 'common.clear' | translate}}</span>
+								  </div>
+								  <div style="visibility:hidden;min-width:0.4rem;"></div>
+								  <div  ng-click="searchByParams()">
+										<span>{{ 'common.confirm' | translate}}</span>
+								  </div>
+					  </div>
+			</div>
+	   </div>
+	</div>
+</script>
+

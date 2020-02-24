@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"  ng-controller="appGlobalController" class="noscroll">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>CWM v2.0 for {{title|translate}}</title>
+    <!-- <link rel="icon" href="favicon.ico" /> -->
+    <link rel="stylesheet" href="../public/styles/bootstrap.css"/>
+    <link rel="stylesheet" href="../public/vendor/angular-ui-grid/ui-grid.min.css"/>
+    <link rel="stylesheet" href="../public/vendor/angular-gridster/angular-gridster.min.css"/>
+    <link rel="stylesheet" href="../public/vendor/angular-ui-select/select.min.css"/>
+    <link rel="stylesheet" href="../public/styles/angular-ui-switch.css"/>
+    <link rel="stylesheet" href="../public/vendor/angular-block-ui/dist/angular-block-ui.min.css"/>
+    <link rel="stylesheet" href="../public/styles/app-main.css"/>
+    <link rel="stylesheet" href="../public/styles/_all-skins.css"/>
+    <link rel="stylesheet" href="../public/styles/theme.css"/>
+    <link rel="stylesheet" href="../public/styles/menu.css"/>
+    <link rel="stylesheet" href="../public/styles/special.css">
+    <link rel="stylesheet" href="../public/styles/appBase.css"/>
+    <link rel="stylesheet" href="../public/styles/app-dashboard.css"/>
+    <link rel="stylesheet" href="../public/styles/app-accessPoint.css"/>
+    <link rel="stylesheet" href="../public/styles/app-media.css"/>
+    <link rel="stylesheet" href="../public/styles/ball-clip-rotate.css"/>
+    <link rel="stylesheet" href="../public/styles/zdialog.css"/>
+    <!-- <link rel="stylesheet" href="../public/vendor/wui-date/css/wui.css"/> -->
+
+    <!-- 发布用这个  -->
+    <!--<script data-main="Appmain.js" src="../public/vendor/requirejs/require.js"></script>-->
+    <!-- debug 用这个 -->
+     <script data-main="main.js" src="../public/vendor/requirejs/require.js"></script>
+</head>
+<body  ng-cloak ng-class="isHide?'hold-transition skin-green sidebar-mini':'hold-transition skin-green'">
+
+
+
+<div class="wrapper" ui-i18n="{{langFlag.selected.gridlang}}">
+    <div  ui-view></div>
+</div>
+<div id="log_Detail" class='logDetail' style="display:none;"></div>
+<div id="rack_portDetail" class='portDetail' style="display:none;"></div>
+<div id="confirmBtn" style="display: none;"></div>
+</body>
+</html>
+
+<script>
+(function (doc, win) {
+    var _root = doc.documentElement,
+        resizeEvent = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        resizeCallback = function () {
+            var clientWidth = _root.clientWidth,
+                fontSize = 20;
+            if (!clientWidth) return;
+            if(clientWidth < 640) {
+                fontSize = 20 * (clientWidth / 320);
+            } else {
+                fontSize = 20 * (640 / 320);
+            }
+            _root.style.fontSize = fontSize + 'px';
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvent, resizeCallback, false);
+    doc.addEventListener('DOMContentLoaded', resizeCallback, false);
+})(document, window);
+</script>

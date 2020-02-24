@@ -1,0 +1,19 @@
+﻿<svg version="1.1" id="_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+<path id="online_status" fill-rule="evenodd" clip-rule="evenodd" d="M8,0c4.418,0,8,3.582,8,8c0,4.418-3.582,8-8,8c-4.417,0-7.999-3.582-7.999-8
+	C0.001,3.582,3.583,0,8,0z"/>
+	<g id="menu-plus">
+    	<g>
+    		<polygon points="15,7 9,7 9,1 7,1 7,7 1,7 1,9 7,9 7,15 9,15 9,9 15,9 		"/>
+    	</g>
+    </g>
+    <g id="input-status">
+		<g>
+			<path fill-rule="evenodd" clip-rule="evenodd" d="M8,0C3.582,0,0,3.582,0,8s3.582,8,8,8s8-3.582,8-8S12.419,0,8,0z M6.738,12.018
+				c0.021,0.096-4.075-3.655-4.075-3.655L3.784,7.2l2.954,2.49c0,0,5.337-5.534,5.38-5.663c0,0.114,1.257,1.122,1.218,1.163
+				C13.43,5.092,6.77,12.106,6.738,12.018z"/>
+		</g>
+	</g>
+</svg>
+
+

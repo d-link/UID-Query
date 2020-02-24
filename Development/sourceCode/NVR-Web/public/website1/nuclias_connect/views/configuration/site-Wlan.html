@@ -1,0 +1,170 @@
+<div style="margin-bottom: 24px;">
+    <uib-tabset active="activeForm" class="site-tab">
+        <uib-tab index="0" heading="{{'configuration.band1' | translate}}">
+            <div style="padding: 24px 16px 0px;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'label.linkIntegrity' | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <div style="width: 100px;height: 32px;">
+                            <ui-select ng-model="wlanShowData.band24.linkIntegrity" theme="bootstrap"
+                                       on-select="wlanChanged()">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' +
+                                    $select.selected |
+                                    translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                    translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'label.ethernetToWA' | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <div style="width: 100px;height: 32px;">
+                            <ui-select ng-model="wlanShowData.band24.ethToWlan" theme="bootstrap"
+                                       on-select="wlanChanged()">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' +
+                                    $select.selected |
+                                    translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                    translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                <label class="title">{{'configuration.wlan.intemalSC' | translate}}</label>
+
+                <div class="form-group special-radio mgb32" ng-repeat="temp in wlanSetting24">
+                    <label class="col-sm-2 control-label">{{'configuration.wlan.' + temp.name | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <label class="radio-inline" ng-repeat="item in connections">
+                            <input type="radio" value="{{item}}" ng-model="temp.cont" name="connection24"
+                                   ng-change="wlanChanged()">{{'configuration.wlan.con'+ item|translate}}
+                            <p><span ng-show="temp.cont ==item"></span></p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab index="1" heading="{{'configuration.band2' | translate}}">
+            <div style="padding: 24px 16px 0px;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'label.linkIntegrity' | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <div style="width: 100px;height: 32px;">
+                            <ui-select ng-model="wlanShowData.band5.linkIntegrity" theme="bootstrap"
+                                       on-select="wlanChanged()">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' +
+                                    $select.selected |
+                                    translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                    translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'label.ethernetToWA' | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <div style="width: 100px;height: 32px;">
+                            <ui-select ng-model="wlanShowData.band24.ethToWlan" theme="bootstrap"
+                                       on-select="wlanChanged()">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' +
+                                    $select.selected |
+                                    translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                    translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                <label class="title">{{'configuration.wlan.intemalSC' | translate}}</label>
+
+                <div class="form-group special-radio mgb32" ng-repeat="temp in wlanSetting5">
+                    <label class="col-sm-2 control-label">{{'configuration.wlan.' + temp.name | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <label class="radio-inline" ng-repeat="item in connections">
+                            <input type="radio" value="{{item}}" ng-model="temp.cont" name="connection5"
+                                   ng-change="wlanChanged()">{{'configuration.wlan.con'+ item|translate}}
+                            <p><span ng-show="temp.cont ==item"></span></p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab index="2" heading="{{'configuration.band3' | translate}}">
+            <div style="padding: 24px 16px 0px;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'label.linkIntegrity' | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <div style="width: 100px;height: 32px;">
+                            <ui-select ng-model="wlanShowData.secBand5.linkIntegrity" theme="bootstrap"
+                                       on-select="wlanChanged()">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected |
+                                    translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                    translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'label.ethernetToWA' | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <div style="width: 100px;height: 32px;">
+                            <ui-select ng-model="wlanShowData.band24.ethToWlan" theme="bootstrap"
+                                       on-select="wlanChanged()">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected |
+                                    translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                    translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                <label class="title">{{'configuration.wlan.intemalSC' | translate}}</label>
+
+                <div class="form-group special-radio mgb32" ng-repeat="temp in wlanSetting52">
+                    <label class="col-sm-2 control-label">{{'configuration.wlan.' + temp.name | translate}}</label>
+
+                    <div class="col-sm-8">
+                        <label class="radio-inline" ng-repeat="item in connections">
+                            <input type="radio" value="{{item}}" ng-model="temp.cont" name="connection52"
+                                   ng-change="wlanChanged()">{{'configuration.wlan.con'+ item|translate}}
+                            <p><span ng-show="temp.cont ==item"></span></p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+</div>
+<div class="form-group mgb0" ng-if="hasPrivilege">
+    <div class="col-sm-offset-3 col-sm-9">
+        <button class="btn btn-common pull-right" ng-click="save()">{{'common.save'|translate}}</button>
+        <span class="hint-span state processing-msg" ng-show="state.wlan.processing"><img
+                src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+        <span class="hint-span state success-msg" ng-show="state.wlan.isSuccess">{{state.wlan.msgTrue|translate}}</span>
+        <span class="hint-span state error-msg" ng-show="state.wlan.isError">{{state.wlan.msgFalse}}</span>
+    </div>
+</div>

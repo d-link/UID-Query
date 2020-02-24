@@ -1,0 +1,612 @@
+/* modal public*/
+.btn.btn-small > md-icon {
+    position: relative;
+    top: 6px;
+}
+
+/*===================================== userprofile begin ========================================*/
+
+.modal-userprofile > div > div{
+	background-color: #fff;
+	-moz-box-shadow: 0 3px 4px rgba(0, 0, 0, .33);
+	-webkit-box-shadow: 0 3px 4px rgba(0, 0, 0, .33);
+	box-shadow: 0 3px 4px rgba(0, 0, 0, .33);
+	border-radius: 4px;
+	border: none;
+}
+.userprofile {
+	padding: 32px;
+}
+.userprofile > .row {
+	margin: 0px;
+}
+.userprofile > .row > div {
+	padding: 0px;
+	-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .16);
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .16);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .16);
+	border-radius: 4px;
+}
+/*user photo info   -- left*/
+.userProfile-info {
+	min-width: 195px;
+	margin-right: 24px;
+}
+.user-photo {
+	position: relative;
+	width: 195px;
+	background-color: #f4f8fd;
+	padding: 24px 0px;
+	border-radius: 4px 4px 0px 0px;
+	border-bottom: 1px solid #eee;
+}
+.user-photo > .user-photo-img {
+	position: relative;
+	margin: 0px auto;
+	width: 118px;
+	height: 118px;
+	border: 4px solid #bfc9d5;
+	border-radius: 118px;
+	overflow: hidden;
+	cursor:pointer;
+}
+.user-photo > .user-photo-img > img {
+	margin: -4px;
+	width: 118px;
+	height: 118px;
+}
+.user-photo > .user-photo-img > .changephoto {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0);
+    text-align: center;
+    cursor:default;
+}
+.user-photo > .user-photo-img > .changephoto:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.changephoto > md-icon {
+	display: block;
+	width: 32px;
+	height: 32px;
+	margin: 20px auto 4px;
+	color: #fff;
+}
+.changephoto > span {
+	display: inline-block;
+	color: #fff;
+	margin-bottom: 8px;
+}
+.changephoto > a {
+	color: #f180a4;
+}
+.changephoto > a:hover {
+    color: #ffcc80;
+}
+.user-photo > p {
+	margin: 0px;
+	margin-top: 8px;
+	font-size: 12px;
+	color: #ef9212;
+	text-align: center;
+}
+.user-photo .changebtn {
+	margin: 0px;
+	margin-top: 16px;
+	text-align: center;
+}
+.user-photo .changebtn button {
+	color: #fff;
+	font-size: 12px;
+}
+.user-photo .changebtn button:nth-child(1) {
+	margin-right: 8px;
+}
+.user-photo > span {
+	position: absolute;
+	left: 129px;
+	top: 113px;
+	display: block;
+	width: 18px;
+	height: 18px;
+	background-color: #afcb20;
+	border: 3px solid #fff;
+	border-radius: 18px;
+}
+.user-info {
+	padding: 24px 8px;
+}
+.user-info > p {
+	margin-bottom: 16px;
+    word-wrap: break-word; 
+    word-break: normal;
+}
+.user-info > p:nth-child(1) {
+	font-size: 14px;
+	color: #607896;
+}
+.user-info > p:nth-child(2) {
+	font-size: 12px;
+	color: #ef9212;
+}
+.user-info > p:nth-child(2) > md-icon {
+	position: relative;
+	top: 2px;
+	left: 8px;
+	width: 16px;
+	height: 16px;
+	color: #f9a825;
+}
+.user-info > p:nth-child(3) {
+	font-size: 12px;
+	color: #999999;
+	margin-bottom: 0px;
+    line-height: 20px;
+}
+/*user change  -- right*/
+.userProfile-set {
+	max-width: 517px;
+}
+.userProfile-set .tab-content {
+	padding: 24px;
+	border-radius:0 0 4px 4px;
+	-webkit-border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 4px 4px;
+}
+.userProfile-set .form-control {
+	width: 100%;
+}
+.user-change label {
+	width: 152px;
+}
+.user-change .col-sm-9 {
+	max-width: 347px;
+}
+.user-change button {
+	float: right;
+}
+.userprofile .modal-footer {
+	width: 100%;
+	padding: 0px;
+	margin-top: 32px;
+}
+/*===================================== userprofile end ========================================*/
+
+
+/*===================================== networkDetail begin ========================================*/
+#addNetworkDialog .btn-small {
+    margin-left:8px;
+}
+#iprange{
+    margin-bottom:32px;
+    padding-left: 8px;
+}
+#iprange > div.form-inline > div {
+    float: left;
+}
+#iprange > div.form-inline > div > label {
+    width: 10px;
+    float: left;
+    margin: 10px 3px;
+    color: #aaa;
+}
+#iprange > div.form-inline > div > ip-mask {
+    width:183px;
+    display:inline-block;
+    float: left;
+}
+#iprange > div.form-inline > div > div {
+    float: left;
+}
+
+.ipto_to {
+    margin: 10px 3px;
+    color: #aaa;
+    font-family: Consolas;
+    cursor: default;
+}
+.cwmAddNetwork #iprange .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+
+.modal-body #iprange .form-inline{
+    margin-bottom:8px;
+}
+
+.switch {
+    margin: 12px 0px 0px;
+}
+.switch small {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+#iprange .ip-outer {
+    width: 183px;
+}
+.disabled .ip-outer {
+    background-color: #f5f5f5;
+    border: 1px dashed #ddd;
+    color: #aaa;
+}
+ip-mask.disabled,
+.disabled .ip-outer:hover,
+.disabled .ip-outer input:hover,
+.disabled .ip-outer label:hover {
+    cursor: url(../images/input-disable.cur),pointer !important;
+}
+.ip-outer > label {
+    position: relative;
+    top: -2px;
+}
+.ip-outer > input {
+    position: relative;
+    top: 2px;
+    text-align:center
+}
+.editProbe .ui-grid-viewport {
+    min-height: 40px;
+    max-height: 120px;
+    height: auto !important;
+}
+/*===================================== networkDetail end ========================================*/
+
+/*===================================== user manage begin ========================================*/
+/*content*/
+.data-show-cont {
+    background-color: #fff;
+    position: relative;
+}
+.data-show-menu-main, .data-show-menu-tag {
+    position: relative;
+    padding: 0px 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+}
+.data-show-menu-main {
+    border-bottom: 1px solid #f5f5f5;
+}
+.data-show-menu-main>div,
+.data-show-menu-main>a,
+.data-show-menu-tag>a {
+    position: relative;
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    margin-left: -16px;
+    margin-right: -16px;
+    color: #444;
+    cursor: pointer;
+}
+.data-show-menu-main>a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.data-show-menu-main>a,
+.data-show-menu-main>div {
+    padding: 0px 16px;
+}
+.data-show-menu-tag>a {
+    padding: 0px 30px;
+}
+.data-show-menu-main>div:hover {
+    background-color: #f4fffe;
+    color: #009688;
+}
+.data-show-menu-main>a:hover {
+    background-color: #f4fffe;
+    color: #009688;
+}
+.data-show-menu-tag>a:hover {
+    background-color: #f4fffe;
+    color: #009688;
+}
+.data-show-menu-tag > a.active {
+    background-color: #f4fffe;
+    color: #009688;
+}
+.data-show-menu-tag > a.active > i {
+    background-color: #80cbc4;
+}
+.data-show-menu-main a > i {
+    position: absolute;
+    margin-top: 10px;
+    right: 16px;
+    display: inline-block;
+    min-width: 24px;
+    height: 14px;
+    padding: 0px 5px;
+    line-height: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 12px;
+    font-style: normal;
+    color: #666;
+}
+.data-show-menu-tag > a > i {
+    position: absolute;
+    left: 16px;
+    top: 13px;
+    display: block;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: #e7e7e7;
+}
+.data-show-menu-tag > span {
+    display: block;
+    position: absolute;
+    left: 18px;
+    margin-top: -4px;
+    padding-bottom: 20px;
+    width: 1px;
+    height: 100%;
+}
+.data-show-menu-tag > span > i {
+    display: block;
+    width: 1px;
+    height: 100%;
+    border-left: 1px solid #f5f5f5;
+}
+/*===================================== user manage end ========================================*/
+
+
+/*===================================== trigger-rule begin ========================================*/
+
+.triggerAddButton ul > li > div:nth-of-type(3) {
+    margin-bottom: 4px;
+    padding: 0px 4px 4px 4px;
+    border-bottom: 1px solid #eee;
+}
+.noSite.triggerAddButton ul > li > div:nth-of-type(3) {
+    margin-bottom: 0px;
+    padding: 0px 4px;
+    border-bottom: none;
+}
+.triggerAddButton ul > li > div:nth-of-type(3):hover {
+    background-color: #fff;
+}
+.triggerAddButton ul > li > div:nth-of-type(3) > a {
+    border: 2px solid #b2dfdb;
+    color: #009688;
+    border-radius: 4px;
+    line-height: 28px;
+    text-align: center;
+}
+.triggerAddButton ul > li > div:nth-of-type(3) > a:hover,
+.device-manage .dropdown-menu > li.applyli > a:hover {
+    color: #00796b;
+    background-color: #f4fffe;
+    border-color: #95d4ce;
+}
+.triggerAddButton ul > li > div:nth-of-type(3) > a:active,
+.triggerAddButton .ui-select-bootstrap .ui-select-choices-row:nth-of-type(3).active>a,
+.device-manage .dropdown-menu > li.applyli > a:active {
+    color: #00695c;
+    background-color: #e0f2f1;
+    border-color: #90cbc4;
+}
+.triggerAddButton ul > li > div:nth-of-type(3) > a[disabled],
+.device-manage .dropdown-menu > li.applyli > a[disabled] {
+    color: #aaa;
+    background-color: #f5f5f5;
+    border-color: #eee;
+}
+/*===================================== trigger-rule end ========================================*/
+
+
+/*===================================== add Notification Rule begin ========================================*/
+/*.modal-addNotificationRule .step2 .col-sm-3 {*/
+/*width: 80px;*/
+/*}*/
+/*.modal-addNotificationRule .step2 .col-sm-9 {*/
+/*width: 484px;*/
+/*}*/
+/*===================================== add Notification Rule end ========================================*/
+
+
+/*===================================== add trigger Rule begin ========================================*/
+/*.modal-addTrigger .col-sm-3 {*/
+/*width: 116px;*/
+/*}*/
+/*===================================== add trigger Rule end ========================================*/
+
+
+/*===================================== add plan Rule begin (device detail) ========================================*/
+.selectPort {
+    width: 492px;
+    padding: 16px 16px 0px 16px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+.selectPort label.checkLabel {
+    width: 38px;
+    margin-right: 22px;
+    margin-bottom: 16px;
+}
+.selectPort label.checkLabel:nth-of-type(8n) {
+    margin-right: 0px;
+}
+.selectPort label.checkLabel+label.checkLabel {
+    margin-left: 0px;
+}
+/*===================================== add plan Rule end (device detail) ========================================*/
+
+/*===================================== margin、padding and size setting begin ========================================*/
+/*margin*/
+.mgr16 {
+    margin-right: 16px !important;
+}
+.mgr8 {
+    margin-right: 8px !important;
+}
+.mgb0 {
+    margin-bottom: 0px !important;
+}
+.mgb8 {
+    margin-bottom: 8px !important;
+}
+.mgb9 {
+    margin-bottom: 9px !important;
+}
+.mgb16 {
+    margin-bottom: 16px !important;
+}
+.mgb24 {
+    margin-bottom: 24px !important;
+}
+.mgb32 {
+    margin-bottom: 32px !important;
+}
+.mgt24 {
+    margin-top: 24px !important;
+}
+.mgl22 {
+    margin-left: 22px !important;
+}
+.mgl50 {
+    margin-left: -50px !important;
+}
+.mgl60 {
+    margin-left: -60px !important;
+}
+.mgl80 {
+    margin-left: -80px !important;
+}
+/*padding*/
+.pdt2 {
+    padding-top: 2px !important;
+}
+.pdt8 {
+    padding-top: 8px !important;
+}
+.pdt16 {
+    padding-top: 16px !important;
+}
+.pdl8 {
+    padding-left: 8px !important;
+}
+/*size*/
+.w250 {
+    width: 250px !important;
+}
+
+.w300 {
+    width: 300px !important;
+}
+.w320 {
+    width: 320px !important;
+}
+
+.w380 {
+    width: 380px !important;
+}
+
+.w420 {
+    width: 420px !important;
+}
+.w550 {
+    width: 550px !important;
+}
+.w100 {
+    width: 100px !important;
+}
+
+.w160 {
+    width: 160px !important;
+}
+.w200 {
+    width: 200px !important;
+}
+
+.w255 {
+    width: 255px !important;
+}
+.lh32 {
+    line-height: 32px;
+}
+
+.f-l {
+    float: left;
+}
+
+.f-r {
+    float: right;
+}
+
+.f-none {
+    float: none;
+}
+/*===================================== margin、padding and size setting end ========================================*/
+
+/*==背景动画==*/
+.bgc-transition {
+	transition:all linear .3s;
+	-moz-transition:all linear .3s;
+	-webkit-transition:all linear .3s;
+}
+md-icon {
+    transition:color linear .3s;
+    -moz-transition:color linear .3s;
+    -webkit-transition:color linear .3s;
+}
+.nav>li>a>img.circular--squareP{
+	margin-right: 0px;
+}
+.border-radius-all {
+    border-radius: 4px;
+}
+
+/*echarts style*/
+.box-content > div.chart > div:nth-of-type(2) {
+	line-height: 20px !important;
+    padding: 8px 16px 8px 10px !important;
+}
+.box-content > div.chart > div:nth-of-type(2) > span {
+    /*display: none !important;*/
+    border-radius: 3px !important;
+    opacity: 0.8;
+}
+.remove-last-btn .ui-grid-header-cell-row > div:nth-last-of-type(1) .ui-grid-column-menu-button {
+    display: none;
+}
+.zindex0 {
+    z-index: auto !important;
+}
+.trigger-test:hover > div{
+    display: block !important;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.trigger-test:hover > div li,
+.trigger-test:hover > div ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+.trigger-test:hover > div li {
+    width: 80px;
+    height: 32px;
+    line-height: 32px;
+    float: left;
+}
+
+#scheduleGrid .switch.checked {
+    background: #ef8dac;
+    border: 1px solid #ef8dac;
+}
+
+#scheduleGrid .switch.checked small {
+    background: #e6185a;
+    border: 1px solid #e6185a;
+}

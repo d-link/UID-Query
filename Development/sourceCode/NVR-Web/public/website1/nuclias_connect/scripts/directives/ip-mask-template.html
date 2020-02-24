@@ -1,0 +1,7 @@
+
+<div class="ip-outer" ng-class="error?'ip-outer ip-valid':'ip-outer'">
+   <input autocomplete="off" id="first-ip" class="ip-inner"  ng-model="first" ng-keydown="checkValue('first',$event)" ng-keyup="updateFirst($event)" ng-blur="checkIP();" ng-focus="resetIP();"><label>.</label>
+    <input autocomplete="off" id="second-ip" class="ip-inner" ng-model="second" ng-keydown="checkValue('second',$event)" ng-keyup="updateOther('second',$event)" ng-blur="checkIP();" ng-focus="resetIP();"> <label>.</label>
+    <input autocomplete="off" id="third-ip" class="ip-inner" ng-model="third" ng-keydown="checkValue('third',$event)" ng-keyup="updateOther('third',$event)" ng-blur="checkIP();" ng-focus="resetIP();">  <label>.</label>
+    <input autocomplete="off" id="four-ip" class="ip-inner" ng-model="fourth" ng-keydown="checkValue('fourth',$event)" ng-keyup="updateOther('fourth',$event)" ng-blur="checkIP();" ng-focus="resetIP();">
+   </div>

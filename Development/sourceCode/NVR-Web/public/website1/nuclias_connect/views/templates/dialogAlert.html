@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <a class="logo">
+        <md-icon md-svg-icon="bottom:head_notification"></md-icon>
+    </a>
+    <span ng-if="con.title">{{con.title}}</span>
+    <span ng-if="!con.title">{{'settings.restAPITitle'|translate}}</span>
+</div>
+<div class="modal-body-48" style="padding:24px;text-align:left;">
+    <p id="dialog_icon">
+        <md-icon md-svg-icon="bottom:warning"></md-icon>
+    </p>
+    <p ng-if="con.content">
+        <span>{{con.content}}</span><br>
+    </p>
+    <p ng-if="con.content1">
+        <span>{{con.content1}}</span><br>
+    </p>
+    <p ng-if="con.content2">
+        <span>{{con.content2}}</span><br>
+    </p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-critical" type="button" ng-click="ok()">{{'common.ok'|translate}}</button>
+</div>

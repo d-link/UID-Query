@@ -1,0 +1,28 @@
+<div class="login_background">
+    <div class="login_container">
+        <div class="title">
+            <p><md-icon style="width: 400px; height:52px; margin-left: 0px;" md-svg-src="../public/images/logo.svg"></md-icon></p>
+        </div>
+        <div class="content">
+        <div ui-view></div>
+            </div>
+        <div class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="footer_main">
+                        <div style="width: 320px; height: 100%; margin: 0px auto;">
+                           <div> <p style="float:left;line-height:32px;height:32px;display:inline-block;">&copy; 2020 D-Link Corporation</p></div>
+                            <label><div style="width: 110px;height: 32px;display: inline-block;">
+                                <ui-select class="focusLoginElement focusModifyElement focusActElement" tabIndex="5" id="selectLan" ng-model="langFlag.selected" theme="bootstrap" on-select="langSelect($item)">
+                                    <ui-select-match>{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="lang in langFlags">{{lang.name}}</ui-select-choices>
+                                </ui-select>
+                            </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

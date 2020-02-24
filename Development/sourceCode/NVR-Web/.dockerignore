@@ -1,0 +1,17 @@
+.DS_Store
+.dockerignore
+.git
+.gitignore
+.vscode
+.idea
+npm-debug.log
+Dockerfile
+config.js
+README.md
+test
+#config
+logFiles
+customer
+package.lock.json
+node_modules
+web.tar

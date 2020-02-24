@@ -1,0 +1,137 @@
+<div ng-controller="wirelessClientController">
+
+    <div class="set-height">
+        <uib-tabset active="active" class="bg-fff subpage" style="height: inherit;"> 
+            <uib-tab index="0" heading="{{'wireless.connectedClients'|translate}}"
+                     select="resetGridSize('connected_client');">
+                <div ng-if="show.tab1">
+                    <div class="grid-top-menu elementFlag1 clear" style="height:auto;padding-left: 16px;padding-right: 16px;position:relative; display: inline-block">
+                        <div class="pull-left">
+                            <div class="license-title clear">
+                                <div>
+
+                                    <span>{{'common.total'|translate}} </span>
+                                    <span class="title-im color-orange-title">{{total}}</span>
+                                    <span>{{'wireless.connectedClients'|translate}}</span>
+
+                                </div>
+
+                            </div>
+                            <div  class="alert alert-danger alert-client" role="alert" ng-if="Error.blockClient">
+                                <md-icon md-svg-icon="bottom:warning"></md-icon><span>{{'wireless.blockFailed'|translate}}</span></div>
+                        </div>
+                        <div class="pull-right">
+                            <div class="clear" style="position: relative;z-index: 1;">
+                                <div class="pull-left mgr8" style="width: 172px;height: 32px;display: inline-block;">
+                                    <ui-select ng-model="select.site" theme="bootstrap" on-select="changeSite()">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                            {{$select.selected.siteName|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="pull-left mgr8" style="width: 172px;height: 32px;display: inline-block;">
+                                    <ui-select ng-model="select.network" theme="bootstrap" on-select="changeNetwork()">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="net in select.site.networks">{{net.name|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="pull-left mgr16" style="width: 148px;height: 32px;display: inline-block;">
+                                    <ui-select ng-model="select.client" theme="bootstrap" on-select="changeAuth()">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                            {{'wireless.'+$select.selected.name|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="cli in clients">{{'wireless.'+cli.name|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <span class="pull-left mgr8" style="line-height: 32px;color: #999;">{{'accessPoint.searchBy'|translate}}</span>
+                                <div class="pull-left mgr8" style="width: 110px;height: 32px;display: inline-block;">
+                                    <ui-select ng-model="searchData.type" theme="bootstrap">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                            {{'wireless.'+$select.selected|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="type in searchTypes">{{'wireless.'+type|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="pull-left" style="position: relative;">
+                                    <!--    <a style="position: absolute;right: 8px;top: 8px;display: block;width: 16px;height: 16px;z-index: 1;cursor: pointer;color: #999;" ng-click="search()"><md-icon md-svg-icon="user:search"></md-icon></a>-->
+                                    <input type="text" class="pull-left form-control" ng-model="searchData.value"
+                                           placeholder="{{'common.searchKey'|translate}}" style="width: 160px;">
+                                </div>
+                                <div class="pull-left" style="position: relative;">
+                                    <button class="btn btn-cancel pull-right" style="margin-left: 8px;padding: 8px;"
+                                            ng-click="search(true)" title="{{'title.search' | translate}}">
+                                        <md-icon md-svg-icon="user:view"></md-icon>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="connected_client" ui-grid="connectedClientOptions" class="grid" ui-grid-pagination
+                         ui-grid-auto-resize ui-grid-resize-columns>
+                        <loading-directive ng-if="connectedClientOptions.isLoading"></loading-directive>
+                        <nodata-directive ng-if="!connectedClientOptions.isLoading" ng-show="connectedClientOptions.data.length==0"
+                                           desc="{{'wireless.noConnectedClients'|translate}}"></nodata-directive>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="{{'wireless.blockedClients'|translate}}"
+                     select="resetGridSize('blocked_client');">
+                <div ng-if="show.tab2">
+                    <div class="grid-top-menu elementFlag1 clear" style="padding-left: 16px;padding-right: 16px;">
+                        <div class="pull-left">
+                            <div class="license-title clear">
+                                <div>
+                                    <span>{{'common.total'|translate}} </span>
+                                    <span class="title-im color-orange-title">{{totalblocked}}</span>
+                                    <span>{{'wireless.blockedClients'|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <div class="clear" style="position: relative;z-index: 1;">
+                                <div class="pull-left mgr8" style="width: 172px;height: 32px;display: inline-block;">
+                                    <ui-select ng-model="select1.site" theme="bootstrap" on-select="changeSite()">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                            {{$select.selected.siteName|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="pull-left mgr8" style="width: 172px;height: 32px;display: inline-block;">
+                                    <ui-select ng-model="select1.network" theme="bootstrap" on-select="changeNetwork()">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="net in select1.site.networks">
+                                            {{net.name|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="pull-left" style="position: relative;">
+                                    <button class="btn btn-cancel pull-right" style="margin-left: 8px;padding: 8px;"
+                                            ng-click="search1(true)" title="{{'title.search' | translate}}">
+                                        <md-icon md-svg-icon="user:view"></md-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="blocked_client" ui-grid="blockedClientOptions" class="grid" ui-grid-pagination
+                         ui-grid-auto-resize ui-grid-resize-columns>
+                        <nodata-directive ng-if="!blockedClientOptions.isLoading" ng-show="blockedClientOptions.data.length==0"
+                                          desc="{{'wireless.noBlockedClient'|translate}}"></nodata-directive>
+                        <loading-directive ng-if="blockedClientOptions.isLoading"></loading-directive>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+
+    </div>
+</div>

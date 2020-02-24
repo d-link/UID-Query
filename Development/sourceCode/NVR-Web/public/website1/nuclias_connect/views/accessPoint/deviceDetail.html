@@ -1,0 +1,352 @@
+<div ng-controller="deviceDetailController">
+    <div class="bg-fafafa subpage set-height device-detail" style="padding: 24px 24px 0px;overflow-y: auto;">
+        <div class="device-overview">
+            <div class="row">
+                <div class="col-md-12 device-overview-left">
+                    <div class="row">
+                        <!--基本属性-->
+                        <div class="col-md-12">
+                            <div class="box device-overview-info">
+                                <div class="box-header">
+                                    <h3>{{'deviceDetail.devInfo'|translate}}</h3>
+                                </div>
+                                <div class="box-content clear form-horizontal" style="padding: 24px 16px;">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.status'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">
+                                                  <a style="padding:2px;cursor:default;"
+                                                       ng-class="device.status=='online'?'online':'offline'"></md-icon>
+                                                        <md-icon md-svg-icon="status:online_status" title="{{'common.'+device.status|translate}}"></md-icon>
+                                                    </a>
+                                                    {{device.status}}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.hardware'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">{{device.hardware}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.upload'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">
+                                                    {{device.staToApRxDataBytes|bytesFilter}}</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-3">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.ip'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static"><a href="http://{{device.ip}}"
+                                                                                  target="_blank" ref="friend"
+                                                                                  rel="noopener noreferrer">{{device.ip}}</a>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.firmware'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">{{device.firmware}}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.download'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">
+                                                    {{device.apToStaTxDataBytes|bytesFilter}}</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.moduleType'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">{{device.moduleType}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.network'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">{{device.network}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mgb0">
+                                            <label class="col-sm-5 control-label">{{'column.memoryUsage'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">{{device.memoryUsage}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.mac'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">{{device.mac}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-5 control-label">{{'column.sysUpTime'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">{{device.upTime|uptimeFilter}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mgb0">
+                                            <label class="col-sm-5 control-label">{{'column.cpuUsage'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static">{{device.cpuUsage}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3>{{'deviceDetail.devSetting'|translate}}</h3>
+                        </div>
+                        <form name="deviceSet">
+                            <div class="box-content form-horizontal" style="padding: 24px;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'column.channel24Ghz'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static" ng-if="device.server.channel24Ghz==-1">
+                                                    {{'common.notSupport'|translate}}</p>
+
+                                                <div style="width: 100px;height: 32px;"
+                                                     ng-if="device.server.channel24Ghz!=-1">
+                                                    <ui-select ng-model="device.server.channel24Ghz" theme="bootstrap" ng-disabled="!hasPrivilege">
+                                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                            {{$select.selected|autoFilterForChannel}}
+                                                        </ui-select-match>
+                                                        <ui-select-choices repeat="c in device.channelList24Ghz">
+                                                            {{c|autoFilterForChannel}}
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'column.channel5Ghz'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static" ng-if="device.server.channel5Ghz==-1">
+                                                    {{'common.notSupport'|translate}}</p>
+
+                                                <div style="width: 100px;height: 32px;"
+                                                     ng-if="device.server.channel5Ghz!=-1">
+                                                    <ui-select ng-model="device.server.channel5Ghz" theme="bootstrap" ng-disabled="!hasPrivilege">
+                                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                            {{$select.selected|autoFilterForChannel}}
+                                                        </ui-select-match>
+                                                        <ui-select-choices repeat="c in device.channelList5Ghz">
+                                                            {{c|autoFilterForChannel}}
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'column.channel5Ghz2'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static" ng-if="device.server.channel5Ghz2==-1">
+                                                    {{'common.notSupport'|translate}}</p>
+
+                                                <div style="width: 100px;height: 32px;"
+                                                     ng-if="device.server.channel5Ghz2!=-1">
+                                                    <ui-select ng-model="device.server.channel5Ghz2" theme="bootstrap" ng-disabled="!hasPrivilege">
+                                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                            {{$select.selected|autoFilterForChannel}}
+                                                        </ui-select-match>
+                                                        <ui-select-choices repeat="c in device.channelList5Ghz2">
+                                                            {{c|autoFilterForChannel}}
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'column.power24Ghz'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static" ng-if="device.server.power24Ghz==-1">
+                                                    {{'common.notSupport'|translate}}</p>
+
+                                                <div style="width: 100px;height: 32px;"
+                                                     ng-if="device.server.power24Ghz!=-1">
+                                                    <ui-select ng-model="device.server.power24Ghz" theme="bootstrap" ng-disabled="!hasPrivilege">
+                                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                            {{$select.selected|autoFilterForPower}}
+                                                        </ui-select-match>
+                                                        <ui-select-choices repeat="power in powerSettings">
+                                                            {{power|autoFilterForPower}}
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'column.power5Ghz'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static" ng-if="device.server.power5Ghz==-1">
+                                                    {{'common.notSupport'|translate}}</p>
+
+                                                <div style="width: 100px;height: 32px;"
+                                                     ng-if="device.server.power5Ghz!=-1">
+                                                    <ui-select ng-model="device.server.power5Ghz" theme="bootstrap" ng-disabled="!hasPrivilege">
+                                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                            {{$select.selected|autoFilterForPower}}
+                                                        </ui-select-match>
+                                                        <ui-select-choices repeat="power in powerSettings">
+                                                            {{power|autoFilterForPower}}
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'column.power5Ghz2'|translate}}</label>
+
+                                            <div class="col-sm-7">
+                                                <p class="form-control-static" ng-if="device.server.power5Ghz2==-1">
+                                                    {{'common.notSupport'|translate}}</p>
+
+                                                <div style="width: 100px;height: 32px;"
+                                                     ng-if="device.server.power5Ghz2!=-1">
+                                                    <ui-select ng-model="device.server.power5Ghz2" theme="bootstrap" ng-disabled="!hasPrivilege">
+                                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}%
+                                                        </ui-select-match>
+                                                        <ui-select-choices repeat="power in powerSettings">{{power}}%
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'column.name'|translate}}</label>
+
+                                            <div class="col-sm-7"
+                                                 ng-class="deviceSet.name.$dirty&&deviceSet.name.$invalid?'error':''">
+                                                <input type="text" name="name" class="form-control"
+                                                       ng-model="device.server.name" ng-disabled="!hasPrivilege"
+                                                       maxlength="63" ng-pattern="/^[\u4E00-\u9FA5A-Za-z0-9_-]+$/"
+                                                        ng-trim="false" blank-validator="name">
+                                                <span class="hint-span" ng-show="deviceSet.name.$error.pattern&&!deviceSet.name.$error.blank">{{'invalid.sysName'|translate}}</span>
+                                                <span class="hint-span" ng-show="deviceSet.name.$error.blank" >{{'invalid.blankInvalid'|translate}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'column.location'|translate}}</label>
+
+                                            <div class="col-sm-7"
+                                                 ng-class="deviceSet.location.$dirty&&deviceSet.location.$invalid?'error':''">
+                                                <input type="text" name="location" class="form-control"
+                                                       ng-model="templocation" ng-disabled="!hasPrivilege"
+                                                       ng-pattern="/^[\u4E00-\u9FA5A-Za-z0-9_@.-]+$/" maxLength="32"
+                                                       ng-trim="false">
+                                                <span class="hint-span" ng-show="deviceSet.location.$error.pattern">{{'invalid.location'|translate}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-if="nodeEnv=='Production_hualian'">
+                                            <label class="col-sm-3 control-label pdt8" style="min-width: 134px;">{{'supplier.supplier'|translate}}</label>
+
+                                            <div class="col-sm-7">
+
+                                                <div style="width: 200px;height: 32px;">
+                                                    <ui-select ng-model="device.supplier" theme="bootstrap" ng-disabled="!hasPrivilege">
+                                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                            {{$select.selected|supplierFilter}}
+                                                        </ui-select-match>
+                                                        <ui-select-choices repeat="supplier in suppliers">
+                                                            {{supplier|supplierFilter}}
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4 form-group mgb0" ng-if="hasPrivilege">
+                                        <button class="btn btn-common pull-right mgr8" ng-disabled="deviceSet.$invalid"
+                                                ng-click="saveDevInfo()">
+                                            {{'common.save'|translate}}
+                                        </button>
+                                            <span class="hint-span state processing-msg" ng-show="state.processing"><img
+                                                    src="./../public/images/processing.gif" alt="processing"
+                                                    class="mgr8">{{'common.processing'|translate}}</span>
+                                        <span class="hint-span state success-msg" ng-show="state.isSuccess">{{'deviceDetail.msgTrue'|translate}}</span>
+                                        <span class="hint-span state error-msg" ng-show="state.isError">{{'deviceDetail.msgFalse'|translate}}</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3>{{'column.usage'|translate}}</h3>
+                        </div>
+                        <div class="box-content" style="position: relative;height: 252px;">
+                            <div line-chart options="accessPointsCharts.options" size="size" theme="theme"
+                                 style="position: absolute;left: 0px;top: 0px;" id="deviceDetailChart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3>{{'deviceDetail.clientInfo'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div id="" ui-grid="clientsInfoOptions" class="grid" ui-grid-auto-resize
+                                 ui-grid-resize-columns style="margin: 0px -16px;">
+                                <nodata-directive ng-show="clientsInfoOptions.data.length==0"
+                                                  desc="{{'deviceDetail.noClient'|translate}}"></nodata-directive>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

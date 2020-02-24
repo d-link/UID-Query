@@ -1,0 +1,157 @@
+<div class="loginMain">
+    <div class="container" id="focusPage">
+        <form name="loginForm" ng-show="step==1" novalidate id="loginPage">
+            <div style="padding-top:-12px;padding-top:0px;width:660px;" ng-class="showAlert?'row error-login':'row'"><span style="font-size:16px;margin-bottom:12px;" class="hint-span">{{msg|translate}}</span></div>
+            <div style="padding-top:-12px;padding-top:0px;width:660px;" ng-class="isUpgrade?'row error-login':'row'">
+                <span style="font-size:16px;margin-bottom:12px;"
+                      class="hint-span">{{'login.UpgradeHint'|translate}}</span></div>
+            <div class="row labelrow">
+                <p>{{'login.loginAcc'|translate}}</p>
+            </div>
+            <!--<span style="margin-top: 10px;display: block;color: #f25130" ng-if="isShowUpgrade">{{'login.loginError'|translate}}{{'login.UpgradeHint'|translate}}</span>-->
+            <span class="loginError" ng-show="errorMessage==3">Single Sign On error, please confirm your account and password.</span>
+            <div class="row"
+                 ng-class="((loginForm.email.$dirty&&loginForm.email.$invalid)||userNameError)&&userNameBlur?'error-login':''">
+                <input tabIndex="0" type="text" name="email" class="form-control focusLoginElement" id="inputEmail" minlength="3" maxlength="32"
+                       placeholder="{{'login.user'|translate}}" ng-model="userInfo.email" autocomplete="off"
+                       ng-blur="userNameBlur=true" ng-focus="userNameBlur=false">
+                <span class="hint-span">{{errors.ascii.msg|translate}}</span>
+            </div>
+            <div class="row" ng-class="(loginForm.pass.$invalid&&passBlur)||beError||accountLocked?'error-login':''">
+                <input tabIndex="1" ng-model="userInfo.password" name="pass" type="password" id="inputPass"
+                       placeholder="{{'login.pass'|translate}}" class="form-control focusLoginElement " minlength="5" required
+                       ng-blur="passBlur=true" ng-focus="passBlur=false" ng-change="beChange.pass=true" maxlength="16">
+                <span class="hint-span" ng-if="errors.user.isError&&!beChange.pass">{{errors.user.msg|translate}}</span>
+                <span class="hint-span" ng-if="accountLocked">{{'login.loginLock'|translate}}</span>
+
+            </div>
+            <div class="row"
+                 ng-class="errors.captcha.isError&&captchaBlur&&!(beError&&beChange.captcha)?'error-login':''">
+                <div class="clearfix">
+                    <div class="captcha" style="float: left;" ng-if="needCAPTCHA">
+                        <input tabIndex="2" id="inputCaptcha" ng-model="userInfo.captcha" name="captcha" type="number"
+                               class="form-control focusLoginElement"
+                               oninput="if(value.length > 4) value=value.slice(0,4)"
+                               placeholder="{{'login.captcha'|translate}}"
+                               required ng-blur="captchaBlur=true" ng-focus="captchaBlur=false"
+                               ng-change="beChange.captcha=true">
+                        <div>
+                            <captcha-directive></captcha-directive>
+                        </div>
+                    </div>
+                    <div>
+                        <a tabIndex="3" data-toggle="modal" id="forGotPass" ui-sref="anon.user.forgotPass.profile"
+                           class="block pull-right focusLoginElement" style="margin-top: 18px;">{{'login.forgotpass'|translate}}</a>
+                    </div>
+
+                </div>
+                <span class="hint-span">{{errors.captcha.msg|translate}}</span>
+            </div>
+            <!--<div class="row ">-->
+            <!--<div class="checkbox">-->
+                    <!--<label for="checkboxRem" class="checkLabel">-->
+                    <!--<input type="checkbox" style="display: block;" id="checkboxRem" class="chkRem" ng-model="remember">-->
+                    <!--<p>-->
+                    <!--<md-icon md-svg-icon="user:checkbox" ng-show="remember"></md-icon>-->
+                    <!--</p>-->
+                    <!--<span class="rememberMe">{{'login.rememer'|translate}}</span>-->
+                    <!--</label>-->
+
+            <!--</div>-->
+            <!--</div>-->
+
+            <!-- <div class="row">
+                <button type="submit" class="btn btn_login" ng-click="login();"
+                        ng-disabled="loginForm.$invalid||userNameError||(!userInfo.email||!userInfo.password) &&  !errors.captcha.isError ||weird">
+                    {{'login.login'|translate}}
+                </button>
+            </div> -->
+            <div class="row">
+                <button tabIndex="4" type="submit" class="btn btn_login focusLoginElement" ng-if="!accountLocked" ng-click="NSlogin();"
+                        ng-disabled="isUpgrade||isLogining||loginForm.$invalid||userNameError||(!userInfo.email||!userInfo.password) &&  !errors.captcha.isError ||weird">
+                    {{'login.login'|translate}}
+                </button>
+                <button type="submit" class="btn btn_login"  ng-if="accountLocked" disabled>
+                    {{accountLockedTime}}s
+                </button>
+            </div>
+
+        </form>
+        <form name="codeForm" ng-show="step==0" novalidate>
+            <div class="row labelrow">
+                <p>{{'license.title'|translate}}</p>
+            </div>
+            <div class="row">
+                <input type="text" name="" class="form-control" id="mc" required
+                       placeholder="{{'license.entermac'|translate}}"
+                       ng-model="activateInfo.ma" autocomplete="off">
+            </div>
+            <div class="row">
+                <input type="text" name="" class="form-control" id="lk" required
+                       placeholder="{{'license.license'|translate}}"
+                       ng-model="activateInfo.lk" autocomplete="off">
+            </div>
+            <div class="row">
+                <input type="text" name="" class="form-control" id="ac" required
+                       placeholder="{{'license.activeCode'|translate}}"
+                       ng-model="activateInfo.ac" autocomplete="off">
+            </div>
+            <div class="row">
+                <span class="forgot-colorfff"> {{'login.csActive'|translate}}</span>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn_login" ng-click="active();" ng-disabled="codeForm.$invalid">
+                    {{'login.active'|translate}}
+                </button>
+            </div>
+        </form>
+        <form name="passwordForm" ng-show="step==2" novalidate id="modifyPage">
+            <div class="row labelrow">
+                <p style="margin: 0px -24px;">{{'login.needChange'|translate}}</p>
+            </div>
+            <div class="row">
+                <span class="forgot-colorfff">{{'invalid.strongPass'|translate}}</span>
+            </div>
+            <div class="row" ng-class="(passwordForm.oldPass.$invalid&&oldPassBlur)||passError?'error-login':''">
+                <input tabIndex="0" name="oldPass" id="focusPass" class="form-control focusModifyElement" type="password" required
+                       placeholder="old password" autocomplete="off"
+                       minlength="5" maxlength="30"
+                       ng-model="password.oldpass"
+                       ng-blur="oldPassBlur=true"
+                       ng-focus="oldPassBlur=false"
+                       ng-change="passError=false">
+                <span class="hint-span" ng-if="passwordForm.oldPass.$invalid">{{'invalid.password'|translate}}</span>
+                <span class="hint-span" ng-if="passError">{{'login.invalid.passError'|translate}}</span>
+
+            </div>
+            <div class="row"
+                 ng-class="passwordForm.newPass.$invalid&&newPassBlur||(loginUser.username&&loginUser.username==password.newpass)||(password.oldpass&&password.oldpass==password.newpass)?'error-login':''">
+                <input tabIndex="1" name="newPass" class="form-control focusModifyElement" type="password" required
+                       placeholder="new password" autocomplete="off"
+                       minlength="8" maxlength="30"
+                       ng-pattern="/^(?![^A-Za-z]+$)(?![^0-9]+$)[\x21-\x7e]{8,30}$/"
+                       ng-model="password.newpass"
+                       ng-blur="newPassBlur=true"
+                       ng-focus="newPassBlur=false" >
+                <span class="hint-span" ng-if="passwordForm.newPass.$invalid">{{'invalid.strongPass'|translate}}</span>
+                <span class="hint-span" ng-if="loginUser.username&&loginUser.username==password.newpass">{{'invalid.sameNameAndPass'|translate}}</span>
+                <span class="hint-span" ng-if="password.oldpass&&password.oldpass==password.newpass">{{'invalid.sameOriginalPass'|translate}}</span>
+            </div>
+            <div class="row" ng-class="password.newpass!=password.confirmPassword&&confirmPassBlur?'error-login':''">
+                <input tabIndex="2" name="confirmPass" class="form-control focusModifyElement" type="password" required
+                        placeholder="confirm password" autocomplete="off"
+                       minlength="8" maxlength="30"
+                       ng-model="password.confirmPassword"
+                       ng-blur="confirmPassBlur=true"
+                       ng-focus="confirmPassBlur=false">
+                <span class="hint-span">{{'invalid.passNotsame'|translate}}</span>
+            </div>
+            <div class="row">
+                <button tabIndex="3" type="submit" class="btn btn_login focusModifyElement" ng-click="modify();"
+                        ng-disabled="passwordForm.$invalid||password.newpass!=password.confirmPassword||password.oldpass==password.newpass||loginUser.username&&loginUser.username==password.newpass">
+                    {{'login.modify'|translate}}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,152 @@
+<div ng-controller="paymentGatewayController">
+    <div class="set-height subpage site setting">
+        <form name="paymentGateway" class="form-horizontal" style="padding: 24px 16px;height: 100%;" novalidate>
+            <div class="box mgb16" style="border-radius: 4px;">
+                <div class="box-header">
+                    <h3>{{'paymentGateway.paymentSetting'|translate}}</h3>
+                </div>
+                <div class="box-content" style="overflow: auto;height: 90%;">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.paypalCurrency'|translate}}*</label>
+
+                        <div class="col-sm-9">
+                            <div style="width: 150px;height: 32px;">
+                                <ui-select ng-model="payment.currencyCode" theme="bootstrap"
+                                           ng-disabled="!hasPrivilege" autofocus>
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+                                    <ui-select-choices repeat="code in codes">{{code}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.paypalClientID'|translate}}*</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" name="" class="form-control w320"
+                                   ng-model="payment.APIUsername" required autocomplete="off"
+                                   ng-disabled="!hasPrivilege">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.paypalSecret'|translate}}*</label>
+
+                        <div class="col-sm-9">
+                            <input type="password" name="" class="form-control w320"
+                                   ng-model="payment.APIPassword" required autocomplete="off"
+                                   ng-disabled="!hasPrivilege">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                         <label class="col-sm-3 control-label">{{'label.paypalCurrency'|translate}}&nbsp;{{'label.signature'|translate}}</label>
+                         <div class="col-sm-9">
+                             <input type="text" name="" class="form-control w320" placeholder="Signature" ng-model="payment.APISignature"  required autocomplete="off">
+                         </div>
+                     </div>-->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.options'|translate}}*</label>
+
+                        <div class="col-sm-9">
+                            <div class="clear" style=" padding: 16px;background-color: #f5f5f5;border-radius: 4px;">
+                                <div class="clear mgb16" ng-repeat="option in payment.options track by $index">
+                                    <label class="col-sm-2 control-label" style="width: 88px;">{{'label.duration'|translate}}</label>
+
+                                    <div class="col-sm-3" style="width: 290px;">
+                                        <input ng-if="option.type=='unitDay'" type="number" name="duration"
+                                               class="form-control w100 pull-left mgr8" title="1~180"
+                                               ng-model="option.duration" required ng-disabled="!hasPrivilege"
+                                               autocomplete="off" step="1" min="1" max="180"
+                                               onKeyUp="value=(parseInt((value=value.replace(/\D/g,''))==''?'0':value,10))">
+                                        <input ng-if="option.type=='unitHour'" type="number" name="duration"
+                                               class="form-control w100 pull-left mgr8" title="1~4320"
+                                               ng-model="option.duration" required ng-disabled="!hasPrivilege"
+                                               autocomplete="off" step="1" min="1" max="4320"
+                                               onKeyUp="value=(parseInt((value=value.replace(/\D/g,''))==''?'0':value,10))">
+                                        <input ng-if="option.type=='unitMin'" type="number" name="duration"
+                                               class="form-control w100 pull-left mgr8" title="1~259200"
+                                               ng-model="option.duration" required ng-disabled="!hasPrivilege"
+                                               autocomplete="off" step="1" min="1" max="259200"
+                                               onKeyUp="value=(parseInt((value=value.replace(/\D/g,''))==''?'0':value,10))">
+
+                                        <div class="pull-left" style="width: 150px;height: 32px;">
+                                            <ui-select ng-model="option.type" theme="bootstrap"
+                                                       ng-disabled="!hasPrivilege">
+                                                <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                    {{'passcode.'+$select.selected|translate}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="type in durationTypes">
+                                                    {{'passcode.'+type|translate}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label" style="width: 68px;">{{'label.cost'|translate}}</label>
+
+                                    <div class="col-sm-3" style="width: 132px;">
+                                        <input type="text" name="cost" class="form-control w100"
+                                               ng-model="option.cost" required autocomplete="off" title="0.01~1024.00"
+                                               step="0.01" min="0.01" max="1024.00" ng-disabled="!hasPrivilege"
+                                               ng-pattern="/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/"
+                                               ng-keyup="clearNoNum(option.cost,$index,$event)">
+                                        <!--/^-?((([1-9]+(\d+)?)(\.\d+)?)|(0\.\d+))$/-->
+                                        <!--/^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/-->
+                                        <!--/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/-->
+                                    </div>
+                                    <div class="col-sm-2" style="width: 62px;">
+                                        <button type="button" class="btn btn-small" ng-click="delOption($index)"
+                                                ng-if="hasPrivilege">
+                                            <md-icon md-svg-icon="modal:minus"></md-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="clear" ng-if="hasPrivilege">
+                                    <label class="col-sm-2 control-label" style="width: 88px;">{{'label.duration'|translate}}</label>
+
+                                    <div class="col-sm-3" style="width: 290px;">
+                                        <input type="number" name="duration" class="form-control w100 pull-left mgr8"
+                                               step="1" min="1" max="1024"
+                                               autocomplete="off" ng-disabled="true">
+
+                                        <div class="pull-left" style="width: 150px;height: 32px;">
+                                            <ui-select ng-model="option.durationType" theme="bootstrap"
+                                                       ng-disabled="true">
+                                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="type in durationTypes">{{type}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label" style="width: 68px;">{{'label.cost'|translate}}</label>
+
+                                    <div class="col-sm-3" style="width: 132px;">
+                                        <input type="number" name="cost" class="form-control w100"
+                                               step="0.01" min="0.01" max="1024" autocomplete="off"
+                                               ng-disabled="true">
+                                    </div>
+                                    <div class="col-sm-2" style="width: 62px;">
+                                        <button type="button" class="btn btn-small" ng-click="addOption()"
+                                                ng-if="hasPrivilege">
+                                            <md-icon md-svg-icon="modal:plus"></md-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mgb0" ng-if="hasPrivilege">
+                        <div class="col-sm-12">
+                            <button class="btn btn-common pull-right" ng-click="savePayment()"
+                                    ng-disabled="(paymentGateway.$invalid||saveDisabled()) ? true: false">{{'common.save'|translate}}
+                            </button>
+                            <span class="hint-span state processing-msg" ng-show="state.processing"><img
+                                    src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                            <span class="hint-span state success-msg" ng-show="state.isSuccess">{{state.msgTrue|translate}}</span>
+                            <span class="hint-span state error-msg" ng-show="state.isError">{{state.msgFalse}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="box subpage">
+    <div class="box-header">
+        <h3>{{'ssl.updateSSL'|translate}}</h3>
+    </div>
+    <div class="box-content">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.uploadCertificate'|translate}}</label>
+            <div class="col-sm-4" style="position: relative;">
+                <input type="text" class="form-control w320" placeholder="{{'settings.browser_holder'|translate}}" value="{{ssl.certificate.name||''}}">
+                <div class="fileSelector drop-box bgc-transition ssidUploadFile" ngf-select ngf-drop ng-model="ssl.certificate" ngf-drag-over-class="dragOverClassObj" ng-change="fileChange('certificate')"></div>
+                <div class="progress-bar-d">
+                    <span class="processBar" style="width:0px;">{{progressPercentage}}%</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.uploadKey'|translate}}</label>
+            <div class="col-sm-4" style="position: relative;">
+                <input type="text" class="form-control w320" placeholder="{{'settings.browser_holder'|translate}}" value="{{ssl.key.name||''}}">
+                <div class="fileSelector drop-box bgc-transition ssidUploadFile" ngf-select ngf-drop ng-model="ssl.key" ngf-drag-over-class="dragOverClassObj" ng-change="fileChange('key')"></div>
+                <div class="progress-bar-d">
+                    <span class="processBar" style="width:0px;">{{progressPercentage}}%</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group mgb0" ng-if="hasPrivilege">
+            <div class="col-sm-12">
+                <button class="btn btn-common pull-right" ng-click="upload()" ng-disabled="!(ssl.certificate&&ssl.key) || state.ssl.processing">{{state.ssl.upload|translate}}</button>
+                <span class="hint-span state error-msg"
+                      ng-show="state.ssl.isError">{{state.ssl.msgFalse|translate}}</span>
+                <span class="hint-span state processing-msg" ng-show="state.ssl.processing"><img src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                <span class="hint-span state success-msg" ng-show="state.ssl.isSuccess">{{state.ssl.msgTrue|translate}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="box" style="border-radius: 4px;">
+    <div class="box-header">
+        <h3>{{'common.runStatus'|translate}}</h3>
+    </div>
+    <div class="box-content">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'label.applyStatus'|translate}}</label>
+            <div class="col-sm-10">
+                <span style="line-height: 32px;">{{runStatus.status}}</span>
+            </div>
+        </div>
+        <div class="form-group mgb0">
+            <label class="col-sm-2 control-label">{{'label.result'|translate}}</label>
+            <div class="col-sm-10">
+                <div style="border: 1px solid #eee;border-radius: 4px;">
+                    <div id="sslResultInfo" ui-grid="sslResultOption" ui-grid-auto-resize ui-grid-resize-columns class="grid" style="padding-bottom: 8px;">
+                        <div ng-show="sslResultOption.data.length == '0'" class="grid-no-data">
+                            <img src="../public/images/no-data.png">
+                            <p>{{'configuration.noResult'|translate}}</p>
+                         <!--   <p>pls wt</p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

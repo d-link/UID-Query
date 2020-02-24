@@ -1,0 +1,35 @@
+<div class="box" style="border-radius: 4px;">
+    <div class="box-header">
+        <h3>{{'configuration.uplodConfiguration' | translate}}</h3>
+    </div>
+    <div class="box-content">
+        <time-schedule profile-info="profileInfo" state="state"></time-schedule>
+    </div>
+</div>
+<div class="box" style="border-radius: 4px;">
+    <div class="box-header">
+        <h3>{{'common.runStatus'|translate}}</h3>
+    </div>
+    <div class="box-content">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'label.applyStatus'|translate}}</label>
+            <div class="col-sm-10">
+                <span style="line-height: 32px;">{{runStatus.status}}</span>
+            </div>
+        </div>
+        <div class="form-group mgb0 set-height">
+            <label class="col-sm-2 control-label">{{'label.result'|translate}}</label>
+            <div class="col-sm-10">
+                <div style="border: 1px solid #eee;border-radius: 4px;">
+                    <div id="profileInfo" ui-grid="profileInfoOptions" class="grid" ui-grid-auto-resize ui-grid-resize-columns >
+                        <div ng-show="profileInfoOptions.data.length == '0'" class="grid-no-data">
+                            <img src="../public/images/no-data.png">
+                            <p>{{'configuration.noResult'|translate}}</p>
+                            <!-- <p>pls wt</p> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<div ng-controller="sslController" class="bg-fafafa clear subpage site" ng-class="showContentSide?'':'hide-content-side'">
+
+    <div class="col-xs-2 col-md-2 content-side">
+        <div class="subpage-tree-title">
+            <md-icon md-svg-icon="modal:configuration" class="title pull-left"></md-icon>
+            <span>{{'ssl.ssl'|translate}}</span>
+        </div>
+        <div class="data-show-menu-main cwm-menu" style="border-bottom: none;overflow-y: auto;">
+            <ul class="site-menu-one">
+                <li ng-repeat="site in sites">
+                    <a ng-click="toggleSite(site);" ng-class="{'active':siteActive._id == site._id && showNetwork}" title="{{site.siteName}}">{{site.siteName}}</a>
+                    <ul class="site-menu-two" ng-show="siteActive._id == site._id && showNetwork">
+                        <li ng-repeat="network in site.networks">
+                            <a ng-click="toggleNetwork(network);" ng-class="networkActive._id == network._id?'active':''" title="{{network.name}}">
+                                <md-icon md-svg-icon="menu11:network_icon"></md-icon>
+                                <span>{{network.name}}</span>
+                            </a>
+                        </li>
+                        <li class="treeNoData" ng-if="!site.networks.length">
+                            <p><span>No Network yet</span><span>click '<a ng-click="goToNetwork()">HERE</a>' to view</span>
+                            </p>
+                        </li>
+                    </ul>
+                    
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-xs-10 col-md-10 content-content data-show-main form-horizontal">
+
+        <a ng-click="sideToggle()" class="side-toggle" title="{{showContentSide?'title.close':'title.open' | translate}}">
+            <md-icon ng-if="showContentSide" md-svg-src="images/common/show_hide_left.svg"></md-icon>
+            <md-icon ng-if="!showContentSide" md-svg-src="images/common/show_hide_right.svg"></md-icon>
+        </a>
+        <div class="site-main set-height">
+            <div class="site-main-title elementFlag">
+                <span>
+                    <span>{{'ssl.ssl'|translate}}</span>
+                    <span ng-if="siteActive.siteName">{{'>&nbsp;&nbsp;'+siteActive.siteName}}</span>
+                    <span ng-if="networkActive.name">{{'>&nbsp;&nbsp;'+networkActive.name}}</span>
+                </span>
+            </div>
+            <div class="site-set-height" style="overflow-y: auto;margin: 0px -16px;padding: 16px 16px 0px">
+                <div style="padding-bottom: 24px;">
+                    <div ng-if="profileActive == 'sslCertificate'">
+                        <site-ssl network-id="networkActive._id"></site-ssl>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+</div>

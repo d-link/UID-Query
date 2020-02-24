@@ -1,0 +1,233 @@
+<div class="modal-header">
+    <a class="logo">
+        <md-icon md-svg-icon="common:hotAPmap"></md-icon>
+    </a><span>{{title}}</span>
+    <a class="close pull-right"
+       ng-click="cancel()" title="{{'title.close'|translate}}">
+        <md-icon md-svg-icon="modal:close"></md-icon>
+    </a>
+</div>
+<div class="modal-body">
+    <form name="mapForm" class="form-horizontal clear">
+        <div class="form-group">
+            <label for="mapName" class="col-sm-2 control-label">{{'report.hotAPMapName'|translate}}</label>
+
+            <div class="col-sm-10"
+                 ng-class="((mapForm.mapName.$dirty&&mapForm.mapName.$invalid)||nameRepeat)&&mapnameBlur?'error':''">
+                <input type="text" class="form-control w320"
+                       name="mapName" id="mapName" required
+                       maxlength="32" minlength="3" ng-blur="mapnameBlur=true"
+                       ng-focus="mapnameBlur=false"
+                       placeholder="{{'report.hotAPMapName_placeholder'|translate}}" autocomplete="off"
+                       ng-model="hotAPMap.mapName" ng-change="nameRepeat=false">
+                <span ng-if="!nameRepeat" class="hint-span">{{'invalid.mapName'|translate}}</span>
+                <span ng-if="nameRepeat" class="hint-span">{{'invalid.mapNameExist'|translate}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'report.hotAPCustomize'|translate}}</label>
+
+            <div class="col-sm-10">
+                <div class="fileSelector drop-box bgc-transition" ng-show="!mapImage" ngf-drop
+                     ng-model="mapFile"
+                     ngf-drag-over-class="dragOverClassObj" ngf-pattern="'image/*'"
+                     accept=".png,.jpg" style="height: 360px">
+
+                    <div class="drag-info" style="position: static;width: auto; padding-top: 72px">
+                        <md-icon md-svg-icon="icon48:c_drag"></md-icon>
+                        <div><span class="textCenter drag">{{'settings.drag'|translate}}</span></div>
+                        <div style="margin-top: 16px">
+                            <span class="textCenter or">{{'report.dragInfo1'|translate}}</span>
+                            <span style="color: #bfbfbf">{{'report.dragInfo2'|translate}}</span></div>
+                        <div style="margin-top: 8px"><span class="textCenter or">{{'report.dragInfo3'|translate}}</span>
+                        </div>
+                        <div style="margin-top: 8px">
+                            <span class="textCenter or">{{'report.dragInfo4'|translate}}&nbsp;<a ng-model="mapFile"
+                                                                                                 id="choose"
+                                                                                                 ngf-select
+                                                                                                 ngf-pattern="'image/*'"
+                                                                                                 accept=".png,.jpg">{{'report.dragInfo5'|translate}}</a></span>
+                        </div>
+                    </div>
+                    <div class="drop-info" style="position: static;width: auto;padding-top: 48px">
+                        <div>{{'report.dragInfo6'|translate}}</div>
+                        <md-icon md-svg-icon="icon48:c_drag"></md-icon>
+                        <div style="margin-top: 16px">
+                            <span class="textCenter or">{{'report.dragInfo1'|translate}}</span>
+                            <span style="color: #bfbfbf">{{'report.dragInfo2'|translate}}</span></div>
+                        <div style="margin-top: 8px"><span class="textCenter or">{{'report.dragInfo3'|translate}}</span>
+                        </div>
+                        <div style="margin-top: 8px">
+                            <span class="textCenter or">{{'report.dragInfo4'|translate}}&nbsp;<a>{{'report.dragInfo5'|translate}}</a></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="position: relative;" ng-show="mapImage">
+                    <canvas id="canvas" width="686" height="355"
+                            style="background: #f6f6f6; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;"></canvas>
+
+                    <div class="btn-toolbar" style="position: absolute;right: 16px;top:8px" role="toolbar">
+                        <div class="btn-group" role="group" style="float: right">
+                            <button type="button" class="btn btn-small glyphicon glyphicon-transfer"
+                                    title="{{'report.changeBmap'|translate}}"
+                                    ng-click="changeHotApPic()">
+                            </button>
+                        </div>
+
+                        <div class="btn-group " role="group" style="float: right">
+                            <button type="button" class="btn btn-small" ng-click="changeShowpanel();">
+                                {{'report.selectAP'| translate}}
+                                <md-icon style="margin-left: 8px;"
+                                         md-svg-icon="bottom:left_arrow_down"></md-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div ng-show="showPanel" id="selAP">
+                        <div>
+                            <div class="grid-no-data" ng-if="allSiteNetworks.length<=0">
+                                <img src="../public/images/no-data.png" style="width: 10%;padding-top: 24px;">
+                                <p style="font-size: 12px;">{{'common.noData'|translate}}</p>
+                            </div>
+                            <ul uib-dropdown-menu role="menu" aria-labelledby="list-button1">
+                                <li ng-repeat="site in allSiteNetworks">
+                                    <a style="display:block;">
+                                        <md-icon class="pull-left mgt7"
+                                                 md-svg-icon="bottom:left_arrow_down" ng-click="site.open=!site.open"
+                                                 ng-show="site.open"></md-icon>
+                                        <md-icon class="pull-left mgt4"
+                                                 md-svg-icon="bottom:left_arrow_right" ng-click="site.open=!site.open"
+                                                 ng-show="!site.open"></md-icon>
+                                <span class="pull-left mgt6"
+                                      style="width: 88px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{site.siteName}}</span>
+                                        <md-icon class='mgt4' style="margin-left: 8px;" ng-show="!site.check"
+                                                 md-svg-icon="check:uncheck"
+                                                 ng-click="site.check=!site.check;siteCheckChange(site);"></md-icon>
+                                        <md-icon class='mgt4' style="margin-left: 8px;" ng-show="site.check"
+                                                 md-svg-icon="check:check"
+                                                 ng-click="site.check=!site.check;siteCheckChange(site);"></md-icon>
+                                    </a>
+                                    <ul ng-show="site.open" style="list-style:none;margin-left: 8px">
+                                        <li ng-repeat="network in site.networks">
+                                            <a style="display:block;">
+                                                <md-icon class="pull-left mgt4"
+                                                         md-svg-icon="bottom:left_arrow_down"
+                                                         ng-click="network.open=!network.open"
+                                                         ng-show="network.open"></md-icon>
+                                                <md-icon class="pull-left mgt4"
+                                                         md-svg-icon="bottom:left_arrow_right"
+                                                         ng-click="network.open=!network.open"
+                                                         ng-show="!network.open"></md-icon>
+                                        <span class="pull-left mgt6"
+                                              style="width: 80px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{network.name}}</span>
+                                                <md-icon class='mgt4' style="margin-left: 8px;" ng-show="!network.check"
+                                                         md-svg-src="images/grid/grid_uncheck.svg"
+                                                         ng-click="network.check=!network.check;networkCheckChange(network);"></md-icon>
+                                                <md-icon class='mgt4' style="margin-left: 8px;" ng-show="network.check"
+                                                         md-svg-icon="check:check"
+                                                         ng-click="network.check=!network.check;networkCheckChange(network);"></md-icon>
+                                            </a>
+                                            </a>
+                                            <ul ng-show="network.open" style="list-style:none;margin-left: 26px">
+                                                <li ng-repeat="device in network.devices">
+                                                    <a style="display:block; position:relative;">
+                                                        <span class="circle"></span>
+                                                        <span class="mgt6"
+                                                              style="display:inline-block;width:67px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{device.name}}</span>
+                                                        <md-icon class='mgt4' style="margin-left: 8px;"
+                                                                 ng-show="!device.check"
+                                                                 md-svg-icon="check:uncheck"
+                                                                 ng-click="device.check=!device.check;deviceCheckChange(device);"></md-icon>
+                                                        <md-icon class='mgt4' style="margin-left: 8px;"
+                                                                 ng-show="device.check"
+                                                                 md-svg-icon="check:check"
+                                                                 ng-click="device.check=!device.check;deviceCheckChange(device);"></md-icon>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li ng-if="hotAPMap.showDelete">
+                                    <a style="display:block;">
+                                        <md-icon class="pull-left mgt7"
+                                                 md-svg-icon="bottom:left_arrow_down"
+                                                 ng-click="hotAPMap.open=!hotAPMap.open"
+                                                 ng-show="hotAPMap.open"></md-icon>
+                                        <md-icon class="pull-left mgt4"
+                                                 md-svg-icon="bottom:left_arrow_right"
+                                                 ng-click="hotAPMap.open=!hotAPMap.open"
+                                                 ng-show="!hotAPMap.open"></md-icon>
+                                <span class="pull-left mgt6"
+                                      style="width: 88px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">Deleted Aps</span>
+                                        <md-icon class='mgt4' style="margin-left: 8px;"
+                                                 ng-show="!hotAPMap.check"
+                                                 md-svg-icon="check:uncheck"
+                                                 ng-click="hotAPMap.check=!hotAPMap.check;delCheckChange();"></md-icon>
+                                        <md-icon class='mgt4' style="margin-left: 8px;" ng-show="hotAPMap.check"
+                                                 md-svg-icon="check:check"
+                                                 ng-click="hotAPMap.check=!hotAPMap.check;delCheckChange();"></md-icon>
+                                    </a>
+                                    <ul ng-show="hotAPMap.open">
+                                        <li ng-repeat="device in hotAPMap.devices" ng-if="device.isDelete"
+                                            style="clear: both;margin-left: 34px;list-style: none;">
+                                            <a style="display:block; position:relative;">
+                                                <span class="circle"></span>
+                                                        <span class="mgt6"
+                                                              style="display:inline-block;width:67px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{device.name}}</span>
+                                                <md-icon class='mgt4' style="margin-left: 8px;"
+                                                         ng-show="!device.check"
+                                                         md-svg-icon="check:uncheck"
+                                                         ng-click="device.check=!device.check;deviceCheckChange(device);"></md-icon>
+                                                <md-icon class='mgt4' style="margin-left: 8px;"
+                                                         ng-show="device.check"
+                                                         md-svg-icon="check:check"
+                                                         ng-click="device.check=!device.check;deviceCheckChange(device);"></md-icon>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+                            </ul>
+                        </div>
+                        <span>&#9670;</span>
+                        <em>&#9670;</em>
+                    </div>
+
+                    <div class="btn-group-vertical" role="group" style="position: absolute; left: 16px;top:56px">
+                        <button type="button" class="btn btn-small" title="{{'report.bigger' | translate}}"
+                                ng-click="bigger()">
+                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-small" title="{{'report.reset' | translate}}"
+                                ng-click="reset()">
+                            <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-small" title="{{'report.smaller' | translate}}"
+                                ng-click="smaller()">
+                            <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></button>
+                    </div>
+                    <div style="position: absolute; top:363px;color: #999" ng-class="deviceCount>254?'error':''">
+                        <span ng-if="deviceCount<=254">{{'report.selCountInfo' | translate}} {{deviceCount}}/254</span>
+                        <span class="hint-span">{{'report.selCountInfo' | translate}} {{deviceCount}}/254</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 8px;color: #999;float: right;" ng-class="maxSizeErr==1?'error':''">
+                    <span class="hint-span">{{'report.picMaximum' | translate}}</span>
+                </div>
+                <div style="margin-top: 8px;color: #999;float: right;" ng-class="typeErr==1?'error':''">
+                    <span class="hint-span">{{'report.picType' | translate}}</span>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-common" type="button" ng-click="saveMap()"
+            ng-disabled="mapForm.$invalid||!mapImage||deviceCount>254||maxSizeErr==1||typeErr==1">
+        {{'common.save'|translate}}
+    </button>
+    <button class="btn btn-cancel" type="button" ng-click="cancel()">{{'common.cancel'|translate}}</button>
+</div>

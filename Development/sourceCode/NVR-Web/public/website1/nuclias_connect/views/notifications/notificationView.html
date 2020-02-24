@@ -1,0 +1,59 @@
+<div ng-controller="notificationViewController" class="set-height">
+    <uib-tabset active="active" class="bg-fff subpage">
+        <uib-tab index="0" heading="{{'notificationView.all'|translate}}" select="showTabFun(0);" deselect="changeTabShow();">
+           <!-- <div class="grid-top-menu" ng-class="!(show.tab1||show.tab2||show.tab3||show.tab4)?'elementFlag1':''">
+                <button type="button" class="btn btn-common pull-right" style="margin-right: 12px"  ng-click="acknowledgeAlerts()" ng-disabled="allDisabled">{{'notificationView.acknowledge'|translate}}</button>
+            </div>-->
+            <div id="notification-all" ui-grid="allOptions" class="grid" ui-grid-pagination   ui-grid-auto-resize>
+
+                <nodata-directive ng-show="allOptions.data.length == '0'" desc="No notification found"></nodata-directive>
+            </div>
+        </uib-tab>
+        <uib-tab index="1" heading="{{'common.critical'|translate}}" select="showTabFun(1);" deselect="changeTabShow();">
+           <!-- <div class="grid-top-menu" ng-class="show.tab1?'elementFlag1':''">
+                <button type="button" class="btn btn-common pull-right" style="margin-right: 12px"  ng-click="acknowledgeAlerts()" ng-disabled="criticalDisabled">{{'notificationView.acknowledge'|translate}}</button>
+            </div>-->
+            <div id="notification-critical" ui-grid="criticalOptions" class="grid" ng-show="show.tab1" ui-grid-pagination   ui-grid-auto-resize>
+                <div ng-show="criticalOptions.data.length == '0'" class="grid-no-data">
+                    <img src="../public/images/no-data.png">
+                    <p>No critical notification found</p>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab index="2" heading="{{'common.warning'|translate}}" select="showTabFun(2);" deselect="changeTabShow();">
+          <!--  <div class="grid-top-menu" ng-class="show.tab2?'elementFlag1':''">
+                <button type="button" class="btn btn-common pull-right" style="margin-right: 12px"  ng-click="acknowledgeAlerts()" ng-disabled="warningDisabled">{{'notificationView.acknowledge'|translate}}</button>
+            </div>-->
+            <div id="notification-warning" ui-grid="warningOptions" class="grid" ng-show="show.tab2" ui-grid-pagination   ui-grid-auto-resize>
+
+                <nodata-directive ng-show="warningOptions.data.length==0" desc="No warning notification found"></nodata-directive>
+            </div>
+        </uib-tab>
+        <uib-tab index="3" heading="{{'common.info'|translate}}" select="showTabFun(3);" deselect="changeTabShow();">
+           <!-- <div class="grid-top-menu" ng-class="show.tab3?'elementFlag1':''">
+                <button type="button" class="btn btn-common pull-right" style="margin-right: 12px"  ng-click="acknowledgeAlerts()" ng-disabled="infoDisabled">{{'notificationView.acknowledge'|translate}}</button>
+            </div>-->
+            <div id="notification-info" ui-grid="infoOptions" class="grid" ng-show="show.tab3" ui-grid-pagination    ui-grid-auto-resize>
+
+                <nodata-directive ng-show="infoOptions.data.length==0" desc="No info notification found"></nodata-directive>
+            </div>
+        </uib-tab>
+    </uib-tabset>
+    <script type="text/ng-template" id="notificationDetail.html">
+        <div class="modal-header">
+            <a class="logo">
+                <md-icon md-svg-icon="common:view"></md-icon>
+            </a>
+            <span>Notification Events</span>
+            <a class="close pull-right"
+               ng-click="cancel()">
+                <md-icon md-svg-icon="modal:close"></md-icon>
+            </a>
+        </div>
+        <div class="modal-body">
+           <div ui-grid="detailOptions" calss="grid" ui-grid-auto-resize></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-cancel" type="button" ng-click="cancel()">Close</button>
+        </div>
+    </script>    </div>

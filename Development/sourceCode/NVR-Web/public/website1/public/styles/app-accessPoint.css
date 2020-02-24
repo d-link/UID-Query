@@ -1,0 +1,52 @@
+.ui-grid-top-panel{
+    background: #607896;
+    color: #ffffff;
+    height: 1.3rem;
+}
+.ui-grid-header-cell{
+    border-right: 0;
+}
+
+.box-header{
+    background-color: #ffffff;
+    border: 0;
+    border-radius: 0;
+    padding-left: 0;
+}
+.box-containner{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+}
+.ui-grid{
+    padding: 0;
+}
+.ui-grid-pager-panel{
+    background-color: #ffffff;
+}
+.ui-grid-row.ui-grid-row-selected > [ui-grid-row] > .ui-grid-cell{
+    background-color: #7fcbfa;
+}
+.ui-grid-cell{
+    border-right: 0;
+}
+
+.ui-grid-menu-button>div>i{
+    font-size: 0.7rem;
+}
+
+.ui-grid-menu-button .ui-grid-menu{
+    margin-top: 14px;
+}
+[class^="ui-grid-icon"]:before, [class*=" ui-grid-icon"]:before{
+    margin-right: 0;
+    margin-top: 2px;
+}
+
+
+
+/****对弹出框进行媒体查询****/
+/* //针对Galaxy S5 */
+

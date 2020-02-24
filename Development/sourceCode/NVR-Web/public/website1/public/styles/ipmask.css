@@ -1,0 +1,33 @@
+.ip-outer{
+    border:1px solid #ddd;
+    border-radius:4px;
+    width:216px;
+    height:32px;
+    padding:0 8px;
+}
+.ip-outer.ip-valid{
+    border:1px solid #ff0000;
+}
+.ip-inner{
+    display:inline-block;
+    height:26px;
+    width:20.5%;
+    border:none;
+}
+.ip-inner:focus,
+.ip-inner:hover{
+    border:none;
+    outline: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+.disabled .ip-outer{
+    background:#eee;
+}
+.disabled .ip-inner{
+    background:transparent;
+}
+.ipMaskError .ip-outer {
+    border-color: #ef5350;
+}

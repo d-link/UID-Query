@@ -1,0 +1,323 @@
+/* =============== System begin =============== */
+/* == license == */
+.license-title div,
+.network-title div {
+    float: left;
+    padding-right: 16px;
+}
+
+.license-title div > span.title-im,
+.network-title div > span.title-im {
+    margin-left: 8px;
+    font-size: 18px;
+}
+
+.network-title div > span.title-im {
+    margin-left: 0px;
+}
+
+.license-title div > span.title-im + span {
+    color: #999;
+}
+
+.license-title div > span,
+.network-title div > span {
+    font-size: 12px;
+    line-height: 32px;
+    color: #666;
+}
+
+/* == network == */
+.network-title {
+    margin-left: -140px;
+    margin-right: -142px;
+}
+
+.networkDetail {
+    /*background: #f5f5f5;*/
+    /*max-height: 100%;*/
+}
+
+.networkDetail .set-height {
+    margin: -24px;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.networkDetail .networkManage-subtitle {
+    position: relative;
+    width: 100%;
+    float: left;
+    padding-right: 142px;
+    padding-left: 140px;
+}
+
+.networkDetail .networkManage-subtitle > hr {
+    margin-top: 18px;
+    margin-bottom: 22px;
+    border-top-color: #ddd;
+}
+
+.networkDetail .networkManage-subtitle > div.title-text {
+    font-size: 18px;
+    color: #666;
+    position: absolute;
+    margin-top: 6px;
+    text-align: center;
+    line-height: 20px;
+    padding: 0 24px;
+    background: #f5f5f5;
+    left: 50%;
+    margin-left: -101px;
+}
+
+.networkDetail .networkManage-subtitle > div.title-text span.number {
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    background: #bbb;
+    color: #fff;
+    font-size: 16px;
+    height: 20px;
+    width: 20px;
+    padding: 2px 8px;
+    margin: 0 0 0 16px;
+}
+
+.networkDetail .networkManage-subtitle > button {
+    position: absolute;
+    top: 2px;
+    right: 0px;
+}
+
+.networkDetail .networkManage-subtitle > a > i {
+    width: 16px;
+    height: 16px;
+}
+
+.networkDetail .row.orgpanel {
+    margin: 0px -12px;
+}
+
+.networkDetail .orgpanel .box-header {
+    line-height: 40px;
+    padding-left: 16px;
+}
+
+/*.networkDetail .box-header>a.state{
+    float: left;
+    margin-top: 12px;
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    padding: 0px;
+    line-height: 0px;
+}*/
+.networkDetail .orgpanel > .col-md-6 {
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    background-color: #f5f5f5;
+}
+
+.networkDetail .orgpanel > .col-md-6 .thumbnail.orgnail {
+    margin: 0px;
+}
+
+.networkDetail .orgpanel > .col-md-6,
+.networkDetail .orgpanel > .col-md-3,
+.networkDetail .orgpanel > .col-sm-12 {
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-bottom: 24px;
+}
+
+.networkDetail .orgpanel > .col-md-6:last-child {
+    margin-bottom: 0px;
+}
+
+/*@media (max-width: 768px){
+    .networkDetail .row .col-sm-12{
+        padding: 0px;
+        margin-bottom: 16px;
+    }
+}
+@media (max-width: 992px){
+    .networkDetail .row .col-sm-12{
+        padding: 0px;
+        margin-bottom: 16px;
+    }
+}*/
+.networkDetail .box-content {
+    padding: 24px 16px;
+    background-color: #fff;
+}
+
+.networkDetail .box-content > p {
+    margin-bottom: 16px;
+}
+
+.networkDetail .box-content hr {
+    margin: 24px -16px;
+}
+
+.networkDetail .content .row p {
+    margin-bottom: 0px;
+    color: #999;
+}
+
+.networkDetail .tableshow {
+    width: 100%;
+    overflow: auto;
+    border-radius: 4px;
+}
+
+.networkDetail table thead th {
+    background-color: #fafafa;
+}
+
+.networkDetail table tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.networkDetail table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.networkDetail table tbody td > a {
+    color: #666;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color linear .3s;
+    -moz-transition: background-color linear .3s;
+    -webkit-transition: background-color linear .3s;
+}
+
+.networkDetail table tbody td > a:hover {
+    color: #666;
+    background-color: #e7e7e7;
+}
+
+.networkDetail table tbody td > a + a {
+    margin-left: 7px;
+}
+
+/*ip range*/
+.networkDetail .ip-range {
+    margin-top: 16px;
+    overflow: hidden;
+}
+
+.networkDetail .ip-range .col-md-6:nth-child(odd) {
+    padding-right: 4px;
+    background-color: #fff;
+}
+
+.networkDetail .ip-range .col-md-6:nth-child(even) {
+    padding-left: 4px;
+    background-color: #fff;
+}
+
+.networkDetail .ip-range .col-md-6 > span {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border: 1px dashed #ddd;
+    border-radius: 4px;
+    line-height: 32px;
+    font-size: 14px;
+    color: #aaa;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+.networkDetail .customized-step {
+    width: 500px;
+    left: inherit;
+    right: 160px;
+}
+
+.networkDetail .customized-step div {
+    width: inherit;
+    top: 62px;
+    right: -8px;
+}
+
+.networkDetail .customized-step div p {
+    text-align: right;
+}
+
+.networkDetail .box-content > div > p {
+    line-height: 1;
+}
+
+/*.networkDetail table tbody {
+    display: block;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.networkDetail table thead,
+.networkDetail tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.networkDetail table thead {
+    width: calc( 100% - 1em )
+}*/
+/* == device manage == */
+.device-manage .tag-apply {
+    margin-left: 0px !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.device-manage .dropdown-menu > li.applyli {
+    padding: 4px;
+    height: 40px;
+}
+
+.device-manage .dropdown-menu > li.applyli > a {
+    height: 100%;
+    width: 100%;
+    border: 2px solid #b2dfdb;
+    border-radius: 4px;
+    color: #009688;
+    text-align: center;
+    line-height: 22px;
+    cursor: pointer;
+}
+
+.device-manage .data-show-menu-main {
+    border-bottom: none;
+}
+
+.device-manage .nav-tabs > li:first-child > a,
+.user-manage .nav-tabs > li:first-child > a,
+.topologyStyle .nav-tabs > li:first-child > a {
+    border-radius: 0;
+}
+
+.device-manage a.tag-num {
+    position: relative !important;
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    color: #fb8c00;
+}
+
+.device-manage .ui-grid-header-cell:last-child .ui-grid-column-resizer.right {
+    border-right: none;
+}
+
+/* == user manage == */
+.cwm-net .network-title {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+/* == user manage == */

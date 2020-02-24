@@ -1,0 +1,496 @@
+/* =============== login begin =============== */
+.login_background {
+    height: 100%;
+    width: 100%;
+    background: #172664;
+    position: absolute;
+}
+
+.login_container {
+    width: 100%;
+    position: absolute;
+    margin: 0 auto;
+    margin-top: -235px;
+    top: 45%;
+    left: 0;
+}
+
+.login_container .title {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.login_container .title p {
+    margin: 0px;
+    text-align: left;
+    font-size: 32px;
+    color: #ffffff;
+}
+
+.login_container .content {
+    margin-top: 24px;
+    background: #eaeef4;
+    box-shadow: inset 0px -1px 3px rgba(0, 0, 0, 0.16);
+    -moz-box-shadow: inset 0px -1px 3px rgba(0, 0, 0, 0.16);
+    -webkit-box-shadow: inset 0px -1px 3px rgba(0, 0, 0, 0.16);
+}
+
+.login_container .content .row.activation {
+    text-align: center;
+}
+
+.login_container .content .row.activation .nucliasUrl {
+    text-decoration: underline;
+    text-decoration-color: #e6185a;
+}
+
+.login_container .loginMain {
+    box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.16);
+    -moz-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.16);
+    -webkit-box-shadow: inset 0px 1px 3px rgba(0, 0, 0, 0.16);
+}
+
+.login_container .content .container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 32px 0;
+}
+
+.login_container .content .container p,
+.login_container .container.activation [name='marketingInfo'] p {
+    font-size: 20px;
+    color: #607896;
+    margin: 0;
+    font-weight: 300;
+}
+
+.login_container .container.activation .labelrow {
+    padding-top: 20px;
+}
+
+.login_container .container.activation [name='marketingInfo'] p {
+    font-size: 15px;
+}
+
+.login_container .container.activation [name='marketingInfo'] label {
+    color: #607896;
+    padding-left: 0px;
+    padding-top: 10px;
+}
+
+.login_container .container.activation [name='activateSccuess'] p {
+    font-size: 14px;
+    text-align: center;
+}
+
+.login_container .content .container.activation [name='activationForm'] p {
+    font-size: 15px;
+    color: #607896;
+}
+
+.login_container .activation .checkLabel,
+.activation label.checkLabel p md-icon {
+    color: #172664;
+}
+
+.login_container .activation .checkLabel {
+    padding-top: 10px;
+}
+
+.login_container .content .container label.checkLabel.activation p {
+    margin-top: 10px;
+}
+
+.login_container .content .row {
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 24px;
+}
+
+.login_container .content .row > span.forgot-colorfff {
+    color: #607896;
+    line-height: 14px;
+}
+
+.login_container .content .row > span > span {
+    color: #ef9212;
+}
+
+.login_container .content .labelrow {
+    padding-bottom: 0px;
+    padding-top: 0;
+}
+
+.login_container .title md-icon {
+    position: relative;
+    top: 2px;
+    margin-left: 10px;
+    width: 92px;
+    height: 26px;
+    color: #666;
+    fill: #666;
+}
+
+.login_container .content .container .form-control {
+    width: 400px;
+    height: 40px;
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid;
+    border-color: #607896;
+    color: #444;
+    box-shadow: none;
+}
+
+.login_container .content .container.activation [name='marketingInfo'] .form-control {
+    width: 144px;
+    height: 32px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.login_container .content .container.activation [name='marketingInfo'] .form-group {
+    padding-top: 30px;
+    margin-top: 15px;
+}
+
+.login_container .content .container.activation [name='marketingInfo'] label.radio-inline + label.radio-inline {
+    margin-left: 0px;
+}
+
+.login_container .content .container .form-control:focus,
+.login_container .content .container .form-control:active {
+    border-color: #e6185a;
+    transition: background-color linear .2s;
+    -moz-transition: background-color linear .2s;
+    -webkit-transition: background-color linear .2s;
+    background-color: #dde3ec;
+}
+
+.login_container .content .container .form-control:hover {
+    border-color: #e6185a;
+}
+
+.login_container .content .container .checkbox {
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+
+.login_container .checkLabel {
+    color: #e6185a;
+}
+
+.login_container .checkLabel p {
+    border: 1px solid #e6185a;
+}
+
+.login_container .checkLabel p:hover {
+    border-color: #e6185a;
+}
+
+.login_container .content .container a {
+    font-size: 12px;
+    color: #e6185a;
+    /*padding-left:8px;*/
+}
+
+/*login page and activation page focus style*/
+.login_container .content .container a:focus {
+    text-decoration: underline;
+}
+
+.btn_login:focus,
+.checkLabel:focus,
+.activation .btn_next:focus {
+    background: #b40a40;
+    border: 1px solid rgba(96, 120, 150, 0.3);
+    box-shadow: 2px 2px 2px 2px rgba(96, 120, 150, 0.3);
+}
+
+.activation .btn_back:focus {
+    background: #111c47;
+    border: 1px solid rgba(96, 120, 150, 0.3);
+    box-shadow: 2px 2px 2px 2px rgba(96, 120, 150, 0.3);
+}
+
+.login_container .content .container a:hover {
+    color: #d20b4b;
+}
+
+.login_container .activation .checkLabel,
+.activation label.checkLabel p md-icon {
+    color: #172664;
+}
+
+.login_container .activation .checkLabel p {
+    border: 1px solid #172664;
+}
+
+.login_container .activation .checkLabel p:hover {
+    border-color: #172664;
+}
+
+.btn_next {
+    width: 100px;
+    height: 40px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    background: #e6185a;
+    color: #fff;
+    font-size: 12px;
+    border: 0;
+}
+
+.btn_next:hover {
+    background: #d20b4b;
+    color: #fff;
+}
+
+.btn_back:hover {
+    background: #0E173E;
+    color: #fff;
+}
+
+.btn_back {
+    width: 100px;
+    height: 40px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    background: #172664;
+    color: #fff;
+    font-size: 12px;
+    border: 0;
+    margin-right: 10px
+}
+
+.btn_login, .btn_Apply {
+    width: 400px;
+    height: 40px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    background: #e6185a;
+    color: #fff;
+    font-size: 12px;
+    border: 0;
+}
+
+.btn_login:hover, .btn_Apply:hover {
+    background: #d20b4b;
+    color: #fff;
+}
+
+.btn_login, .btn_Ok {
+    width: 400px;
+    height: 40px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    background: #e6185a;
+    color: #fff;
+    font-size: 12px;
+    border: 0;
+}
+
+.btn_login:hover, .btn_Ok:hover {
+    background: #d20b4b;
+    color: #fff;
+}
+
+.btn_login:active {
+    background: #c20643;
+    font-size: 12px;
+    color: #fff;
+}
+
+.login_container .content p.login_switch {
+    font-size: 12px;
+    color: #607896;
+    margin: 0;
+}
+
+.login_container .footer div.footer_main {
+    text-align: center;
+    height: 32px;
+    margin: 0;
+    font-size: 12px;
+    color: #666;
+    margin-top: 24px;
+    line-height: 32px;
+}
+
+.login_container .footer p > select {
+    margin-left: 24px;
+    width: 80px;
+    border: 1px solid #dddddd;
+    color: #444444;
+    height: 28px;
+    padding-left: 6px;
+    border-radius: 4px;
+}
+
+.login_container .footer p > select:focus,
+.login_container .footer p > select:active {
+    border-color: #dddddd;
+}
+
+/* 验证码 */
+.captcha > input {
+    float: left;
+    width: 140px !important;
+}
+
+.captcha > div {
+    display: inline-block;
+    width: 88px;
+    background-color: #fff;
+    margin-left: 8px;
+    line-height: 38px;
+    border-radius: 4px;
+    border: 1px solid #607896;
+    cursor: pointer;
+}
+
+.captcha > div > captcha-directive {
+    position: relative;
+    left: 8px;
+    top: -2px;
+}
+
+.captcha > div > captcha-directive > img {
+    width: 70px;
+    height: 24px;
+}
+
+/* forgot password */
+.forgot-nav {
+    position: relative;
+    padding-top: 0px !important;
+}
+
+.forgot-nav > span {
+    position: absolute;
+    top: 23px;
+    left: 0px;
+    width: 100%;
+    height: 2px;
+    background-color: #bfc9d5;
+}
+
+.forgot-nav > i {
+    position: absolute;
+    top: 21px;
+    width: 6px;
+    height: 6px;
+    border-radius: 8px;
+    background-color: #bfc9d5;
+}
+
+.forgot-nav > i:nth-of-type(1) {
+    left: 0px;
+}
+
+.forgot-nav > i:nth-of-type(2) {
+    right: 0px;
+}
+
+.forgot-nav > div {
+    position: relative;
+    z-index: 2;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.forgot-nav .forgot-status > span {
+    color: #394f6b;
+}
+
+.forgot-nav > div > span {
+    display: block;
+    margin-top: 8px;
+
+    color: #8fa0b5;
+}
+
+.forgot-nav md-icon {
+    width: 48px;
+    height: 48px;
+}
+
+/*.forgot-nav > div:nth-of-type(1){
+    padding-left: 10px;
+}
+.forgot-nav > div:nth-of-type(3){
+    padding-right: 10px;
+}*/
+.forgot-passed {
+    display: block;
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    margin-left: -24px;
+    border-radius: 48px;
+    background: rgba(213, 221, 231, 0.6);
+}
+
+.forgot-passed > md-icon {
+    width: 24px;
+    height: 24px;
+    margin-top: 12px;
+}
+
+.forgot-valid > div:nth-child(1) {
+    width: 329px;
+    padding: 0px;
+    height: 40px;
+}
+
+.forgot-valid > div:nth-child(2) {
+    width: 71px;
+    padding-right: 0px;
+    padding-left: 8px;
+    height: 40px;
+}
+
+.forgot-valid input, .forgot-valid a {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.forgot-valid a,
+.forgot-valid a:hover {
+    display: block;
+    text-align: center;
+    line-height: 40px;
+    color: #fff !important;
+    background-color: #008976;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.forgot-valid a[disabled], .forgot-valid a[disabled]:hover {
+    background-color: #008476;
+    cursor: url(../images/input-disable.cur), pointer !important;
+}
+
+.resetCode {
+    width: 62px !important;
+}
+
+.forgot-profile {
+    position: relative;
+}
+
+.forgot-profile > md-icon {
+    position: absolute;
+    right: 10px;
+    top: 36px;
+    color: #00bfa5;
+}
+
+/* =============== login end =============== */

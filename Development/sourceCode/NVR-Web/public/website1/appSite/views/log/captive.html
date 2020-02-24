@@ -1,0 +1,143 @@
+<div class="refreshBtn" id="captiveRefresh">
+        <img class="search-icons" ng-src="images/appIcons/icon_refresh.png"/>
+    </div>
+    <div ng-controller="captiveController" class="grid-page">
+            <div  class="set-height" id="syslogPage">
+                <div class="gird-containner" >		
+                        <div class="ip-header-containner">
+                                <span >{{$root.cwmName}}</span>
+                                <span >{{$root.windowIp}}</span>
+                        </div>    
+                        <div style="padding: 0.2rem;">
+                                <div class="box-containner" style="justify-content: flex-end;padding: 5px 5px 5px 0px;">
+                                <!-- 如果启用显示注释的是可以显示hide/show column功能安钮及需要控制器中enableGridMenu:true, 还列上enableHiding:true -->
+                                <!-- <div class="box-containner" > -->
+                                        <!-- <div class="box-header" style="width: 10rem;">
+                                                <h3></h3>
+                                        </div> -->
+                                        <div class="clear" style="position: relative;z-index: 1;">
+                                        <!-- <div class="clear" id="captiveLogMenuTools"> -->
+                                            <div class="btn-group" 
+                                                 is-open="isOpenSysLogMenu" 
+                                                 auto-close="disabled"
+                                                 uib-dropdown 
+                                                 >		
+                                                <button type="button" 
+                                                        class="btn btn-cancel pull-right" 
+                                                        ng-click="openSysLogMenu();"
+                                                        uib-dropdown-toggle >
+                                                        <img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+                                                </button>
+    
+                                                <div class="dropdown-menu" 
+                                                    template-url="sysLogMenu.html"										
+                                                    uib-dropdown-menu>
+                                                </div>
+                                           </div>
+                                           <!--yn-->
+                                           <!-- <button id="syslogRefresh" type="button" class="btn btn-cancel pull-right" style="background-color: #192860;margin-left: 0.2rem;margin-bottom: 0.2rem;">
+                                              <img class="search-icons" ng-src="images/appIcons/icon_refresh.png"/>
+                                           </button> -->
+                                    </div>
+    
+                                </div>
+                                <div id="captiveLogLoading" class="la-ball-clip-rotate" style="height: 22rem;">
+                                        <div></div>
+                               </div>	
+                               <div  ui-grid="eulogOptions" 
+                                     id="captiveLog" 
+                                     class="grid"
+                                     ui-grid-pagination 
+                                     ui-grid-auto-resize 
+                                     ui-grid-resize-columns 
+                                     ui-grid-selection
+                                     style="margin-right: 5px;"
+                                >
+                                    <nodata-directive  ng-show="eulogOptions.data.length==0" desc="{{'common.noData'|translate}}"></nodata-directive>
+                                </div>
+                        </div>
+                </div>				
+        </div>
+    </div>
+    
+    <script type="text/ng-template" id="sysLogMenu.html">
+        <div class="dropdown-menu-right" 
+             id="sysLogDropMenu"  
+             uib-dropdown-menu >
+        <div class="dropdown-containner">
+                <div class="dropdown-containner-title">
+                        <span>{{ 'accessPoint.searchBy' | translate}}</span>
+                </div>
+                <div class="dropdown-containner-content">
+                        <!-- <div class="dropdown-containner-content-title-left">
+                                <span style="color:#000000;font-size:0.6rem;">{{ 'syslog.severitys' | translate}}</span>
+                        </div> -->
+                         <!-- 2019.8.12 尹雪雪 -->
+                         <div class="dropdown-containner-content-select">
+			    <ui-select ng-model="searchTab.action" theme="bootstrap" class="uiSelect">
+				<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected=='All'?("syslog.action.All"|translate):($select.selected|euLogActionFilter)}}</ui-select-match>
+				<ui-select-choices repeat="action in actions">{{action=='All'?("syslog.action.All"|translate):(action|euLogActionFilter)}}</ui-select-choices>
+			    </ui-select>
+			 </div>
+    
+                          <div class="dropdown-containner-content-title-left">
+                                  <span style="color:#000000;font-size:0.6rem;">
+                                    {{ 'configuration.schedule.SelectTime' | translate}}
+                                 </span>
+                          </div>
+        
+                          <div class="dropdown-containner-content-arroundbox">
+                                  <div class="select-timeDay-first-49">
+                                        <ui-select class="uiSelect" id="LHSelectDate" ng-model="SysLogSelect.clooseFromDays" theme="bootstrap">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.str|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="time_day in SysLogSelect.logFromDays">
+                                                {{time_day.str|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                  </div>
+                                  <div class="select-timeDay-second-49">
+                                        <ui-select class="uiSelect" id="LHSelectDate" ng-model="SysLogSelect.clooseToDays" theme="bootstrap">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.str|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="time_day in SysLogSelect.logToDays">
+                                                {{time_day.str|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                  </div>
+                                  <div style="clear:both"></div>
+                           </div>
+                        
+                        <div class="dropdown-containner-content-title-left">
+                              <span>{{ 'common.searchKey' | translate}}</span>
+                        </div>
+                        <div class="dropdown-containner-content-select">
+                                <ui-select class="uiSelect" ng-model="searchData.type" theme="bootstrap" ng-change="addressTypeChange()">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{$select.selected.name|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="type in optionTypes">
+                                                {{type.name|translate}}
+                                        </ui-select-choices>
+                                </ui-select>    
+                        </div>
+                        <div id="wirelessPointInput" class="dropdown-containner-content-title-left">
+                                <input  style="height: 1.3rem;" 
+                                        id="searchAddressText" 
+                                        ng-model="searchData.value" type="text" class="form-control"
+                                        placeholder="{{'common.searchKey'|translate}}"/>
+                        </div>
+        
+                          <div style="margin-top: 0.6rem;" class="dropdown-containner-content-footer">
+                                <div ng-click="clearSysLogParams()">
+                                   <span>{{ 'common.clear' | translate}}</span>
+                                </div>
+                                <div style="visibility:hidden;min-width:0.4rem;"></div>
+                                <div ng-click="searchSysLogByParams()">
+                                   <span>{{ 'common.confirm' | translate}}</span>
+                                </div>
+                          </div>
+                </div>
+           </div>
+        </div>
+    </script>

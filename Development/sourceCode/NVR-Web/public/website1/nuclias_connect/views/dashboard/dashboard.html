@@ -1,0 +1,242 @@
+<div ng-controller="dashboardController" class="wireless">
+    <div class="set-height">
+        <div class="row orgpanel">
+            <div class="col-md-3 col-sm-6 mgb24" ng-repeat="summary in summarys">
+                <div class="subpage">
+                    <md-icon md-svg-icon="icon64:icon-{{summary.name}}"></md-icon>
+                    <div class="wireless-info">
+                        <a ng-if="summary.name!='access'" class="color-{{summary.class}}"
+                           ng-click="gotoOtherPage(summary.moudleId, summary.parentId)">{{summary.value}}</a>
+
+                        <a ng-if="summary.name=='access'" class="color-{{summary.class}}" title="{{'common.online'|translate}}/{{'common.total'|translate}}"
+                           ng-click="gotoOtherPage(summary.moudleId, summary.parentId)">
+                            <span class="title-im color-orange">{{summary.value.online}}</span>/<span
+                                style="font-size:20px;">{{summary.value.total}}</span></a>
+                        <span>{{ 'common.' + summary.name | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 mgb24">
+                <div class="caption">
+                    <div class="box-header">
+                        <h3>{{'dashboard.T10ABU'|translate}}</h3>
+                        <!-- <a class="pull-right more-a" ng-click="gotoAP()">{{'common.seeMore'|translate}}</a>-->
+                    </div>
+                    <div class="box-content" style="position: relative;height: 550px;">
+                        <div class="clear" 
+                             style="padding: 0px 0px 0px;position:relative;z-index: 2;border-bottom: double 1px #EFEFEF; ">
+                            <div class="pull-right">
+                                <div class="col-md-12 col-sm-12"
+                                     style="padding: 8px 16px 0px;height: 48px;">
+                                    
+                                    <div class="pull-left"
+                                         style="width: 172px;height: 32px;display: inline-block;margin-right: 8px;">
+                                        <ui-select ng-model="LHSelect.site" theme="bootstrap"
+                                                   on-select="changeLHSite($index,$item);">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{$select.selected.siteName|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+
+                                    <div class="pull-left"
+                                         style="width: 172px;height: 32px;display: inline-block;margin-right: 8px;">
+                                        <ui-select ng-model="LHSelect.network" theme="bootstrap">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="net in LHSelect.site.networks">
+                                                {{net.name|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                    <!--时间-->
+                                    <div class="pull-left" ng-if="NTPStatus1==1">
+                                        <button class="btn btn-default pull-left"
+                                                style="padding: 8px 0px 0px 0px;border: double 1px #EFEFEF;margin-right: 4px;"
+                                                ng-click="subtractionTimeDay()">
+                                            <md-icon md-svg-icon='gridpager:pre'></md-icon>
+                                        </button>
+
+                                        <div class="pull-left"
+                                             style="width: 120px;height: 32px;display: inline-block;margin-right: 4px;">
+                                            <ui-select ng-model="LHSelect.networkday" theme="bootstrap">
+                                                <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                    {{$select.selected.str|translate}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="time_day in LHSelect.networkdays">
+                                                    {{time_day.str|translate}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+
+                                        <button class="btn btn-default pull-left"
+                                                style="padding: 8px 0px 0px 0px;border: double 1px #EFEFEF;margin-right: 8px;"
+                                                ng-click="addTimeDay()">
+                                            <md-icon md-svg-icon='gridpager:next'></md-icon>
+                                        </button>
+
+                                        <button class="btn btn-default pull-left"
+                                                style="padding: 8px 0px 0px 0px;border: double 1px #EFEFEF;margin-right: 4px;"
+                                                ng-click="subtractionTimeHour()">
+                                            <md-icon md-svg-icon='gridpager:pre'></md-icon>
+                                        </button>
+
+                                        <div class="pull-left"
+                                             style="width: 100px;height: 32px;display: inline-block;margin-right: 4px;">
+                                            <ui-select ng-model="LHSelect.networkHour" theme="bootstrap">
+                                                <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                    {{$select.selected.str|translate}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="time_hour in LHSelect.networkHours">
+                                                    {{time_hour.str|translate}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                        <button class="btn btn-default pull-left"
+                                                style="padding: 8px 0px 0px 0px;border: double 1px #EFEFEF;margin-right: 8px;"
+                                                ng-click="addTimeHour()">
+                                            <md-icon md-svg-icon='gridpager:next'></md-icon>
+                                        </button>
+                                    </div>
+
+
+                                    <button class="btn btn-cancel pull-left" style="padding: 8px;"
+                                            ng-click="searchLasthourDiagram(true)" title="{{'title.search' | translate}}">
+                                        <md-icon md-svg-icon="user:view"></md-icon>
+                                    </button>
+
+                                    <!--<div class="pull-right" style="width:200px;height: 32px;display: inline-block;margin-right: 8px;">
+                                        <p class="input-group">
+                                            <input type="text" class="form-control" uib-datepicker-popup readonly ng-model="dicQueryObj.startTime" is-open="startPopupOpened" min-date="minStartDate" max-date="maxStartDate" datepicker-options="dateOptions" ng-required="true" close-text="关闭" current-text="今天"/>
+                                            <span class="input-group-btn">
+        　　                                       <button type="button" class="btn btn-default" ng-click="startOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                            </span>
+                                        </p>
+                                    </div>-->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6"
+                             style="border-right: double 1px #EFEFEF;border-bottom: double 1px #EFEFEF;">
+                                <div line-chart options="lastHourNumberCharts.options" size="Chartsize" theme="theme"
+                                     style="position: relative;" id="lastHourNumberCharts"></div>
+                            </div>
+                        <div class="col-md-6 col-sm-6" style="border-bottom: double 1px #EFEFEF;">
+                                <div line-chart options="lastHourTrafficCharts.options" size="Chartsize" theme="theme"
+                                     style="position: relative;" id="lastHourTrafficCharts"></div>
+                            </div>
+                        <div class="col-md-6 col-sm-6" style="border-right: double 1px #EFEFEF;">
+                                <div line-chart options="lastHourTrafficDownUpCharts.options" size="Chartsize"
+                                     theme="theme" style="position: relative;" id="lastHourTrafficDownUpCharts"></div>
+                            </div>
+                        <div class="col-md-6 col-sm-6">
+                                <div line-chart options="lastHourTrafficSsidCharts.options" size="Chartsize"
+                                     theme="theme" style="position: relative;" id="lastHourTrafficSsidCharts"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--    <div class="col-lg-6 col-md-6 col-sm-12 mgb24">
+                    <div class="caption">
+                        <div class="box-header">
+                            <h3>{{'dashboard.AP24Channel'|translate}}</h3>
+                        </div>
+                        <div class="box-content" style="position: relative;height: 231px;">
+                            <div pie-chart options="channel24Pie.options" size="size" theme="theme"
+                                 style="position: absolute;left: 0px;top: 0px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 mgb24">
+                    <div class="caption">
+                        <div class="box-header">
+                            <h3>{{'dashboard.AP5Channel'|translate}}</h3>
+                        </div>
+                        <div class="box-content" style="position: relative;height: 231px;">
+                            <div pie-chart options="channel5Pie.options" size="size" theme="theme"
+                                 style="position: absolute;left: 0px;top: 0px;"></div>
+                        </div>
+                    </div>
+                </div>-->
+
+            <div class="col-lg-12 col-md-12 col-sm-12 mgb24">
+                <div class="caption">
+                    <div class="box-header">
+                        <h3>{{'dashboard.APChannel'|translate}}</h3>
+                    </div>
+                    <div class="box-content" style="position: relative;height: 320px;">
+                        <div cwmbar-chart options="channel24Bar.options" size="size1" theme="theme"
+                             style="position: absolute;left: 0px;top: 0px;border-bottom: double 1px #efefef;"></div>
+                        <div cwmbar-chart options="channel5Bar.options" size="size1" theme="theme"
+                             style="position: absolute;left: 0px;top: 160px;"></div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-lg-12 col-md-12 col-sm-12 mgb24">
+                 <div class="caption">
+                     <div class="box-header">
+                         <h3>{{'dashboard.AP5Channel'|translate}}</h3>
+                     </div>
+                     <div class="box-content" style="position: relative;height: 120px;">
+                         <div cwmbar-chart options="test5.options" size="size2"
+                              style="position: absolute;left: 0px;top: 0px;"></div>
+
+                     </div>
+                 </div>
+             </div>-->
+            <div class="col-md-12 col-sm-12">
+                <div class="caption">
+                    <div class="box-header">
+                        <h3>{{'dashboard.LE'|translate}}</h3>
+                        <a class="pull-right more-a" ng-click="gotoLE()">{{'common.seeMore'|translate}}</a>
+                    </div>
+                    <div class="box-content" style="height: 42px;">
+                        <div class="clear" style="padding: 8px 16px 0px;">
+                            <div class="pull-right">
+                                <div class="pull-left"
+                                     style="width: 172px;height: 32px;display: inline-block;margin-right: 8px;">
+                                    <ui-select ng-model="LESelect.site" theme="bootstrap"
+                                               on-select="changeLESite($index,$item);">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.siteName|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <div class="pull-left"
+                                     style="width: 172px;height: 32px;display: inline-block;margin-right: 8px;">
+                                    <ui-select ng-model="LESelect.network" theme="bootstrap">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="net in LESelect.site.networks">{{net.name|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <div class="pull-left" style="position: relative;">
+                                    <button class="btn btn-cancel pull-right" style="padding: 8px;"
+                                        ng-click="searchLatestEvents(true)" title="{{'title.search' | translate}}">
+                                    <md-icon md-svg-icon="user:view"></md-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ui-grid="lastEventsOptions" id="wireless-grid" ui-grid-auto-resize ui-grid-resize-columns
+                         class="grid" style="height: 226px;">
+                        <loading-directive ng-if="lastEventsOptions.isLoading"></loading-directive>
+                        <nodata-directive ng-if="!lastEventsOptions.isLoading" ng-show="lastEventsOptions.data.length == 0" small="true"
+                                          desc="{{'common.noData'|translate}}"></nodata-directive>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

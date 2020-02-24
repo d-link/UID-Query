@@ -1,0 +1,199 @@
+<div class="modal-header">
+    <a class="logo">
+        <md-icon md-svg-src="common:userprofile"></md-icon>
+    </a>
+    <span>{{'userProfile.userProfile'|translate}}</span>
+    <a class="close pull-right"
+       ng-click="cancel()">
+        <md-icon md-svg-icon="modal:close"></md-icon>
+    </a>
+</div>
+<div class="modal-body userprofile">
+    <div class="row">
+        <div class="col-md-3 col-lg-3 userProfile-info">
+            <div class="user-photo">
+                <div class="user-photo-img" ng-mouseenter="changeShow=true" ng-mouseleave="changeShow=false">
+                    <!-- <img ng-src="{{user.photo}}" err-src="/images/leaf.png" popover-placement="bottom"
+                      uib-popover-template="dynamicPopover.templateUrl" popover-trigger="click"> -->
+                    <img ng-src="{{user.photo}}" ng-show="!photoFile" >
+                    <img ng-show="photoFile" ngf-src="!photoFile[0].$error && photoFile[0]">
+
+                    <p ng-show="changeShow" class="fileSelector changephoto bgc-transition">
+                        <md-icon md-svg-icon="icon48:c_drag"></md-icon>
+                        <span>{{'userProfile.changePhoto'|translate}}</span>
+                        <a ngf-select ng-empty
+                           ng-model="photoFile" ngf-pattern="'image/*'"
+                           accept=".png,.jpg">{{'userProfile.browse'|translate}}</a>
+                    </p>
+                </div>
+                <p ng-show="!photoFile"
+                   style="width: 120px; margin: auto; white-space: nowrap;overflow: hidden;text-overflow:ellipsis">
+                    {{user.username}}</p>
+
+                <div ng-show="photoFile" class="changebtn">
+                    <button class="btn btn-common" ng-click="changePhoto()">{{'common.ok'|translate}}</button>
+                    <button class="btn btn-cancel" ng-click="changeCancel()">{{'common.cancel'|translate}}</button>
+                </div>
+                <span></span>
+            </div>
+            <div class="user-info">
+                <p>{{'team.'+user.role|translate}}</p>
+                <p ng-if="user.email" ng-class="user.desc?'':'mgb0'">
+                    {{user.email}}
+                </p>
+                <p ng-if="!user.email" ng-class="user.desc?'':'mgb0'">
+                    <md-icon style="left:0;"  md-svg-icon="bottom:warning"></md-icon><span style="margin-left:4px;">{{'nav.noEmail'|translate}}</span>
+                </p>
+                <p style="height: 174px;overflow: auto;">{{user.desc}}</p>
+            </div>
+        </div>
+        <div class="col-md-9 col-lg-9 userProfile-set tab">
+            <uib-tabset>
+                <uib-tab heading="{{'userProfile.personalInformation'|translate}}">
+                    <form class="form-horizontal" name="userInfo" novalidate>
+                        <label class="title">{{'userProfile.information'|translate}}</label>
+
+                        <div class="form-group">
+                            <label for="inputAccount"
+                                   class="col-sm-3 control-label">{{'label.username'|translate}}*</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="nickName" class="form-control" id="inputAccount"
+                                       ng-disabled="true" required
+                                       ng-model="userCopy.username" minlength="3" maxlength="32" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputLocation"
+                                   class="col-sm-3 control-label" autofocus>{{'label.location'|translate}}</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" name="location" class="form-control" id="inputLocation"
+                                       ng-model="userCopy.address" ng-maxlength="32" maxlength="32" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTelephone"
+                                   class="col-sm-3 control-label">{{'label.telephone'|translate}}</label>
+
+                            <div class="col-sm-9" ng-class="userInfo.tel.$error.pattern?'error':''">
+                                <input type="tel" name="tel" class="form-control" id="inputTelephone"
+                                       ng-model="userCopy.phone" ng-pattern="/^\+?[0-9|\s*]{1,}$/" autocomplete="off">
+                                <span class="hint-span">{{'invalid.invalid'|translate}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDesc"
+                                   class="col-sm-3 control-label">{{'label.description'|translate}}</label>
+
+                            <div class="col-sm-9">
+                                <textarea class="form-control" name="desc" id="inputDesc" rows="3"
+                                          ng-model="userCopy.desc" ng-maxlength="255" maxlength="255"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group mgb0">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-common pull-right" ng-click="updateInfo();"
+                                        ng-disabled="!(userInfo.nickName.$dirty || userInfo.location.$dirty || userInfo.tel.$dirty || userInfo.desc.$dirty) || userInfo.$invalid">
+                                    <span class="pull-left">{{'common.update'|translate}}</span>
+                                    <span ng-if="state.baseInfo.processing" class="processingTest"><i></i></span>
+                                </button>
+                                <span class="hint-span state success-msg" ng-show="state.baseInfo.isSuccess">{{state.baseInfo.msgTrue|translate}}</span>
+                                <span class="hint-span state error-msg" ng-show="state.baseInfo.isError">{{state.baseInfo.msgFalse|translate}}</span>
+                            </div>
+                        </div>
+                    </form>
+                </uib-tab>
+                <uib-tab heading="{{'userProfile.security'|translate}}">
+                    <div class="user-change mgb8">
+                        <label class="title">{{'userProfile.changePassword'|translate}}</label>
+
+                        <form class="form-horizontal" name="changepass" novalidate>
+                            <div class="form-group">
+                                <label for="inputPassword" class="col-sm-3 control-label">{{'label.password'|translate}}*</label>
+
+                                <div class="col-sm-9" >
+                                    <input type="password" name="oldpass" class="form-control" id="inputPassword"
+                                           ng-model="security.oldpass" maxlength="30" minlength="5"
+                                           ng-blur="oldPassBlur=true"
+                                           ng-focus="oldPassBlur=false" required>
+                                    <!-- <span class="hint-span">{{state.pass.msgFalse}}</span> -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNewPass" class="col-sm-3 control-label">{{'label.newPassword'|translate}}*</label>
+                                <div class="col-sm-9"
+                                     ng-class="(changepass.newpass.$invalid&&new.newPassBlur)||(user.username&&user.username==security.newpass)?'error':''">
+                                    <input type="password" name="newpass" class="form-control" id="inputNewPass"
+                                           ng-model="security.newpass" maxlength="30" minlength="8"
+                                           ng-blur="newPassBlurFunction()"
+                                           ng-pattern="/^(?![^A-Za-z]+$)(?![^0-9]+$)[\x21-x7e]{8,30}$/"
+                                           ng-focus="newPassBlur=false" required>
+                                    <span class="hint-span" ng-if="changepass.newpass.$invalid&&!changepass.newpass.$error.required">{{'invalid.strongPass'|translate}}</span>
+                                    <span class="hint-span" ng-if="user.username&&user.username==security.newpass">{{'invalid.sameNameAndPass'|translate}}</span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputRePassword" class="col-sm-3 control-label">{{'label.repeatPassword'|translate}}*</label>
+
+                                <div class="col-sm-9"
+                                     ng-class="security.newpass!=security.repeatpass&&repeatPassBlur?'error':''">
+                                    <input type="password" name="repeatpass" class="form-control" id="inputRePassword"
+                                           ng-model="security.repeatpass" maxlength="30" minlength="8"
+                                           ng-blur="repeatPassBlur=true"
+                                           ng-focus="repeatPassBlur=false" required>
+                                    <span class="hint-span">{{'invalid.passNotsame'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group mgb32">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-common" ng-click="changePassword();changepass.$setPristine();"
+                                            ng-disabled="changepass.oldpass.$invalid || changepass.newpass.$invalid || changepass.repeatpass.$invalid || security.newpass!==security.repeatpass">
+                                        <span class="pull-left">{{'common.save'|translate}}</span>
+                                        <span ng-if="state.pass.processing" class="processingTest"><i></i></span>
+                                    </button>
+                                    <!--<button class="btn btn-common mgr8" ng-click="resetPass();">{{'common.clear'|translate}}</button>-->
+                                    <span class="hint-span state success-msg" ng-show="state.pass.isSuccess">{{state.pass.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" ng-show="state.pass.isError">{{state.pass.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="user-change">
+                        <label class="title">{{'userProfile.changeEmail'|translate}}</label>
+
+                        <form class="form-horizontal" name="changeemail" novalidate>
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">{{'label.newEmailAddress'|translate}}*</label>
+
+                                <div class="col-sm-9"
+                                     ng-class="changeemail.email.$error.email&&changeemailBlur?'error':''">
+                                    <input type="email" class="form-control" id="inputPassword3" name="email"
+                                           ng-model="userCopy.email" ng-disabled="state.email.processing" required
+                                           autocomplete="off" ng-blur="changeemailBlur=true"
+                                           ng-focus="changeemailBlur=false" required>
+                                    <span class="hint-span">{{'invalid.email'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group mgb0">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-common" ng-click="changeEmail();"
+                                            ng-disabled="changeemail.email.$invalid || userCopy.email==user.email">
+                                        <span class="pull-left">{{'common.save'|translate}}</span>
+                                        <span ng-if="state.email.processing" class="processingTest"><i></i></span>
+                                    </button>
+                                    <span class="hint-span state success-msg" ng-show="state.email.isSuccess">{{state.email.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" ng-show="state.email.isError">{{state.email.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-common" ng-click="cancel();">{{'common.exit'|translate}}</button>
+    </div>
+</div>

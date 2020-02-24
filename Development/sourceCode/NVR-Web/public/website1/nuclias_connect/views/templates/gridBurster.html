@@ -1,0 +1,64 @@
+<!-- <div class=" ui-grid-pager-panel ng-scope" ui-grid-pager role="contentinfo">
+    <div class="my-totalItems ui-grid-pager-container">
+        <span>
+            {{1+ grid.appScope.burster.pageSize * (grid.appScope.burster.currentPage-1)}}&nbsp;-&nbsp;{{grid.appScope.burster.currentPage==grid.appScope.burster.maxPage?grid.appScope.burster.totalItems:(grid.appScope.burster.pageSize * grid.appScope.burster.currentPage)}}&nbsp;of&nbsp;{{grid.appScope.burster.totalItems}}&nbsp;
+            Total Items: {{grid.appScope.burster.totalItems}}
+        </span>
+    </div>
+    <div class="my-pagination clear ui-grid-pager-count-container">
+        <div class="pull-left">
+            <button ng-click="grid.appScope.burster.pageFirst()" ng-disabled="grid.appScope.burster.currentPage==1">
+                <md-icon md-svg-icon="gridpager:first"></md-icon>
+            </button>
+            <button ng-click="grid.appScope.burster.pagePrevious()" ng-disabled="grid.appScope.burster.currentPage==1">
+                <md-icon md-svg-icon="gridpager:pre"></md-icon>
+            </button>
+            <input type="number" class="page-num" ng-model="grid.appScope.burster.currentPage" ng-max="grid.appScope.burster.max"><span class="page-maxnum">/&nbsp;{{grid.appScope.burster.maxPage}}</span>
+            <button ng-click="grid.appScope.burster.pageNext()" ng-disabled="grid.appScope.burster.currentPage==grid.appScope.burster.maxPage">
+                <md-icon md-svg-icon="gridpager:next"></md-icon>
+            </button>
+            <button ng-click="grid.appScope.burster.pageLast()" ng-disabled="grid.appScope.burster.currentPage==grid.appScope.burster.maxPage">
+                <md-icon md-svg-icon="gridpager:last"></md-icon>
+            </button>
+        </div>
+        <div class="pull-left" style="width: 55px;height: 28px;margin-left: 8px;">
+            <ui-select ng-model="grid.appScope.burster.pageSize" theme="bootstrap" on-select="grid.appScope.burster.pageSizeChange();">
+                <ui-select-match placeholder="">{{$select.selected}}</ui-select-match>
+                <ui-select-choices repeat="o in grid.appScope.burster.pageSizes">{{o}}</ui-select-choices>
+            </ui-select>    
+        </div>
+        <span class="pull-left">items per page</span>
+    </div>
+</div> -->
+<div class=" ui-grid-pager-panel ng-scope" ui-grid-pager role="contentinfo">
+    <div class="my-totalItems ui-grid-pager-container">
+        <span>
+            {{1+ grid.options.paginationPageSize * (grid.options.paginationCurrentPage-1)}}&nbsp;-&nbsp;{{grid.options.paginationPageSize * grid.options.paginationCurrentPage}}&nbsp;of&nbsp;{{grid.options.totalItems}}&nbsp;
+            {{'grid.totalItems'|translate}}: {{grid.options.totalItems}}
+        </span>
+    </div>
+    <div class="my-pagination clear ui-grid-pager-count-container">
+        <div class="pull-left">
+            <button ng-click="pageFirstPageClick()" ng-disabled="cantPageBackward()">
+                <md-icon md-svg-icon="gridpager:first"></md-icon>
+            </button>
+            <button ng-click="pagePreviousPageClick()" ng-disabled="cantPageBackward()">
+                <md-icon md-svg-icon="gridpager:pre"></md-icon>
+            </button>
+            <input type="number" class="page-num" ng-model="grid.options.paginationCurrentPage" ng-max="paginationApi.getTotalPages()"><span class="page-maxnum">/&nbsp;{{paginationApi.getTotalPages()}}</span>
+            <button ng-click="pageNextPageClick()" ng-disabled="cantPageForward()">
+                <md-icon md-svg-icon="gridpager:next"></md-icon>
+            </button>
+            <button ng-click="pageLastPageClick()" ng-disabled="cantPageToLast()">
+                <md-icon md-svg-icon="gridpager:last"></md-icon>
+            </button>
+        </div>
+        <div class="pull-left" style="width: 55px;height: 28px;margin-left: 8px;">
+            <ui-select ng-model="grid.options.paginationPageSize" theme="bootstrap" on-select="pageFirstPageClick()">
+                <ui-select-match class="pageSize" placeholder="">{{$select.selected}}</ui-select-match>
+                <ui-select-choices repeat="o in grid.options.paginationPageSizes">{{o}}</ui-select-choices>
+            </ui-select>    
+        </div>
+        <span class="pull-left">{{'grid.perpage'|translate}}</span>
+    </div>
+</div>

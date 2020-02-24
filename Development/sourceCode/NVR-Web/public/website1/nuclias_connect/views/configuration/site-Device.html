@@ -1,0 +1,315 @@
+<form name="deviceSetting">
+    <div style="border: 1px solid #eee;border-radius: 4px 4px 0px 0px;padding: 24px;">
+        <div class="mgb8 clear">
+            <label class="title">{{'configuration.dev.admin'|translate}}</label>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.username' | translate}}</label>
+
+                <div class="col-sm-4" ng-class="deviceSetting.name.$dirty&&deviceSetting.name.$invalid?'error':''">
+                    <input type="text" class="form-control" name="name" ng-model="deviceShowData.userName"
+                           maxlength="64" autocomplete="off" ng-change="deviceSettingChanged()"
+                           ng-pattern="/^[0-9A-Za-z]{0,64}$/" required blank-validator="name" ng-trim="false">
+                    <span class="hint-span"
+                          ng-show="deviceSetting.name.$error.pattern">{{'invalid.userName'|translate}}</span>
+                    <!--  <span class="hint-span" ng-show="deviceSetting.name.$error.blank" style="width:280px;">{{'invalid.blankInvalid'|translate}}</span>-->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.password' | translate}}</label>
+                <div class="col-sm-4"
+                     ng-class="deviceSetting.password.$invalid||deviceSetting.name==deviceSetting.password?'error':''">
+                    <!-- <input type="password" name="password" ng-pattern="/^[0-9A-Za-z]{0,64}$/" class="form-control" ng-model="deviceShowData.password" maxlength="64"
+                            ng-change="deviceSettingChanged()" blank-validator="name" ng-trim="false">-->
+                    <password-input name="password" class="from-control" max-length="64"
+                                    pattern-str="^(?![^A-Za-z]+$)(?![^0-9]+$)[\x21-\x7e]{8,30}$" ng-model="deviceShowData.password"
+                                    ng-blank="true"></password-input>
+
+                    <span class="hint-span" ng-show="deviceSetting.password.$error.pattern||deviceSetting.password.$error.blank">{{'invalid.strongPass'|translate}}</span>
+                    <span class="hint-span" ng-if="deviceSetting.name==deviceSetting.password">{{'invalid.sameNameAndPass'|translate}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="mgb8 clear">
+            <label class="title">{{'configuration.dev.consoleSettings'|translate}}</label>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label"></label>
+
+                <div class="col-sm-4">
+                    <label class="checkLabel">
+                        <input type="checkbox" ng-model="console.enable" ng-change="deviceSettingChanged()">{{'enum.enable'|translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="console.enable"></md-icon>
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group special-radio" ng-class="!console.enable?'disable':''">
+                <label class="col-sm-3 control-label">{{'label.consoleProtocol' | translate}}</label>
+
+                <div class="col-sm-4">
+                    <label class="radio-inline">
+                        <input type="radio" value="telnet" ng-model="console.protocol" ng-disabled="!console.enable"
+                               ng-change="deviceSettingChanged()">Telnet
+                        <p><span ng-show="console.protocol =='telnet'"></span></p>
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" value="ssh" ng-model="console.protocol" ng-disabled="!console.enable"
+                               ng-change="deviceSettingChanged()">SSH
+                        <p><span ng-show="console.protocol =='ssh'"></span></p>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.timeOut' | translate}}</label>
+
+                <div class="col-sm-4">
+                    <div style="width: 100px;height: 32px;">
+                        <ui-select ng-model="deviceShowData.timeout" theme="bootstrap" ng-disabled="!console.enable"
+                                   on-select="deviceSettingChanged()">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{'configuration.dev.s'+$select.selected |
+                                translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in consoleTimeOuts track by $index">
+                                {{'configuration.dev.s'+item | translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mgb8 clear">
+            <label class="title">{{'configuration.dev.automaticTC'|translate}}</label>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label"></label>
+
+                <div class="col-sm-4">
+                    <label class="checkLabel">
+                        <input type="checkbox" ng-model="deviceShowData.sntpStatus" ng-change="deviceSettingChanged()">{{'dev.enableNTP'|translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="deviceShowData.sntpStatus"></md-icon>
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.ntpServer' | translate}}</label>
+
+                <div class="col-sm-4"
+                     ng-class="deviceSetting.sntpServerIP.$dirty&&deviceSetting.sntpServerIP.$invalid?'error':''">
+                    <ipdomain-format name="sntpServerIP" type="text" class="form-control w320"
+                                     ng-disabled="!deviceShowData.sntpStatus"
+                                     ng-model="deviceShowData.sntpServerIP" need-valid="deviceShowData.sntpStatus"
+                                     placeholder="{{'common.ipDomainHolder'|translate}}"
+                                     autocomplete="off"></ipdomain-format>
+                    <span class="hint-span">{{'invalid.ntpServer' | translate}}</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="mgb8 clear">
+            <label class="title">{{'configuration.dev.countrySetting'|translate}}</label>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.selectCountry' | translate}}</label>
+
+                <div class="col-sm-9">
+                    <div style="width: 220px;height: 32px;" class="batch-config-country">
+                        <ui-select ng-model="deviceShowData.countrycode" theme="bootstrap"
+                                   on-select="deviceSettingChanged()">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in selectCountries">{{item.name}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <span class="hint-span tip"
+                          style="display: block;">{{'configuration.dev.countryTip'|translate}}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.timeZone' | translate}}</label>
+
+                <div class="col-sm-6">
+                    <!-- <input type="text" class="form-control" ng-disabled="NTPStatus"> -->
+                    <div style="width: 380px;height: 32px;" class="batch-config-country">
+                        <ui-select ng-model="deviceShowData.sntpTimeZoneIndex" theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in timeZones">{{item.name}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"></label>
+
+                <div class="col-sm-4">
+                    <label class="checkLabel">
+                        <input type="checkbox" ng-model="deviceShowData.sntpDaylightSaving"
+                               ng-change="deviceSettingChanged()">{{'configuration.dev.daylight'|translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="deviceShowData.sntpDaylightSaving"></md-icon>
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.DSTStart'|translate}}</label>
+
+                <div class="col-sm-8">
+                    <div style="width: 100px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstStartWeek" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{'configuration.dev.week'+$select.selected|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in weekStartNumbers">
+                                {{'configuration.dev.week'+item|translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="width: 120px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstStartDayOfWeek" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in weeks">{{item.name}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <label class="control-label pull-left mgr8">in</label>
+
+                    <div style="width: 120px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstStartMonth" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in months">{{item.name}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <label class="control-label pull-left mgr8">at</label>
+
+                    <div style="width: 60px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstStartCurrentHour" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected|hourFilter}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in hours">{{item|hourFilter}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <label class="control-label pull-left mgr8">:</label>
+
+                    <div style="width: 60px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstStartCurrentMin" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected|hourFilter}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in minutes">{{item|hourFilter}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.DSTEnd'|translate}}</label>
+
+                <div class="col-sm-8">
+                    <div style="width: 100px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstEndWeek" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{'configuration.dev.week'+$select.selected|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in weekStartNumbers">
+                                {{'configuration.dev.week'+item|translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="width: 120px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstEndDayOfWeek" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in weeks">{{item.name}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <label class="control-label pull-left mgr8">in</label>
+
+                    <div style="width: 120px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstEndMonth" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in months">{{item.name}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <label class="control-label pull-left mgr8">at</label>
+
+                    <div style="width: 60px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstEndCurrentHour" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected|hourFilter}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in hours">{{item|hourFilter}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <label class="control-label pull-left mgr8">:</label>
+
+                    <div style="width: 60px;height: 32px;" class="pull-left mgr8">
+                        <ui-select ng-model="deviceShowData.sntpDstEndCurrentMin" theme="bootstrap"
+                                   ng-disabled="!deviceShowData.sntpDaylightSaving">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected|hourFilter}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in minutes">{{item|hourFilter}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+            <label class="col-sm-3 control-label">{{'label.DSTOffset'|translate}}</label>
+            <div class="col-sm-4">
+                <div style="width: 230px;height: 32px;">
+                    <ui-select ng-model="deviceShowData.sntpDayLightSavingOffset" theme="bootstrap"
+                               ng-disabled="!deviceShowData.sntpDaylightSaving"
+                    ">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="item in dstOffsets">{{item}}</ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="border: 1px solid #eee;border-top: none;border-radius: 0px 0px 4px 4px;padding: 24px;border-top: 0px;margin-bottom: 24px">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.externalSyslogServer' | translate}}({{'syslog.captive' |
+                translate}})</label>
+
+            <div class="col-sm-9"
+                 ng-class="deviceSetting.sysLogServerIPEu.$dirty&&deviceSetting.sysLogServerIPEu.$invalid?'error':''">
+                <ipdomain-format type="text" name="sysLogServerIPEu" class="form-control w320"
+                                 placeholder="{{'common.ipDomainHolder'|translate}}"
+                                 ng-model="deviceShowData.sysLogServerIPEu"
+                                 need-valid="deviceShowData.sysLogServerIPEu!=''"
+                                 ng-change="deviceSettingChanged()"></ipdomain-format>
+                <span class="hint-span">{{'invalid.syslogServer' | translate}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" ng-if="hasPrivilege">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-common pull-right" ng-click="save()" ng-disabled="deviceSetting.$invalid">
+                {{'common.save'|translate}}
+            </button>
+            <span class="hint-span state processing-msg" ng-show="state.device.processing"><img
+                    src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+            <span class="hint-span state success-msg" ng-show="state.device.isSuccess">{{state.device.msgTrue|translate}}</span>
+            <span class="hint-span state error-msg" ng-show="state.device.isError">{{state.device.msgFalse}}</span>
+        </div>
+    </div>
+</form>

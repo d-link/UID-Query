@@ -1,0 +1,318 @@
+<script type="text/ng-template" id="performanceTemplates.html">
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.wireless' | translate}}</label>
+
+        <div class="col-sm-4">
+            <div style="width: 100px;height: 32px;margin-right: 8px;float: left;">
+                <ui-select ng-model="perfShowData.wirelessStatus" theme="bootstrap">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.onOff' + $select.selected |
+                        translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in options.wirelessStatus">{{'configuration.onOff' + item |
+                        translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.wirelessMode' | translate}}</label>
+
+        <div class="col-sm-4">
+            <div style="width: 320px;height: 32px;margin-right: 8px;float: left;">
+                <ui-select ng-model="perfShowData.wirelessMode" theme="bootstrap"
+                           on-select="changeWifiMode($index,$item)">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.perf.mode' + $select.selected |
+                        translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in options.modes">{{'configuration.perf.mode' + item | translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.dataRate' | translate}}</label>
+
+        <div class="col-sm-4">
+            <div style="width: 100px;height: 32px;margin-right: 8px;float: left;">
+                    <ui-select ng-model="perfShowData.dataRate" theme="bootstrap"
+                               ng-disabled="perfShowData.wirelessMode!=2&&perfShowData.wirelessMode!=5">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected | translate}}</ui-select-match>
+                        <ui-select-choices repeat="item in options.dataRates">{{ item | translate}}</ui-select-choices>
+                    </ui-select>
+            </div>
+            <label class="control-label"
+                   ng-show="perfShowData.wirelessMode==2||perfShowData.wirelessMode==5">Mbps</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.beaconInterval' | translate}} (40-500)</label>
+
+        <div class="col-sm-8" ng-class="error.beaconInterval?'error':''">
+            <input type="text" class="form-control w100"
+                   autocomplete="off" maxlength="3" required
+                   ng-model="perfShowData.beaconInterval"
+                   ng-blur="numberInputBlur('beaconInterval', 0)"
+                   ng-change="valueChange('beaconInterval')"
+                   ng-pattern="/^([1-4]\d{2}|500|[4-9]\d)$/"
+                   ng-keydown="numberKeydown($event)">
+            <span class="hint-span">{{'configuration.perf.beaconInvalid'|translate}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.dtimInterval' | translate}} (1-15)</label>
+
+        <div class="col-sm-8" ng-class="error.dtimInterval?'error':''">
+            <input type="text" class="form-control w100"
+                   autocomplete="off" maxlength="2" required
+                   ng-model="perfShowData.dtimInterval"
+                   ng-blur="numberInputBlur('dtimInterval', 1)"
+                   ng-change="valueChange('dtimInterval')"
+                   ng-pattern="/^([1-9]|1[0-5])$/"
+                   ng-keydown="numberKeydown($event)">
+            <span class="hint-span">{{'configuration.perf.dimInvalid'|translate}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">WMM ({{'label.wmm' | translate}})</label>
+
+        <div class="col-sm-4">
+            <div style="width: 100px;height: 32px;">
+                    <ui-select ng-model="perfShowData.wmm" theme="bootstrap"
+                               ng-disabled="perfShowData.wirelessMode!=2&&perfShowData.wirelessMode!=5">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected |
+                            translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in options.statuses">{{'configuration.able' + item |
+                            translate}}
+                        </ui-select-choices>
+                    </ui-select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label" ng-if="bandType=='band24'">{{'label.ackTimeOut' | translate}} (2.4GHz,
+            48~200)</label>
+        <label class="col-sm-4 control-label" ng-if="bandType!='band24'">{{'label.ackTimeOut' | translate}} (5GHz, 25~200)</label>
+
+        <div class="col-sm-8" ng-class="error.ackTimeout?'error':''">
+            <input style="display:inline-block;" type="text" class="form-control w100 mgr8"
+                   autocomplete="off" maxlength="3" required
+                   ng-model="perfShowData.ackTimeout"
+                   ng-blur="numberInputBlur('ackTimeout', 2)"
+                   ng-change="valueChange('ackTimeout')"
+                   ng-pattern="bandType=='band24'?ack24Re:ack5Re"
+                   ng-keydown="numberKeydown($event)">
+            <label class="control-label">μs</label>
+            <span class="hint-span">{{'configuration.perf.ackInvalid'|translate}} {{bandType=='band24'?'25-200':'48-200'}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.shortGI' | translate}}</label>
+
+        <div class="col-sm-4">
+            <div style="width: 100px;height: 32px;">
+                <ui-select ng-model="perfShowData.shortGI" theme="bootstrap"
+                           ng-disabled="perfShowData.wirelessMode==2||perfShowData.wirelessMode==5">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected | translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in options.statuses">{{'configuration.able' + item | translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.igmpSnooping' | translate}}</label>
+
+        <div class="col-sm-4">
+            <div style="width: 100px;height: 32px;">
+                <ui-select ng-model="perfShowData.igmpSnooping" theme="bootstrap" ng-change="checkMulticast();">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected | translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in options.statuses">{{'configuration.able' + item | translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.multicastRate' | translate}}</label>
+
+        <div class="col-sm-4">
+            <div style="width:100px;height: 32px;margin-right: 8px;float: left;">
+                    <ui-select ng-model="perfShowData.multicastRate" theme="bootstrap" ng-change="checkSnooping();"
+                               ng-disabled="perfShowData.wirelessMode==3||perfShowData.wirelessMode==6||perfShowData.wirelessMode==7">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{ $select.selected | translate}}</ui-select-match>
+                        <ui-select-choices repeat="item in options.multicastRates">{{ item | translate}}
+                        </ui-select-choices>
+                    </ui-select>
+            </div>
+            <label class="control-label" ng-show="perfShowData.multicastRate!='Disable'">Mbps</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.multicastBC' | translate}}</label>
+
+        <div class="col-sm-8">
+            <div style="width: 100px;height: 32px;">
+                <ui-select ng-model="perfShowData.multicastBWControl" theme="bootstrap" ng-change="checkMulticastBC();">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected | translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in options.statuses">{{'configuration.able' + item | translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <span class="hint-span tip" style="display: block;">{{'configuration.perf.uniCastTip'|translate}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.maximumMB' | translate}}</label>
+
+        <div class="col-sm-8" ng-class="error.maxMulticastBW?'error':''">
+         <input style="display:inline-block;" type="text" class="form-control w100 mgr8"
+                   autocomplete="off" maxlength="4" required
+                   ng-disabled="perfShowData.multicastBWControl==0"
+                   ng-model="perfShowData.maxMulticastBW"
+                   ng-blur="numberInputBlur('maxMulticastBW', 3)"
+                   ng-change="valueChange('maxMulticastBW')"
+                   ng-pattern="/^(10[0-1]\d|102[0-4]|[1-9]\d{2}|[1-9]\d|[1-9])$/"
+                   ng-keydown="numberKeydown($event)">  <label class="control-label">kbps</label>
+
+            <span class="hint-span">{{'configuration.perf.multicastInvalid'|translate}}</span>
+            <span class="hint-span tip" ng-if="!error.maxMulticastBW" style="display: block;">{{'configuration.perf.uniCastTip'|translate}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.htCoexistence' | translate}}</label>
+
+        <div class="col-sm-4">
+            <div style="width: 100px;height: 32px;">
+                <ui-select ng-model="perfShowData.ht2040Coexistence" theme="bootstrap"
+                           ng-disabled="bandType!='band24'||(bandType=='band24'&&perfShowData.channelWidth==1)">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected | translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in options.statuses">{{'configuration.able' + item | translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.transferDOTU' | translate}}</label>
+
+        <div class="col-sm-8">
+            <div style="width: 100px;height: 32px;">
+                <ui-select ng-model="perfShowData.dhcptoUnicast" theme="bootstrap" ng-change="checkUnicast();">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected | translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in options.statuses">{{'configuration.able' + item | translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <span class="hint-span tip" style="display: block;">{{'configuration.perf.uniCastTip'|translate}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.rtsLength' | translate}} (256-2346)</label>
+
+        <div class="col-sm-8" ng-class="error.rtsLength?'error':''">
+            <input type="text" class="form-control w100"
+                   autocomplete="off" maxlength="4" required
+                   ng-model="perfShowData.rtsLength"
+                   ng-blur="numberInputBlur('rtsLength', 4)"
+                   ng-change="valueChange('rtsLength')"
+                   ng-pattern="/^(2[0-2]\d{2}|23[0-3]\d|234[0-6]|1\d{3}|[3-9]\d{2}|2[6-9]\d|25[6-9])$/"
+                   ng-keydown="numberKeydown($event)">
+            <span class="hint-span">{{'configuration.perf.rtsInvalid'|translate}}</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-4 control-label">{{'label.fragmentLength' | translate}} (256-2346)</label>
+
+        <div class="col-sm-8" ng-class="error.fragmentLength?'error':''">
+            <input type="text" class="form-control w100"
+                   autocomplete="off" maxlength="4" required
+                   ng-model="perfShowData.fragmentLength"
+                   ng-blur="numberInputBlur('fragmentLength', 4)"
+                   ng-change="valueChange('fragmentLength')"
+                   ng-pattern="/^(2[0-2]\d{2}|23[0-3]\d|234[0-6]|1\d{3}|[3-9]\d{2}|2[6-9]\d|25[6-9])$/"
+                   ng-keydown="numberKeydown($event)">
+            <span class="hint-span">{{'configuration.perf.fragmentInvalid'|translate}}</span>
+        </div>
+    </div>
+    <div class="form-group mgb0">
+        <label class="col-sm-4 control-label">{{'label.channelWidth' | translate}}</label>
+
+        <div class="col-sm-4">
+            <div style="width: 140px;height: 32px;">
+                <ui-select ng-model="perfShowData.channelWidth" theme="bootstrap"
+                           ng-disabled=" perfShowData.wirelessMode==2||perfShowData.wirelessMode==5">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.perf.cw' + $select.selected |
+                        translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in options.channelWidths">{{'configuration.perf.cw' + item |
+                        translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+</script>
+<form name="performanceForm">
+    <div style="border: 1px solid #eee;border-radius: 4px;margin-bottom: 24px;">
+        <uib-tabset active="activeForm">
+            <uib-tab index="0" heading="{{'configuration.band1' | translate}}">
+                <div style="padding: 24px;">
+                    <site-performance-temp ng-show="activeForm==0" show-data="perfShowData" band-type="'band24'"
+                                           error="error24"></site-performance-temp>
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="{{'configuration.band2' | translate}}">
+                <div style="padding: 24px;">
+                    <site-performance-temp ng-show="activeForm==1" show-data="perfShowData" band-type="'band5'"
+                                           error="error5"></site-performance-temp>
+                </div>
+            </uib-tab>
+            <uib-tab index="2" heading="{{'configuration.band3' | translate}}">
+                <div style="padding: 24px;">
+                    <site-performance-temp ng-show="activeForm==2" show-data="perfShowData" band-type="'secBand5'"
+                                           error="error52"></site-performance-temp>
+                </div>
+            </uib-tab>
+            <uib-tab index="3" heading="LAN">
+                <div style="padding: 24px;">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{'configuration.perf.stp'|translate}}</label>
+
+                        <div class="col-sm-10">
+                            <div style="width: 100px;height: 32px;" class="pull-left mgr8">
+                                <ui-select ng-model="perfShowData.lan.stp" theme="bootstrap" >
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected |
+                                        translate}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in statuses">{{'configuration.able' + item | translate}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <label class="control-label hint-span tip" style="display:inline-block;">{{'configuration.perf.stpTip'|translate}}</label>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+    <div class="form-group mgb0" ng-if="hasPrivilege">
+        <div class="col-sm-offset-4 col-sm-8">
+            <button class="btn btn-common pull-right" ng-click="save()" ng-disabled="performanceForm.$invalid">
+                {{'common.save'|translate}}
+            </button>
+            <span class="hint-span state processing-msg" ng-show="state.performance.processing"><img
+                    src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+            <span class="hint-span state success-msg" ng-show="state.performance.isSuccess">{{state.performance.msgTrue|translate}}</span>
+            <span class="hint-span state error-msg"
+                  ng-show="state.performance.isError">{{state.performance.msgFalse}}</span>
+        </div>
+    </div>
+</form>

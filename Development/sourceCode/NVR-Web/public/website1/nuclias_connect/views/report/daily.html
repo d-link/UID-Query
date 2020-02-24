@@ -1,0 +1,81 @@
+<div ng-controller="dailyController" class="bg-fafafa clear subpage device-manage site">
+
+    <div class="set-height content-content" style="overflow: auto">
+
+        <div class="col-md-12 mgb16" style="padding-top: 16px">
+            <div class="pull-left"
+                 style="height: 32px;line-height:32px;display: inline-block;">
+                <p style="color:#444444;font-size: 12px">{{'report.dailyTitle'|translate}}</p>
+            </div>
+            <div class="pull-left"
+                 style="width: 172px;height: 32px;display: inline-block;margin-left: 16px">
+                <ui-select ng-model="daily.site" theme="bootstrap"
+                           on-select="changeSite($index,$item);">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.siteName|translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="pull-left"
+                 style="width: 172px;height: 32px;display: inline-block;margin-left: 8px">
+                <ui-select ng-model="daily.network" theme="bootstrap">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name|translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="net in daily.site.networks">{{net.name|translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="pull-left" style="height: 32px;display: inline-block;margin-left: 8px;">
+                <p class="input-group date-picker">
+                    <input type="text" class="pull-left form-control" style="width: 160px;background-color: #fff;" readonly id="kalendae_timeFrom">
+                    <a type="button" class="btn btn-default" ng-click="showCalendae('from');"><md-icon md-svg-icon="user:date"></md-icon></a>
+                </p>
+            </div>
+            <div class="pull-left" style="height: 32px;display: inline-block;margin-left: 8px;">
+                <p class="input-group date-picker">
+                    <input type="text" class="form-control" style="width: 160px;background-color: #fff;" readonly id="kalendae_timeTo">
+                    <a type="button" class="btn btn-default" ng-click="showCalendae('to');"><md-icon md-svg-icon="user:date"></md-icon></a>
+                </p>
+            </div>
+            <!--<div class="pull-left" style="height: 32px;display: inline-block;margin-left: 8px;">
+                <p class="input-group date-picker" style="width: 200px">
+                    <input type="text" class="form-control" style="width:200px;background-color: #fff;" readonly
+                           id="kalendae_start">
+                    <a type="button" class="btn btn-default" id="btnStart" ng-click="showCalendae('start')">
+                        <md-icon md-svg-icon="user:date"></md-icon>
+                    </a>
+                </p>
+            </div>-->
+
+            <div class="pull-left" style="height: 32px;display: inline-block;margin-left: 8px;">
+                <button class="btn btn-cancel" style="padding: 8px;"
+                        ng-click="searchDailyDiagram(true)" title="{{'title.search' | translate}}">
+                    <md-icon md-svg-icon="user:view"></md-icon>
+                </button>
+            </div>
+
+            <button class="btn btn-common pull-right" ng-click="export2PDF()" ng-disabled="exporting" title="{{'report.exportPdf'|translate}}">
+                <md-icon md-svg-icon="user:_export"></md-icon>
+            </button>
+
+        </div>
+
+        <div class="col-md-12 mgb24">
+            <div class="caption">
+                <div class="box-header">
+                    <h3>{{'report.dailyChartTitle'|translate}}</h3>
+                </div>
+
+                <div class="box-content" style="height: 340px;">
+                    <div class="box-content" style="position: relative;height: 280px;">
+                        <div id="dailyTrafficUsageDiv" line-chart options="DailyTrafficUsageCharts.options" size="size"
+                             theme="theme" style="position: absolute;left: 0px;top: 0px;"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

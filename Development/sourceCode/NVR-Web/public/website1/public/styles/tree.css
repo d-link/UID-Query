@@ -1,0 +1,67 @@
+.mibTree {
+    font-size: 12px;
+    max-height: 500px;
+    overflow:auto;
+}
+
+.mibTree ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: none;
+    overflow: hidden;
+}
+
+.mibTree li {
+    position: relative;
+    padding: 0 0 0 12px;
+    line-height: 16px;
+}
+
+.mibTree li i{
+    cursor: pointer;
+}
+
+.mibTree li span {
+    cursor: pointer;
+    display: inline;
+}
+
+.mibTree li span:hover {
+    background: #adadad;
+}
+
+.mibTree li.tree-expanded i {
+    padding: 0 10px;
+    background: url("../images/mib/expanded.png") no-repeat;
+}
+
+.mibTree li.tree-collapsed i {
+    padding: 0 10px;
+    background: url("../images/mib/collapsed.png") no-repeat;
+}
+
+.mibTree li.tree-leaf i {
+    padding: 0 10px;
+    background: url("../images/mib/leaf.png") no-repeat;
+}
+
+.mibTree li.tree-table i {
+    padding: 0 10px;
+    background: url("../images/mib/table.png") no-repeat;
+}
+
+.mibTree li.tree-entry i {
+    padding: 0 10px;
+    background: url("../images/mib/entry.png") no-repeat;
+}
+
+.mibTree li.tree-notification i {
+    padding: 0 10px;
+    background: url("../images/mib/notification.png") no-repeat;
+}
+
+.mibTree li.tree-selected span{
+    background-color: #aaddff;
+    font-weight: bold;
+}

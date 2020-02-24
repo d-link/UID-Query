@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0.26",
+  "subversion": "v20190808.01",
+  "nucliasPath": "",
+  "backupPath": "/userdata/backupcfg",
+  "serverPort": 8443,
+  "serverIP": "",
+  "development": {
+    "enableHttp": false,
+    "serverIP": "",
+    "port": 30002,
+    "sslport": 443,
+    "starterEdition": false,
+    "base_url": "",
+    "jwt_secret": "b3eaad0a469d13a884f3d09e0952b72b",
+    "client": "*",
+    "taskValidity": 30,
+    "supportModuleUrl": " https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist"
+  },
+  "Production_hualian": {
+    "enableHttp": true,
+    "serverIP": "",
+    "port": 30002,
+    "sslport": 443,
+    "starterEdition": false,
+    "base_url": "",
+    "jwt_secret": "b3eaad0a469d13a884f3d09e0952b72b",
+    "client": "*",
+    "taskValidity": 30,
+    "supportModuleUrl": "https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist_hualien_edu"
+  },
+  "production": {
+    "enableHttp": true,
+    "port": 30002,
+    "sslport": 443,
+    "starterEdition": false,
+    "base_url": "",
+    "jwt_secret": "b3eaad0a469d13a884f3d09e0952b72b",
+    "client": "*",
+    "taskValidity": 30,
+    "supportModuleUrl": " https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist"
+  }
+}

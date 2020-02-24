@@ -1,0 +1,17 @@
+<header class="main-header" style="position:fixed;">
+    <!-- Logo -->
+    <a class="logo" ng-mouseover="showMenu();" ng-mouseleave="hideMenu();">
+        <div  class="hidemenu">
+            <md-icon title="{{isHided?'title.show':'title.hide' | translate}}" md-svg-icon="bottom:left_hide" ng-click="changeMenu();"></md-icon>
+        </div>
+        <div class="logo-lg" >
+             <span>
+                  {{'menu.'+($root.navTitle?$root.navTitle:'dashboard') | translate}}
+            </span>
+             
+             <!-- <span id="nav-title"></span> -->
+        </div>
+    </a>
+</header>
+
+

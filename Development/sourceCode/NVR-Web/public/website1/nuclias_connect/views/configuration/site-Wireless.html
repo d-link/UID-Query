@@ -1,0 +1,464 @@
+<form name="steeringForm">
+    <div style="margin-bottom: 24px;">
+        <uib-tabset active="activeForm" class="site-tab">
+            <uib-tab index="0" heading="{{'configuration.band1' | translate}}">
+                <div style="padding: 24px;">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            <label class="checkLabel" style="color: #999;">
+                                <input type="checkbox" ng-model="wirelessShowData.band24.aclRssi"
+                                       ng-change="wirelessChanged()">{{'label.aclRssiThreshold' | translate}}
+                                <p>
+                                    <md-icon md-svg-icon="modal:checkbox"
+                                             ng-show="wirelessShowData.band24.aclRssi"></md-icon>
+                                </p>
+                            </label>
+                        </label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band24.aclRssiThreshod" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.band24.aclRssi" on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent1">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="checkLabel title">
+                        <input type="checkbox" ng-model="agingOutStatus.band24" ng-change="wirelessChanged()">{{'configuration.wireless.agingOut'
+                        | translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="agingOutStatus.band24"></md-icon>
+                        </p>
+                    </label>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.agingOut' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band24.agingOut" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.band24" on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.wireless.agingOut' +
+                                        $select.selected | translate}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in agingOuts">{{'configuration.wireless.agingOut' +
+                                        item | translate}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.rssiThreshold' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <!-- <input type="text" class="form-control" ng-disabled="!agingOutStatus.band24"> -->
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band24.rssiThreshod" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.band24 || wirelessShowData.band24.agingOut==2"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent1">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.dataRate' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <!-- <input type="text" class="form-control" ng-disabled="agingOut.select=='Data rate'"> -->
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band24.dataRateThreshod" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.band24 || wirelessShowData.band24.agingOut==1"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected+' Mbps'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in dataRates">{{item+' Mbps'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="checkLabel title">
+                        <input type="checkbox" ng-model="wirelessShowData.band24.connectLimit"
+                               ng-change="wirelessChanged()">{{'configuration.wireless.connectionLimit' | translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox"
+                                     ng-show="wirelessShowData.band24.connectLimit"></md-icon>
+                        </p>
+                    </label>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.userLimit' | translate}} (0~64)</label>
+
+                        <div class="col-sm-9"
+                             ng-class="wirelessShowData.band24.connectLimit&&error.band24.userLimit?'error':''">
+                            <input name="band24userLimit" type="text" class="form-control w100"
+                                   ng-disabled="!wirelessShowData.band24.connectLimit"
+                                   ng-model="wirelessShowData.band24.userLimit" maxlength="2"
+                                   ng-blur="numberInputBlur('band24','userLimit', 0)"
+                                   ng-change="valueChange('band24', 'userLimit')" ng-keydown="numberKeydown($event)">
+                            <span class="hint-span">{{'configuration.wireless.validValue'|translate}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.preferred11n' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band24.preferred11n" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.band24.connectLimit"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected
+                                        | translate}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                        translate}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mgb0">
+                        <label class="col-sm-3 control-label">{{'label.networkUtilization' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band24.networkUtilization" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.band24.connectLimit"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent2">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="{{'configuration.band2' | translate}}">
+                <div style="padding: 24px;">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            <label class="checkLabel" style="color: #999;">
+                                <input type="checkbox" ng-model="wirelessShowData.band5.aclRssi"
+                                       ng-change="wirelessChanged()">{{'label.aclRssiThreshold' | translate}}
+                                <p>
+                                    <md-icon md-svg-icon="modal:checkbox"
+                                             ng-show="wirelessShowData.band5.aclRssi"></md-icon>
+                                </p>
+                            </label>
+                        </label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band5.aclRssiThreshod" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.band5.aclRssi" on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent1">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="checkLabel title">
+                        <input type="checkbox" ng-model="agingOutStatus.band5" ng-change="wirelessChanged()">{{'configuration.wireless.agingOut'
+                        | translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="agingOutStatus.band5"></md-icon>
+                        </p>
+                    </label>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.agingOut' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band5.agingOut" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.band5" on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.wireless.agingOut' +
+                                        $select.selected | translate}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in agingOuts">{{'configuration.wireless.agingOut' +
+                                        item | translate}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.rssiThreshold' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band5.rssiThreshod" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.band5||wirelessShowData.band5.agingOut==2"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent1">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.dataRate' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band5.dataRateThreshod" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.band5||wirelessShowData.band5.agingOut==1"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected+' Mbps'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in dataRates">{{item+' Mbps'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="checkLabel title">
+                        <input type="checkbox" ng-model="wirelessShowData.band5.connectLimit"
+                               ng-change="wirelessChanged()">{{'configuration.wireless.connectionLimit' | translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox"
+                                     ng-show="wirelessShowData.band5.connectLimit"></md-icon>
+                        </p>
+                    </label>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.userLimit' | translate}} (0~64)</label>
+
+                        <div class="col-sm-9"
+                             ng-class="wirelessShowData.band5.connectLimit&&error.band5.userLimit?'error':''">
+                            <input name="band5userLimit" type="text" class="form-control w100"
+                                   ng-disabled="!wirelessShowData.band5.connectLimit"
+                                   ng-model="wirelessShowData.band5.userLimit" maxlength="2"
+                                   ng-blur="numberInputBlur('band5','userLimit', 0)"
+                                   ng-change="valueChange('band5', 'userLimit')" ng-keydown="numberKeydown($event)">
+                            <span class="hint-span">{{'configuration.wireless.validValue' | translate}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.preferred11n' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band5.preferred11n" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.band5.connectLimit"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected
+                                        | translate}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                        translate}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.networkUtilization' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.band5.networkUtilization" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.band5.connectLimit"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent2">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="2" heading="{{'configuration.band3' | translate}}">
+                <div style="padding: 24px;">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">
+                            <label class="checkLabel" style="color: #999;">
+                                <input type="checkbox" ng-model="wirelessShowData.secBand5.aclRssi"
+                                       ng-change="wirelessChanged()">{{'label.aclRssiThreshold' | translate}}
+                                <p>
+                                    <md-icon md-svg-icon="modal:checkbox"
+                                             ng-show="wirelessShowData.secBand5.aclRssi"></md-icon>
+                                </p>
+                            </label>
+                        </label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.secBand5.aclRssiThreshod" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.secBand5.aclRssi" on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent1">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="checkLabel title">
+                        <input type="checkbox" ng-model="agingOutStatus.secBand5" ng-change="wirelessChanged()">{{'configuration.wireless.agingOut'
+                        | translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="agingOutStatus.secBand5"></md-icon>
+                        </p>
+                    </label>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.agingOut' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.secBand5.agingOut" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.secBand5" on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.wireless.agingOut' +
+                                        $select.selected | translate}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in agingOuts">{{'configuration.wireless.agingOut' +
+                                        item | translate}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.rssiThreshold' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.secBand5.rssiThreshod" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.secBand5||wirelessShowData.secBand5.agingOut==2"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent1">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.dataRate' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.secBand5.dataRateThreshod" theme="bootstrap"
+                                           ng-disabled="!agingOutStatus.secBand5||wirelessShowData.secBand5.agingOut==1"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected+' Mbps'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in dataRates">{{item+' Mbps'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="checkLabel title">
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox"
+                                     ng-show="wirelessShowData.secBand5.connectLimit"></md-icon>
+                        </p>
+                        <input type="checkbox" ng-model="wirelessShowData.secBand5.connectLimit"
+                               ng-change="wirelessChanged()">{{'configuration.wireless.connectionLimit' | translate}}
+                    </label>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.userLimit' | translate}} (0~64)</label>
+
+                        <div class="col-sm-9"
+                             ng-class="wirelessShowData.secBand5.connectLimit&&error.secBand5.userLimit?'error':''">
+                            <input name="band5userLimit" type="text" class="form-control w100"
+                                   ng-disabled="!wirelessShowData.secBand5.connectLimit"
+                                   ng-model="wirelessShowData.secBand5.userLimit" maxlength="2"
+                                   ng-blur="numberInputBlur('secBand5','userLimit', 0)"
+                                   ng-change="valueChange('secBand5', 'userLimit')" ng-keydown="numberKeydown($event)">
+                            <span class="hint-span">{{'configuration.wireless.validValue' | translate}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.preferred11n' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.secBand5.preferred11n" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.secBand5.connectLimit"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected
+                                        | translate}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in statuses">{{'configuration.able' + item |
+                                        translate}}
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{'label.networkUtilization' | translate}}</label>
+
+                        <div class="col-sm-4">
+                            <div style="width: 100px;height: 32px;">
+                                <ui-select ng-model="wirelessShowData.secBand5.networkUtilization" theme="bootstrap"
+                                           ng-disabled="!wirelessShowData.secBand5.connectLimit"
+                                           on-select="wirelessChanged()">
+                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected + ' %'}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in percent2">{{item + ' %'}}</ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="3" heading="{{'label.airtimeFairness'|translate}}">
+                <div style="padding: 24px;">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="checkLabel">
+                                <p>
+                                    <md-icon md-svg-icon="modal:checkbox"
+                                             ng-show="wirelessShowData.airtimeFairness.status"></md-icon>
+                                </p>
+                                <input type="checkbox" ng-model="wirelessShowData.airtimeFairness.status">{{'configuration.able1'
+                                | translate}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="4" heading="{{'label.bandSteer'|translate}}">
+                <div style="padding: 24px;">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <label class="checkLabel">
+                                <p>
+                                    <md-icon md-svg-icon="modal:checkbox"
+                                             ng-show="wirelessShowData.bandSteer.status"></md-icon>
+                                </p>
+                                <input type="checkbox" ng-model="wirelessShowData.bandSteer.status">{{'configuration.able1'
+                                | translate}}
+                            </label>
+                        </div>
+                        <div class="col-sm-12"> <span style="float:left;margin-left:20px;" class="hint-span state error-msg" ng-show="state.wireless.isError&&state.wireless.msgFalse==1">{{'configuration.wireless.BandsteeringError'|translate}}</span>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+    <div class="form-group mgb0" ng-if="hasPrivilege">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-common pull-right" ng-click="save()"
+                    ng-disabled="steeringForm.$invalid||(wirelessShowData.band24.connectLimit&&error.band24.userLimit)||(wirelessShowData.band5.connectLimit&&error.band5.userLimit)">{{'common.save'|translate}}
+            </button>
+            <span class="hint-span state processing-msg" ng-show="state.wireless.processing"><img
+                    src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+            <span class="hint-span state success-msg" ng-show="state.wireless.isSuccess">{{state.wireless.msgTrue|translate}}</span>
+            <span class="hint-span state error-msg" ng-show="state.wireless.isError&&state.wireless.msgFalse!=1">{{state.wireless.msgFalse}}</span>
+        </div>
+    </div>
+</form>

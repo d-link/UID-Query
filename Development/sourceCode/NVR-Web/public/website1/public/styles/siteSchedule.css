@@ -1,0 +1,320 @@
+/*---------------------------------------------  @week-btn start---------------------------------------------*/
+/*site-schedule*/
+.week-btn {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.week-btn label.week-choice {
+    padding: 0px;
+    margin: 0px;
+    float: left;
+    width: 40px;
+    height: 32px;
+    border-right: 1px solid #ddd;
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+    font-weight: normal;
+    color: #444;
+    background-color: #f5f5f5;
+}
+
+.week-btn label.week-choice[disabled] {
+    color: #aaa !important;
+    cursor: url(../images/input-disable.cur), pointer !important;
+}
+
+.week-btn label.week-choice:last-child {
+    border-right: none;
+    border-radius: 0px 4px 4px 0px;
+}
+
+.week-btn label.week-choice:first-child {
+    border-radius: 4px 0px 0px 4px;
+}
+
+/*有一些是公用样式，但是都是后面加载，放到这边来*/
+.btn-group label.month-choice {
+    margin-bottom: 0px;
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 12px;
+    font-weight: normal;
+    color: #444;
+    background-color: #f5f5f5;
+    box-shadow: 0px 0px 1px #bbb;
+}
+
+.btn-group label.month-choice.active,
+.week-btn label.week-choice.active,
+.btn-group label.day-choice.active,
+.week-btn label.week-choice.active[disabled] {
+    color: #aaa !important;
+    background-color: #f5f5f5;
+}
+
+.btn-group label.day-choice,
+.btn-group label.day-choice:nth-last-child(1) {
+    width: 200px;
+}
+
+label.week-choice.hover,
+label.month-choice.hover,
+label.day-choice.hover {
+    background-color: #f4fffe;
+    color: #26a69a;
+}
+
+/*---------------------------------------------  @week-btn end---------------------------------------------*/
+
+/*---------------------------------------------  @drop-box start---------------------------------------------*/
+/*site-ssid，site-ssl，-setting，hotap*/
+.drop-box .textCenter {
+    text-align: center;
+}
+
+.drop-box.dragover .drag-info {
+    display: none;
+}
+
+.drop-box.dragover .drop-info {
+    display: block;
+}
+
+.drop-box .drag-info.hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.drop-box .drag-info {
+    padding-top: 20px;
+    text-align: center;
+    position: absolute;
+    left: 17px;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0);
+    width: 286px;
+    height: 128px;
+
+}
+
+.drop-box .drop-info {
+    text-align: center;
+    margin-top: 31px;
+    display: none;
+}
+
+.drop-box.dragover > img {
+    display: none;
+}
+
+.drop-box > img {
+    max-height: 128px;
+    max-width: 286px;
+}
+
+.drop-box md-icon {
+    color: #aaaaaa;
+    width: 48px;
+    height: 48px;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 8px;
+}
+
+.drop-box .drag-info.hover .drag, .drop-box .drag-info.hover .or, .drop-box .drag-info.hover md-icon {
+    color: #fff;
+}
+
+.drop-box .drag-info.hover .or a {
+    color: #f180a4;
+}
+
+.drop-box .drag {
+    font-size: 12px;
+    color: #444;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.drop-box .or {
+    font-size: 12px;
+    color: #444;
+    margin-top: 8px;
+}
+
+.drop-box .or a {
+    color: #e6185a;
+}
+
+.drop-box a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.drop-box {
+    height: 130px;
+    width: 100%;
+    border: solid 1px #ddd;
+    background: #fafafa;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.drop-box.dragover {
+    border: 1px solid #b2dfdf;
+    background: #f4fffe;
+}
+
+.drop-box.dragover-err {
+    border: 5px dashed red;
+}
+
+/*---------------------------------------------  @drop-box end---------------------------------------------*/
+
+/***************************ssl **************************/
+.treeNoData > p {
+    padding: 18px 0px;
+    margin-bottom: 0px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #999;
+}
+
+.treeNoData > p > span {
+    display: block;
+    text-align: center;
+}
+
+.treeNoData > p > span:nth-of-type(2) {
+    font-size: 12px;
+}
+
+.treeNoData > p > span > a {
+    font-size: 14px;
+    color: #fb8c00;
+    cursor: pointer;
+}
+
+.treeNoData > p > span > a:hover {
+    color: #ef6c00;
+}
+
+/** progress bar style on the ssl page**/
+.progress-bar-d {
+    width: 320px;
+    height: 12px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.progress-bar-d > span {
+    display: inline-block;
+    height: 12px;
+    background-color: #f593b2;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+}
+
+/*************************************ssl-end****************************************/
+/**************************************site-vlan start**************************************/
+.VLAN-addEdit {
+    padding: 8px 16px 16px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.VLAN-addEdit ul,
+.VLAN-addEdit li {
+    list-style: none;
+    margin-bottom: 0px;
+}
+
+.VLAN-addEdit > .VLAN-addEdit-tit {
+    height: 42px;
+    border-bottom: 2px solid #eee;
+    line-height: 40px;
+}
+
+.VLAN-addEdit > .VLAN-addEdit-cont {
+    border-bottom: 1px solid #eee;
+}
+
+.VLAN-addEdit-tit > div,
+.VLAN-addEdit-cont > ul {
+    text-align: center;
+}
+
+.VLAN-addEdit-cont > ul {
+    height: 120px;
+}
+
+.VLAN-addEdit-cont.cc > ul {
+    height: 80px;
+}
+
+.VLAN-addEdit-cont > ul:not(:last-child) {
+    border-right: 1px solid #eee;
+}
+
+.VLAN-addEdit-cont > ul > li,
+.VLAN-addEdit-cont > ul label {
+    height: 40px;
+    line-height: 40px;
+}
+
+.VLAN-addEdit-cont > ul label > p {
+    top: 12px;
+}
+
+.special-radio label.control-label {
+    padding-top: 0px !important;
+}
+
+.special-radio label.radio-inline {
+    line-height: 16px;
+    height: auto;
+}
+
+.special-radio label.radio-inline > p {
+    top: 0px;
+}
+
+.special-radio label.checkLabel {
+    line-height: 16px;
+    height: auto;
+}
+
+/**************************************site-vlan end**************************************/
+
+/*ssid*/
+.ssidLabelWidth label.col-sm-3 {
+    width: 172px;
+}
+
+.ssidLabelWidth > .box > .box-header {
+    cursor: pointer;
+}
+
+.ssidUploadFile {
+    position: absolute;
+    left: 16px;
+    top: 0px;
+    width: 320px;
+    height: 32px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.ssidUploadFile[disabled] {
+    cursor: url(../images/input-disable.cur), pointer !important;
+}

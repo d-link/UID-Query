@@ -1,0 +1,123 @@
+
+    <div class="modal-header">
+        <a class="logo">
+            <md-icon md-svg-icon="common:{{title}}"></md-icon>
+        </a><span>{{'common.'+title|translate}} Notification Rule</span>
+        <a class="close pull-right"
+           ng-click="cancel()" title="{{'title.close'|translate}}">
+            <md-icon md-svg-icon="modal:close"></md-icon>
+        </a>
+    </div>
+    <div  class="modal-body">
+
+        <div wizard-template steps="steps" current-index="step"></div>
+        <form name="notificationForm">
+        <div ng-if="step==1">
+            <div class="form-horizontal" >
+                    <div class="form-group">
+                            <label class="col-sm-3 control-label w100">Name*</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control w320" name="name" ng-model="notification.name" required ng-maxlength="32" maxlength="32" autocomplete="off">
+                            </div>
+                        </div>
+                    <div class="form-group mgb0">
+                            <label class="col-sm-3 control-label w100">Description</label>
+                            <div class="col-sm-9">
+                                <textarea cols="50" rows="2" ng-model="notification.desc" name="desc" class="form-control" style="width: 400px;" ng-maxlength="255" maxlength="255" autocomplete="off"></textarea>
+                            </div>
+                        </div>
+            </div>
+        </div>
+        <div ng-if="step==2">
+            <div class="form-horizontal step2">
+                <div class="form-group special-radio" style="margin-bottom:24px;"  ng-if="!isDefault && !isEdit">
+                    <label class="col-sm-3 control-label">Severity</label>
+                    <div class="col-sm-9">
+                        <label class="checkLabel">
+                            <input type="checkbox" ng-model="severity.critical">Critical</label>
+                            <p>
+                                <md-icon md-svg-icon="modal:checkbox" ng-if="severity.critical"></md-icon>
+                            </p>
+                        <label class="checkLabel">
+                            <input type="checkbox" ng-model="severity.warning">Warning</label>
+                            <p>
+                                <md-icon md-svg-icon="modal:checkbox" ng-if="severity.warning"></md-icon>
+                            </p>
+                        <label class="checkLabel">
+                            <input type="checkbox" ng-model="severity.info">Info</label>
+                            <p>
+                                <md-icon md-svg-icon="modal:checkbox" ng-if="severity.info"></md-icon>
+                            </p> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Monitor</label>
+                    <div class="col-sm-9" style="height:32px;">
+                        <ui-select ng-model="notification.monitor" theme="bootstrap">
+                            <ui-select-match style="height:32px;" placeholder="{{'common.pickone'|translate}}">{{$select.selected.param}}</ui-select-match>
+                            <ui-select-choices repeat="i in monitors">{{i.param}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div select-device selected-devids='notification.devIds' type='true'></div>
+            </div>
+        </div>
+        <div ng-if="step==3">
+            <div class="form-horizontal">
+                <div class="form-group special-radio">
+                    <label class="col-sm-3 control-label">Notification</label>
+                    <div class="col-sm-9">
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="method.value"   value="SendEmail">Send Email Notification
+                            <p><span ng-show="method.value=='SendEmail'"></span></p>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="method.value"  value="RunScript">Execte Script
+                            <p><span ng-show="method.value=='RunScript'"></span></p>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group mgb0" ng-if="method.value=='SendEmail'">
+                    <label class="col-sm-3 control-label">Send Notification</label>
+                    <div class="col-sm-9" style="padding-right: 25px;">
+                        <div class="clear mgb24">
+                            <input type="text" class="form-control w320 col-sm-8" ng-model="emailValue.value">
+                            <button class="btn btn-common" style="margin-left: 8px;" type="button" ng-click="addEmail();">Add</button>
+                        </div>
+                        <!-- <ul class="form-group" style="border: 1px solid #ddd;min-height: 50px;">
+                            <li ng-repeat="email in notification.emails" class="clear" style="list-style: none;line-height: 32px;">
+                                <div class="col-sm-8">{{email}}</div>
+                                <div class="col-sm-3"><a class="btn btn-small" type="button" ng-click="removeEmail($index);"><md-icon md-svg-icon="modal:minus"></md-icon></a></div>
+                            </li>
+                        </ul> -->
+                        <div class="ruleMain">
+                            <div class="clear">
+                                <div class="pull-left" style="width: 302px;">Send Notification</div>
+                                <div class="pull-left" style="width: 45px;"></div>
+                            </div>
+                            <ul style="max-height: 120px;overflow: auto;">
+                                <li ng-repeat="email in notification.EmailList" style="height: 40px;" >
+                                    <div class="pull-left" style="width: 302px;"><span>{{email}}</span></div>
+                                    <div class="pull-left" style="width: 45px;"><span><a type="button" class="btn-grid" ng-click="removeEmail($index);"><md-icon md-svg-icon="user:remove"></md-icon></a></span></div>  
+                                </li>
+                                <li ng-show="notification.EmailList.length == '0'" style="color: #aaaaaa;background-color: #fff;text-align: center;line-height: 40px;">No data found</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" ng-if="method.value=='RunScript'">
+                    <label class="col-sm-3 control-label">Script</label>
+                    <div class="col-sm-9">
+                        <textarea cols="50" rows="2" ng-model="notification.commandLine" class="form-control" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-common" type="button" ng-click="pre()" ng-if="step>1">Back</button>
+        <button class="btn btn-common" type="button" ng-click="next()" ng-if="step<3" ng-disabled="notificationForm.name.$invalid || notificationForm.desc.$invalid ">Next</button>
+        <button class="btn btn-common" type="button" ng-click="ok()" ng-if="step==3">OK</button>
+        <button class="btn btn-cancel" type="button" ng-click="cancel()">Cancel</button>
+    </div>

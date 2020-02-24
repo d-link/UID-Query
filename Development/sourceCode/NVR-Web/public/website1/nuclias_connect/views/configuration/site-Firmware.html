@@ -1,0 +1,35 @@
+<div style="border: 1px solid #eee;border-radius: 4px;padding: 24px;margin-bottom: 16px;">
+    <div class="mgb32">
+        <label class="title" style="cursor: default;">{{'firmware.upload'|translate}}</label>
+        <span class="hint-span state error-msg" ng-show="fwfile.isError">{{fwfile.msgFalse|translate}}</span>
+        <div style="padding: 0px 8px;">
+            <div id="firmwareGrid" ui-grid="firmwareOptions" class="grid" ui-grid-auto-resize ui-grid-resize-columns style="border: 1px solid #eee;padding-bottom: 8px;">
+                <nodata-directive ng-show="firmwareOptions.data.length == 0" desc="{{'firmware.noModel'|translate}}" small="true"></nodata-directive>
+            </div>
+        </div>
+    </div>
+    <time-schedule profile-info="fwInfo" state="state" ></time-schedule>
+</div>
+<div class="box" style="border-radius: 4px;">
+    <div class="box-header">
+        <h3>{{'common.runStatus'|translate}}</h3>
+    </div>
+    <div class="box-content">
+        <div class="form-group">
+            <label class="col-xs-2 col-sm-2 control-label">{{'label.applyStatus'|translate}}</label>
+            <div class="col-xs-10  col-sm-10">
+                <span style="line-height: 32px;">{{runStatus.status}}</span>
+            </div>
+        </div>
+        <div class="form-group mgb0">
+            <label class="col-xs-2 col-sm-2 control-label">{{'label.result'|translate}}</label>
+            <div class="col-xs-10 col-sm-10">
+                <div style="border: 1px solid #eee;border-radius: 4px;" class="set-height">
+                    <div id="fwResultInfo" ui-grid="firmwareResultOption" ui-grid-auto-resize ui-grid-resize-columns class="grid" style="padding-bottom: 8px;">
+                        <nodata-directive ng-show="firmwareResultOption.data.length == 0" desc="{{'configuration.noResult'|translate}}" small="true"></nodata-directive>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

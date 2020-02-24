@@ -1,0 +1,156 @@
+<div ng-controller="hotAPController" class="bg-fafafa clear subpage site">
+
+    <div ng-show="isLoading">
+        <loading-directive></loading-directive>
+    </div>
+    <div class="col-md-12 set-height content-side" ng-show="!isLoading&&hotApMaps.length<=0">
+        <div class="caption">
+            <div class="grid-no-data">
+                <img src="/public/images/no-data.png">
+
+                <p>{{'report.noMapInfo2'|translate}}</p>
+
+                <p><span>{{'report.noMapInfo3'|translate}} </span><span>'<a
+                        ng-click="openAddHotMapModel()">{{'report.noMapInfo4'|translate}}</a>' </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class=" content-side" ng-show="!isLoading&&hotApMaps.length>0" style="position:fixed;width:220px;padding-right: 16px;
+    padding-left: 16px;">
+        <div class="subpage-tree-title" style="position:relative;">
+            <md-icon md-svg-icon="modal:configuration" class="title pull-left"></md-icon>
+            <span>{{'report.hotAPHeader'|translate}}</span>
+            <a class="logo pull-right" style="position:absolute;right:0;"
+               ng-click="openAddHotMapModel()">
+                <md-icon md-svg-icon="common:glyphicon-plus" style="width: 24px;height: 24px;"></md-icon>
+            </a>
+
+        </div>
+        <div class="data-show-menu-main cwm-menu" style="border-bottom: none;overflow-y: auto;">
+            <ul class="site-menu-one hot-ap-menu">
+                <li ng-repeat="hotApMap in  hotApMaps"
+                    style="height: 32px;line-height:32px;border-bottom: 1px solid #eee;min-width:200px;"
+                    ng-class="hotApMapActive._id==hotApMap._id?'active':''">
+
+                    <a class="pull-left"
+                       style="width: 120px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis"
+                       title="{{hotApMap.mapName}}" ng-click="toggleMap(hotApMap);"> {{hotApMap.mapName}}</a>
+                    <a class="pull-right" ng-click="delHotApMap(hotApMap._id);"
+                       title="{{'common.delete' | translate}}">
+                        <md-icon md-svg-icon="user:remove"
+                                 style="width: 16px;height: 16px;"></md-icon>
+                    </a>
+                    <a class="pull-right" ng-click="editHotApMap(hotApMap);"
+                       title="{{'common.edit' | translate}}" style="margin: 0;padding: 0">
+                        <md-icon md-svg-icon="user:edit"
+                                 style="width: 16px;height: 16px;"></md-icon>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+<div>
+    <div class="content-content data-show-main form-horizontal" ng-show="hotApMaps.length>0" style="margin-left:220px;">
+        <div class="set-height">
+            <div class="row elementFlag" style="margin: 8px 20px 0 20px">
+                <div class="pull-left"
+                     style="height: 32px; line-height: 32px; display: inline-block;margin-right: 4px;">
+                    <span>{{'report.hotAPTitle1'|translate}}</span>
+                </div>
+                <div style="height: 32px;line-height: 32px;padding-right: 16px;" class="row pull-right">
+                    <span>{{'report.hotAPUniqueClientTitle'|translate}}:&nbsp</span><span
+                        class="color-orange-title title-im">{{uniqueClients.average}}/{{uniqueClients.high}}</span>
+                    <span style="margin-left: 16px"></span>{{'report.hotAPTrafficUsageTitle'|translate}}:&nbsp<span
+                        class="color-orange-title title-im">{{trafficUsage.average}}&nbsp{{trafficUsage.unit}}/{{trafficUsage.high}}&nbsp{{trafficUsage.unit}}</span>
+                </div>
+
+            </div>
+
+            <div class="site-set-height" style="overflow-y: auto;">
+                <div class="col-md-12 mgb24">
+                    <div class="caption">
+                        <div class="box-header">
+                            <h3> {{hotApMapActive.mapName}}</h3>
+                        </div>
+                        <div class="box-content" style="padding: 0 0 8px 0;">
+                            <div class="row" style="margin:8px 16px">
+                                <button class="btn btn-common pull-right" ng-disabled="exporting"
+                                        ng-click="export2PDF()" title="{{'report.exportPdf'|translate}}">
+                                    <md-icon md-svg-icon="user:_export"></md-icon>
+                                </button>
+                                <button class="btn btn-default pull-left"
+                                        style="padding: 8px 0px 0px 0px;border: double 1px #EFEFEF;margin-right: 4px;"
+                                        ng-click="subtractionTimeDay()">
+                                    <md-icon md-svg-icon='gridpager:pre'></md-icon>
+                                    </md-icon></button>
+                                <div class="pull-left"
+                                     style="width: 120px;height: 32px;display: inline-block;margin-right: 4px;">
+                                    <ui-select ng-model="LHSelect.networkday" theme="bootstrap">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.str|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="time_day in LHSelect.networkdays">
+                                            {{time_day.str|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <button class="btn btn-default pull-left"
+                                        style="padding: 8px 0px 0px 0px;border: double 1px #EFEFEF;margin-right: 8px;"
+                                        ng-click="addTimeDay()">
+                                    <md-icon md-svg-icon='gridpager:next'></md-icon>
+                                    </md-icon></button>
+                                <button class="btn btn-default pull-left"
+                                        style="padding: 8px 0px 0px 0px;border: double 1px #EFEFEF;margin-right: 4px;"
+                                        ng-click="subtractionTimeHour()">
+                                    <md-icon md-svg-icon='gridpager:pre'></md-icon>
+                                </button>
+                                <div class="pull-left"
+                                     style="width: 100px;height: 32px;display: inline-block;margin-right: 4px;">
+                                    <ui-select ng-model="LHSelect.networkHour" theme="bootstrap">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.str|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="time_hour in LHSelect.networkHours">
+                                            {{time_hour.str|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <button class="btn btn-default pull-left"
+                                        style="padding: 8px 0px 0px 0px;border: double 1px #EFEFEF;margin-right: 8px;"
+                                        ng-click="addTimeHour()">
+                                    <md-icon md-svg-icon='gridpager:next'></md-icon>
+                                    </md-icon></button>
+                                <button class="btn btn-cancel pull-left" style="padding: 8px;"
+                                        ng-click="getHotApStatsData()" title="{{'title.search' | translate}}">
+                                    <md-icon md-svg-icon="user:view"></md-icon>
+                                </button>
+                            </div>
+
+                            <div class="row" id="canvasRow" style="height: 400px; margin:8px 16px;position: relative;">
+                                <canvas id="showCanvas"
+                                        style=" background-color: #efefef">
+                                </canvas>
+                                <div class="btn-group-vertical" role="group"
+                                     style="position: absolute; left: 16px;top:56px">
+                                    <button type="button" class="btn btn-small" title="{{'report.bigger' | translate}}"
+                                            ng-click="bigger()">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button>
+                                    <button type="button" class="btn btn-small" title="{{'report.reset' | translate}}"
+                                            ng-click="reset()">
+                                        <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span></button>
+                                    <button type="button" class="btn btn-small" title="{{'report.smaller' | translate}}"
+                                            ng-click="smaller()">
+                                        <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></button>
+                                </div>
+                                <div id="tipdiv">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+

@@ -1,0 +1,244 @@
+<!--第一次进入系统的时候强制配置板子数据----------李莉红-->
+<!--系统设置title  开始-->
+<div class="modal-header">
+    <!--logo和文字-->
+    <a class="logo">
+        <md-icon md-svg-src="/public/images/Wizard_24.svg"></md-icon>
+    </a><span>{{'addNetwork.sys'|translate}}</span>
+</div>
+<!--系统设置title  结束-->
+<!--板子配置主体部分title  开始-->
+
+<div id="addChipSystemDataDialog" class="modal-body">
+
+    <form name="addChipSystemDataForm" class="form-horizontal" novalidate>
+        <!--板子上网络设置 开始-->
+        <div class="chip-system-div">
+            <label class="title">{{'addChipSystemData.lanSetting' | translate}}</label>
+            <!--getIPAddressFrom-->
+            <div class="form-group">
+                <div class="get-iP-address">
+                    <label class="col-sm-2 control-label">{{'label.getIPAddressFrom' | translate}}</label>
+                    <div class="col-sm-4 w250">
+                        <div style="height: 32px;">
+                            <ui-select ng-model="org.ipType" theme="bootstrap" autofocus>
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                    {{'addChipSystemData.'+$select.selected | translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in getIPAddressFrom">
+                                    {{'addChipSystemData.'+ item | translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--ipAddress-->
+            <div class="form-group">
+                <div class="ip-address-div">
+                    <label class="col-sm-2 control-label">{{'label.ipAddress' | translate}}<span
+                            ng-class="org.ipType=='static'?'required-span-show':'required-span'">*</span></label>
+                    <div class="col-sm-4 w250"
+                         ng-class="org.ipType=='static'&&(addChipSystemDataForm.ipAddress.$dirty&&addChipSystemDataForm.ipAddress.$invalid||invalidIP.ipAddress)?'error':''">
+                        <input type="text" name="ipAddress" class="form-control"
+                               autocomplete="off" maxlength="15"
+                               ng-model="org.ipAddress"
+                               ng-disabled="ifDHCP"
+                               ng-keydown="IPKeydown($event)"
+                               ng-keyup="IPKeyup('ipAddress')"
+                               ng-pattern="org.ipType=='static'?serverRe:''"
+                               ng-required="org.ipType=='static'">
+                        <span class="hint-span">{{'configuration.ssid.invalidIP'|translate}}</span>
+                    </div>
+                </div>
+                <!--subnetMask-->
+                <div class="mask-div">
+                    <label class="col-sm-2 control-label">{{'label.subnetMask' | translate}}<span
+                            ng-class="org.ipType=='static'?'required-span-show':'required-span'">*</span></label>
+                    <div class="col-sm-4 w250"
+                         ng-class="org.ipType=='static'&&((addChipSystemDataForm.subnetMask.$dirty&&addChipSystemDataForm.subnetMask.$invalid)||invalidIP.subnetMask)?'error':''">
+                        <input type="text" name="subnetMask" class="form-control"
+                               autocomplete="off" maxlength="15"
+                               ng-model="org.subnetMask"
+                               ng-disabled="ifDHCP"
+                               ng-pattern="org.ipType=='static'?subMaskRe:''"
+                               ng-keydown="IPKeydown($event)"
+                               ng-keyup="IPKeyup('subnetMask')"
+                               ng-required="org.ipType=='static'">
+                        <span class="hint-span">{{'configuration.ssid.invalidNetmask'|translate}}</span>
+                    </div>
+                </div>
+
+            </div>
+            <!--gateway-->
+            <div class="form-group">
+                <div class="gate-way">
+                    <label class="col-sm-2 control-label">{{'label.gateway' | translate}}</label>
+                    <div class="col-sm-4 w250"
+                         ng-class="org.ipType=='static'&&((addChipSystemDataForm.defaultGateWay.$dirty&&addChipSystemDataForm.defaultGateWay.$invalid)||invalidIP.defaultGateWay)?'error':''">
+                        <input type="text" name="defaultGateWay" class="form-control"
+                               autocomplete="off" maxlength="15"
+                               ng-model="org.defaultGateWay"
+                               ng-disabled="ifDHCP"
+                               ng-pattern="org.ipType=='static'?gateway:''"
+                               ng-keydown="IPKeydown($event)"
+                               ng-keyup="IPKeyup('defaultGateWay')">
+                        <span class="hint-span">{{'configuration.ssid.invalidGateway'|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <!--dns-->
+            <div class="form-group">
+                <!--primary DNS-->
+                <div class="p-dns">
+                    <label class="col-sm-2 control-label">{{'label.primaryDNS' | translate}}</label>
+                    <div class="col-sm-4 w250"
+                         ng-class="org.ipType=='static'&&((addChipSystemDataForm.primaryDNS.$dirty&&addChipSystemDataForm.primaryDNS.$invalid)||invalidIP.primaryDNS)?'error':''">
+                        <input type="text" name="primaryDNS" class="form-control"
+                               autocomplete="off" maxlength="15"
+                               ng-model="org.primaryDNS"
+                               ng-disabled="ifDHCP"
+                               ng-pattern="org.ipType=='static'?serverRe:''"
+                               ng-keydown="IPKeydown($event)"
+                               ng-keyup="IPKeyup('primaryDNS')">
+                        <span class="hint-span">{{'configuration.ssid.invalidDNS'|translate}}</span>
+                    </div>
+                </div>
+                <!--second DNS-->
+                <div class="s-dns">
+                    <label class="col-sm-2 control-label">{{'label.secondaryDNS' | translate}}</label>
+                    <div class="col-sm-4 w250"
+                         ng-class="org.ipType=='static'&&((addChipSystemDataForm.secondDNS.$dirty&&addChipSystemDataForm.secondDNS.$invalid)||invalidIP.secondDNS)?'error':''">
+                        <input type="text" name="secondDNS" class="form-control"
+                               autocomplete="off" maxlength="15"
+                               ng-model="org.secondDNS"
+                               ng-disabled="ifDHCP"
+                               ng-pattern="org.ipType=='static'?serverRe:''"
+                               ng-keydown="IPKeydown($event)"
+                               ng-keyup="IPKeyup('secondDNS')">
+                        <span class="hint-span">{{'configuration.ssid.invalidDNS'|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <!--changeDAA-->
+            <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-4 w380">
+                        <label class="col-sm-16 checkLabel">
+                            <input type="checkbox" ng-model="org.changeDAA" id="changeDAA">{{'label.changeDAA' |
+                            translate}}
+                            <p id="changeDAA_checkbox">
+                                <md-icon md-svg-icon="modal:checkbox" ng-show="org.changeDAA"></md-icon>
+                            </p>
+                        </label>
+                    </div>
+            </div>
+        </div>
+        <!--板子上网络设置 结束-->
+
+        <!--时间日期设置   开始-->
+        <div class="chip-date-div">
+            <label class="title">{{'addChipSystemData.dateAndTime' | translate}}</label>
+            <!--时区设置-->
+            <div class="form-group">
+                <div class="time-zone-div">
+                    <label class="col-sm-2 control-label">{{'label.timeZone'|translate}}
+                        <span class="required-span-show">*</span></label>
+                    <div class="col-sm-4 w420">
+                        <div style="height: 32px;" class="batch-config-country">
+                            <ui-select ng-model="org.timeZone" theme="bootstrap" required>
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in timeZones track by $index">{{item.name}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Ntp设置-->
+            <!--checkbox-->
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-9">
+                    <label class="col-sm-2 checkLabel">
+                        <input type="checkbox" ng-model="org.enableNTP">{{'label.NTP' | translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="org.enableNTP"></md-icon>
+                        </p>
+                    </label>
+                    <span style="display: contents;color: red;" ng-show="!org.enableNTP">{{'configuration.ntpHint' | translate}}</span>
+                </div>
+            </div>
+            <!--Ntp server-->
+            <div class="form-group">
+                <div class="ntp-sever-div">
+                    <label class="col-sm-2 control-label">{{'label.ntpServer1' | translate}}</label>
+                    <div class="col-sm-4 w320">
+                        <input name="NTPServer" type="text" class="form-control"
+                               ng-disabled="true"
+                               ng-model="org.defaultNTPServer"
+                               placeholder="{{org.defaultNTPServer}}"
+                               autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="ntp-sever-div">
+                    <label class="col-sm-2 control-label">{{'label.ntpServer2' | translate}}</label>
+                    <div class="col-sm-4 w320"
+                         ng-class="org.enableNTP==true&&((addChipSystemDataForm.NTPServer.$dirty&&addChipSystemDataForm.NTPServer.$invalid)||invalidIP.NTPServer)?'error':''">
+                        <ipdomain-format name="NTPServer" type="text" class="form-control"
+                                         ng-disabled="org.enableNTP==false"
+                                         ng-keyup="IPKeyup('NTPServer')"
+                                         ng-model="org.NTPServer"
+                                         ng-pattern="addressRe"
+                                         placeholder="{{'common.ipDomainHolder'|translate}}"
+                                         autocomplete="off"></ipdomain-format>
+                        <span class="hint-span">{{'invalid.ntpServer'|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <!--系统时间-->
+            <!--<div class="form-group">-->
+            <!--<div class="time-set-div">-->
+            <!--<label class="col-sm-2 control-label"></label>-->
+            <!--<div class="col-sm-7 clearfix" style="width: 440px;">-->
+            <!--&lt;!&ndash;时间插件&ndash;&gt;-->
+            <!--<div style="float:left;margin-left: -40px;">-->
+            <!--<select-date date-info="dateAndTime" disabled-info="disabledDateAndTime"></select-date>-->
+            <!--</div>-->
+            <!--<div style="float: right;">-->
+            <!--<button class="btn btn-common" type="button"-->
+            <!--ng-click="copyTimeFormComputer()"-->
+            <!--ng-disabled="disabledDateAndTime">-->
+            <!--{{'addChipSystemData.copyTime'|translate}}-->
+            <!--</button>-->
+            <!--<span class="hint-span state error-msg" style="float: left"-->
+            <!--&gt;{{settings.timeError|translate}}</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+        <!--时间日期设置  结束-->
+    </form>
+
+</div>
+<!--板子配置主体部分title  结束-->
+
+<!--保存按钮  开始-->
+<div class="modal-footer">
+    <button class="btn btn-common" type="button"
+            style="float: right;"
+            ng-disabled="addChipSystemDataForm.ipAddress.$invalid || addChipSystemDataForm.subnetMask.$invalid || addChipSystemDataForm.defaultGateWay.$invalid || addChipSystemDataForm.primaryDNS.$invalid || addChipSystemDataForm.secondDNS.$invalid || addChipSystemDataForm.NTPServer.$invalid || invalidIP.Error ||invalidTimeZone || invalidDate || state.processing"
+            ng-click="saveChipSystemData()">
+        {{'common.save'|translate}}
+    </button>
+    <span class="hint-span state processing-msg" style="float: right"
+          ng-show="state.processing"><img
+            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+    <span class="hint-span state error-msg" style="float: right"
+          ng-show="state.isError">{{state.msgFalse|translate}}</span>
+</div>
+<!--保存按钮  结束-->

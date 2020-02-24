@@ -1,0 +1,9 @@
+<div ng-controller="printPreviewController">
+    <p style="text-align: center;margin-top:20px;"><strong><span style="font-size: 24px">Welcome</span></strong></p>
+    <div style="margin: 24px;" ng-repeat="p in printData.length==0?[{}]:printData">
+
+        <div bind-html-compile id="myDiv" temp="htmlTemp"  align="center"></div>
+        <p>&nbsp;</p>
+    </div>
+    <div style="page-break-after: always;"><span style="display: none">&nbsp;</span></div>
+</div>

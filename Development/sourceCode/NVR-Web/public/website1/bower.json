@@ -1,0 +1,47 @@
+{
+  "name": "Dview7SP1",
+  "description": "Dview7 SP1 web site",
+  "keywords": [
+    "dview7"
+  ],
+  "authors": [
+    "zhimin li"
+  ],
+  "license": "MIT",
+  "homepage": "index",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.5.0",
+    "angular-ui-grid": "^4.0.0",
+    "angularAMD": "~0.2.1",
+    "requirejs": "~2.1.22",
+    "angular-route": "~1.4.8",
+    "angular-jwt": "~0.0.9",
+    "angular-resource": "~1.4.8",
+    "angular-block-ui": "~0.2.2",
+    "angular-sanitize": "~1.4.8",
+    "angular-echarts": "~0.3.5",
+    "ng-file-upload": "^12.2.12",
+    "pdfmake": "^0.1.20",
+    "domReady": "^2.0.1",
+    "angular-scroll": "~1.0.0",
+    "angular-translate": "^2.10.0",
+    "angular-bootstrap": "^1.3.2",
+    "angular-messages": "^1.5.0",
+    "angular-ui-switch": "^0.1.1",
+    "angular-ui-select": "0.19.8",
+    "angular-file-upload": "~2.3.3",
+    "underscore": "^1.8.3",
+    "wangEditor": "^3.0.15",
+    "ngstorage": "^0.3.11",
+    "crypto-js": "^3.1.9"
+  }
+}

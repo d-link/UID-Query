@@ -1,0 +1,803 @@
+<!--这段代码无意义，只是为了解决IOS下，弹出框不消失的问题，后期再继续研究这类问题-->
+<div ng-controller="wirelessClientController">
+    <div ui-grid="connectedClientOptions" style="display:none;" class="grid"
+         ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection>
+    </div>
+</div>
+<!--这段代码无意义，只是为了解决IOS下，弹出框不消失的问题-->
+
+<div class="refreshBtn" id="dsRefreshData">
+    <img class="search-icons" ng-src="images/appIcons/icon_refresh.png"/>
+</div>
+<div ng-controller="dashboardController" class="wireless">
+    <div class="set-height" id="dashboardPage">
+        <!-- <div class="row orgpanel">
+            <span>{{hotTimeUniqueClientsvalue}}</span>
+            <span>{{hotTimeUniqueClientsData}}</span>
+        </div> -->
+        <div class="row orgpanel">
+            <div id="dashboard_info" class="dashboard-info">
+                <div style="padding:2px;width: 100%;" class="col-md-3 col-sm-6 mgb24" ng-repeat="summary in summarys">
+                    <div class="subpage">
+                        <md-icon style="width:2.5rem;height:2.5rem;"
+                                 md-svg-icon="icon64:icon-{{summary.name}}"></md-icon>
+                        <div class="wireless-info" style="right:3px;">
+                            <a ng-if="summary.name!='access'&&summary.name!='clients'"
+                               ng-click="gotoOtherPage(summary.moudleId, summary.parentId)"
+                               class="color-{{summary.class}}"
+                            >{{summary.value}}</a>
+
+                            <a ng-if="summary.name=='clients'"
+                               class="color-{{summary.class}}"
+                               ng-click="gotoOtherPage(summary.moudleId, summary.parentId)"
+                            >{{summary.value}}</a>
+                            <a ng-if="summary.name=='access'"
+                               class="color-{{summary.class}}"
+                               ng-click="gotoOtherPage(summary.moudleId, summary.parentId)"
+                            >
+                                <span class="title-im">{{summary.value.online}}</span>
+                                <span style="font-size: 0.8rem;">/{{summary.value.total}}</span>
+                                <!-- /{{summary.value.total}} -->
+                            </a>
+                            <span ng-if="summary.name=='access'">{{ 'common.' + summary.name | translate }}</span>
+                            <span ng-if="summary.name!=='access'">{{ 'common.' + summary.name | translate }}</span>
+                            <!-- <span ng-if="summary.name=='access'">{{summary.formatName?summary.formatName:summary.name}}</span> -->
+                            <!-- <span ng-if="summary.name!=='access'">{{summary.formatName?summary.formatName:summary.name}}</span> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div>{{'width:'+webpageVisibleW}}</div>
+            <div>{{'height:'+webpageVisibleH}}</div> -->
+            <!--last hour-->
+            <div class="col-md-12 col-sm-12 mgb24" style="padding: 3px;">
+                <div class="box-dashboard-header">
+                    <span>{{'dashboard.T10ABU'|translate}}</span>
+                    <!-- <span>{{LastHourTitle}}</span> -->
+                    <div class="btn-group"
+                         auto-close="disabled"
+                         is-open="isOpenLHMenu"
+                         style="position: relative;z-index: 1;"
+                         uib-dropdown
+                         id="searchLasthourDiagram">
+                        <button type="button"
+                                class="btn btn-cancel pull-right"
+                                style="margin-right: 0.5rem;"
+                                ng-click="openLastHourDiagrams();"
+                                uib-dropdown-toggle>
+                            <img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+                        </button>
+                        <div class="dropdown-menu"
+                             template-url="lastHourDiagramsMenu.html"
+                             uib-dropdown-menu>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="caption">
+                    <div class="box-content" style="position: relative;height: auto;">
+                        <div class="clear">
+                            <div class="col-md-6 col-sm-6" style="border-bottom: double 1px #EFEFEF;">
+                                <div id="lastHourNumberChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <span class="lastTimeChartTitle" ng-if="NTPStatus1==1">{{'dashboard.lastHourNumber'|translate}}{{'dashboard.clientsPer7days'|translate}}{{lastHunit}}</span>
+                                <span class="lastTimeChartTitle" ng-if="NTPStatus1==2||NTPStatus1==0">{{'dashboard.lastHourNumber'|translate}}{{lastHunit}}</span>
+                                <div id="lastHourNumberCharts" line-chart options="lastHourNumberCharts.options"
+                                     size="Chartsize" theme="theme" style="position: relative;"></div>
+                            </div>
+                            <div class="col-md-6 col-sm-6" style="border-bottom: double 1px #EFEFEF;">
+                                <div id="lastHourTrafficChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <span class="lastTimeChartTitle" ng-if="NTPStatus1==1">{{'dashboard.lastHourTraffic'|translate}}{{'dashboard.trafficPer7days'|translate}}{{lastHunit}}</span>
+                                <span class="lastTimeChartTitle" ng-if="NTPStatus1==2||NTPStatus1==0">{{'dashboard.lastHourTraffic'|translate}}{{lastHunit}}</span>
+                                <div id="lastHourTrafficCharts" line-chart options="lastHourTrafficCharts.options"
+                                     size="Chartsize" theme="theme" style="position: relative;"></div>
+                            </div>
+                            <div class="col-md-6 col-sm-6" style=" border-bottom: double 1px #EFEFEF;">
+                                <div id="lastHourTrafficDownUpChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <span class="lastTimeChartTitle">{{'dashboard.lastHourTrafficDownUp'|translate}}{{lastHourTra}}</span>
+                                <div id="lastHourTrafficDownUpCharts" line-chart
+                                     options="lastHourTrafficDownUpCharts.options" size="Chartsize" theme="theme"
+                                     style="position: relative;"></div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div id="lastHourTrafficSsidChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <span class="lastTimeChartTitle">{{'dashboard.lastHourTrafficSsid'|translate}}{{ssidnui}}</span>
+                                <div id="lastHourTrafficSsidCharts" line-chart
+                                     options="lastHourTrafficSsidCharts.options"
+                                     size="Chartsize" theme="theme" style="position: relative;"
+                                     ng-click="chartTooltipClick($event);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--last hour-->
+
+
+            <!--HOT TIME-->
+            <div class="col-md-12 col-sm-12 mgb24" style="padding: 3px;">
+                <div class="box-dashboard-header" style="display: flex;flex-flow: row;">
+                    <div class="hotTimeSty">
+                        <span>{{'menu.hotTime'|translate}}</span>
+                        <span>{{dayRange}}</span>
+                    </div>
+                    <div class="btn-group"
+                         uib-dropdown
+                         auto-close="disabled"
+                         is-open="isOpenHotTimeMenu">
+                        <button type="button"
+                                style="margin-right: 0.5rem;"
+                                class="btn btn-cancel pull-right"
+                                uib-dropdown-toggle
+                                ng-click="openHotTimeMenu();"
+                        >
+                            <img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+                        </button>
+                        <div class="dropdown-menu-right"
+                             uib-dropdown-menu
+                             template-url="hotTimeMenus.html">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="caption">
+                    <div class="box-content" style="position: relative;height: auto;">
+                        <div class="clear">
+                            <div class="col-md-6 col-sm-6">
+                                <div is-open="isOpenCTranslate" uib-dropdown auto-close="disabled"
+                                     class="hotTimeChartSty1">
+                                    <div>
+                                        <span class="hotTimeChartTitleC">{{'report.hotTimeChartTitle1'|translate}}</span>
+                                    </div>
+                                    <div uib-dropdown-toggle ng-click="showClientSet();">
+                                        <span>{{'report.threshold'|translate}}:&nbsp;</span>
+                                        <span>{{hotTime.uniqueClients.threshold}}</span>
+                                        &nbsp;&nbsp;
+                                        <span>{{'report.probability'|translate}}:&nbsp;</span>
+                                        <span>{{hotTime.uniqueClients.probability}}%</span>
+                                        <div></div>
+                                    </div>
+                                    <div style="width:100%;margin-top:0.2rem;">
+                                        <span style="float: left;font-size: 0.4rem;color: #cccccc;">{{'report.uniqueClients'|translate}}</span>
+                                    </div>
+                                    <div class="dropdown-menu-right" uib-dropdown-menu
+                                         template-url="threshold.html"></div>
+                                </div>
+
+                                <div id="MostClientsHotTimeChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <div id="MostClientsHotTimeCharts" scatter-chart
+                                     options="MostClientsHotTimeCharts.options" size="Chartsize" theme="theme"
+                                     style="position: relative;"></div>
+                            </div>
+
+                            <div class="col-md-6 col-sm-6">
+
+                                <div is-open="isOpenTTranslate" uib-dropdown auto-close="disabled"
+                                     class="hotTimeChartSty1">
+                                    <div>
+                                        <span class="hotTimeChartTitleT">{{'report.hotTimeChartTitle2'|translate}}</span>
+                                    </div>
+                                    <div uib-dropdown-toggle ng-click="showTrafficSet();">
+                                        <span>{{'report.threshold'|translate}}:&nbsp;</span>
+                                        <span>{{hotTime.trafficUsage.threshold}}&nbsp{{hotTime.trafficUsage.thresholdUnit.unit?hotTime.trafficUsage.thresholdUnit.unit.unit:hotTime.trafficUsage.thresholdUnit}}</span>
+                                        &nbsp;&nbsp;
+                                        <span>{{'report.probability'|translate}}:&nbsp;</span>
+                                        <span>{{hotTime.trafficUsage.probability}}%</span>
+                                        <div></div>
+                                    </div>
+                                    <div style="width:100%;margin-top:0.2rem;">
+                                        <span style="float: left;font-size: 0.4rem;color: #cccccc;">{{'report.trafficUsage'|translate}}{{'('+mtuc+')'}}</span>
+                                    </div>
+                                    <div class="dropdown-menu-right" uib-dropdown-menu
+                                         template-url="Tthreshold.html"></div>
+                                </div>
+
+                                <div id="MostTrafficUsageChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <div id="MostTrafficUsageCharts" scatter-chart options="MostTrafficUsageCharts.options"
+                                     size="Chartsize" theme="theme" style="position: relative;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--HOT TIME-->
+
+            <!--HOT AP-->
+            <div class="col-md-12 col-sm-12 mgb24" style="padding: 3px;">
+
+                <div class="box-dashboard-header">
+                    <span>{{'report.hotAPTitle1'|translate}}</span>
+                    <div class="btn-group"
+                         uib-dropdown
+                         auto-close="disabled"
+                         is-open="isOpenHotAPMenu">
+                        <button type="button"
+                                class="btn btn-cancel pull-right"
+                                style="margin-right: 0.5rem;"
+                                ng-click="openHotApMenu();"
+                                uib-dropdown-toggle>
+                            <img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+                        </button>
+
+                        <div class="dropdown-menu-right"
+                             uib-dropdown-menu
+                             template-url="hotAPMenus.html">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="caption">
+
+                    <div style="margin-top: 0.3rem;">
+                        <span class="hot-ap-title">{{hotApMapActive.mapName}}</span>
+                    </div>
+                    <div class="hotApInfo">
+                        <div>
+                            <span>{{'report.hotAPUniqueClientTitle'|translate}}:&nbsp</span>
+                            <span>{{uniqueClients.average}}/{{uniqueClients.high}}</span>
+                        </div>
+                        <div>
+                            <span>{{'report.hotAPTrafficUsageTitle'|translate}}:&nbsp</span>
+                            <span>{{trafficUsage.average}}&nbsp{{trafficUsage.unit}}/{{trafficUsage.high}}&nbsp{{trafficUsage.unit}}</span>
+                        </div>
+                    </div>
+
+                    <!-- 当没有查询到数据的时候，需要显示给用户提示-->
+                    <div class="box-content" style="position: relative;" ng-show="hotApMaps.length<=0">
+                        <div class="clear" style="padding: 0.3rem;">
+                            <div id="hotAPDiv" style="height: 20rem;">
+                                <div class="grid-no-data" ng-show="hotApMaps.length<=0">
+                                    <img src="/public/images/no-data.png">
+                                    <span style="font-size:0.5rem;">{{'report.noMapInfo1'|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-content" style="position: relative;" ng-show="hotApMaps.length>0">
+                        <div class="clear" style="padding: 0.3rem;">
+                            <div id="hotAPDiv" style="height: 250px;">
+                                <canvas id="showCanvas" style="width:100%;height:100%;"></canvas>
+                                <div style="background: #3d68c5;">
+                                    <div id="tipdiv" class="hot-ap-point-text"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--HOT AP-->
+
+            <!--HOT Hourly-->
+            <div class="col-md-12 col-sm-12 mgb24" style="padding: 3px;">
+
+                <div class="box-dashboard-header">
+                    <!-- <span>{{$root.hotHourlyTitle}}</span> -->
+                    <span>{{'report.hourlyTitle'|translate}}</span>
+                    <div class="btn-group"
+                         is-open="isOpenHotHourlyMenu"
+                         auto-close="disabled"
+                         uib-dropdown>
+                        <button type="button"
+                                class="btn btn-cancel pull-right"
+                                ng-click="openHotHourlyMenu();"
+                                style="margin-right: 0.5rem;"
+                                uib-dropdown-toggle>
+                            <img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+                        </button>
+
+                        <div class="dropdown-menu-right"
+                             uib-dropdown-menu
+                             template-url="hotHourlyMenus.html">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="caption">
+                    <div class="box-content" style="position: relative;height: auto;">
+                        <div class="clear">
+                            <div class="col-md-6 col-sm-6">
+                                <div id="HourlyUniqueChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <span class="lastTimeChartTitle">{{'report.hourlyChartTitle1'|translate}}</span>
+                                <div style="width:100%;margin-top:0.2rem;">
+                                    <span style="float: left;font-size: 0.4rem;color: #cccccc;">{{'report.uniqueClients'|translate}}</span>
+                                </div>
+                                <div id="HourlyUniqueCharts" line-chart options="HourlyUniqueCharts.options"
+                                     size="Chartsize" theme="theme" style="position: relative;"></div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div id="HourlyTrafficChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <span class="lastTimeChartTitle">{{'report.hourlyChartTitle2'|translate}}</span>
+                                <div style="width:100%;margin-top:0.2rem;">
+                                    <span style="float: left;font-size: 0.4rem;color: #cccccc;">{{'report.trafficUsage'|translate}}{{'('+htan+')'}}</span>
+                                </div>
+                                <div id="HourlyTrafficCharts" line-chart options="HourlyTrafficCharts.options"
+                                     size="Chartsize" theme="theme" style="position: relative;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--HOT Hourly-->
+
+            <!--HOT Daily-->
+            <div class="col-md-12 col-sm-12 mgb24" style="padding: 3px;">
+
+                <div class="box-dashboard-header">
+                    <span>{{'report.dailyTitle'|translate}}</span>
+                    <!-- <span>{{$root.DailyTitle}}</span> -->
+                    <div class="btn-group"
+                         auto-close="disabled"
+                         uib-dropdown
+                         is-open="isOpenHotDailyMenu">
+                        <button type="button"
+                                class="btn btn-cancel pull-right"
+                                ng-click="openHotApMenu();"
+                                style="margin-right: 0.5rem;"
+                                uib-dropdown-toggle>
+                            <img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+                        </button>
+
+                        <div class="dropdown-menu-right"
+                             uib-dropdown-menu
+                             template-url="hotDailyMenus.html">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="caption" id="dailyChart">
+                    <div class="box-content" style="position: relative;height: auto;">
+                        <div class="clear">
+                            <div class="col-md-6 col-sm-6" style="width: 100%;">
+                                <div id="DailyTrafficUsageChartsLoading" class="la-ball-clip-rotate">
+                                    <div></div>
+                                </div>
+                                <span class="lastTimeChartTitle">{{'report.dailyChartTitle'|translate}}</span>
+                                <div style="width:100%;margin-top:0.2rem;">
+                                    <span style="float: left;font-size: 0.4rem;color: #cccccc;">{{'report.trafficUsage'|translate}}{{'('+dtun+')'}}</span>
+                                    <span style="float: right;font-size: 0.4rem;color: #cccccc;">{{'report.uniqueClients'|translate}}</span>
+                                </div>
+                                <div id="DailyTrafficUsageCharts" line-chart options="DailyTrafficUsageCharts.options"
+                                     size="Chartsize" theme="theme" style="position: relative;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--HOT Daily-->
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="lastHourDiagramsMenu.html">
+    <div class="dropdown-menu-right"
+         id="lastHourDiagramsMenuDropdown"
+         uib-dropdown-menu>
+        <div class="dropdown-containner">
+            <div class="dropdown-containner-title">
+                <!-- <span>{{ 'common.DropMenuTitle' | translate}}</span> -->
+                <span>{{ 'accessPoint.searchBy' | translate}}</span>
+            </div>
+            <div class="dropdown-containner-content">
+
+                <div class="dropdown-containner-content-select">
+                    <ui-select class="uiSelect" ng-model="LHSelect.site" theme="bootstrap"
+                               on-select="changeLHSite($index,$item);">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.siteName|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="dropdown-containner-content-select">
+                    <ui-select class="uiSelect"
+                               ng-model="LHSelect.network"
+                               theme="bootstrap">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.name|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="net in LHSelect.site.networks">
+                            {{net.name|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="dropdown-containner-content-title-left">
+                    <!-- <span>{{ 'common.DateAndTime' | translate}}</span> -->
+                    <span>{{ 'configuration.schedule.SelectTime' | translate}}</span>
+                </div>
+
+                <div class="dropdown-containner-content-arroundbox">
+                    <div class="select-timeDay-48">
+                        <ui-select class="uiSelect" id="LHSelectDate" ng-model="LHSelect.networkday" theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected.str|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="time_day in LHSelect.networkdays">
+                                {{time_day.str|translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="select-timeInterval">:</div>
+                    <div class="select-timeHour-47">
+                        <ui-select class="uiSelect"
+                                   id="LHSelectTime"
+                                   ng-model="LHSelect.networkHour"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected.str|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="time_hour in LHSelect.networkHours">
+                                {{time_hour.str|translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+
+                <div class="dropdown-containner-content-footer">
+                    <div ng-click="cleanLasthourDiagram()">
+                        <span>{{ 'common.clear' | translate}}</span>
+                    </div>
+                    <div style="visibility:hidden;min-width:0.4rem;"></div>
+                    <div ng-click="searchLasthourDiagram()">
+                        <span>{{ 'common.confirm' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</script>
+
+
+<script type="text/ng-template" id="hotTimeMenus.html">
+
+    <div class="dropdown-menu-right"
+         id="hotTimeMenusDropdown"
+         uib-dropdown-menu>
+        <div class="dropdown-containner">
+            <div class="dropdown-containner-title">
+                <span>{{ 'accessPoint.searchBy' | translate}}</span>
+            </div>
+            <div class="dropdown-containner-content">
+
+                <div class="dropdown-containner-content-select">
+                    <ui-select ng-model="hotTime.site" theme="bootstrap" class="uiSelect"
+                               on-select="changeAPSite($index,$item);">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.siteName|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="dropdown-containner-content-select">
+                    <ui-select ng-model="hotTime.network" theme="bootstrap" class="uiSelect">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.name|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="net in hotTime.site.networks">
+                            {{net.name|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="dropdown-containner-content-footer">
+                    <div ng-click="cleanHotTimeDiagram();">
+                        <span>{{ 'common.clear' | translate}}</span>
+                    </div>
+                    <div style="visibility:hidden;min-width:0.4rem;"></div>
+                    <div ng-click="searchHotTimeDiagram();">
+                        <span>{{ 'common.confirm' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+
+<script type="text/ng-template" id="hotAPMenus.html">
+
+    <div class="dropdown-menu-right"
+         id="hotAPMenusDropdown"
+         uib-dropdown-menu>
+        <div class="dropdown-containner">
+            <div class="dropdown-containner-title">
+                <span>{{ 'accessPoint.searchBy' | translate}}</span>
+            </div>
+            <div class="dropdown-containner-content">
+                <div class="dropdown-containner-content-select">
+                    <ui-select ng-model="HotApSelect.map" theme="bootstrap" class="uiSelect">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.mapName|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="ApMap in hotApMaps">
+                            {{ApMap.mapName|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="dropdown-containner-content-title-left">
+                    <span>{{ 'configuration.schedule.SelectTime' | translate}}</span>
+                </div>
+
+                <div class="dropdown-containner-content-arroundbox">
+                    <div class="select-timeDay-48">
+                        <ui-select class="uiSelect"
+                                   id="LHSelectDate"
+                                   ng-model="ApSelect.networkday" theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected.str|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="time_day in ApSelect.networkdays">
+                                {{time_day.str|translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="select-timeInterval">:</div>
+                    <div class="select-timeHour-47">
+                        <ui-select class="uiSelect"
+                                   id="LHSelectTime"
+                                   ng-model="ApSelect.networkHour"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected.str|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="time_hour in ApSelect.networkHours">
+                                {{time_hour.str|translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="dropdown-containner-content-footer">
+                    <div ng-click="ckearHotApParams()">
+                        <span>{{ 'common.clear' | translate}}</span>
+                    </div>
+                    <div style="visibility:hidden;min-width:0.4rem;"></div>
+                    <div ng-click="searchHotApMapByName()">
+                        <span>{{ 'common.confirm' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="hotHourlyMenus.html">
+
+    <div class="dropdown-menu-right"
+         id="hotHourlyMenusDropdown"
+         uib-dropdown-menu>
+        <div class="dropdown-containner">
+            <div class="dropdown-containner-title">
+                <span>{{ 'accessPoint.searchBy' | translate}}</span>
+            </div>
+            <div class="dropdown-containner-content">
+
+                <div class="dropdown-containner-content-select">
+                    <ui-select ng-model="hourly.site" theme="bootstrap" class="uiSelect"
+                               on-select="changeHourlySite($index,$item);">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.siteName|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="dropdown-containner-content-select">
+                    <ui-select ng-model="hourly.network" theme="bootstrap" class="uiSelect">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.name|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="net in hourly.site.networks">
+                            {{net.name|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="dropdown-containner-content-title-left">
+                    <span>{{ 'configuration.schedule.SelectTime' | translate}}</span>
+                </div>
+
+                <div class="dropdown-containner-content-select">
+                    <ui-select ng-model="hourly.date" theme="bootstrap" class="uiSelect">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.str|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="time_day in hourly.days">
+                            {{time_day.str|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+
+                <div class="dropdown-containner-content-footer">
+                    <div ng-click="clearHourlyParams();">
+                        <span>{{ 'common.clear' | translate}}</span>
+                    </div>
+                    <div style="visibility:hidden;min-width:0.4rem;"></div>
+                    <div ng-click="searchHourlyDiagram()">
+                        <span>{{ 'common.confirm' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="hotDailyMenus.html">
+
+    <div class="dropdown-menu-right"
+         id="hotDailyMenusDropdown"
+         uib-dropdown-menu>
+        <div class="dropdown-containner">
+            <div class="dropdown-containner-title">
+                <span>{{ 'accessPoint.searchBy' | translate}}</span>
+            </div>
+            <div class="dropdown-containner-content">
+
+                <div class="dropdown-containner-content-select">
+                    <ui-select ng-model="daily.site" theme="bootstrap" class="uiSelect"
+                               on-select="changeDailySite($index,$item);">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.siteName|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="dropdown-containner-content-select">
+                    <ui-select ng-model="daily.network" theme="bootstrap" class="uiSelect">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                            {{$select.selected.name|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="net in daily.site.networks">
+                            {{net.name|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="dropdown-containner-content-title-left">
+                    <span>{{ 'configuration.schedule.SelectTime' | translate}}</span>
+                </div>
+
+                <div class="dropdown-containner-content-arroundbox">
+                    <div class="select-timeDay-first-49">
+                        <ui-select class="uiSelect"
+                                   id="LHSelectDate"
+                                   ng-model="daily.startDay"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected.str|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="time_day in dailySelect.startDays">
+                                {{time_day.str|translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+
+                    <div class="select-timeDay-second-49">
+                        <ui-select class="uiSelect"
+                                   id="LHSelectDate"
+                                   ng-model="daily.endDay"
+                                   theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected.str|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="time_day in dailySelect.endDays">
+                                {{time_day.str|translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+
+                <div class="dropdown-containner-content-footer">
+                    <div ng-click="clearDailyParams()">
+                        <span>{{ 'common.clear' | translate}}</span>
+                    </div>
+                    <div style="visibility:hidden;min-width:0.4rem;"></div>
+                    <div ng-click="searchDailyDiagram()">
+                        <span>{{ 'common.confirm' | translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/ng-template" id="threshold.html">
+    <div class="threshold" uib-dropdown-menu>
+        <div class="dropdown-containner">
+            <div class="dropdown-containner-title">
+                <span>{{'report.threshold'|translate}}{{'common.edit'|translate}}</span>
+                <i class="cencalBtn" ng-click="cancelClientSet();"></i>
+                <!-- <md-icon md-svg-icon="modal:close" class="cencalBtn" ng-click="cancelClientSet();"></md-icon> -->
+            </div>
+
+            <div class="dropdown-containner-content">
+
+                <div class="dropdown-containner-content-select">
+                    <input style="height: 1.2rem;" type="number"
+                           placeholder="{{'report.threshold'|translate}}"
+                           ng-model="set.uniqueClientsThreshold" class="form-control" step="1" min="0" max="65535"
+                           ng-pattern="/^[1-9]\d*$/">
+                </div>
+
+                <div ng-class="{'doneBtn':set.uniqueClientsThreshold,'noneBtn':!set.uniqueClientsThreshold}"
+                     ng-click="saveClientSet();">
+                    <span>{{ 'common.confirm' | translate}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="Tthreshold.html">
+    <div class="Tthreshold" uib-dropdown-menu>
+        <div class="dropdown-containner">
+            <div class="dropdown-containner-title">
+                <span>{{'report.threshold'|translate}}{{'common.edit'|translate}}</span>
+                <i class="cencalBtn" ng-click="cancelTrafficSet();"></i>
+            </div>
+
+            <div class="dropdown-containner-content">
+
+                <div class="dropdown-containner-content-select">
+                    <input style="height: 1.2rem;" type="number"
+                           placeholder="{{'report.threshold'|translate}}"
+                           ng-model="set.trafficUsageThreshold" class="form-control" step="1" min="0" max="65535"
+                           ng-pattern="/^[1-9]\d*$/">
+                </div>
+                <div class="dropdown-containner-content-select">
+                    <ui-select class="uiSelect" ng-model="set.trafficUsageThresholdUnit" theme="bootstrap">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.unit}}
+                        </ui-select-match>
+
+                        <ui-select-choices repeat="x in unitTypes">
+                            {{x.unit}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+
+                <div ng-class="{'doneBtn':set.trafficUsageThreshold,'noneBtn':!set.trafficUsageThreshold}"
+                     ng-click="saveTrafficSet();">
+                    <span>{{ 'common.confirm' | translate}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+

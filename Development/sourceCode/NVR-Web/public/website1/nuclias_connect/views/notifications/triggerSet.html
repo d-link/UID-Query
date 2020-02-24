@@ -1,0 +1,759 @@
+<div ng-controller="triggerSetController" class="subpage trigger-setting">
+
+	<script type="text/ng-template" id="addTrigger.html">
+	    <div class="modal-header">
+	        <a class="logo">
+	            <md-icon md-svg-icon="common:{{title}}"></md-icon>
+	        </a><span>{{'common.'+title|translate}} Trigger Rule</span>
+	        <a class="close pull-right"
+	           ng-click="cancel()" title="{{'title.close'|translate}}">
+	            <md-icon md-svg-icon="modal:close"></md-icon>
+	        </a>
+	    </div>
+	    <div class="modal-body">
+	        <form class="form-horizontal" name="createTrigger">
+	            <div class="form-group">
+	                <label class="col-sm-3 control-label">Name</label>
+	                <div class="col-sm-8" ng-class="nameRepeat?'error':''">
+	                    <input class="form-control w320" ng-model="triggerRule.name" ng-disabled="isDefault" placeholder="name" name="name" autocomplete="off" ng-maxlength="32" maxlength="32" required ng-change="nameRepeat=false">
+	                    <span class="hint-span">The name has been occupied</span>
+	                </div>
+	            </div>
+	            <div class="form-group mgb0">
+	                <label class="col-sm-3 control-label">Description</label>
+	                <div class="col-sm-8" ng-class="createTrigger.desc.$error.maxlength?'error':''">
+	                    <textarea id="desc" cols="50" rows="2" ng-model="triggerRule.desc" class="form-control w320" ng-change="descLimit()" placeholder="desc" name="desc" autocomplete="off" ng-maxlength="255" maxlength="255"></textarea>
+	                </div>
+	            </div>
+	            <!-- <div class="form-group">
+		        	<label class="col-sm-3 control-label">Polling Interval</label>
+	                <div class="col-sm-7" style="width: 155px;height: 32px;padding-right: 0px;">
+	                    <ui-select ng-model="triggerRule.pollingInterval" theme="bootstrap" ng-disabled="readOnly">
+	                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected/60}}</ui-select-match>
+	                        <ui-select-choices repeat="item in [60,300,600,900,1800]">{{item/60}}</ui-select-choices>
+	                    </ui-select>
+	                </div>
+		        	<label class="col-sm-2 control-label" style="padding-left: 8px;text-align: left;">Minutes</label>
+		        </div> -->
+
+		        <!-- <div class="form-group mgb0 special-radio" ng-if="!isDefault && !isEdit">
+		        	<label class="col-sm-3 control-label">You can apply this rule to device</label>
+		        	<div class="col-sm-8">
+		        		<label class="radio-inline">
+		        			<p><span ng-show="applyNow.value=='now'"></span></p>
+
+		        			<input type="radio" ng-model="applyNow.value"   value="now" ng-checked="">Now
+		        		</label>
+		        		<label class="radio-inline">
+		        			<p><span ng-show="applyNow.value=='later'"></span></p>
+		        			<input type="radio" ng-model="applyNow.value" value="later">Later
+		        		</label>
+		        	</div>
+		        </div> -->
+	        </div>
+	        <!-- <div ng-if="step==2">
+		        <div select-part-device selected-devids="triggerRule.devIds" device-info="deviceInfo"></div>
+	        </div> -->
+		</form>
+	    <div class="modal-footer">
+	    	<!-- <button class="btn btn-common" type="button" ng-click="pre()" ng-if="step==2">Back</button>
+	        <button class="btn btn-common" type="button" ng-click="next()" ng-if="applyNow.value=='now'&&step==1&&!isDefault" ng-disabled="createTrigger.triggerName.$error.required
+                              || createTrigger.triggerName.$invalid">Next</button> -->
+	        <button class="btn btn-common" type="button" ng-click="ok()" ng-disabled="createTrigger.name.$invalid || createTrigger.desc.$invalid">Save</button>
+	        <button class="btn btn-cancel" type="button" ng-click="cancel()">Cancel</button>
+	    </div>
+	</script>
+
+	<script type="text/ng-template" id="triggerCpuLoad.html">
+		<div class="trigger-cpuload">
+			<div class="form-group mgb24">
+				<label class="col-sm-2 control-label">Condition Repeat Times</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" ng-model="monitorData.repeatTime" style="width: 80px;">
+				</div>
+			</div>
+			<div class="form-group mgb32">
+				<label class="col-sm-2 control-label">Sample Type</label>
+				<div class="col-sm-9">
+					<div style="width: 160px;height: 32px;">
+						<ui-select ng-model="monitorData.valueType" theme="bootstrap" ng-disabled="readOnly">
+							<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+							<ui-select-choices repeat="item in ['Absolute Value', 'Delta Value']">{{item}}</ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
+			</div>
+			<label class="title mgb24">Trigger condition</label>
+			<div ng-repeat="(severity, condition) in monitorData.conditions" style="padding-left: 8px;">
+				<label class="checkLabel title mgb24">
+					<input type="checkbox" ng-model="condition.enable">{{severity}} Event
+					<p><md-icon md-svg-icon="modal:checkbox" ng-show="condition.enable"></md-icon></p>
+				</label>
+				<div class="form-group" style="margin-bottom: 12px">
+					<label class="col-sm-2 control-label">Trigger Condition</label>
+					<div class="col-sm-9">
+						<span>Expression</span>
+						<div style="width: 80px;height: 32px;margin-right: 48px;">
+							<ui-select ng-model="condition.HCondition.expression" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['>','>=','<','<=']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<span>Threshold(%)</span>
+						<div style="width: 80px;height: 32px;">
+							<input type="text" class="form-control" ng-model="condition.HCondition.threshold">
+						</div>
+					</div>
+				</div>
+				<div class="form-group" style="margin-bottom: 20px;">
+					<label class="col-sm-2 control-label">Generate Alarm</label>
+					<div class="col-sm-2">
+						<switch class="switch-default"
+								ng-model="condition.alert">
+						</switch>
+					</div>
+				</div>
+				<div class="form-group mgb24">
+					<label class="col-sm-2 control-label">Release Condition</label>
+					<div class="col-sm-9">
+						<span>Expression</span>
+						<div style="width: 80px;height: 32px;margin-right: 48px;">
+							<ui-select ng-model="condition.LCondition.expression" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['>','>=','<','<=']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<span>Threshold(%)</span>
+						<div style="width: 80px;height: 32px;">
+							<input type="text" class="form-control" ng-model="condition.LCondition.threshold">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group mgb0">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button class="btn btn-cancel pull-right" type="button" style="margin-left: 8px;">Cancel</button>
+				<button class="btn btn-common pull-right" type="button" ng-click="saveMonitor()">
+					<span class="pull-left">Save</span>
+					<!-- <span ng-if="state.processing" class="processingTest"><i></i></span> -->
+				</button>
+				<span class="hint-span state processing-msg" ng-show="state.processing"><img src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+				<span class="hint-span state success-msg" ng-show="state.isSuccess">{{state.msgTrue}}</span>
+				<span class="hint-span state error-msg" ng-show="state.isError">{{state.msgFalse}}</span>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="triggerTrap.html">
+		<div class="trigger-trap">
+			<div style="border: 1px solid #eee;border-radius: 4px;padding-bottom: 16px;height: 260px;margin-bottom: 16px;">
+				<div id="" ui-grid="gridTrapOptions" class="grid" style="height: 234px;">
+					<!-- <div ng-show="gridTrapOptions.data.length == '0'" class="grid-no-data">
+						<img src="../public/images/no-data.png">
+						<p>No trap</p>
+					</div> -->
+				</div>
+			</div>
+			<div class="box" style="border: 1px solid #eee;margin-bottom: 24px;">
+				<div class="box-header"><h3>xxx</h3></div>
+				<div class="box-content" style="padding: 32px 24px 24px;">
+					<div class="form-group special-radio mgb24">
+						<label class="col-sm-2 control-label">Alarm Severity Level</label>
+						<div class="col-sm-4" >
+							<label class="radio-inline">
+								<input type="radio" value="Critical" ng-model="editData.severity">Critical
+								<p><span ng-show="editData.severity =='Critical'"></span></p>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="Warning" ng-model="editData.severity">Warning
+								<p><span ng-show="editData.severity =='Warning'"></span></p>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="Info" ng-model="editData.severity">Info
+								<p><span ng-show="editData.severity =='Info'"></span></p>
+							</label>
+						</div>
+					</div>
+					<div class="form-group mgb32">
+						<label class="col-sm-2 control-label">Trigger Trap Type</label>
+						<div class="col-sm-7" style="width: 400px;height: 32px;padding-right: 0px;">
+							<ui-select ng-model="trapType.triggerType" theme="bootstrap">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}<span class="pull-right" style="padding-right: 18px;">{{$select.selected.oid}}</span></ui-select-match>
+								<ui-select-choices repeat="item in tragTypes"><span style="width: auto;">{{item.name}}</span><span class="pull-right" style="width: auto;">{{item.oid}}</span></ui-select-choices>
+							</ui-select>
+						</div>
+					</div>
+					<div>
+						<label class="checkLabel title">
+							<input type="checkbox" ng-model="matchValue.value">Match Binding Value
+							<p>
+								<md-icon md-svg-icon="modal:checkbox" ng-if="matchValue.value"></md-icon>
+							</p>
+						</label>
+						<div class="form-group mgb24">
+							<label class="col-sm-2 control-label">Logical Relationship</label>
+							<div class="col-sm-7 w100" style="height: 32px;">
+								<ui-select ng-model="editData.expressionH" theme="bootstrap" ng-disabled="!matchValue.value">
+									<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+									<ui-select-choices repeat="item in logicals">{{item}}</ui-select-choices>
+								</ui-select>
+							</div>
+						</div>
+						<div class="form-group mgb24">
+							<div class="col-sm-2 control-label"></div>
+							<div class="col-sm-10" style="padding-right: 23px;">
+								<div style="padding: 16px;" class="ruleMain">
+									<div class="clear">
+										<div class="col-sm-3" style="width: 30%;">Match Type</div>
+										<div class="col-sm-3" style="width: 30%;">Bingding Variable</div>
+										<div class="col-sm-3" style="width: 30%;">Value</div>
+										<div class="col-sm-2" style="width: 49px;"></div>
+									</div>
+									<ul>
+										<li class="clear" ng-repeat="rule in editData.bindingVariableH">
+											<div class="col-sm-3" style="width: 30%;">
+												<div style="height: 32px;">
+													<ui-select ng-model="rule.matchType" theme="bootstrap" ng-disabled="readOnly">
+														<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+														<ui-select-choices repeat="item in matchTypes track by $index">{{item}}</ui-select-choices>
+													</ui-select>
+												</div>
+											</div>
+											<div class="col-sm-3" style="width: 30%;">
+												<input type="text" class="form-control" ng-model="rule.variable">
+											</div>
+											<div class="col-sm-3" style="width: 30%;">
+												<input type="text" class="form-control" ng-model="rule.value">
+											</div>
+											<div class="col-sm-1" style="width: 49px;"><button class="btn btn-small" type="button" ng-click="removeHMatch($index);"><md-icon md-svg-icon="modal:minus"></md-icon></button></div>
+										</li>
+										<li class="clear">
+											<div class="col-sm-3" style="width: 30%;">
+												<div style="height: 32px;">
+													<ui-select ng-model="aaa" theme="bootstrap" ng-disabled="true">
+														<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+														<ui-select-choices repeat="item in ['Contains', 'Equal']">{{item}}</ui-select-choices>
+													</ui-select>
+												</div>
+											</div>
+											<div class="col-sm-3" style="width: 30%;">
+												<input type="text" class="form-control" ng-model="bbb" disabled>
+											</div>
+											<div class="col-sm-3" style="width: 30%;">
+												<input type="text" class="form-control" ng-model="ccc" disabled>
+											</div>
+											<div class="col-sm-2" style="width: 49px;"><button class="btn btn-small" type="button" ng-click="addHMatch();" ng-disabled="!matchValue.value"><md-icon md-svg-icon="modal:plus"></md-icon></button></div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="clear mgb24" ng-if="!trapType.noVariable">
+						<!-- <label class="col-sm-2 control-label">Release Alarm Trap Type</label> -->
+						<label class="pull-left checkLabel title" style="margin-bottom: 0px;padding-top: 8px;">
+							<input type="checkbox" ng-model="releaseValue">Release Alarm Trap Type
+							<p style="top: 8px;">
+								<md-icon md-svg-icon="modal:checkbox" ng-if="releaseValue"></md-icon>
+							</p>
+						</label>
+						<div class="pull-left" style="width: 372px;height: 32px;padding-left: 32px;">
+							<ui-select ng-model="trapType.releaseType" theme="bootstrap" ng-disabled="!releaseValue">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}<span class="pull-right" style="padding-right: 18px;">{{$select.selected.oid}}</span></ui-select-match>
+								<ui-select-choices repeat="item in tragTypes">{{item.name}}<span class="pull-right">{{item.oid}}</span></ui-select-choices>
+							</ui-select>
+						</div>
+					</div>
+					<div ng-if="releaseValue && trapType.triggerType==trapType.releaseType">
+						<label class="checkLabel title disable">
+							<input type="checkbox" ng-model="matchValue.value" ng-disabled="true">Match Binding Value							
+							<p>
+								<md-icon md-svg-icon="modal:checkbox" ng-if="matchValue.value"></md-icon>
+							</p>
+						</label>
+						<div class="form-group mgb24">
+							<label class="col-sm-2 control-label">Logical Relationship</label>
+							<div class="col-sm-7 w100" style="height: 32px;">
+								<ui-select ng-model="editData.expressionL" theme="bootstrap" ng-disabled="!matchValue.value">
+									<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+									<ui-select-choices repeat="item in logicals">{{item}}</ui-select-choices>
+								</ui-select>
+							</div>
+						</div>
+						<div class="form-group mgb24">
+							<div class="col-sm-2 control-label"></div>
+							<div class="col-sm-10" style="padding-right: 23px;">
+								<div style="padding: 16px;" class="ruleMain">
+									<div class="clear">
+										<div class="col-sm-3" style="width: 30%;">Match Type</div>
+										<div class="col-sm-3" style="width: 30%;">Bingding Variable</div>
+										<div class="col-sm-3" style="width: 30%;">Value</div>
+										<div class="col-sm-2" style="width: 49px;"></div>
+									</div>
+									<ul>
+										<li class="clear" ng-repeat="rule in editData.bindingVariableL track by $index">
+											<div class="col-sm-3" style="width: 30%;">
+												<div style="height: 32px;">
+													<ui-select ng-model="rule.matchType" theme="bootstrap" ng-disabled="readOnly">
+														<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+														<ui-select-choices repeat="item in matchTypes track by $index">{{item}}</ui-select-choices>
+													</ui-select>
+												</div>
+											</div>
+											<div class="col-sm-3" style="width: 30%;">
+												<input type="text" class="form-control" ng-model="rule.variable">
+											</div>
+											<div class="col-sm-3" style="width: 30%;">
+												<input type="text" class="form-control" ng-model="rule.value">
+											</div>
+											<div class="col-sm-1" style="width: 49px;"><a class="btn btn-small" type="button" ng-click="removeLMatch($index);"><md-icon md-svg-icon="modal:minus"></md-icon></a></div>
+										</li>
+										<li class="clear">
+											<div class="col-sm-3" style="width: 30%;">
+												<div style="height: 32px;">
+													<ui-select ng-model="aaa" theme="bootstrap" ng-disabled="true">
+														<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+														<ui-select-choices repeat="item in ['Contains', 'Equal']">{{item}}</ui-select-choices>
+													</ui-select>
+												</div>
+											</div>
+											<div class="col-sm-3" style="width: 30%;">
+												<input type="text" class="form-control" ng-model="bbb" disabled>
+											</div>
+											<div class="col-sm-3" style="width: 30%;">
+												<input type="text" class="form-control" ng-model="ccc" disabled>
+											</div>
+											<div class="col-sm-2" style="width: 49px;"><a class="btn btn-small" type="button" ng-click="addLMatch();" ng-disabled="!matchValue.value"><md-icon md-svg-icon="modal:plus"></md-icon></a></div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group mgb0">
+						<button class="btn btn-common pull-right mgb0" ng-click="addTrapRule()" ng-if="!editRuleStatus" style="margin-right: 15px;">Add</button>
+						<button class="btn btn-common pull-right mgb0" ng-click="seveTrapRule()" ng-if="editRuleStatus" style="margin-right: 15px;">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group mgb0">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button class="btn btn-cancel pull-right" type="button" style="margin-left: 5px;">Cancel</button>
+				<button class="btn btn-common pull-right" type="button" ng-click="saveCondition()">
+					<span class="pull-left">Save</span>
+					<!-- <span ng-if="state.processing" class="processingTest"><i></i></span> -->
+				</button>
+				<span class="hint-span state processing-msg" ng-show="state.processing"><img src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+				<span class="hint-span state success-msg" ng-show="state.isSuccess">{{state.msgTrue}}</span>
+				<span class="hint-span state error-msg" ng-show="state.isError">{{state.msgFalse}}</span>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="triggerSyslog.html">
+		<div class="trigger-syslog">
+			<div style="border: 1px solid #eee;border-radius: 4px;padding-bottom: 16px;height: 260px;margin-bottom: 16px;">
+				<div id="" ui-grid="gridSyslogOptions" class="grid" style="height: 242px;">
+					<!-- <div ng-show="gridTrapOptions.data.length == '0'" class="grid-no-data">
+						<img src="../public/images/no-data.png">
+						<p>No trap</p>
+					</div> -->
+				</div>
+			</div>
+			<div class="box" style="border: 1px solid #eee;margin-bottom: 24px;">
+				<div class="box-header"><h3>xxx</h3></div>
+				<div class="box-content" style="padding: 32px 24px 24px;">
+					<div class="form-group special-radio mgb24">
+						<label class="col-sm-2 control-label">Alarm Severity Level</label>
+						<div class="col-sm-4" >
+							<label class="radio-inline">
+								<input type="radio" value="Critical" ng-model="editData.severity">Critical
+								<p><span ng-show="editData.severity =='Critical'"></span></p>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="Warning" ng-model="editData.severity">Warning
+								<p><span ng-show="editData.severity =='Warning'"></span></p>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="Info" ng-model="editData.severity">Info
+								<p><span ng-show="editData.severity =='Info'"></span></p>
+							</label>
+						</div>
+					</div>
+					<div class="form-group mgb32">
+						<label class="col-sm-2 control-label">Syslog Severity</label>
+						<div class="col-sm-7" style="width: 360px;height: 32px;">
+							<ui-select ng-model="editData.syslogSeverity" theme="bootstrap" multiple>
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$item.name}}</ui-select-match>
+								<ui-select-choices repeat="type in syslogTypes">{{type.name}}</ui-select-choices>
+							</ui-select>
+						</div>
+					</div>
+					<label class="checkLabel title">
+						<input type="checkbox" ng-model="matchValue.value">Match Binding Value						
+						<p>
+							<md-icon md-svg-icon="modal:checkbox" ng-if="matchValue.value"></md-icon>
+						</p>
+					</label>
+					<div class="form-group mgb24">
+						<label class="col-sm-2 control-label">Logical Relationship</label>
+						<div class="col-sm-7 w100" style="height: 32px;">
+							<ui-select ng-model="editData.expression" theme="bootstrap" ng-disabled="!matchValue.value">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in expressions">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+					</div>
+					<div class="form-group mgb24">
+						<div class="col-sm-2 control-label"></div>
+						<div class="col-sm-10" style="padding-right: 23px;">
+							<div style="padding: 16px;" class="ruleMain">
+								<div class="clear">
+									<div class="col-sm-3" style="width: 30%;">Match Type</div>
+									<div class="col-sm-3" style="width: 30%;">Value</div>
+									<div class="col-sm-2" style="width: 49px;"></div>
+								</div>
+								<ul>
+									<li class="clear" ng-repeat="rule in editData.valueMatch">
+										<div class="col-sm-3" style="width: 30%;">
+											<div style="height: 32px;">
+												<ui-select ng-model="rule.matchType" theme="bootstrap" ng-disabled="!matchValue.value">
+													<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+													<ui-select-choices repeat="item in ['Contains', 'Equal']">{{item}}</ui-select-choices>
+												</ui-select>
+											</div>
+										</div>
+										<div class="col-sm-3" style="width: 30%;">
+											<input type="text" class="form-control" ng-model="rule.keyword" ng-disabled="!matchValue.value">
+										</div>
+										<div class="col-sm-1" style="width: 49px;"><button class="btn btn-small" type="button" ng-click="removeMatch($index);"><md-icon md-svg-icon="modal:minus"></md-icon></button></div>
+									</li>
+									<li class="clear">
+										<div class="col-sm-3" style="width: 30%;">
+											<div style="height: 32px;">
+												<ui-select ng-model="aaa" theme="bootstrap" ng-disabled="true">
+													<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+													<ui-select-choices repeat="item in ['Contains', 'Equal']">{{item}}</ui-select-choices>
+												</ui-select>
+											</div>
+										</div>
+										<div class="col-sm-3" style="width: 30%;">
+											<input type="text" class="form-control" ng-model="ccc" disabled>
+										</div>
+										<div class="col-sm-2" style="width: 49px;"><button class="btn btn-small" type="button" ng-click="addMatch();" ng-disabled="!matchValue.value"><md-icon md-svg-icon="modal:plus"></md-icon></button></div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="form-group mgb0">
+						<button class="btn btn-common pull-right mgb0" ng-click="addSyslogRule()" ng-if="!editRuleStatus" style="margin-right: 15px;">Add</button>
+						<button class="btn btn-common pull-right mgb0" ng-click="saveSyslogRule()" ng-if="editRuleStatus" style="margin-right: 15px;">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group mgb0">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button class="btn btn-cancel pull-right" type="button" style="margin-left: 5px;">Cancel</button>
+				<button class="btn btn-common pull-right" type="button" ng-click="saveCondition()">Save</button>
+				<span class="hint-span state processing-msg" ng-show="state.processing"><img src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+				<span class="hint-span state success-msg" ng-show="state.isSuccess">{{state.msgTrue}}</span>
+				<span class="hint-span state error-msg" ng-show="state.isError">{{state.msgFalse}}</span>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="triggerTraffic.html">
+		<div class="trigger-traffic">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Condition Repeat Times</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" ng-model="monitorData.repeatTime" style="width: 80px;">
+				</div>
+			</div>
+			<div class="form-group mgb32">
+				<label class="col-sm-2 control-label">Sample Type</label>
+				<div class="col-sm-9">
+					<div style="width: 160px;height: 32px;">
+						<ui-select ng-model="monitorData.valueType" theme="bootstrap" ng-disabled="readOnly">
+							<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+							<ui-select-choices repeat="item in ['Absolute Value', 'Delta Value']">{{item}}</ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
+			</div>
+			<label class="title mgb24">Trigger condition</label>
+			<div ng-repeat="(severity, condition) in monitorData.conditions" style="padding-left: 8px;">
+				<label class="checkLabel title mgb24">
+					<input type="checkbox" ng-model="condition.enable">{{severity}} Event					
+					<p><md-icon md-svg-icon="modal:checkbox" ng-show="condition.enable"></md-icon></p>
+				</label>
+				<div class="form-group" style="margin-bottom: 12px">
+					<label class="col-sm-2 control-label">Trigger Condition</label>
+					<div class="col-sm-9">
+						<span>Expression</span>
+						<div style="width: 80px;height: 32px;margin-right: 48px;">
+							<ui-select ng-model="condition.HCondition.expression" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['>','>=','<','<=']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<span>Threshold</span>
+						<div style="width: 80px;height: 32px;margin-right: 8px;">
+							<input type="text" class="form-control" ng-model="condition.HCondition.threshold">
+						</div>
+						<div style="width: 80px;height: 32px;">
+							<ui-select ng-model="condition.HCondition.unitType" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in units[subViewChoice.unitType]">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group" style="margin-bottom: 20px;">
+					<label class="col-sm-2 control-label">Generate Alarm</label>
+					<div class="col-sm-2">
+						<switch class="switch-default"
+								ng-model="condition.alert">
+						</switch>
+					</div>
+				</div>
+				<div class="form-group mgb24">
+					<label class="col-sm-2 control-label">Release Condition</label>
+					<div class="col-sm-9">
+						<span>Expression</span>
+						<div style="width: 80px;height: 32px;margin-right: 48px;">
+							<ui-select ng-model="condition.LCondition.expression" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['>','>=','<','<=']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<span>Threshold</span>
+						<div style="width: 80px;height: 32px;margin-right: 8px;">
+							<input type="text" class="form-control" ng-model="condition.LCondition.threshold">
+						</div>
+						<div style="width: 80px;height: 32px;">
+							<ui-select ng-model="condition.LCondition.unitType" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in units[subViewChoice.unitType]">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group mgb0">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button class="btn btn-cancel pull-right" type="button" style="margin-left: 5px;">Cancel</button>
+				<button class="btn btn-common pull-right" type="button" ng-click="saveMonitor()">Save</button>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="triggerPing.html">
+		<div class="trigger-traffic">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Condition Repeat Times</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" ng-model="monitorData.repeatTime" style="width: 80px;">
+				</div>
+			</div>
+			<div class="form-group mgb32">
+				<label class="col-sm-2 control-label">Sample Type</label>
+				<div class="col-sm-9">
+					<div style="width: 160px;height: 32px;">
+						<ui-select ng-model="monitorData.valueType" theme="bootstrap" ng-disabled="readOnly">
+							<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+							<ui-select-choices repeat="item in ['Absolute Value', 'Delta Value']">{{item}}</ui-select-choices>
+						</ui-select>
+					</div>
+				</div>
+			</div>
+			<label class="title mgb24">Trigger condition</label>
+			<div ng-repeat="(severity, condition) in monitorData.conditions" style="padding-left: 8px;">
+				<label class="checkLabel title mgb24">
+					<input type="checkbox" ng-model="condition.enable">{{severity}} Event
+					<p><md-icon md-svg-icon="modal:checkbox" ng-show="condition.enable"></md-icon></p>
+				</label>
+				<div class="form-group" style="margin-bottom: 12px">
+					<label class="col-sm-2 control-label">Trigger Condition</label>
+					<div class="col-sm-9">
+						<div style="width: 160px;height: 32px;margin-right: 8px;float: left;" ng-if="!condition.HCondition.expression">
+							<ui-select ng-model="condition.HCondition.type" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['Online', 'Offline']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<div style="width: 160px;height: 32px;margin-right: 8px;float: left;" ng-if="condition.HCondition.expression">
+							<ui-select ng-model="condition.HCondition.type" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['Response Time']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<div style="width: 80px;height: 32px;margin-right: 8px;float: left;" ng-if="condition.HCondition.expression">
+							<ui-select ng-model="condition.HCondition.expression" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['>','>=','<','<=']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<input type="text" class="form-control w100 mgr8" ng-if="condition.HCondition.threshold">
+						<label class="control-label" ng-if="condition.HCondition.threshold">ms</label>
+					</div>
+				</div>
+				<div class="form-group" style="margin-bottom: 20px;">
+					<label class="col-sm-2 control-label">Generate Alarm</label>
+					<div class="col-sm-2">
+						<switch class="switch-default"
+								ng-model="condition.alert">
+						</switch>
+					</div>
+				</div>
+				<div class="form-group mgb24">
+					<label class="col-sm-2 control-label">Release Condition</label>
+					<div class="col-sm-9">
+						<div style="width: 160px;height: 32px;margin-right: 8px;float: left;" ng-if="!condition.LCondition.expression">
+							<ui-select ng-model="condition.LCondition.type" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['Online', 'Offline']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<div style="width: 160px;height: 32px;margin-right: 8px;float: left;" ng-if="condition.LCondition.expression">
+							<ui-select ng-model="condition.LCondition.type" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['Response Time']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<div style="width: 80px;height: 32px;margin-right: 8px;float: left;" ng-if="condition.LCondition.expression">
+							<ui-select ng-model="condition.LCondition.expression" theme="bootstrap" ng-disabled="readOnly">
+								<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+								<ui-select-choices repeat="item in ['>','>=','<','<=']">{{item}}</ui-select-choices>
+							</ui-select>
+						</div>
+						<input type="text" class="form-control w100 mgr8" ng-if="condition.LCondition.threshold">
+						<label class="control-label" ng-if="condition.LCondition.threshold">ms</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group mgb0">
+			<div class="col-sm-offset-3 col-sm-9">
+				<button class="btn btn-cancel pull-right" type="button" style="margin-left: 5px;">Cancel</button>
+				<button class="btn btn-common pull-right" type="button" ng-click="saveMonitor()">Save</button>
+			</div>
+		</div>
+	</script>
+
+	<div ng-class="showContentSide?'':'hide-content-side'" class="clear trigger-set-height">
+		<div class="col-md-2 content-side site">
+			<div class="subpage-tree-title">
+				<md-icon md-svg-icon="modal:trigger" class="title pull-left"></md-icon>
+				<span>{{'trigger.triggerSetting'|translate}}</span>
+			</div>
+			<div class="data-show-menu-main cwm-menu" style="border-bottom: none;overflow-y: auto;">
+				<ul class="site-menu-one">
+					<li ng-repeat="site in sites">
+						<a ng-click="toggleSite(site);" ng-class="{'active':activeStatus.siteActive._id == site._id, 'siteSpecialActive': specialActive==site}" title="{{site.siteName}}">{{site.siteName}}</a>
+						<ul class="site-menu-two" ng-show="activeStatus.siteActive._id==site._id">
+							<li ng-repeat="network in site.networks">
+								<a ng-click="toggleNetwork(network);" ng-class="activeStatus.networkActive.networkId==network.networkId?'active':''" title="{{network.networkName}}">
+									<md-icon md-svg-icon="menu11:network_icon"></md-icon>{{network.networkName}}
+								</a>
+								<span></span>
+								<ul class="site-menu-three" ng-show="activeStatus.networkActive.networkId==network.networkId">
+									<span></span>
+									<!-- <li ng-repeat="group in network.groups" ng-if="network.groups.length">
+										<a ng-click="toggleGroup(group);" ng-class="{'active': activeStatus.groupActive.groupId == group.groupId, 'siteSpecialActive': specialActive==group}" title="{{group.groupId}}">
+											<md-icon md-svg-icon="menu11:group_icon"></md-icon>
+											{{group.groupId}}
+										</a>
+										<span></span>
+										<ul class="site-menu-four" ng-show="activeStatus.groupActive.groupId==group.groupId">
+											<span></span> -->
+											<li ng-repeat="trigger in network.triggers">
+												<a ng-click="toggleTrigger(trigger);" ng-class="activeStatus.triggerActive==trigger?'active':''" title="{{trigger.name}}">{{trigger.name}}</a>
+												<span></span>
+												<ul class="site-menu-four" ng-show="activeStatus.triggerActive==trigger">
+													<li ng-repeat="type in network.monitorTypes">
+														<a ng-click="openSettingView(type)" ng-class="{'special-active': !type.items || type.items.length<=1,'active': activeStatus.triggerTypeActive == type}" title="{{'trigger.' + type.monitorType|translate}}">{{'trigger.' + type.monitorType|translate}}</a>
+														<span ng-if="type.items && type.items.length>1"></span>
+														<ul class="site-menu-five" ng-show="activeStatus.triggerTypeActive == type && type.items && type.items.length>1">
+															<li ng-repeat="param in type.items">
+																<a ng-click="openView(param)" ng-class="subViewChoice==param?'active':''" class="special-active" title="{{param.paramName}}">{{'trigger.' + param.paramName|translate}}</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										<!-- </ul> -->
+									</li>
+									<li class="treeNoData" ng-if="network.triggers.length==0">
+									    <p><span>No Device Group</span><span>click '<a href="./#/Org/system/network">HERE</a>' to view network</span></p>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li class="treeNoData" ng-if="sites.length==0" style="margin-top: 16px;">
+	                    <p><span>No Network</span><span>click '<a ng-click="goToNetwork()">HERE</a>' to view network</span>
+	                    </p>
+	                </li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-10 content-content data-show-main form-horizontal" id="tirgger-cont" style="overflow-y: auto;padding: 0px 16px !important;border-radius: 4px;">
+
+			<a ng-click="sideToggle()" class="side-toggle" title="{{showContentSide?'title.close':'title.open' | translate}}">
+				<md-icon ng-if="showContentSide" md-svg-src="images/common/show_hide_left.svg"></md-icon>
+				<md-icon ng-if="!showContentSide" md-svg-src="images/common/show_hide_right.svg"></md-icon>
+			</a>
+			<div class="site-main set-height">
+				<div class="site-main-title elementFlag">
+	                <span>
+	                	<span>Trigger Setting</span>
+		                <span ng-if="activeStatus.siteActive">{{'>&nbsp;&nbsp;'+activeStatus.siteActive.siteName}}</span>
+		                <span ng-if="activeStatus.networkActive">{{'>&nbsp;&nbsp;'+activeStatus.networkActive.networkName}}</span>
+		                <!-- <span ng-if="activeStatus.groupActive">{{'>&nbsp;&nbsp;'+activeStatus.groupActive.groupId}}</span> -->
+		                <span ng-if="activeStatus.triggerActive">>&nbsp;&nbsp;{{activeStatus.triggerActive.name}}</span>
+		                <span ng-if="activeStatus.triggerTypeActive">>&nbsp;&nbsp;{{'trigger.'+activeStatus.triggerTypeActive.monitorType|translate}}</span>
+		                <span ng-if="subViewChoice.paramName && activeStatus.triggerTypeActive.monitorParam.length>1">>&nbsp;&nbsp;{{'trigger.'+subViewChoice.paramName|translate}}</span>
+	                </span>
+	            </div>
+	            <div class="site-set-height" style="margin: 0px -16px;padding: 16px 16px 0px">
+					<!-- <div ng-if="viewChoice == 'trigger'&&activeStatus.networkActive.groups.length!=0" style="border: 1px solid #eee;border-radius: 4px;">
+						<div class="grid-top-menu" ng-class="show.tab1?'':'elementFlag1'">
+							<button type="button" class="btn btn-common pull-right" style="margin-right: 16px"  ng-click="openAddRule()">{{'trigger.addTrigger'|translate}}</button>
+						</div>
+						<div id="Trigger_ViewGrid" ui-grid="gridTriggerOptions" class="grid" ui-grid-pagination ui-grid-auto-resize>
+							<div ng-show="gridTriggerOptions.data.length == '0'" class="grid-no-data">
+								<img src="../public/images/no-data.png">
+								<p>No Trigger Rule Added yet</p>
+								<p>you can click '<a ng-click="openAddRule()">HERE</a>' to add new trigger rule</p>
+							</div>
+						</div>
+					</div> -->
+					<div style="padding-bottom: 24px;">
+						<div ng-if="activeStatus.triggerTypeActive">
+							<trigger-cpu-load ng-if="subViewChoice.unitType=='%'"></trigger-cpu-load>
+							<trigger-ping ng-if="subViewChoice.unitType=='ms'"></trigger-ping>
+							<trigger-traffic ng-if="subViewChoice.unitType=='kb'||subViewChoice.unitType=='bps'||subViewChoice.unitType=='pps'||subViewChoice.unitType=='bits'||subViewChoice.unitType=='byte'"></trigger-traffic>
+						</div>
+						<trigger-trap ng-if="activeStatus.triggerTypeActive.monitorType=='Trap'"></trigger-trap>
+						<trigger-syslog ng-if="activeStatus.triggerTypeActive.monitorType=='Syslog'"></trigger-syslog>
+					</div>
+
+					<div ng-if="activeStatus.networkActive.groups.length==0" class="no-group">
+					    <img src="../public/images/no-data.png">
+					    <p>No Trigger available. </p>
+					    <p>If you want to configure trigger, you need to first <a href="./#/Org/system/network">"set the network"</a> and make sure</p>
+					    <p>the network has managed devices. then you can go back here and configure the</p>
+					    <p>trigger by device group.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
