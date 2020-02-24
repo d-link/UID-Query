@@ -1,0 +1,42 @@
+{
+  "appenders": {
+    "console": {
+      "type": "console",
+      "layout": {
+        "type": "pattern",
+        "pattern": "%[[%d{yyyy-MM-dd hh:mm:ss.SSS}] [%p]%] %m"
+      }
+    },
+    "core": {
+      "type": "dateFile",
+      "filename": "/mnt/sdcard/dnhlog/CS.log",
+      "pattern": ".yyyy-MM-dd",
+      "compress": true,
+      "keepFileExt": true,
+      "alwaysIncludePattern": true,
+      "daysToKeep": 7,
+      "layout": {
+        "type": "pattern",
+        "pattern": "[%d{yyyy-MM-dd hh:mm:ss.SSS}] [%p] %m"
+      }
+    },
+    "web": {
+      "type": "dateFile",
+      "filename": "/mnt/sdcard/dnhlog/WS.log",
+      "pattern": ".yyyy-MM-dd",
+      "compress": true,
+      "keepFileExt": true,
+      "alwaysIncludePattern": true,
+      "daysToKeep": 7,
+      "layout": {
+        "type": "pattern",
+        "pattern": "[%d{yyyy-MM-dd hh:mm:ss.SSS}] [%p] %m"
+      }
+    }
+  },
+  "categories": {
+    "default": {"appenders": ["console"], "level": "debug"},
+    "core": {"appenders": ["console", "core"], "level": "debug"},
+    "web": {"appenders": ["console", "web"], "level": "debug"}
+  }
+}

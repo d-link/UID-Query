@@ -1,0 +1,31 @@
+/**
+ * Created by lizhimin on 2016/3/2.
+ */
+define([
+    '../public/scripts/common/storageService',
+    '../public/scripts/common/avtService',
+    '../public/scripts/common/jwtHelper',
+    '../public/scripts/common/ajaxService',
+    '../public/scripts/common/current',
+    '../public/scripts/common/utilService',
+    '../public/scripts/common/commonService',
+    '../public/scripts/common/authentication',
+    '../public/scripts/common/moudlesService',
+    '../public/scripts/common/translateService',
+    'scripts/services/organization/organizationService',
+   'scripts/services/organization/networkService',
+    'scripts/services/inventory/inventoryService',
+    'scripts/services/inventory/deviceDetailService',
+    'scripts/services/dashboard/dashboardService',
+    'scripts/services/dashboard/statsService',
+    'scripts/services/organization/licenseService',
+    'scripts/services/notification/triggerService',
+    'scripts/services/notification/notificationService',
+    'scripts/services/maintenance/batchConfigService',
+    'scripts/services/task/taskService',
+    'scripts/services/organization/teamService',
+    'scripts/services/log/logService',
+    'scripts/services/custom/customService',
+    'scripts/services/language/languageService',
+    ], function () {
+});

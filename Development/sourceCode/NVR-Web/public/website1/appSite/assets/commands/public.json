@@ -1,0 +1,123 @@
+{
+  "PortInfo": {
+    "nodes": [
+      {
+        "name": "ifIndex",
+        "oid": "1.3.6.1.2.1.2.2.1.1",
+        "type": "Integer"
+      },
+      {
+        "name": "ifDescr",
+        "oid": "1.3.6.1.2.1.2.2.1.2",
+        "type": "String"
+      },
+      {
+        "name": "ifType",
+        "oid": "1.3.6.1.2.1.2.2.1.3",
+        "type": "Integer",
+        "valueList": [
+          {
+            "key": 1,
+            "value": "other"
+          },
+          {
+            "key": 2,
+            "value": "regular1822"
+          }
+        ]
+      },
+      {
+        "name": "ifSpeed",
+        "oid": "1.3.6.1.2.1.2.2.1.5",
+        "type": "Gauge"
+      },
+      {
+        "name": "ifPhysAddress",
+        "oid": "1.3.6.1.2.1.2.2.1.6",
+        "type": "MAC"
+      },
+      {
+        "name": "ifAdminStatus",
+        "oid": "1.3.6.1.2.1.2.2.1.7",
+        "type": "Integer"
+      },
+      {
+        "name": "ifOperStatus",
+        "oid": "1.3.6.1.2.1.2.2.1.8",
+        "type": "Integer"
+      },
+      {
+        "name": "ifLastChange",
+        "oid": "1.3.6.1.2.1.2.2.1.9",
+        "type": "Time"
+      },
+      {
+        "name": "ifName",
+        "oid": "1.3.6.1.2.1.31.1.1.1.1",
+        "type": "String"
+      },
+      {
+        "name": "ifHighSpeed",
+        "oid": "1.3.6.1.2.1.31.1.1.1.15",
+        "type": "Gauge"
+      },
+      {
+        "name": "ifConnectorPresent",
+        "oid": "1.3.6.1.2.1.31.1.1.1.17",
+        "type": "Integer"
+      }
+    ],
+    "get": {
+      "actions": [
+        {
+          "inf": "walk",
+          "node": "ifIndex"
+        },
+        {
+          "inf": "walk",
+          "node": "ifDescr"
+        },
+        {
+          "inf": "walk",
+          "node": "ifType"
+        },
+        {
+          "inf": "walk",
+          "node": "ifSpeed"
+        },
+        {
+          "inf": "walk",
+          "node": "ifPhysAddress"
+        },
+        {
+          "inf": "walk",
+          "node": "ifAdminStatus"
+        },
+        {
+          "inf": "walk",
+          "node": "ifOperStatus"
+        },
+        {
+          "inf": "walk",
+          "node": "ifLastChange"
+        },
+        {
+          "inf": "walk",
+          "node": "ifName"
+        },
+        {
+          "inf": "walk",
+          "node": "ifHighSpeed"
+        },
+        {
+          "inf": "walk",
+          "node": "ifConnectorPresent"
+        }
+      ],
+      "result": "[{0},{1},{2},{9}?{9}:{3},{4},{5},{6},{7},{8},{10}]"
+    }
+  },
+  "SystemInfo": {
+
+  }
+}

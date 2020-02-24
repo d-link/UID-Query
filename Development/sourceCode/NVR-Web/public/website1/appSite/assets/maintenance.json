@@ -1,0 +1,482 @@
+[
+  {
+    "bind": "RFManagementConfiguration",
+    "version": [
+      {
+        "config": [
+          {
+            "bind": "wsChannelPlan",
+            "name": "Channel Plan",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "5 GHz(802.11 a/n)",
+                "value": 1
+              },
+              {
+                "text": "2.4 GHz(802.11 b/g/n)",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "wsChannelPlanMode",
+            "name": "Channel Plan Mode",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Fixed Time",
+                "value": 3
+              },
+              {
+                "text": "Manual",
+                "value": 1
+              },
+              {
+                "text": "Interval",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "wsChannelPlanHistoryDepth",
+            "name": "Channel Plan History Depth",
+            "type": "TEXT",
+            "placeholder": "(0 to 10)"
+          },
+          {
+            "bind": "wsChannelPlanInterval",
+            "name": "Channel Plan Interval(hours)",
+            "type": "TEXT",
+            "show": {
+              "bind": "wsChannelPlanMode",
+              "valueIndex": 2
+            },
+            "placeholder": "(6 to 24)"
+          },
+          {
+            "bind": "wsChannelPlanTime",
+            "name": "Channel Plan Fixed Time(sec)",
+            "type": "TEXT",
+            "show": {
+              "bind": "wsChannelPlanMode",
+              "valueIndex": 0
+            },
+            "placeholder": "(0 to 1440)"
+          },
+          {
+            "bind": "wsPowerAdjustmentMode",
+            "name": "Power Adjustment Mode",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Manual",
+                "value": 1
+              },
+              {
+                "text": "Interval",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "wsPowerAdjustmentInterval",
+            "name": "Power Adjustment Interval(minutes)",
+            "type": "TEXT",
+            "show": {
+              "bind": "wsPowerAdjustmentMode",
+              "valueIndex": 1
+            },
+            "placeholder": "(15 to 1440)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "bind": "SNMPTrapConfiguration",
+    "version": [
+      {
+        "config": [
+          {
+            "bind": "cpTrapMode",
+            "name": "Captive Portal Trap Mode",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Enable",
+                "value": 1
+              },
+              {
+                "text": "Disable",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "cpClientAuthenticationFailureTrapMode",
+            "name": "ClientAuthentication Failure Traps",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Enable",
+                "value": 1
+              },
+              {
+                "text": "Disable",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "cpClientConnectTrapMode",
+            "name": "Client Connection Traps",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Enable",
+                "value": 1
+              },
+              {
+                "text": "Disable",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "cpClientDatabaseFullTrapMode",
+            "name": "Client Database Full Traps",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Enable",
+                "value": 1
+              },
+              {
+                "text": "Disable",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "cpClientDisconnectTrapMode",
+            "name": "Client Disconnection Traps",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Enable",
+                "value": 1
+              },
+              {
+                "text": "Disable",
+                "value": 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "bind": "ModifyRadio",
+    "version": [
+      {
+        "bind": "DWL-*600AP",
+        "config": [
+          {
+            "bind": "apRadioChannelPolicy",
+            "name": "Radio",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "5.0GHz",
+                "value": 1
+              },
+              {
+                "text": "2.4GHz",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "apRadioStatus",
+            "name": "Status",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "On",
+                "value": 1
+              },
+              {
+                "text": "Off",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "apRadioMode",
+            "name": "Mode",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "IEEE 802.11a",
+                "value": 1
+              },
+              {
+                "text": "IEEE 802.11a/n",
+                "value": 2
+              },
+              {
+                "text": "5.0GHz IEEE 802.11n",
+                "value": 3
+              }
+            ],
+            "show": {
+              "bind": "apRadioChannelPolicy",
+              "valueIndex": 0
+            }
+          },
+          {
+            "bind": "apRadioMode",
+            "name": "Mode",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "IEEE 802.11b/g",
+                "value": 1
+              },
+              {
+                "text": "IEEE 802.11b/g/n",
+                "value": 2
+              },
+              {
+                "text": "2.4GHz IEEE 802.11n",
+                "value": 3
+              }
+            ],
+            "show": {
+              "bind": "apRadioChannelPolicy",
+              "valueIndex": 1
+            }
+          },
+          {
+            "bind": "apRadioStaticChannel",
+            "name": "Channel",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Auto",
+                "value": 0
+              },
+              {
+                "text": "36",
+                "value": 1
+              },
+              {
+                "text": "40",
+                "value": 2
+              },
+              {
+                "text": "44",
+                "value": 3
+              },
+              {
+                "text": "48",
+                "value": 4
+              },
+              {
+                "text": "149",
+                "value": 5
+              },
+              {
+                "text": "153",
+                "value": 6
+              },
+              {
+                "text": "157",
+                "value": 2
+              },
+              {
+                "text": "161",
+                "value": 3
+              },
+              {
+                "text": "165",
+                "value": 4
+              }
+            ],
+            "show": {
+              "bind": "apRadioChannelPolicy",
+              "valueIndex": 0
+            }
+          },
+          {
+            "bind": "apRadioStaticChannel",
+            "name": "Channel",
+            "type": "SELECT",
+            "enums": [
+              {
+                "text": "Auto",
+                "value": 0
+              },
+              {
+                "text": "1",
+                "value": 1
+              },
+              {
+                "text": "2",
+                "value": 2
+              },
+              {
+                "text": "3",
+                "value": 3
+              },
+              {
+                "text": "4",
+                "value": 4
+              },
+              {
+                "text": "5",
+                "value": 5
+              },
+              {
+                "text": "6",
+                "value": 6
+              },
+              {
+                "text": "7",
+                "value": 2
+              },
+              {
+                "text": "8",
+                "value": 3
+              },
+              {
+                "text": "9",
+                "value": 4
+              },
+              {
+                "text": "10",
+                "value": 5
+              },
+              {
+                "text": "11",
+                "value": 6
+              }
+            ],
+            "show": {
+              "bind": "apRadioChannelPolicy",
+              "valueIndex": 1
+            }
+          }
+        ]
+      },
+      {
+        "bind": "DWL-*500AP",
+        "config": [
+        ]
+      }
+    ]
+  },
+  {
+    "bind": "WirelessSchedule",
+    "version": [
+      {
+        "config": [
+          {
+            "bind": "dot11ScheduleStatus",
+            "name": "Wireless Schedule",
+            "type": "DAYSSELECT",
+            "enums": [
+              {
+                "text": "Enable",
+                "value": 1
+              },
+              {
+                "text": "Disable",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "bind": "dot11ScheduleRules",
+            "name": "Schedule Rules",
+            "type": "TABLE",
+            "entrys": [
+              {
+                "name": "Index",
+                "bind": "dot11ScheduleSSIDIndex",
+                "type": "SELECT",
+                "enums": [
+                  {
+                    "text": "Primary SSID 2.4G",
+                    "value": 1
+                  },
+                  {
+                    "text": "SSID 1 2.4G",
+                    "value": 2
+                  },
+                  {
+                    "text": "SSID 2 2.4G",
+                    "value": 3
+                  },
+                  {
+                    "text": "SSID 3 2.4G",
+                    "value": 4
+                  }
+                ]
+              },
+              {
+                "name": "Name",
+                "bind": "dot11ScheduleRuleName",
+                "type": "TEXT",
+                "placeholder": "(between 1 and 32 characters)"
+              },
+              {
+                "name": "Day(s)",
+                "bind": "dot11ScheduleDaysSelect",
+                "type": "DAYSSELECT",
+                "placeholder": "a directive will replace it"
+              },
+              {
+                "name": "All Day(s)",
+                "bind": "dot11ScheduleAllDaySelect",
+                "type": "SELECT",
+                "enums": [
+                  {
+                    "text": "Enable",
+                    "value": 1
+                  },
+                  {
+                    "text": "Disable",
+                    "value": 2
+                  }
+                ]
+              },
+              {
+                "name": "Start Time",
+                "bind": "dot11ScheduleRuleStartTime",
+                "type": "TIME",
+                "show": {
+                  "bind": "dot11ScheduleAllDaySelect",
+                  "valueIndex": 1
+                },
+                "placeholder": "(hour:minute,24 hour time)"
+              },
+              {
+                "name": "End Time",
+                "bind": "dot11ScheduleRuleEndTime",
+                "type": "TIME",
+                "show": {
+                  "bind": "dot11ScheduleAllDaySelect",
+                  "valueIndex": 1
+                },
+                "placeholder": "(hour:minute,24 hour time)"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

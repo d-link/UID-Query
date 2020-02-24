@@ -1,0 +1,398 @@
+<div ng-controller="frontdeskController" style="background:#eaeef4;padding-bottom:24px;">
+    <div class="frontDeskHeader clear">
+        <!--      <a style="color: #fff;font-size: 16px;float: right;margin-right: 12px;margin-top: 8px;" ng-click="logout()">{{'frontdesk.signOut'|translate}}</a>-->
+        <div class="main-header">
+            <div class="frontDeskLogo">  <span style="position: absolute;top: 6px;line-height: 1;"><md-icon style="width:70px;height:28px;" md-svg-src="../public/images/logo.svg"></md-icon></span></div>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li uib-dropdown class="split-dropdown" style="border-left: solid 1px #eee;">
+
+                        <a uib-dropdown-toggle style="height:39px;padding: 6px 16px;">
+                            <img class="circular--squareP" ng-src="{{user.photo}}" title="{{user.username}}">
+                            <!--    {{user().email}}-->
+                        </a>
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"
+                            class="nav-user-profile subpage usermenu" style="margin-top:6px;" ng-style="langStyle">
+                            <li role="menuitem"><a ng-click="userProfile();">{{'nav.userProfile'|translate}}</a></li>
+                            <li role="menuitem" style="list-style:none;"><a ng-click="logout()">{{'nav.logout'|translate}}</a></li>
+                            <span>&#9670;</span>
+                            <em>&#9670;</em>
+                        </ul>
+                    </li>
+                    <li uib-dropdown class="split-dropdown" style="border-left: solid 1px #eee;">
+
+                        <a  uib-dropdown-toggle style="width:60px;color:#fff;padding: 9px 16px;">
+                            {{langFlag.selected.langflag.toUpperCase()}}
+                            <md-icon class="dropdown-icon" md-svg-icon="bottom:left_arrow_down" style="right:4px;top:12px;color:#fff;"></md-icon>
+                            <!--    {{user().email}}-->
+                        </a>
+                        <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="nav-lang nav-user-profile subpage" style="margin-top:6px;min-width:120px;">
+                            <li role="menuitem"><a ng-click="changeLang('en')">English</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('tw')">繁體中文</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('cn');">简体中文</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('kr');">한국어.</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('jp');">日本語</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('fr');">Français</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('es');">Español</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('de');">Deutsch</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('ru');">русский язык</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('it');">In Italiano</a></li>
+                            <li role="menuitem"><a ng-click="changeLang('tk');">Turkish</a></li>
+                            <span>&#9670;</span>
+                            <em>&#9670;</em>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="bg-fafafa clear subpage site" ng-class="showContentSide?'':'hide-content-side'" style="margin:24px;">
+        <script type="text/ng-template" id="editFD.html">
+            <div class="modal-header">
+                <a class="logo">
+                    <md-icon md-svg-icon="common:edit"></md-icon>
+                </a><span>{{'frontdesk.editTemplate'|translate}}</span>
+                <a class="close pull-right"
+                   ng-click="cancel()" title="{{'title.close'|translate}}">
+                    <md-icon md-svg-icon="modal:close"></md-icon>
+                </a>
+            </div>
+            <p style="margin:16px 32px;">{{'frontdesk.templateTip'|translate}}</p>
+            <div id="editor" class="modal-body" style="padding-top:0px;">
+                <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-common" type="button" ng-click="ok()">{{'common.save'|translate}}</button>
+                <button class="btn btn-cancel" type="button" ng-click="cancel()">{{'common.cancel'|translate}}</button>
+            </div>
+        </script>
+        <div class="col-md-2 col-sm-3 set-height content-side">
+            <div class="subpage-tree-title">
+                <md-icon md-svg-icon="modal:configuration" class="title pull-left"></md-icon>
+                <span>{{'frontdesk.frontdesk'|translate}}</span>
+            </div>
+            <div class="data-show-menu-main" style="border-bottom:none;">
+                <ul class="site-menu-one">
+                    <li ng-repeat="network in networkList">
+                        <a ng-click="toggleNetwork(network);" ng-class="{'active':networkActive._id == network._id}"
+                           title="{{network.name}}">
+                            <md-icon md-svg-icon="menu11:network_icon"></md-icon>
+                            <span>{{network.name}}</span>
+                        </a>
+                        <ul class="site-menu-three" ng-show="networkActive._id == network._id">
+                            <li ng-repeat="fun in netFun">
+                                <a class="special-active" ng-click="viewChoice(fun);"
+                                   ng-class="subChoice == fun?'active':''" title="{{fun}}" style="padding-left: 34px;">
+                                    <span>{{'frontdesk.'+fun | translate}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a ng-click="viewChoice('search');" ng-class="{'active':subChoice == 'search'}"
+                           title="{{'common.search'|translate}}">{{'frontdesk.searchPasscode' | translate}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-9 set-height content-content">
+
+            <a ng-click="sideToggle()" class="side-toggle">
+                <md-icon ng-if="showContentSide" md-svg-src="images/common/show_hide_left.svg"></md-icon>
+                <md-icon ng-if="!showContentSide" md-svg-src="images/common/show_hide_right.svg"></md-icon>
+            </a>
+
+            <form ng-if="subChoice == 'generatePasscode'" class="form-horizontal" name="generateForm">
+                <div class="caption">
+                    <div class="box-header">
+                        <h3>{{'frontdesk.passcodeSettings'|translate}}</h3>
+                    </div>
+                    <div class="box-content" style="position: relative;">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{{'frontdesk.ssid'|translate}}</label>
+
+                            <div class="col-sm-9" ng-class="passcodeInfo.ssid==''?'error':''">
+                                <div style="width: 200px;height: 32px;">
+                                    <ui-select ng-model="passcodeInfo.ssid" theme="bootstrap"
+                                               ng-disabled="passcodeEditStatus">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}" title="{{$select.selected.ssid}}">
+                                            {{$select.selected.ssid}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="s in ssids"><span
+                                                title="{{s.ssid}}">{{s.ssid}}</span></ui-select-choices>
+                                        <!-- <uis-open-close uis-open-close="onOpenClose(true)"></uis-open-close> -->
+                                    </ui-select>
+                                </div>
+                                <span class="hint-span">{{'frontdesk.ssidValid'|translate}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="!passcodeEditStatus">
+                            <label class="col-sm-3 control-label">{{'frontdesk.passcodeq'|translate}}</label>
+
+                            <div class="col-sm-9"
+                                 ng-class="generateForm.passcodeQuantity.$dirty&&generateForm.passcodeQuantity.$invalid?'error':''">
+                                <input type="text" name="passcodeQuantity" class="form-control w200"
+                                       maxlength="3" required autocomplete="off"
+                                       ng-model="passcodeInfo.passcodeQuantity"
+                                       ng-keydown="numberKeydown($event)"
+                                       ng-pattern="/^(200|1\d{2}|[1-9]\d|[1-9])$/">
+                                <span class="hint-span">{{'frontdesk.passcodeqValid'|translate}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="passcodeEditStatus">
+                            <label class="col-sm-3 control-label">{{'frontdesk.passcode'|translate}}</label>
+
+                            <div class="col-sm-9"
+                                 ng-class="generateForm.passcode.$dirty&&generateForm.passcode.$invalid?'error':''">
+                                <input type="text" name="passcode" class="form-control w200"
+                                       maxlength="8" minlength="8" required
+                                       ng-model="passcodeInfo.passcode"
+                                       ng-keydown="numberKeydown($event)">
+                                <span class="hint-span">{{'frontdesk.passcodelenValid'|translate}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{{'frontdesk.duration'|translate}}</label>
+
+                            <div class="col-sm-9"
+                                 ng-class="generateForm.durationView.$dirty&&generateForm.durationView.$invalid?'error':''">
+                                <input type="text" name="durationView" class="form-control w200 mgr8 pull-left"
+                                       maxlength="6" required autocomplete="off"
+                                       ng-model="passcodeInfo.durationView"
+                                       ng-keydown="numberKeydown($event)"
+                                       ng-pattern="durationPattern">
+
+                                <div class="pull-left" style="width: 100px;height: 32px;">
+                                    <ui-select ng-model="passcodeInfo.durationType" theme="bootstrap"
+                                               ng-disabled="readOnly" ng-change="durationTypeChanged();">
+                                        <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                            {{'passcode.'+$select.selected|translate}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="type in durationTypes">
+                                            {{'passcode.'+type|translate}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <span class="hint-span"
+                                      style="clear: both;">{{'frontdesk.durationValid'|translate}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{{'frontdesk.lastActivedaya'|translate}}</label>
+
+                            <div class="col-sm-9">
+                                <!-- <input type="data" class="form-control w100" ng-model="passcodeInfo.lastActiveTime"> -->
+                                <p class="input-group date-picker">  
+                                    <input type="text" class="form-control" style="width: 200px;background-color: #fff;"
+                                           readonly id="kalendae_last" ng-model="passcodeInfo.lastActiveTime">
+                                    <a type="button" class="btn btn-default" id="btnId"
+                                       ng-click="showCalendae('last');">
+                                        <md-icon md-svg-icon="user:date"></md-icon>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{{'frontdesk.userLimit'|translate}}</label>
+
+                            <div class="col-sm-9"
+                                 ng-class="generateForm.connectionLimit.$dirty&&generateForm.connectionLimit.$invalid?'error':''">
+                                <input type="text" name="connectionLimit" class="form-control w200"
+                                       maxlength="2" required autocomplete="off"
+                                       ng-model="passcodeInfo.connectionLimit"
+                                       ng-keydown="numberKeydown($event)"
+                                       ng-pattern="/^(3[0-2]|[1-2]\d|[1-9])$/">
+                                <span class="hint-span">{{'frontdesk.userLimitValid'|translate}}</span>
+                            </div>
+                        </div>
+                        <div class="form-group mgb0" ng-if="!passcodeEditStatus">
+                            <div class="col-sm-12" style="text-align:right;">
+                                <button class="btn btn-common mgr8" ng-click="generate(passcodeInfo)"
+                                        ng-disabled="generateForm.$invalid||!passcodeInfo.ssid">{{'frontdesk.generate'|translate}}
+                                </button>
+                                <button class="btn btn-common mgr8" ng-click="generatePrint(passcodeInfo)"
+                                        ng-disabled="generateForm.$invalid||!passcodeInfo.ssid">{{'frontdesk.generatePrint'|translate}}
+                                </button>
+                                <button class="btn btn-common mgr8" ng-click="editTemplate()">{{'frontdesk.editTemplate'|translate}}
+                                </button>
+                                <button class="btn btn-common" ng-click="printPreview(passcodeInfo)" ng-disabled="!passcodeInfo.ssid">{{'frontdesk.printView'|translate}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group mgb0" ng-if="passcodeEditStatus">
+                            <div class="col-sm-12" style="text-align:right;">
+                                <button class="btn btn-cancel mgr8 pull-right" ng-click="viewChoice('viewEditDelete')">
+                                    Cancel
+                                </button>
+                                <button class="btn btn-common mgr8 pull-right" ng-click="updatePassCode(passcodeInfo)"
+                                        ng-disabled="generateForm.$invalid||passcodeInfo.ssid==''">OK
+                                </button>
+                                <span class="hint-span state processing-msg" ng-show="state.processing"><img
+                                        src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                <span class="hint-span state success-msg" ng-show="state.isSuccess">{{state.msgTrue|translate}}</span>
+                                <span class="hint-span state error-msg"
+                                      ng-show="state.isError">{{state.msgFalse}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div ng-if="subChoice == 'viewEditDelete'">
+                <div class="caption">
+                    <div class="box-header">
+                        <h3>{{'frontdesk.passcodeList'|translate}}</h3>
+                    </div>
+                    <div class="box-content" style="position: relative;">
+                        <div class="clear" style="padding: 8px 16px 0px;position:relative;z-index: 2;">
+                            <button class="btn btn-cancel pull-right" style="padding: 8px;" ng-click="removePasscode()"
+                                    title="{{'common.delete'|translate}}" ng-disabled="passcodeIsDisabled">
+                                <md-icon md-svg-icon="user:remove"></md-icon>
+                            </button>
+                            <button class="btn btn-cancel pull-right mgr8" style="padding: 8px;"
+                                    ng-click="printPasscode()" title="{{'frontdesk.printSingle'|translate}}"
+                                    ng-disabled="passcodeIsDisabled">
+                                <md-icon md-svg-src="images/common/Print_single.svg"></md-icon>
+                            </button>
+                            <button class="btn btn-cancel pull-right mgr8" style="padding: 8px;"
+                                    ng-click="printMultiPasscode()" title="{{'frontdesk.printMulti'|translate}}"
+                                    ng-disabled="passcodeIsDisabled">
+                                <md-icon md-svg-src="images/common/Print_multiple.svg"></md-icon>
+                            </button>
+                        </div>
+                        <div ui-grid="passcodeListOptions" id="passcodeList" ui-grid-selection ui-grid-pagination
+                             ui-grid-auto-resize ui-grid-resize-columns class="grid" style="height: 324px;">
+                            <nodata-directive ng-show="passcodeListOptions.data.length == 0"
+                                              desc="{{'common.noData'|translate}}"></nodata-directive>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="subChoice == 'search'">
+                <div class="caption">
+                    <div class="box-header">
+                        <h3>{{'frontdesk.searchCondition'|translate}}</h3>
+                    </div>
+                    <div class="box-content" style="position: relative;padding: 8px;">
+                        <form class="form-horizontal">
+                            <div class="form-group mgb16">
+                                <div class="col-sm-4">
+                                    <label class="col-sm-5 control-label">{{'frontdesk.paypalAccount'|translate}}</label>
+
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control w200 pull-left mgr8"
+                                               ng-model="searchParam.paypalAccount">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="col-sm-5 control-label">{{'frontdesk.purchaseStat'|translate}}</label>
+
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control w200 pull-left mgr8"
+                                               ng-model="searchParam.purchaseStation">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mgb16">
+                                <div class="col-sm-4">
+                                    <label class="col-sm-5 control-label">{{'frontdesk.purchaseTime'|translate}}</label>
+
+                                    <div class="col-sm-7">
+                                        <p class="input-group date-picker pull-left mgr8">
+                                            <input type="text" class="form-control"
+                                                   style="width: 200px;background-color: #fff;" id="kalendae_purchase"
+                                                   ng-model="searchParam.purchaseTime"
+                                                   ng-keydown="dateKeydown($event, 'purchaseTime')">
+                                            <a type="button" class="btn btn-default" id="btnId1"
+                                               ng-click="showCalendae('purchase');">
+                                                <md-icon md-svg-icon="user:date"></md-icon>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="col-sm-5 control-label">{{'frontdesk.activeTime'|translate}}</label>
+
+                                    <div class="col-sm-7">
+                                        <p class="input-group date-picker pull-left mgr8">
+                                            <input type="text" class="form-control"
+                                                   style="width: 200px;background-color: #fff;" id="kalendae_active"
+                                                   ng-model="searchParam.activeTime"
+                                                   ng-keydown="dateKeydown($event, 'activeTime')">
+                                            <a type="button" class="btn btn-default" id="btnId2"
+                                               ng-click="showCalendae('active');">
+                                                <md-icon md-svg-icon="user:date"></md-icon>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mgb0">
+                                <div class="col-sm-4">
+                                    <label class="col-sm-5 control-label">{{'frontdesk.ssid'|translate}}</label>
+
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control w200 pull-left mgr8" maxlength="32"
+                                               ng-model="searchParam.ssid">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="col-sm-5 control-label">{{'frontdesk.group'|translate}}</label>
+
+                                    <div class="col-sm-7">
+                                        <div style="width: 200px;height: 32px;">
+                                            <ui-select ng-model="searchParam.group" theme="bootstrap">
+                                                <ui-select-match placeholder="{{'common.pickone'|translate}}"
+                                                                 title="{{$select.selected.name|translate}}">
+                                                    {{$select.selected.name|translate}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="g in groups"><span
+                                                        title="{{g.name|translate}}">{{g.name|translate}}</span>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button class="btn btn-common pull-left" ng-click="search()">
+                                        {{'common.search'|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="caption">
+                    <div class="box-header">
+                        <h3>{{'frontdesk.passcodeList'|translate}}</h3>
+                    </div>
+                    <div class="box-content" style="position: relative;padding: 0px;">
+                        <div class="clear" style="padding: 8px 16px 0px;position:relative;z-index: 2;">
+                            <button class="btn btn-cancel pull-right mgr8" ng-disabled="passcodeSelected.length<=0"
+                                    style="padding: 8px;" ng-click="removePasscode()"
+                                    title="{{'common.delete'|translate}}">
+                                <md-icon md-svg-icon="user:remove"></md-icon>
+                            </button>
+                        </div>
+                        <div ui-grid="searchPasscodeOptions" id="searchList" ui-grid-selection ui-grid-pagination
+                             ui-grid-auto-resize ui-grid-resize-columns class="grid" style="height: 324px;">
+                            <nodata-directive ng-show="searchPasscodeOptions.data.length == 0"
+                                              desc="No data found"></nodata-directive>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <iframe id="{{frameName}}" name="{{frameName}}" frameborder="0" ></iframe>
+</div>
+<!-- <script type="text/javascript" src="https://unpkg.com/wangeditor@3.0.14/release/wangEditor.min.js"></script>
+<script type="text/javascript">
+	var E = window.wangEditor;
+	var editor = new E('#editor');
+	// 或者 var editor = new E( document.getElementById('#editor') )
+	editor.create()
+</script> -->

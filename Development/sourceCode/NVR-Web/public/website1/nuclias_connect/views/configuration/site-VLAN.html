@@ -1,0 +1,498 @@
+<div class="elementFlag1" style="padding-bottom: 16px;">
+    <div style="border: 1px solid #eee;padding: 24px;border-radius: 4px;">
+        <div class="form-group mgb0">
+            <label class="col-sm-2 control-label" style="width: 102px;">{{'label.vlanStatus'|translate}}</label>
+
+            <div class="col-sm-4" style="width: 192px;">
+                <div style="width: 160px;height: 32px;">
+                    <ui-select ng-model="vlanShowData.status" theme="bootstrap" on-select="vlanStatusChanged()">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able'+$select.selected|translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in statuses">{{'configuration.able'+item|translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <button class="btn btn-common pull-left" ng-if="hasPrivilege" ng-click="saveVLANStatus();">{{'common.save'|translate}}</button>
+            <span class="hint-span state processing-msg pull-left pdl8" ng-show="state.vlan.processing"><img
+                    src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+            <span class="hint-span state success-msg pull-left pdl8" ng-show="state.vlan.isSuccess">{{state.vlan.msgTrue|translate}}</span>
+            <span class="hint-span state error-msg pull-left pdl8"
+                  ng-show="state.vlan.isError">{{state.vlan.msgFalse}}</span>
+        </div>
+    </div>
+</div>
+<div>
+    <uib-tabset active="activeForm" class="site-tab">
+        <!--   vlan list-->
+        <uib-tab index="0" heading="{{'configuration.vlan.vlanList'|translate}}" select="showTab(0);">
+            <div id="vlanGrid" ui-grid="VLANOptions" class="grid remove-last-btn vlan-grid" ui-grid-pagination
+                 ui-grid-auto-resize
+                 ui-grid-resize-columns ng-if="show.tab1">
+                <nodata-directive ng-show="!VLANOptions.data||VLANOptions.data.length==0"
+                                  desc="{{'common.noData'|translate}}"></nodata-directive>
+            </div>
+        </uib-tab>
+        <!--   port list-->
+        <uib-tab index="1" heading="{{'configuration.vlan.portList'|translate}}" select="showTab(1);">
+            <div id="portGrid" ui-grid="portOptions" class="grid remove-last-btn" ui-grid-auto-resize
+                 ui-grid-resize-columns ng-if="show.tab2">
+                <nodata-directive ng-show="!portOptions.data||portOptions.data.length==0"
+                                  desc="{{'common.noData'|translate}}"></nodata-directive>
+            </div>
+        </uib-tab>
+        <!-- add edit vlan-->
+        <uib-tab index="2" heading="{{'configuration.vlan.modifyVLAN'|translate}}" select="showTab(2);">
+            <form name="addVLANForm" style="padding: 24px 16px;" class="ele-addVlan" ng-if="show.tab3">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'label.vlanID'|translate}}</label>
+
+                    <div class="col-sm-9"
+                         ng-class="(vlanShowData.status==1&&addVLANForm.vlanID.$dirty&&addVLANForm.vlanID.$invalid)||VIDExist?'error':''">
+                        <input type="text" name="vlanID" class="form-control w100" ng-model="newVlan.vid"
+                               placeholder="1-4094" ng-disabled="vlanShowData.status==0 || isEdit" maxlength="4"
+                               ng-pattern="/^([1-3]\d{3}|40[1-8]\d|409[1-4]|[1-9]\d{2}|[1-9]\d|[1-9])$/"
+                               ng-keydown="numberKeydown($event)" required ng-change="changeVIDExist();">
+                        <span class="hint-span" ng-if="!VIDExist">{{'invalid.vidID'|translate}}</span>
+                        <span class="hint-span" ng-if="VIDExist">{{'invalid.vidExist'|translate}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{'label.vlanName'|translate}}<span
+                            ng-class="vlanShowData.status==1?'required-span-show':'required-span'">*</span></label>
+
+                    <div class="col-sm-9"
+                         ng-class="vlanShowData.status==1&&addVLANForm.vlanName.$dirty&&addVLANForm.vlanName.$invalid?'error':''">
+                        <input type="text" name="vlanName" class="form-control w320" ng-model="newVlan.name"
+                                ng-disabled="vlanShowData.status==0" maxlength="64"
+                               autocomplete="off" required>
+                        <span class="hint-span">{{'invalid.vlanName'|translate}}</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <div class="VLAN-addEdit" ng-class="vlanShowData.status==0?'disable':''">
+                        <div class="VLAN-addEdit-tit clear">
+                            <div class="col-sm-2" style="text-align: left;width: 20%;"
+                                 title="{{'label.port'|translate}}">{{'label.port'|translate}}
+                            </div>
+                            <div class="col-sm-2" style="width: 20%;" title="{{'label.selectAll'|translate}}">
+                                {{'label.selectAll'|translate}}
+                            </div>
+                            <div class="col-sm-2" style="width: 20%;" title="Mgmt">{{'configuration.vlan.mgmt'|translate}}</div>
+                            <div class="col-sm-2" style="width: 20%;" title="LAN1">{{'configuration.vlan.lan'|translate}}1</div>
+                            <div class="col-sm-2" style="width: 20%;" title="LAN2">{{'configuration.vlan.lan'|translate}}2</div>
+                        </div>
+                        <div class="VLAN-addEdit-cont clear">
+                            <ul class="col-sm-2" style="text-align: left;width: 20%;">
+                                <li title="{{'label.untag'|translate}}">{{'label.untag'|translate}}</li>
+                                <li title="{{'label.tag'|translate}}">{{'label.tag'|translate}}</li>
+                                <li title="{{'label.notMember'|translate}}">{{'label.notMember'|translate}}</li>
+                            </ul>
+                            <ul class="col-sm-2" style="width: 20%;">
+                                <li ng-repeat="item in ports">
+                                    <label class="radio-inline">
+                                        <input type="radio" value="{{item}}" name="all"
+                                               ng-model="selected.portSelectAll"
+                                               ng-click="selectAll(item);" ng-disabled="vlanShowData.status==0">
+                                        <p><span ng-show="selected.portSelectAll==item"></span></p>
+                                    </label>
+                                </li>
+                            </ul>
+                            <ul class="col-sm-2" style="width: 20%;">
+                                <li ng-repeat="item in ports">
+                                    <label class="radio-inline">
+                                        <input type="radio" value="{{item}}" name="mgmt" ng-model="newVlan.mgmt"
+                                               ng-disabled="vlanShowData.status==0" ng-change="selectItem(item);">
+                                        <p><span ng-show="newVlan.mgmt==item"></span></p>
+                                    </label>
+                                </li>
+                            </ul>
+                            <ul class="col-sm-2" style="width: 20%;">
+                                <li ng-repeat="item in ports">
+                                    <label class="radio-inline">
+                                        <input type="radio" value="{{item}}" name="Lan1" ng-model="newVlan.lan1"
+                                               ng-disabled="vlanShowData.status==0" ng-change="selectItem(item);">
+                                        <p><span ng-show="newVlan.lan1==item"></span></p>
+                                    </label>
+                                </li>
+                            </ul>
+                            <ul class="col-sm-2" style="width: 20%;">
+                                <li ng-repeat="item in ports">
+                                    <label class="radio-inline">
+                                        <input type="radio" value="{{item}}" name="Lan2" ng-model="newVlan.lan2"
+                                               ng-disabled="vlanShowData.status==0" ng-change="selectItem(item);">
+                                        <p><span ng-show="newVlan.lan2==item"></span></p>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 16px;" ng-class="vlanShowData.status==0?'disable':''">
+                    <div class="box subpage">
+                        <div class="box-header">
+                            <h3>{{'configuration.band1' | translate}}</h3>
+                        </div>
+                        <div class="box-content" style="padding: 0px;">
+                            <div class="VLAN-addEdit" style="border:none;">
+                                <div class="VLAN-addEdit-tit clear">
+                                    <div class="col-sm-2" style="text-align: left;width: 18%;"
+                                         title="{{'label.port'|translate}}">{{'label.port'|translate}}
+                                    </div>
+                                    <div class="col-sm-2" style="width: 10%;" title="{{'label.selectAll'|translate}}">
+                                        {{'label.selectAll'|translate}}
+                                    </div>
+                                    <div class="col-sm-2" style="width: 9%;" title="{{'configuration.band.ssid1'|translate}}">{{'configuration.band.ssid1'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID1">{{'configuration.band.ssid2'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID2">{{'configuration.band.ssid3'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID3">{{'configuration.band.ssid4'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID4">{{'configuration.band.ssid5'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID5">{{'configuration.band.ssid6'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID6">{{'configuration.band.ssid7'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID7">{{'configuration.band.ssid8'|translate}}</div>
+                                </div>
+                                <div class="VLAN-addEdit-cont cc clear">
+                                    <ul class="col-sm-2" style="text-align: left;width: 18%;">
+                                        <li title="{{'label.tag'|translate}}">{{'label.untag'|translate}}</li>
+                                        <!--    <li title="{{'label.tag'|translate}}">{{'label.tag'|translate}}</li>-->
+                                        <li title="{{'label.notMember'|translate}}">{{'label.notMember'|translate}}</li>
+                                    </ul>
+                                    <ul class="col-sm-2" style="width: 10%;">
+                                        <li ng-repeat="item in ports1">
+                                            <label class="radio-inline">
+                                                <input type="radio" value="{{item}}" name="all1"
+                                                       ng-model="selected.port24GhzSelectAll"
+                                                       ng-click="selectAll(item,ssid24);"
+                                                       ng-disabled="vlanShowData.status==0">
+                                                <p><span ng-show="selected.port24GhzSelectAll==item"></span></p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <ul class="col-sm-2" style="width: 9%;" ng-repeat="ssid in ssid24">
+                                        <li ng-repeat="item in ports1">
+                                            <label class="radio-inline">
+                                                <input type="radio" value="{{item}}" ng-model="newVlan[ssid]"
+                                                       ng-disabled="vlanShowData.status==0"
+                                                       ng-change="selectItem(item,ssid24)">
+                                                <p><span ng-show="newVlan[ssid]==item"></span></p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 16px;" ng-class="vlanShowData.status==0?'disable':''">
+                    <div class="box subpage">
+                        <div class="box-header">
+                            <h3>{{'configuration.band2' | translate}}</h3>
+                        </div>
+                        <div class="box-content" style="padding: 0px;">
+                            <div class="VLAN-addEdit" style="border:none;">
+                                <div class="VLAN-addEdit-tit clear">
+                                    <div class="col-sm-2" style="text-align: left;width: 18%;"
+                                         title="{{'label.port'|translate}}">{{'label.port'|translate}}
+                                    </div>
+                                    <div class="col-sm-2" style="width: 10%;" title="{{'label.selectAll'|translate}}">
+                                        {{'label.selectAll'|translate}}
+                                    </div>
+                                    <div class="col-sm-2" style="width: 9%;" title="{{'configuration.band.ssid1'|translate}}">{{'configuration.band.ssid1'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID1">{{'configuration.band.ssid2'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID2">{{'configuration.band.ssid3'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID3">{{'configuration.band.ssid4'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID4">{{'configuration.band.ssid5'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID5">{{'configuration.band.ssid6'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID6">{{'configuration.band.ssid7'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID7">{{'configuration.band.ssid8'|translate}}</div>
+                                </div>
+                                <div class="VLAN-addEdit-cont cc clear">
+                                    <ul class="col-sm-2" style="text-align: left;width: 18%;">
+                                        <li title="{{'label.untag'|translate}}">{{'label.untag'|translate}}</li>
+                                        <!--   <li title="{{'label.tag'|translate}}">{{'label.tag'|translate}}</li>-->
+                                        <li title="{{'label.notMember'|translate}}">{{'label.notMember'|translate}}</li>
+                                    </ul>
+                                    <ul class="col-sm-2" style="width: 10%;">
+                                        <li ng-repeat="item in ports1">
+                                            <label class="radio-inline">
+                                                <input type="radio" value="{{item}}" name="all2"
+                                                       ng-model="selected.port5GhzSelectAll"
+                                                       ng-click="selectAll(item,ssid5);"
+                                                       ng-disabled="vlanShowData.status==0">
+                                                <p><span ng-show="selected.port5GhzSelectAll==item"></span></p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <ul class="col-sm-2" style="width: 9%;" ng-repeat="ssid in ssid5">
+                                        <li ng-repeat="item in ports1">
+                                            <label class="radio-inline">
+                                                <input type="radio" value="{{item}}" ng-model="newVlan[ssid]"
+                                                       ng-disabled="vlanShowData.status==0"
+                                                       ng-change="selectItem(item,ssid5)">
+                                                <p><span ng-show="newVlan[ssid]==item"></span></p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 16px;" ng-class="vlanShowData.status==0?'disable':''">
+                    <div class="box subpage">
+                        <div class="box-header">
+                            <h3>{{'configuration.band3' | translate}}</h3>
+                        </div>
+                        <div class="box-content" style="padding: 0px;">
+                            <div class="VLAN-addEdit" style="border:none;">
+                                <div class="VLAN-addEdit-tit clear">
+                                    <div class="col-sm-2" style="text-align: left;width: 18%;"
+                                         title="{{'label.port'|translate}}">{{'label.port'|translate}}
+                                    </div>
+                                    <div class="col-sm-2" style="width: 10%;" title="{{'label.selectAll'|translate}}">
+                                        {{'label.selectAll'|translate}}
+                                    </div>
+                                    <div class="col-sm-2" style="width: 9%;" title="{{'configuration.band.ssid1'|translate}}">{{'configuration.band.ssid1'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID1">{{'configuration.band.ssid2'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID2">{{'configuration.band.ssid3'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID3">{{'configuration.band.ssid4'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID4">{{'configuration.band.ssid5'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID5">{{'configuration.band.ssid6'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID6">{{'configuration.band.ssid7'|translate}}</div>
+                                    <div class="col-sm-2" style="width: 9%;" title="SSID7">{{'configuration.band.ssid8'|translate}}</div>
+                                </div>
+                                <div class="VLAN-addEdit-cont cc clear">
+                                    <ul class="col-sm-2" style="text-align: left;width: 18%;">
+                                        <li title="{{'label.untag'|translate}}">{{'label.untag'|translate}}</li>
+                                        <!--   <li title="{{'label.tag'|translate}}">{{'label.tag'|translate}}</li>-->
+                                        <li title="{{'label.notMember'|translate}}">{{'label.notMember'|translate}}</li>
+                                    </ul>
+                                    <ul class="col-sm-2" style="width: 10%;">
+                                        <li ng-repeat="item in ports1">
+                                            <label class="radio-inline">
+                                                <input type="radio" value="{{item}}" name="all3"
+                                                       ng-model="selected.port5Ghz2ndSelectAll"
+                                                       ng-click="selectAll(item,ssidSec5);"
+                                                       ng-disabled="vlanShowData.status==0">
+                                                <p><span ng-show="selected.port5Ghz2ndSelectAll==item"></span></p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <ul class="col-sm-2" style="width: 9%;" ng-repeat="ssid in ssidSec5">
+                                        <li ng-repeat="item in ports1">
+                                            <label class="radio-inline">
+                                                <input type="radio" value="{{item}}" ng-model="newVlan[ssid]"
+                                                       ng-disabled="vlanShowData.status==0"
+                                                       ng-change="selectItem(item,ssidSec5)">
+                                                <p><span ng-show="newVlan[ssid]==item"></span></p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mgb0" ng-if="hasPrivilege">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button style="margin-left:8px;" ng-if="isEdit" class="btn btn-common pull-right" ng-click="cancelEdit();" >
+                            {{'common.cancel'|translate}}
+                        </button>
+                        <button class="btn btn-common pull-right" ng-click="addVLAN();"
+                                ng-disabled="addVLANForm.$invalid||vlanShowData.status==0">
+                            {{isEdit?'common.save':'common.add'|translate}}
+                        </button>
+
+                    </div>
+                </div>
+            </form>
+        </uib-tab>
+        <uib-tab index="3" heading="{{'configuration.vlan.pvidSetting'|translate}}" select="showTab(3);">
+            <form name="PVIDSettingForm" style="padding: 24px 16px;" class="ele-addVlan" ng-if="show.tab4">
+                <div class="form-group" ng-class="vlanShowData.status==0?'disable':''">
+                    <label class="col-sm-3 control-label" style="width: 200px;">{{'label.pvidAutoAssignStatus'|translate}}</label>
+
+                    <div class="col-sm-3">
+                        <div style="width: 100px;height: 32px;">
+                            <ui-select ng-model="vlanShowData.pvid.autoAssignStatus" theme="bootstrap"
+                                       ng-disabled="vlanShowData.status==0" on-select="PVIDChanged()">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                    {{'configuration.able'+$select.selected|translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in statuses">
+                                    {{'configuration.able'+item|translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <div class="ruleMain">
+                        <div class="clear">
+                            <div class="col-sm-3" style="width: 25%;">{{'label.port'|translate}}</div>
+                            <div class="col-sm-3" style="width: 25%;">{{'configuration.vlan.mgmt'|translate}}</div>
+                            <div class="col-sm-3" style="width: 25%;">{{'configuration.vlan.lan'|translate}}1</div>
+                            <div class="col-sm-3" style="width: 25%;">{{'configuration.vlan.lan'|translate}}2</div>
+                        </div>
+                        <ul>
+                            <li class="clear">
+                                <div class="col-sm-3" style="height:32px;line-height: 32px;">PVID</div>
+                                <div class="col-sm-3" style="height:32px;line-height: 32px;"
+                                     ng-class="vlanShowData.status==1&&vlanShowData.pvid.autoAssignStatus==0&&PVIDSettingForm.mgmt.$dirty&&PVIDSettingForm.mgmt.$invalid?'error':''">
+                                    <input type="text" name="mgmt" class="form-control"
+                                           ng-model="vlanShowData.pvid.mgmt"
+                                           ng-disabled="vlanShowData.status==0||vlanShowData.pvid.autoAssignStatus==1"
+                                           ng-pattern="/^([1-3]\d{3}|40[1-8]\d|409[1-4]|[1-9]\d{2}|[1-9]\d|[1-9])$/"
+                                           ng-change="PVIDChanged()" required
+                                           style="width: 80px;" maxlength="4" ng-keydown="numberKeydown($event)">
+                                </div>
+                                <div class="col-sm-3" style="height:32px;line-height: 32px;"
+                                     ng-class="vlanShowData.status==1&&vlanShowData.pvid.autoAssignStatus==0&&PVIDSettingForm.lan1.$dirty&&PVIDSettingForm.lan1.$invalid?'error':''">
+                                    <input type="text" name="lan1" class="form-control"
+                                           ng-model="vlanShowData.pvid.lan1"
+                                           ng-disabled="vlanShowData.status==0||vlanShowData.pvid.autoAssignStatus==1"
+                                           ng-pattern="/^([1-3]\d{3}|40[1-8]\d|409[1-4]|[1-9]\d{2}|[1-9]\d|[1-9])$/"
+                                           ng-change="PVIDChanged()" required
+                                           style="width: 80px;" maxlength="4" ng-keydown="numberKeydown($event)">
+                                </div>
+                                <div class="col-sm-3" style="height:32px;line-height: 32px;"
+                                     ng-class="vlanShowData.status==1&&vlanShowData.pvid.autoAssignStatus==0&&PVIDSettingForm.lan2.$dirty&&PVIDSettingForm.lan2.$invalid?'error':''">
+                                    <input type="text" name="lan2"
+                                           class="form-control"
+                                           ng-model="vlanShowData.pvid.lan2"
+                                           ng-disabled="vlanShowData.status==0||vlanShowData.pvid.autoAssignStatus==1"
+                                           ng-pattern="/^([1-3]\d{3}|40[1-8]\d|409[1-4]|[1-9]\d{2}|[1-9]\d|[1-9])$/"
+                                           ng-change="PVIDChanged()" required
+                                           style="width: 80px;" maxlength="4" ng-keydown="numberKeydown($event)">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <div class="box subpage">
+                        <div class="box-header">
+                            <h3>{{'configuration.band1' | translate}}</h3>
+                        </div>
+                        <div class="box-content" style="padding: 0px;">
+                            <div class="ruleMain" style="border: none;">
+                                <div class="clear">
+                                    <div class="col-sm-1" style="width: 12%">MSSID {{'label.port'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid1'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid2'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid3'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid4'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid5'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid6'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid7'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid8'|translate}}</div>
+                                </div>
+                                <ul>
+                                    <li class="clear">
+                                        <div class="col-sm-3" style="width: 12%"><span>PVID</span></div>
+                                        <div class="col-sm-2" style="width: 11%;" ng-repeat="item in ssid24"
+                                             ng-class="vlanShowData.status==1&&vlanShowData.pvid.autoAssignStatus==0&&PVIDSettingForm[item].$dirty&&PVIDSettingForm[item].$invalid?'error':''">
+                                            <input type="text" name="{{item}}" class="form-control"
+                                                   ng-model="vlanShowData.pvid[item]"
+                                                   ng-disabled="vlanShowData.status==0||vlanShowData.pvid.autoAssignStatus==1"
+                                                   ng-pattern="/^([1-3]\d{3}|40[1-8]\d|409[1-4]|[1-9]\d{2}|[1-9]\d|[1-9])$/"
+                                                   ng-change="PVIDChanged()" required maxlength="4"
+                                                   ng-keydown="numberKeydown($event)">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgb24">
+                    <div class="box subpage">
+                        <div class="box-header">
+                            <h3>{{'configuration.band2' | translate}}</h3>
+                        </div>
+                        <div class="box-content" style="padding: 0px;">
+                            <div class="ruleMain" style="border: none;">
+                                <div class="clear">
+                                    <div class="col-sm-1" style="width: 12%">MSSID {{'label.port'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid1'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid2'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid3'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid4'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid5'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid6'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid7'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid8'|translate}}</div>
+                                </div>
+                                <ul>
+                                    <li class="clear">
+                                        <div class="col-sm-3" style="width: 12%"><span>PVID</span></div>
+                                        <div class="col-sm-2" style="width: 11%;" ng-repeat="item in ssid5"
+                                             ng-class="vlanShowData.status==1&&vlanShowData.pvid.autoAssignStatus==0&&PVIDSettingForm[item].$dirty&&PVIDSettingForm[item].$invalid?'error':''">
+                                            <input type="text" name="{{item}}" class="form-control"
+                                                   ng-model="vlanShowData.pvid[item]"
+                                                   ng-disabled="vlanShowData.status==0||vlanShowData.pvid.autoAssignStatus==1"
+                                                   ng-pattern="/^([1-3]\d{3}|40[1-8]\d|409[1-4]|[1-9]\d{2}|[1-9]\d|[1-9])$/"
+                                                   ng-change="PVIDChanged()" required maxlength="4"
+                                                   ng-keydown="numberKeydown($event)">
+                                        </div>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mgb24">
+                    <div class="box subpage">
+                        <div class="box-header">
+                            <h3>{{'configuration.band3' | translate}}</h3>
+                        </div>
+                        <div class="box-content" style="padding: 0px;">
+                            <div class="ruleMain" style="border: none;">
+                                <div class="clear">
+                                    <div class="col-sm-1" style="width: 12%">MSSID {{'label.port'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid1'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid2'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid3'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid4'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid5'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid6'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid7'|translate}}</div>
+                                    <div class="col-sm-1" style="width: 11%;">{{'configuration.band.ssid8'|translate}}</div>
+                                </div>
+                                <ul>
+                                    <li class="clear">
+                                        <div class="col-sm-3" style="width: 12%"><span>PVID</span></div>
+                                        <div class="col-sm-2" style="width: 11%;" ng-repeat="item in ssidSec5"
+                                             ng-class="vlanShowData.status==1&&vlanShowData.pvid.autoAssignStatus==0&&PVIDSettingForm[item].$dirty&&PVIDSettingForm[item].$invalid?'error':''">
+                                            <input type="text" name="{{item}}" class="form-control"
+                                                   ng-model="vlanShowData.pvid[item]"
+                                                   ng-disabled="vlanShowData.status==0||vlanShowData.pvid.autoAssignStatus==1"
+                                                   ng-pattern="/^([1-3]\d{3}|40[1-8]\d|409[1-4]|[1-9]\d{2}|[1-9]\d|[1-9])$/"
+                                                   ng-change="PVIDChanged()" required maxlength="4"
+                                                   ng-keydown="numberKeydown($event)">
+                                        </div>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mgb0" ng-if="hasPrivilege">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button class="btn btn-common pull-right" ng-click="savePVID();"
+                                ng-disabled="vlanShowData.status==0||(vlanShowData.pvid.autoAssignStatus==0&&PVIDSettingForm.$invalid)">
+                            {{'common.save'|translate}}
+                        </button>
+                        <span class="hint-span state processing-msg" ng-show="state.pvid.processing"><img
+                                src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+                        <span class="hint-span state success-msg" ng-show="state.pvid.isSuccess">{{state.pvid.msgTrue|translate}}</span>
+                        <span class="hint-span state error-msg"
+                              ng-show="state.pvid.isError">{{state.pvid.msgFalse}}</span>
+                    </div>
+                </div>
+            </form>
+        </uib-tab>
+    </uib-tabset>
+</div>

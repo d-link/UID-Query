@@ -1,0 +1,57 @@
+<div class="form-group">
+    <label class="col-sm-3 control-label" >Devices</label>
+    <div class="col-sm-9">
+        <div style="width: 160px;height: 32px;display: inline-block;">
+            <ui-select ng-model="selectFilter.selectNetwork" theme="bootstrap" on-select="changeNetwork($index,$item);">
+                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.networkName}}</ui-select-match>
+                <ui-select-choices repeat="network in optionNet">{{network.networkName}}</ui-select-choices>
+            </ui-select>    
+        </div>
+        <div style="width: 100px;height: 32px;display: inline-block;margin-left: 8px;">
+            <ui-select ng-model="selectFilter.selectGroup" theme="bootstrap" on-select="changeGroup($index,$item);">
+                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.groupId}}</ui-select-match>
+                <ui-select-choices repeat="gro in selectFilter.selectNetwork.groups">{{gro.groupId}}</ui-select-choices>
+            </ui-select>    
+        </div>
+    </div>
+</div>
+<div class="form-group mgb0">
+    <label class="col-sm-3 control-label" ></label>
+    <div class="col-sm-9" style="padding-right: 23px;">
+        <div class="ruleMain">
+            <div class="clear">
+                <div class="pull-left" style="width: 10%;padding: 0px 8px;" ng-if="type">
+                    <label class="checkLabel" style="padding-left: 16px;margin-bottom: -3px;">
+                        <input type="checkbox" ng-model="selectAll.value" ng-click="selectAllDev()">
+                        <p><md-icon md-svg-icon="modal:checkbox" ng-show="selectAll.value"></p>
+                    </label>
+                </div>
+                <div class="pull-left" style="width: 10%;" ng-if="!type">&nbsp;</div>
+                <div class="pull-left" style="width: 40%;">System Name</div>
+                <div class="pull-left" style="width: 30%;">IP</div>
+                <div class="pull-left" style="width: 20%;">Network</div>
+            </div>
+            <ul style="max-height: 120px;overflow: auto;">
+                <li ng-repeat="device in deviceList" style="height: 40px;" >
+                    <!-- <div class="clear" style="padding: 0px;"></div> -->
+                    <div class="pull-left" style="width: 10%;padding: 12px 8px;" ng-if="type">
+                        <label class="checkLabel">
+                            <input type="checkbox" ng-model="device.select" ng-click="devChoice(device)">
+                            <p><md-icon md-svg-icon="modal:checkbox" ng-show="device.select"></p>
+                        </label>
+                        
+                    </div>
+                    <div class="pull-left" style="width: 10%;" ng-if="!type">
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="radioSelect.value" value="{{device._id}}" name="s">
+                            <p><span ng-show="radioSelect.value == device._id"></span></p>
+                        </label>
+                    </div>
+                    <div class="pull-left" style="width: 40%;"><span>{{device.sysName}}</span></div>
+                    <div class="pull-left" style="width: 30%;"><span>{{device.ip}}</span></div>    
+                    <div class="pull-left" style="width: 20%;"><span>{{device.networkName}}</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

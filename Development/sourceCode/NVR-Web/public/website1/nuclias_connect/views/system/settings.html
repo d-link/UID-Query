@@ -1,0 +1,1684 @@
+<div ng-controller="sysSettingsController">
+    <div class="set-height subpage site setting">
+        <uib-tabset active="activeForm">
+
+            <uib-tab index="0" heading="{{'settings.general'|translate}}" select="">
+                <form name="generalForm" class="form-horizontal" style="padding: 24px 16px;" ng-if="isShowLanForm">
+                    <!--customizedSetting-->
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.customizedSetting'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label for="name"
+                                       class="col-sm-3 control-label">{{'report.heatip.deviceName'|translate}}</label>
+
+                                <div class="col-sm-9 w200">
+                                    <input type="text" name="name" class="form-control OrgName" id="name"
+                                           placeholder="{{'settings.orgName_placeholder'|translate}}"
+                                           ng-model="org.name" required ng-maxlength="32" maxlength="32"
+                                           autocomplete="off" ng-disabled="!hasPrivilege">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="col-sm-3 control-label">{{'settings.logo'|translate}}</label>
+
+                                <div class="col-sm-9 w320">
+                                    <div ng-mouseenter="changeShow=true" ng-mouseleave="changeShow=false"
+                                         class="fileSelector drop-box bgc-transition" ngf-drop
+                                         ng-model="logoImg.logoFiles" ng-disabled="!hasPrivilege"
+                                         ngf-drag-over-class="dragOverClassObj" ngf-pattern="'image/*'"
+                                         ngf-accept=".png,.jpg">
+                                        <img ng-show="logoImg.logoFiles || logoImg.temporary"
+                                             ngf-src="logoImg.logoFiles[0] || logoImg.temporary[0]">
+
+                                        <div ng-class="(logoImg.logoFiles||logoImg.temporary)&&changeShow?'drag-info hover':'drag-info'"
+                                             ng-show="!logoImg.logoFiles&&!logoImg.temporary||changeShow">
+                                            <md-icon md-svg-icon="icon48:c_drag"></md-icon>
+                                            <div><span class="textCenter drag">{{'settings.drag'|translate}}</span>
+                                                <span class="textCenter or">{{'settings.dragTip'|translate}}
+                                                    <a ng-model="logoImg.logoFiles" ngf-select ngf-pattern="'image/*'"
+                                                       accept=".png,.jpg" ng-disabled="!hasPrivilege">{{'settings.browser'|translate}}</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="drop-info">
+                                            <div>{{'settings.drop'|translate}}</div>
+                                            <md-icon md-svg-icon="icon48:c_drag"></md-icon>
+                                            <div><span class="textCenter drag">{{'settings.drag'|translate}}</span>
+                                                <span class="textCenter or">{{'settings.dragTip'|translate}}<a>
+                                                    {{'settings.browser'|translate}}</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span style="margin-top:4px;display:block;" ng-if="!showLogoSpecail"
+                                          class="hintTip">{{'settings.logoFormat'|translate}} </span>
+                                    <span style="margin-top:4px;display:block;color: red;"
+                                          ng-if="showLogoSpecail">{{'settings.logoFormat'|translate}} </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.captcha'|translate}}</label>
+
+                                <div class="col-sm-9 w200">
+                                    <div style="height: 32px;">
+                                        <ui-select ng-model="org.captcha_view" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{'configuration.able'+$select.selected|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="s in statuses">
+                                                {{'configuration.able'+s|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--保存-->
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <label class="col-sm-3 control-label"></label>
+
+                                <div class="col-sm-9">
+                                    <button class="btn btn-common" type="button" ng-click="saveCustomized()"
+                                            style="float: left;margin-right: 20px">
+                                        {{'common.save'|translate}}
+                                    </button>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.customized.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.customized.isSuccess">{{state.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.customized.isError">{{state.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--lanSetting-->
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'addChipSystemData.lanSetting'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <!--板子上网络设置  开始-->
+                            <div class="chip-system-div">
+                                <!--getIPAddressFrom-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{'label.getIPAddressFrom'
+                                        |translate}}</label>
+                                    <div class="col-sm-9 w255">
+                                        <div style="height: 32px;">
+                                            <ui-select ng-model="org.ipType" theme="bootstrap"
+                                                       ng-disabled="!hasPrivilege">
+                                                <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                    {{'addChipSystemData.'+$select.selected | translate}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="item in getIPAddressFrom">
+                                                    {{'addChipSystemData.'+ item | translate}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--ipAddress-->
+                                <div class="form-group">
+                                    <div class="ip-address">
+                                        <label class="col-sm-3 control-label">{{'label.ipAddress' | translate}}<span
+                                                ng-class="org.ipType=='static'?'required-span-show':'required-span'">*</span></label>
+                                        <div class="col-sm-9 w255"
+                                             ng-class="org.ipType=='static'&&(generalForm.ipAddress.$dirty&&generalForm.ipAddress.$invalid||invalidIP.ipAddress)?'error':''">
+                                            <input type="text" name="ipAddress" class="form-control"
+                                                   autocomplete="off" maxlength="15"
+                                                   ng-model="org.ipAddress"
+                                                   ng-disabled="ifDHCP||!hasPrivilege"
+                                                   ng-keydown="IPKeydown($event)"
+                                                   ng-keyup="IPKeyup('ipAddress')"
+                                                   ng-pattern="org.ipType=='static'?serverRe:''"
+                                                   ng-required="org.ipType=='static'">
+                                            <span class="hint-span">{{'configuration.ssid.invalidIP'|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <!--subnetMask-->
+                                    <div class="subnet-mask">
+                                        <label class="col-sm-2 control-label">{{'label.subnetMask' |
+                                            translate}}<span
+                                                    ng-class="org.ipType=='static'?'required-span-show':'required-span'">*</span></label>
+                                        <div class="col-sm-9 w255"
+                                             ng-class="org.ipType=='static'&&((generalForm.subnetMask.$dirty&&generalForm.subnetMask.$invalid)||invalidIP.subnetMask)?'error':''">
+                                            <input type="text" name="subnetMask" class="form-control"
+                                                   autocomplete="off" maxlength="15"
+                                                   ng-model="org.subnetMask"
+                                                   ng-disabled="ifDHCP||!hasPrivilege"
+                                                   ng-pattern="org.ipType=='static'?subMaskRe:''"
+                                                   ng-keydown="IPKeydown($event)"
+                                                   ng-keyup="IPKeyup('subnetMask')"
+                                                   ng-required="org.ipType=='static'">
+                                            <span class="hint-span">{{'configuration.ssid.invalidNetmask'|translate}}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--gateway-->
+                                <div class="form-group">
+                                    <div class="gateway">
+                                        <label class="col-sm-3 control-label">{{'label.gateway' | translate}}</label>
+                                        <div class="col-sm-9 w255"
+                                             ng-class="org.ipType=='static'&&((generalForm.defaultGateWay.$dirty&&generalForm.defaultGateWay.$invalid)||invalidIP.defaultGateWay)?'error':''">
+                                            <input type="text" name="defaultGateWay" class="form-control"
+                                                   autocomplete="off" maxlength="15"
+                                                   ng-model="org.defaultGateWay"
+                                                   ng-disabled="ifDHCP||!hasPrivilege"
+                                                   ng-pattern="org.ipType=='static'?serverRe:''"
+                                                   ng-keydown="IPKeydown($event)"
+                                                   ng-keyup="IPKeyup('defaultGateWay')">
+                                            <span class="hint-span">{{'configuration.ssid.invalidGateway'|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--dns-->
+                                <div class="form-group">
+                                    <!--primary DNS-->
+                                    <div class="primary-dns">
+                                        <label class="col-sm-3 control-label">{{'label.primaryDNS' | translate}}</label>
+                                        <div class="col-sm-9 w255"
+                                             ng-class="org.ipType=='static'&&((generalForm.primaryDNS.$dirty&&generalForm.primaryDNS.$invalid)||invalidIP.primaryDNS)?'error':''">
+                                            <input type="text" name="primaryDNS" class="form-control"
+                                                   autocomplete="off" maxlength="15"
+                                                   ng-model="org.primaryDNS"
+                                                   ng-disabled="ifDHCP||!hasPrivilege"
+                                                   ng-pattern="org.ipType=='static'?serverRe:''"
+                                                   ng-keydown="IPKeydown($event)"
+                                                   ng-keyup="IPKeyup('primaryDNS')">
+                                            <span class="hint-span">{{'configuration.ssid.invalidDNS'|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <!--second DNS-->
+                                    <div class="second-dns">
+                                        <label class="col-sm-2 control-label ">{{'label.secondaryDNS' |
+                                            translate}}</label>
+                                        <div class="col-sm-9 w255"
+                                             ng-class="org.ipType=='static'&&((generalForm.secondDNS.$dirty&&generalForm.secondDNS.$invalid)||invalidIP.secondDNS)?'error':''">
+                                            <input type="text" name="secondDNS" class="form-control"
+                                                   autocomplete="off" maxlength="15"
+                                                   ng-model="org.secondDNS"
+                                                   ng-disabled="ifDHCP||!hasPrivilege"
+                                                   ng-pattern="org.ipType=='static'?serverRe:''"
+                                                   ng-keydown="IPKeydown($event)"
+                                                   ng-keyup="IPKeyup('secondDNS')">
+                                            <span class="hint-span">{{'configuration.ssid.invalidDNS'|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--changeDAA-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-9 w380">
+                                        <label class="col-sm-4 checkLabel w380">
+                                            <input type="checkbox" ng-model="org.changeDAA" id="sys_changeDAA">{{'label.changeDAA'
+                                            | translate}}
+                                            <p id="sys_changeDAA_checkbox">
+                                                <md-icon md-svg-icon="modal:checkbox" ng-show="org.changeDAA"></md-icon>
+                                            </p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group mgb0" ng-if="hasPrivilege">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-9">
+                                        <button class="btn btn-common" type="button" ng-click="saveLanSetting()"
+                                                ng-disabled="disabledLanSetting||(org.ipType=='static'&&(generalForm.ipAddress.$invalid||generalForm.subnetMask.$invalid||generalForm.defaultGateWay.$invalid||generalForm.primaryDNS.$invalid||generalForm.secondDNS.$invalid))||state.lanSetting.processing"
+                                                style="float: left;margin-right: 20px">
+                                            {{'common.save'|translate}}
+                                        </button>
+                                        <span class="hint-span state processing-msg" style="float: left"
+                                              ng-show="state.lanSetting.processing"><img
+                                                src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                        <span class="hint-span state success-msg" style="float: left"
+                                              ng-show="state.lanSetting.isSuccess">{{state.msgTrue|translate}}</span>
+                                        <span class="hint-span state error-msg" style="float: left"
+                                              ng-show="state.lanSetting.isError">{{state.lanSetting.msgFalse|translate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--板子上网络设置  结束-->
+                        </div>
+                    </div>
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'addChipSystemData.dateAndTime'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <!--时间日期设置  开始-->
+                            <div class="chip-date-div">
+                                <!--时区设置-->
+                                <div class="form-group">
+                                    <div class="timezone-div">
+                                        <label class="col-sm-3 control-label">{{'label.timeZone'|translate}}</label>
+                                        <div class="col-sm-9 w420">
+                                            <div style="height: 32px;" class="batch-config-country">
+                                                <ui-select ng-model="org.timeZone" theme="bootstrap"
+                                                           ng-disabled="!hasPrivilege"
+                                                           required>
+                                                    <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                        {{$select.selected.name}}
+                                                    </ui-select-match>
+                                                    <ui-select-choices repeat="item in timeZones track by $index">
+                                                        {{item.name}}
+                                                    </ui-select-choices>
+                                                </ui-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Ntp设置-->
+                                <!--checkbox-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-9">
+                                        <label class="col-sm-2 checkLabel" style="width: 100px;">
+                                            <input type="checkbox" ng-model="org.enableNTP" id="enable_NTP">{{'label.NTP'
+                                            | translate}}
+                                            <p id="enable_NTP_checkbox">
+                                                <md-icon md-svg-icon="modal:checkbox" ng-show="org.enableNTP"></md-icon>
+                                            </p>
+                                        </label>
+                                        <span style="display: block;padding-top: 3px;"
+                                              ng-show="!org.enableNTP" class="hintTip">{{'configuration.ntpHint' | translate}}</span>
+                                    </div>
+                                </div>
+                                <!--ntp不可编辑-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{'label.ntpServer1' | translate}}</label>
+                                    <div class="col-sm-9 w320">
+                                        <input name="NTPServer" type="text" class="form-control"
+                                               ng-disabled="true"
+                                               ng-model="org.defaultNTPServer"
+                                               placeholder="{{org.defaultNTPServer}}"
+                                               autocomplete="off">
+                                    </div>
+                                </div>
+                                <!--Ntp server 可以不必填-->
+                                <div class="form-group">
+                                    <div class="ntp-sever">
+                                        <label class="col-sm-3 control-label">{{'label.ntpServer2' | translate}}</label>
+
+                                        <div class="col-sm-9 w320"
+                                             ng-class="org.enableNTP==1&&((generalForm.NTPServer.$dirty&&generalForm.NTPServer.$invalid))?'error':''">
+                                            <ipdomain-format name="NTPServer" type="text" class="form-control"
+                                                             ng-disabled="org.enableNTP==0 ||!hasPrivilege"
+                                                             ng-model="org.NTPServer"
+                                                             ng-keyup="IPKeyup('NTPServer')"
+                                                             ng-pattern="addressRe"
+                                                             placeholder="{{'common.ipDomainHolder'|translate}}"
+                                                             autocomplete="off"></ipdomain-format>
+                                            <span class="hint-span">{{'invalid.ntpServer'|translate}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--系统时间-->
+                                <div class="form-group">
+                                    <div class="time-set">
+                                        <label class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-5 clearfix" style="width: auto;">
+                                            <!--时间插件-->
+                                            <div style="float:left;margin-left: -40px;height: 95px;">
+                                                <select-date date-info="dateAndTime"
+
+                                                             disabled-info="disabledDateAndTime"></select-date>
+                                            </div>
+                                            <div style="float: right;margin-left: 30px;">
+                                                <button class="btn btn-common" type="button"
+                                                        ng-click="copyTimeFormComputer()"
+                                                        ng-disabled="disabledDateAndTime || !hasPrivilege">
+                                                    {{'addChipSystemData.copyTime'|translate}}
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--保存-->
+                                <div class="form-group mgb0" ng-if="hasPrivilege">
+                                    <label class="col-sm-3 control-label"></label>
+
+                                    <div class="col-sm-9">
+                                        <button class="btn btn-common" type="button" ng-click="saveDateAndTimeSetting()"
+                                                ng-disabled="org.enableNTP==1&&generalForm.NTPServer.$invalid||invalidTimeZone||invalidDate"
+                                                style="float: left;margin-right: 20px">
+                                            {{'common.save'|translate}}
+                                        </button>
+                                        <span class="hint-span state processing-msg" style="float: left"
+                                              ng-show="state.dateAndTimeSetting.processing"><img
+                                                src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                        <span class="hint-span state success-msg" style="float: left"
+                                              ng-show="state.dateAndTimeSetting.isSuccess">{{state.msgTrue|translate}}</span>
+                                        <span class="hint-span state error-msg" style="float: left"
+                                              ng-show="state.dateAndTimeSetting.isError">{{state.dateAndTimeSetting.msgFalse|translate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--时间日期设置  结束-->
+                        </div>
+                    </div>
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'addChipSystemData.consoleSetting'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <!--console setting  start-->
+                            <div>
+                                <!--console-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{'addChipSystemData.console'|translate}}</label>
+
+                                    <div class="col-sm-9 w320" style="padding-top: 7px;">
+                                        <label class="checkLabel">
+                                            <input type="checkbox" ng-model="org.enableConsole"
+                                                   id="enable_console"
+                                                   ng-change="deviceSettingChanged()">{{'enum.enable'|translate}}
+                                            <p id="enable_console_checkbox">
+                                                <md-icon md-svg-icon="modal:checkbox"
+                                                         ng-show="org.enableConsole"></md-icon>
+                                            </p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!--console protocol-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{'addChipSystemData.consoleProtocol'|translate}}</label>
+
+                                    <div class="col-sm-9" ng-class="!org.enableConsole?'disable':''">
+                                        <label class="radio-inline">
+                                            <input type="radio" value="telnet" ng-model="org.consoleProtocol"
+                                                   ng-disabled="!hasPrivilege"
+                                                   ng-disabled="!org.enableConsole">{{'label.telnet'
+                                            | translate}}
+                                            <p><span ng-show="org.consoleProtocol =='telnet'"></span></p>
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" value="ssh" ng-model="org.consoleProtocol"
+                                                   ng-disabled="!hasPrivilege"
+                                                   ng-disabled="!org.enableConsole">{{'label.ssh'
+                                            | translate}}
+                                            <p><span ng-show="org.consoleProtocol =='ssh'"></span></p>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!--timeout-->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{'addChipSystemData.timeout'|translate}}</label>
+
+                                    <div class="col-sm-9 w200">
+                                        <div style="height: 32px;">
+                                            <ui-select ng-model="org.timeout" theme="bootstrap"
+                                                       ng-disabled="!hasPrivilege ||!org.enableConsole ">
+                                                <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                    {{'addChipSystemData.'+$select.selected|translate}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="s in timeout">
+                                                    {{'addChipSystemData.'+s|translate}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--保存-->
+                                <div class="form-group mgb0" ng-if="hasPrivilege">
+                                    <label class="col-sm-3 control-label"></label>
+
+                                    <div class="col-sm-9">
+                                        <button class="btn btn-common" type="button" ng-click="saveConsoleSetting()"
+                                                style="float: left;margin-right: 20px">
+                                            {{'common.save'|translate}}
+                                        </button>
+                                        <span class="hint-span state processing-msg" style="float: left"
+                                              ng-show="state.consoleSetting.processing"><img
+                                                src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                        <span class="hint-span state success-msg" style="float: left"
+                                              ng-show="state.consoleSetting.isSuccess">{{state.msgTrue|translate}}</span>
+                                        <span class="hint-span state error-msg" style="float: left"
+                                              ng-show="state.consoleSetting.isError">{{state.consoleSetting.msgFalse|translate}}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--console setting  end-->
+
+                        </div>
+                    </div>
+                    <!--deviceSetting-->
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.deviceSetting'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"> {{'settings.kaInterval'|translate}}</label>
+
+                                <div class="col-sm-9 w200">
+                                    <div style="height: 32px;">
+                                        <ui-select ng-model="basic.keepAlive" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}"
+                                                             title="{{'settings.Interval.min'+$select.selected/60|translate}}">
+                                                {{'settings.Interval.min'+$select.selected/60|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="keepAlive in liveIntervals"><span
+                                                    title="{{'settings.Interval.min'+keepAlive/60|translate}}">{{'settings.Interval.min'+keepAlive/60|translate}}</span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <label class="col-sm-3 control-label"></label>
+
+                                <div class="col-sm-9">
+                                    <button class="btn btn-common" type="button" style="float: left;margin-right: 20px"
+                                            ng-click="saveBasic()">
+                                        {{'common.save'|translate}}
+                                    </button>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.basic.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.basic.isSuccess">{{state.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.basic.isError">{{state.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </uib-tab>
+            <uib-tab index="1" heading="{{'settings.connection'|translate}}" select="">
+                <form name="connectionForm" class="form-horizontal" style="padding: 24px 16px;"
+                      ng-if="isShowConnectionForm">
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.connectionSetting'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div class="form-group" ng-if="false">
+                                <label class="col-sm-12 control-label" style="text-align:left;">{{'settings.coreRestartInfo'|translate}}
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.devAddr'|translate}}</label>
+
+                                <div class="col-sm-5">
+                                    <div style="width: 220px;height: 32px;">
+                                        <ui-select ng-model="connection.devAccessAddress" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege" required>
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{$select.selected|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="item in addresses">{{item|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="form-group" style="margin-top: -24px;">
+                                <label class="col-sm-3 control-label"
+                                       ng-if="connection.devAccessAddress=='other'"></label>
+
+                                <div class="col-sm-5"
+                                     ng-class="devAccessAddressBlur&&connectionForm.devAccessAddress.$dirty&&connectionForm.devAccessAddress.$invalid?'error':''"
+                                     ng-if="connection.devAccessAddress=='other'" style="margin-top: 8px;">
+                                    <input type="text" name="devAccessAddress" class="form-control w320"
+                                           autocomplete="off" ng-disabled="!hasPrivilege"
+                                           ng-model="dataForShow.deviceAddress"
+                                           ng-pattern="addressRe" maxlength="199"
+                                           ng-blur="devAccessAddressBlur=true"
+                                           ng-focus="devAccessAddressBlur=false">
+                                    <span class="hint-span w320">{{'invalid.ipdomain'|translate}}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name"
+                                       class="col-sm-3 control-label">{{'settings.devPort'|translate}}</label>
+                                <div class="col-sm-5">
+                                    <div class="w100" style="float:left;"
+                                         ng-class="((connectionForm.devPort.$dirty&&connectionForm.devPort.$invalid)||invalidPort.devAccessPort)?'error':''">
+                                        <input type="number" name="devPort" class="form-control"
+                                               placeholder="{{'settings.devPort_holder'|translate}}"
+                                               ng-keyup="devPortKeyup('devAccessPort','webAccessPort')"
+                                               ng-model="connection.devAccessPort" required
+                                               max="65535"
+                                               oninput="if(value.length>5)value=value.slice(0,5)"
+                                               autocomplete="off" ng-disabled="!hasPrivilege">
+                                        <span class="hint-span w550">{{'addNetwork.devPortError'|translate}}</span>
+                                    </div>
+                                    <!--<span class="hint-span tip" style="display: inline-block;padding-left:8px;line-height:32px;" translate="settings.port_change_Tip"></span>-->
+                                </div>
+                            </div>
+                            <!--<div class="form-group" ng-if="false">-->
+                            <!--<label class="col-sm-12 control-label" style="text-align:left;">{{'settings.webRestartInfo'|translate}}-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <!--<div class="form-group" ng-if="false">-->
+                            <!--<label class="col-sm-3 control-label">{{'settings.webAddr'|translate}}</label>-->
+
+                            <!--<div class="col-sm-9">-->
+                            <!--<div style="width: 220px;">-->
+                            <!--<ui-select ng-model="connection.webAccessAddress" theme="bootstrap"-->
+                            <!--ng-disabled="!hasPrivilege" required>-->
+                            <!--<ui-select-match placeholder="{{'common.pickone'|translate}}">-->
+                            <!--{{$select.selected}}-->
+                            <!--</ui-select-match>-->
+                            <!--<ui-select-choices repeat="item in addresses">{{item}}</ui-select-choices>-->
+                            <!--</ui-select>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--<label class="col-sm-3 control-label"-->
+                            <!--ng-if="connection.webAccessAddress=='other'"></label>-->
+
+                            <!--<div class="col-sm-9"-->
+                            <!--ng-class="webAccessAddressBlur&&connectionForm.webAccessAddress.$dirty&&connectionForm.webAccessAddress.$invalid?'error':''"-->
+                            <!--ng-if="connection.webAccessAddress=='other'" style="margin-top: 8px;">-->
+                            <!--<input type="text" name="webAccessAddress" class="form-control w320"-->
+                            <!--autocomplete="off" ng-disabled="!hasPrivilege"-->
+                            <!--ng-model="dataForShow.webAddress"-->
+                            <!--ng-pattern="addressRe"-->
+                            <!--ng-blur="webAccessAddressBlur=true"-->
+                            <!--ng-focus="webAccessAddressBlur=false">-->
+                            <!--<span class="hint-span w320">{{'invalid.ipdomain'|translate}}</span>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label for="name"
+                                       class="col-sm-3 control-label">{{'settings.webPort'|translate}}</label>
+
+                                <div class="col-sm-5">
+                                    <div style="width: 100px;height: 32px;float:left;"
+                                         ng-class="((connectionForm.port.$dirty&&connectionForm.port.$invalid)||invalidPort.webAccessPort)?'error':''">
+                                        <input type="number" name="port" class="form-control"
+                                               placeholder="{{'settings.webPort_holder'|translate}}"
+                                               ng-model="connection.webAccessPort" required
+                                               max="65535"
+                                               oninput="if(value.length>5)value=value.slice(0,5)"
+                                               ng-disabled="!hasPrivilege"
+                                               ng-keyup="portKeyup('webAccessPort','devAccessPort')"
+                                               autocomplete="off">
+                                        <span class="hint-span w550">{{'addNetwork.webPortError'|translate}}</span>
+                                    </div>
+                                    <!--<span class="hint-span tip" style="display: inline-block;padding-left:8px;line-height:32px;" translate="settings.port_change_Tip"></span>-->
+                                </div>
+                            </div>
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-5">
+                                    <button class="btn btn-common" type="button" ng-click="saveConnection()"
+                                            style="float: left;margin-right: 20px"
+                                            ng-disabled="connectionForm.devPort.$invalid||connectionForm.webAccessAddress.$invalid||connectionForm.port.$invalid||connectionForm.devAccessAddress.$invalid||invalidPort.webAccessPort||invalidPort.devAccessPort||(connection.devAccessAddress=='other' && dataForShow.deviceAddress == '')">
+                                        {{'common.save'|translate}}
+                                    </button>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.connection.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.connection.isSuccess">{{state.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.connection.isError">{{state.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.updateSSLCertificate'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.uploadCert'|translate}}</label>
+
+                                <div class="col-sm-4" style="position: relative;">
+                                    <input type="text" class="form-control w380"
+                                           placeholder="{{'settings.browser_holder'|translate}}"
+                                           value="{{ssl.certificate.name||''}}" ng-disabled="!hasPrivilege">
+
+                                    <div class="fileSelector drop-box bgc-transition ssidUploadFile" ngf-select ngf-drop
+                                         ng-model="ssl.certificate" ngf-drag-over-class="dragOverClassObj"
+                                         ng-disabled="!hasPrivilege"
+                                         ng-change="fileChange('certificate')"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.uploadKey'|translate}}</label>
+
+                                <div class="col-sm-4" style="position: relative;">
+                                    <input type="text" class="form-control w380"
+                                           placeholder="{{'settings.browser_holder'|translate}}"
+                                           value="{{ssl.key.name||''}}" ng-disabled="!hasPrivilege">
+
+                                    <div class="fileSelector drop-box bgc-transition ssidUploadFile" ngf-select ngf-drop
+                                         ng-model="ssl.key" ngf-drag-over-class="dragOverClassObj"
+                                         ng-disabled="!hasPrivilege"
+                                         ng-change="fileChange('key')"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <label class="col-sm-3 control-label"></label>
+
+                                <div class="col-sm-9">
+                                    <button class="btn btn-common" type="button" ng-click="uploadSSL()"
+                                            style="float: left;margin-right: 20px"
+                                            ng-disabled="!(ssl.certificate&&ssl.key)||state.ssl.processing">
+                                        {{'common.save'|translate}}
+                                    </button>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.ssl.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.ssl.isSuccess">{{state.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.ssl.isError">{{state.ssl.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </uib-tab>
+            <uib-tab index="2" heading="{{'settings.smtp'|translate}}" select="">
+                <form name="smtpForm" class="form-horizontal" style="padding: 24px 16px;">
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.customizedSetting'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.smtpHost'|translate}}*</label>
+
+                                <div class="col-sm-9"
+                                     ng-class="smtpForm.host.$dirty&&smtpForm.host.$invalid&&hostBlur?'error':''">
+                                    <input type="text" name="host" class="form-control w320"
+                                           placeholder="{{'settings.smtpHost_placeholder'|translate}}"
+                                           ng-model="smtp.host"
+                                           ng-pattern="/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/"
+                                           required
+                                           ng-disabled="!hasPrivilege" ng-blur="hostBlur=true"
+                                           ng-focus="hostBlur=false"
+                                           autocomplete="off">
+                                    <span class="hint-span" ng-show="smtpForm.host.$error.pattern">{{'invalid.domain'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.smtpPort'|translate}}*</label>
+
+                                <div class="col-sm-9"
+                                     ng-class="smtpForm.port.$dirty&&smtpForm.port.$invalid&&portBlur?'error':''">
+                                    <!-- <input type="number" name="port" class="form-control w320"
+                                            placeholder="{{'settings.smtpPort_placeholder'|translate}}"
+                                            ng-model="smtp.port" maxlength="5" required
+                                            ng-disabled="!hasPrivilege" ng-blur="portBlur=true"
+                                            ng-focus="portBlur=false"
+                                            autocomplete="off">
+                                     <span class="hint-span" ng-show="smtpForm.port.$error.pattern">{{'invalid.portnumber'|translate}}</span>-->
+                                    <div style="width: 160px;height: 32px;">
+                                        <ui-select ng-model="smtp.port" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege"
+                                                   on-select="securitySelect()">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{$select.selected}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="co in smtpPorts">
+                                                {{co}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.fromAddr'|translate}}*</label>
+
+                                <div class="col-sm-9"
+                                     ng-class="smtpForm.fromEmail.$dirty&&smtpForm.fromEmail.$invalid&&fromBlur?'error':''">
+                                    <input type="email" name="fromEmail" class="form-control w320"
+                                           placeholder="{{'settings.fromAddr_placeholder'|translate}}"
+                                           ng-model="smtp.from" required ng-disabled="!hasPrivilege"
+                                           ng-blur="fromBlur=true"
+                                           ng-focus="fromBlur=false" autocomplete="off">
+                                    <span class="hint-span" ng-show="smtpForm.fromEmail.$error.email">{{'invalid.email'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.fromName'|translate}}*</label>
+
+                                <div class="col-sm-9"
+                                     ng-class="smtpForm.displayName.$dirty&&smtpForm.displayName.$invalid&&displayNameBlur?'error':''">
+                                    <input type="text" name="displayName" class="form-control w320"
+                                           ng-pattern="/^[\u4E00-\u9FA5A-Za-z0-9_.,;:?\\\[\]()@#$&+=%!-]+$/"
+                                           placeholder="{{'settings.fromName_placeholder'|translate}}"
+                                           ng-model="smtp.displayName" ng-maxlength="32" maxlength="32" required
+                                           ng-disabled="!hasPrivilege" ng-blur="displayNameBlur=true"
+                                           ng-focus="displayNameBlur=false" autocomplete="off">
+                                    <span class="hint-span">{{'invalid.specialCharacter'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.securityType'|translate}}</label>
+
+                                <div class="col-sm-9">
+                                    <div style="width: 100px;height: 32px;">
+                                        <ui-select ng-model="smtp.secureText" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege"
+                                                   on-select="securitySelect()">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{$select.selected=='SSL'?$select.selected:'settings.'+$select.selected|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="co in security">
+                                                {{co=='SSL'?co:'settings.'+co|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.encoding'|translate}}</label>
+
+                                <div class="col-sm-9">
+                                    <div style="width: 100px;height: 32px;">
+                                        <ui-select ng-model="smtp.encoding" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{$select.selected}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="co in encoding">{{co}}</ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.auth'|translate}}</label>
+
+                                <div class="col-sm-9">
+                                    <div style="width: 172px;height: 32px;">
+                                        <ui-select ng-model="needAuth.select" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{'settings.'+$select.selected|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="co in auth">{{'settings.'+co|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="needAuth.select!='anonymous'">
+                                <label class="col-sm-3 control-label">{{'settings.userName'|translate}}</label>
+
+                                <div class="col-sm-9"
+                                     ng-class="smtpForm.authUsername.$dirty&&smtpForm.authUsername.$invalid&&userNameBlur?'error':''">
+                                    <input type="email" name="authUsername" class="form-control w320"
+                                           placeholder="{{'settings.userName_placeholder'|translate}}"
+                                           ng-model="smtp.auth.username" required ng-disabled="!hasPrivilege"
+                                           ng-blur="userNameBlur=true" ng-focus="userNameBlur=false" autocomplete="off">
+                                    <span class="hint-span" ng-show="smtpForm.authUsername.$error.email">{{'invalid.email'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-if="needAuth.select!='anonymous'">
+                                <label class="col-sm-3 control-label">{{'settings.pass'|translate}}</label>
+
+                                <div class="col-sm-9"
+                                     ng-class="smtpForm.authPassword.$dirty&&smtpForm.authPassword.$invalid&&userPassBlur?'error':''">
+                                    <input type="{{viewPass?'text':'password'}}" name="authPassword"
+                                           class="form-control w320"
+                                           placeholder="{{'settings.pass_placeholder'|translate}}" required
+                                           ng-model="smtp.auth.password" ng-pattern="/^[\x00-\x7f]*$/" ng-minlength="5"
+                                           required ng-disabled="!hasPrivilege" ng-blur="userPassBlur=true"
+                                           ng-focus="userPassBlur=false">
+                                    <a ng-click="viewPass=!viewPass"
+                                       title="{{viewPass?'title.passHide':'title.passShow' | translate}}"
+                                       class="input-a-btn"
+                                       style="left: 294px;top: 9px;">
+                                        <md-icon md-svg-icon="user:{{viewPass?'hide-pass':'show-pass'}}"></md-icon>
+                                    </a>
+                                    <span class="hint-span" ng-if="smtpForm.authPassword.$error.pattern">{{'invalid.pass'|translate}}</span>
+                                    <span class="hint-span"
+                                          ng-if="smtpForm.authPassword.$error.minlength&&!smtpForm.authPassword.$error.pattern">{{'invalid.minLen5'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.testEmail'|translate}}</label>
+
+                                <div class="col-sm-9" style="width: auto;">
+                                    <input type="email" class="form-control w320 pull-left mgr8"
+                                           placeholder="{{'settings.testEmail_placeholder'|translate}}"
+                                           ng-model="testData.testEmail"
+                                           ng-change="testEmailChange()"
+                                           ng-disabled="testInfo.processing||!hasPrivilege">
+                                    <button type="button" class="btn-common btn pull-left"
+                                            ng-click="testInfo.processing?'':test()"
+                                            ng-disabled="smtpForm.$invalid||testInfo.processing||!hasPrivilege">
+                                        <span>{{testInfo.processing?'common.testing':'common.test'|translate}}</span>
+                                        <!-- <span class="processingTest" style="margin-left: 0px;padding: 0px 4px;"><i></i></span> -->
+                                    </button>
+                                    <span class="hint-span state processing-msg" style="float: left;margin-left: 16px;"
+                                          ng-show="testInfo.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left;margin-left: 16px;"
+                                          ng-show="testInfo.isSuccess">{{testInfo.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left;margin-left: 16px;"
+                                          ng-show="testInfo.isError">{{testInfo.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <label class="col-sm-3 control-label"></label>
+
+                                <div class="col-sm-9">
+                                    <button class="btn btn-common" type="button" ng-click="saveSmtp()"
+                                            ng-disabled="smtpForm.$invalid"
+                                            style="float: left;margin-right: 20px">
+                                        {{'common.save'|translate}}
+                                    </button>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.smtp.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.smtp.isSuccess">{{state.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.smtp.isError">{{state.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </uib-tab>
+            <uib-tab index="3" heading="{{'supplier.supplier'|translate}}" select="" ng-if="nodeEnv">
+
+                <div class="set-height" style="margin: 16px">
+                    <div class="grid-top-menu elementFlag" style="height: 44px;padding-top: 0px;">
+                        <div class="content-title">
+                            <div class="col-sm-12">
+                                <button class="btn btn-common pull-right" style="margin-right: 16px" type="button"
+                                        ng-if="hasPrivilege"
+                                        ng-click="openSupplierItemModel();">{{'settings.supplierAdd'|translate}}
+                                </button>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="subpage">
+                        <div ui-grid="gridOptionsSupplier" id="supplier-grid" ui-grid-pagination ui-grid-auto-resize
+                             ui-grid-resize-columns class="grid" style="height: 500px"></div>
+                    </div>
+                </div>
+
+            </uib-tab>
+            <uib-tab index="4" heading="{{'settings.dataBase'|translate}}" select="" ng-if="hasPrivilege">
+                <form name="dbForm" class="form-horizontal" style="padding: 24px 16px;" novalidate>
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.db.title'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.db.autobackup'|translate}}</label>
+
+                                <div class="col-sm-9 w300">
+                                    <div style="height: 32px;">
+                                        <ui-select ng-model="database.autoBackupType" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege">
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{'configuration.backup'+$select.selected|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="s in backupStatus">
+                                                {{'configuration.backup'+s|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                                <span style="display: block;margin-top: 8px;" class="hintTip">
+                                    {{'settings.db.backUpLogSpan'|translate}}
+                                </span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.db.exSyslogServer'|translate}}</label>
+
+
+                                <div class="col-sm-9 w100"
+                                     ng-class="dbForm.exSyslogServer.$dirty&&dbForm.exSyslogServer.$invalid?'error':''">
+                                    <ipdomain-format type="text" name="exSyslogServer" class="form-control w320"
+                                                     autocomplete="off"
+                                                     ng-disabled="!hasPrivilege||database.autoBackupType!=2"
+                                                     ng-model="database.externalSyslogServer"
+                                                     placeholder="{{'common.ipDomainHolder'|translate}}"
+                                                     ng-pattern="addressRe" maxlength="199"></ipdomain-format>
+                                    <span class="hint-span w320">{{'invalid.ipdomain'|translate}}</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+
+                                <label class="col-sm-3 control-label"></label>
+
+                                <div class="col-sm-9">
+                                    <button class="btn btn-common" type="button" ng-click="saveLogBackup()"
+                                            style="float: left;margin-right: 20px"
+                                            ng-disabled="dbForm.$invalid||dbForm.exSyslogServer.$invalid||invalidExSyslogServer">
+                                        {{'common.save'|translate}}
+                                    </button>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.backup.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.backup.isSuccess">{{state.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.backup.isError">{{state.backup.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.db.backupTitle'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.db.option1'|translate}}</label>
+
+                                <div class="col-sm-9">
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="backupnow(1)"
+                                                ng-disabled="state.backupConfig.processing"
+                                                style="float: left;margin-right: 16px">
+                                            {{'settings.db.backupNow'|translate}}
+                                        </button>
+                                    </div>
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="download(1)"
+                                                style="float: left;margin-right: 16px"
+                                                title="{{'settings.db.download'|translate}}">
+                                            <md-icon md-svg-icon="modal:downTemp"></md-icon>
+                                        </button>
+                                    </div>
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="deleteBackup(1)"
+                                                style="float: left;margin-right: 16px;"
+                                                title="{{'common.delete'|translate}}">
+                                            <md-icon md-svg-icon="modal:delTemp"></md-icon>
+                                        </button>
+                                    </div>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.backupConfig.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.backupConfig.isSuccess">{{"settings.db.backupSuccess"|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.backupConfig.isError">{{"settings.db.backupFailed"|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.deleteBackupConfig.isSuccess">{{"settings.db.deleteBackupSuccess"|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.deleteBackupConfig.isError">{{"settings.db.deleteBackupFailed"|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.downloadBackupConfig.isSuccess">{{"settings.db.downloadBackupSuccess"|translate}}</span>
+                                    <!--<span class="hint-span state error-msg" style="float: left"-->
+                                    <!--ng-show="state.downloadBackupConfig.isError">{{"settings.db.deleteBackupFailed"|translate}}</span>-->
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.db.backlogLable'|translate}}</label>
+
+                                <div class="col-sm-9">
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="backupnow(2)"
+                                                style="float: left;margin-right: 16px"
+                                                ng-disabled="state.backupLog.processing">
+                                            {{'settings.db.backupNow'|translate}}
+                                        </button>
+                                    </div>
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="download(2)"
+                                                style="float: left;margin-right: 16px"
+                                                title="{{'settings.db.download'|translate}}">
+                                            <md-icon md-svg-icon="modal:downTemp"></md-icon>
+                                        </button>
+                                    </div>
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="deleteBackup(2)"
+                                                style="float: left;margin-right: 16px"
+                                                title="{{'common.delete'|translate}}">
+                                            <md-icon md-svg-icon="modal:delTemp"></md-icon>
+                                        </button>
+                                    </div>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.backupLog.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.backupLog.isSuccess">{{"settings.db.backupSuccess"|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.backupLog.isError">{{state.backupLog.msgFalse|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.deleteBackupLog.isSuccess">{{"settings.db.deleteBackupSuccess"|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.deleteBackupLog.isError">{{"settings.db.deleteBackupFailed"|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.downloadBackupLog.isSuccess">{{"settings.db.downloadBackupSuccess"|translate}}</span>
+                                    <!--<span class="hint-span state error-msg" style="float: left"-->
+                                    <!--ng-show="state.downloadBackupLog.isError">{{"settings.db.deleteBackupFailed"|translate}}</span>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.db.restoreTitle'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.db.uploadFrom'|translate}}</label>
+                                <div class="col-sm-9" style="position: relative;">
+
+                                    <label class="radio-inline">
+                                        <input type="radio" value="computer" ng-model="state.restore.location"
+                                               ng-change="cleanState('restore')">{{'label.computer'
+                                        | translate}}
+                                        <p><span ng-show="state.restore.location =='computer'"></span></p>
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" value="usb" ng-model="state.restore.location"
+                                               ng-change="cleanState('restore')" ng-click="checkUSBstorage('restore')">{{'label.usb'
+                                        | translate}}
+                                        <p><span ng-show="state.restore.location =='usb'"></span></p>
+                                        <span class="hint-span state processing-msg" style="float: right"
+                                              ng-show="state.restore.usbStorage.processing"><img
+                                                src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                        <span class="hint-span state error-msg" style="float: right"
+                                              ng-show="state.restore.usbStorage.isError">{{state.restore.usbStorage.msgFalse|translate}}</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!--file-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.file'|translate}}</label>
+
+                                <div class="col-sm-9" style="position: relative;">
+                                    <input type="text" class="form-control w380 pull-left"
+                                           placeholder="{{'settings.db.chooseFile'|translate}}"
+                                           value="{{db.diskRestore.name||''}}"
+                                           ng-disabled="!hasPrivilege"
+                                           ng-show="state.restore.location =='computer'">
+                                    <div class="fileSelector drop-box bgc-transition ssidUploadFile pull-left"
+                                         ngf-select ngf-drop
+                                         ng-model="db.diskRestore" ngf-drag-over-class="dragOverClassObj"
+                                         ng-disabled="!hasPrivilege"
+                                         ng-show="state.restore.location =='computer'"
+                                         ng-change="fileChange('restore')">
+                                    </div>
+                                    <div class="w380 pull-left"
+                                         ng-show="state.restore.location =='usb'">
+                                        <div style="width: 380px;height: 32px;">
+                                            <ui-select ng-model="db.usbStorageRestore" theme="bootstrap"
+                                                       ng-disabled="!hasPrivilege||!usbStorageStatus"
+                                                       ng-click="browserUSBFiles()">
+                                                <ui-select-match placeholder="{{'settings.db.chooseFile'|translate}}">
+                                                    {{$select.selected.replace("/media/usb0", "")}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="file in usbFiles">
+                                                    {{file.replace("/media/usb0", "")}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--restore-->
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <label class="col-sm-3 control-label"></label>
+
+                                <div class="col-sm-9">
+                                    <button class="btn btn-common" type="button" ng-click="restoreConfig()"
+                                            style="float: left;margin-right: 20px"
+                                            ng-disabled="(!db.diskRestore&&!db.usbStorageRestore)||state.restore.processing">
+                                        {{'settings.db.restore'|translate}}
+                                    </button>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.restore.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.restore.isSuccess">{{'settings.restoreOK'|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.restore.isError">{{state.restore.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </uib-tab>
+            <!--fwUpgrade start-->
+            <uib-tab index="5" heading="{{'configuration.menu.fwUpgrade'|translate}}" select="" ng-if="hasPrivilege">
+                <form name="fwUpgradeForm" class="form-horizontal" style="padding: 24px 16px;" novalidate
+                      ng-if="isShowUpgradeForm">
+                    <!--uploadFrom-->
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.fwUpgrade.uploadFrom'|translate}}</label>
+                                <div>
+                                    <div class="col-sm-9 w200" style="height: 32px;">
+                                        <ui-select ng-model="state.fwUpgrade.location" theme="bootstrap"
+                                                   ng-disabled="!hasPrivilege"
+                                                   ng-change="cleanState('fwUpgrade')" ng-click="checkUSBstorage1($select.selected)" required>
+                                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                                {{'label.'+$select.selected|translate}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="item in uploadFrom">{{'label.'+item|translate}}
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.fwUpgrade.usbStorage.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.fwUpgrade.usbStorage.isError">{{state.fwUpgrade.usbStorage.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                            <!--file-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.fwUpgrade.file'|translate}}</label>
+                                <div class="col-sm-4" style="position: relative;">
+                                    <div ng-class="fwUpgradeValidate?'error':''">
+                                        <input type="text" class="form-control w380"
+                                               placeholder="{{'settings.browser_holder'|translate}}"
+                                               value="{{db.diskFwUpgrade.name||''}}" ng-disabled="!hasPrivilege"
+                                               ng-show="state.fwUpgrade.location =='computer'">
+                                        <div class="fileSelector drop-box bgc-transition ssidUploadFile" ngf-select
+                                             ngf-drop
+                                             ng-model="db.diskFwUpgrade" ngf-drag-over-class="dragOverClassObj"
+                                             ng-disabled="!hasPrivilege||state.fwUpgrade.location != 'computer'"
+                                             ng-show="state.fwUpgrade.location !='usb'"
+                                             ngf-accept="'.bin'"
+                                             ngf-validate="validate($file)"
+                                             ng-change="fileChange('fwUpgrade')">
+                                        </div>
+                                        <span class="hint-span w320">{{'settings.fwUpgrade.invalidFile'|translate}}</span>
+                                    </div>
+
+                                    <div class="w380 pull-left"
+                                         ng-show="state.fwUpgrade.location !='computer'">
+                                        <div style="width: 380px;height: 32px;">
+                                            <ui-select ng-model="db.usbStorageFwUpgrade" theme="bootstrap"
+                                                       ng-disabled="!hasPrivilege||!usbStorageStatus"
+                                                       ng-click="browserUSBFiles()">
+                                                <ui-select-match placeholder="{{'settings.browser_holder'|translate}}">
+                                                    {{$select.selected.replace("/media/usb0", "")}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="file in usbFiles">
+                                                    {{file.replace("/media/usb0", "")}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--ftpServer-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'label.ftp' | translate}}<span
+                                        ng-class="state.fwUpgrade.location=='ftp'?'required-span-show':'required-span'">*</span></label>
+                                <div class="col-sm-9 w200"
+                                     ng-class="fwUpgradeForm.ftpServer.$dirty&&fwUpgradeForm.ftpServer.$invalid||invalidIP.ftpServer?'error':''">
+                                    <input type="text" name="ftpServer" class="form-control"
+                                           autocomplete="off" maxlength="15" required
+                                           ng-model="ftp.ftpServer"
+                                           ng-disabled="!hasPrivilege||state.fwUpgrade.location!='ftp'"
+                                           ng-keydown="IPKeydown($event)"
+                                           ng-keyup="IPKeyup('ipAddress')"
+                                           ng-pattern="state.fwUpgrade.location=='ftp'?serverRe:''">
+                                    <span class="hint-span">{{'configuration.ssid.invalidIP'|translate}}</span>
+                                </div>
+                                <!--port-->
+                                <label style="width: 40px" class="control-label pull-left mgr16 mgl22">{{'label.port' |
+                                    translate}}<span
+                                            ng-class="state.fwUpgrade.location=='ftp'?'required-span-show':'required-span'">*</span></label>
+                                <div class="col-sm-9 w100"
+                                     ng-class="fwUpgradeForm.ftpPort.$dirty&&(fwUpgradeForm.ftpPort.$invalid||invalidPort.ftpPort)?'error':''">
+                                    <input type="text" name="ftpPort" class="form-control w100"
+                                           placeholder="{{'settings.devPort_holder'|translate}}"
+                                           ng-keyup="ftpPortKeyup()"
+                                           ng-model="ftp.ftpPort" required
+                                           autocomplete="off"
+                                           ng-pattern="state.fwUpgrade.location=='ftp'?portRe:''"
+                                           ng-disabled="!hasPrivilege||state.fwUpgrade.location!='ftp'">
+                                    <span class="hint-span w320">{{'settings.fwUpgrade.invalidPort'|translate}}</span>
+                                </div>
+
+                            </div>
+                            <!--user Name-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'label.username' | translate}}<span
+                                        ng-class="state.fwUpgrade.location=='ftp'?'required-span-show':'required-span'">*</span></label>
+                                <div class="col-sm-9 w200"
+                                     ng-class="fwUpgradeForm.username.$dirty&&fwUpgradeForm.username.$invalid?'error':''">
+                                    <input type="text" name="username" class="form-control"
+                                           autocomplete="off" maxlength="15" required
+                                           ng-model="ftp.ftpUsername"
+                                           ng-disabled="!hasPrivilege||state.fwUpgrade.location!='ftp'">
+                                    <span class="hint-span">{{'settings.fwUpgrade.invalidUsername'|translate}}</span>
+                                </div>
+                            </div>
+                            <!--password-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'label.password' | translate}}<span
+                                        ng-class="state.fwUpgrade.location=='ftp'?'required-span-show':'required-span'">*</span></label>
+                                <div class="col-sm-9 w200"
+                                     ng-class="fwUpgradeForm.password.$dirty&&fwUpgradeForm.password.$invalid?'error':''">
+                                    <input type="{{viewPass?'text':'password'}}"
+                                           name="password" class="form-control"
+                                           autocomplete="off" maxlength="16" required
+                                           ng-model="ftp.ftpPassword"
+                                           ng-disabled="!hasPrivilege||state.fwUpgrade.location!='ftp'">
+                                    <a ng-click="viewPass=!viewPass"
+                                       title="{{viewPass?'title.passHide':'title.passShow' | translate}}"
+                                       class="input-a-btn"
+                                       style="left: 150px;top: 9px;">
+                                        <md-icon md-svg-icon="user:{{viewPass?'hide-pass':'show-pass'}}"></md-icon>
+                                    </a>
+                                    <span class="hint-span">{{'settings.fwUpgrade.invalidPassword'|translate}}</span>
+                                </div>
+                            </div>
+                            <!--firmwareFile-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'column.firmwareFile' | translate}}<span
+                                        ng-class="state.fwUpgrade.location=='ftp'?'required-span-show':'required-span'">*</span></label>
+                                <div class="col-sm-4" style="position: relative;"
+                                     ng-class="fwUpgradeForm.firmwareFile.$dirty&&fwUpgradeForm.firmwareFile.$invalid?'error':''">
+                                    <input type="text" name="firmwareFile" class="form-control w380"
+                                           placeholder="{{'settings.path_fileName'|translate}}"
+                                           autocomplete="off" minlength="1" required
+                                           ng-model="ftp.firmwareFile"
+                                           ng-disabled="!hasPrivilege||state.fwUpgrade.location!='ftp'"
+                                           ng-pattern="state.fwUpgrade.location=='ftp'?fileRe:''">
+                                    <span class="hint-span">{{'settings.fwUpgrade.invalidFirmwareFile'|translate}}</span>
+                                </div>
+                            </div>
+
+                            <!--apply-->
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <label class="col-sm-3 control-label"></label>
+                                <div class="col-sm-9">
+                                    <button class="btn btn-common" type="button" style="float: left;margin-right: 20px"
+                                            ng-disabled="(state.fwUpgrade.location=='computer'&&!db.diskFwUpgrade)||(state.fwUpgrade.location=='usb'&&!db.usbStorageFwUpgrade)||state.fwUpgrade.processing||
+                                            (state.fwUpgrade.location=='ftp'&&(fwUpgradeForm.ftpServer.$invalid||fwUpgradeForm.ftpPort.$invalid||fwUpgradeForm.username.$invalid||fwUpgradeForm.password.$invalid||!ftp.firmwareFile))"
+                                            ng-click="applyFwUpdate()" ng-show="!state.fwUpgrade.processing">
+                                        {{'common.apply'|translate}}
+                                    </button>
+                                    <div ng-show="state.fwUpgrade.processing">
+                                        <span class="hint-span state processing-msg"
+                                              style="float: left; line-height: 32px;margin-bottom: 0px;">
+                                            <img src="./../public/images/processing.gif" alt="processing" class="mgl8">
+                                            {{'settings.fwUpgrade.fwUpgradeFailed12'|translate}}
+                                        </span>
+                                    </div>
+
+                                    <!--<span class="hint-span state processing-msg" style="float: left"-->
+                                    <!--ng-show="state.fwUpgrade.processing"><img-->
+                                    <!--src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>-->
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.fwUpgrade.isSuccess">{{state.msgTrue|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.fwUpgrade.isError">{{state.fwUpgrade.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </uib-tab>
+            <!--fwUpgrade end-->
+
+            <!--System Operation start-->
+            <uib-tab index="6" heading="{{'settings.systemConf'|translate}}" select="" ng-if="hasPrivilege">
+                <form name="systemConfForm" class="form-horizontal" style="padding: 24px 16px;" novalidate
+                      ng-if="isShowForm">
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-content">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.sysOperation.restart'|translate}}</label>
+
+                                <div class="col-sm-9">
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="restartDevice(r)"
+                                                style="float: left;margin-right: 16px"
+                                                ng-disabled="state.restart.processing">
+                                            {{'settings.sysOperation.restartButton'|translate}}
+                                        </button>
+                                    </div>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.restart.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.restart.isError">{{state.restart.msgFalse|translate}}</span>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.sysOperation.restore'|translate}}</label>
+
+                                <div class="col-sm-9">
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="restoreSettings(r)"
+                                                style="float: left;margin-right: 16px"
+                                                ng-disabled="state.restoreFactory.processing">
+                                            {{'settings.sysOperation.restoreButton'|translate}}
+                                        </button>
+                                        <label class="checkLabel" style="margin-left: 30px;margin-top: 7px;">
+                                            <p id="exceptIpAddress_checkbox">
+                                                <md-icon md-svg-icon="modal:checkbox"
+                                                         ng-show="exceptIPAddress"></md-icon>
+                                            </p>
+                                            <input type="checkbox" ng-model="exceptIpAddress"
+                                                   ng-click="ExceptIpAddress()" id="exceptIpAddress">
+                                            <span style="margin-left: -20px;">{{'label.exceptIPAddress' | translate}}</span>
+                                        </label>
+                                    </div>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.restoreFactory.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.restoreFactory.isError">{{state.restoreFactory.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                            <!--格式化sd卡-->
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.sysOperation.formatCard'|translate}}</label>
+
+                                <div class="col-sm-9">
+                                    <div class="pull-left" style="height: 32px;">
+                                        <button class="btn btn-common" type="button" ng-click="formatMicroSDCard(r)"
+                                                style="float: left;margin-right: 16px"
+                                                ng-disabled="state.formatCard.processing">
+                                            {{'settings.sysOperation.formatButton'|translate}}
+                                        </button>
+                                    </div>
+                                    <span class="hint-span state processing-msg" style="float: left"
+                                          ng-show="state.formatCard.processing"><img
+                                            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                    <span class="hint-span state error-msg" style="float: left"
+                                          ng-show="state.formatCard.isError">{{state.formatCard.msgFalse|translate}}</span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="state.formatCard.isSuccess">{{state.formatCard.msgFalse|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--<tic-tok class="set-height" id="tictoc_div" data-info="dataInfo" style="display: none;">-->
+                <!--</tic-tok>-->
+            </uib-tab>
+            <!--System Operation end-->
+
+            <!--Single sign on-->
+            <uib-tab index="7" heading="{{'settings.ssoTitle'|translate}}" select="" ng-if="hasPrivilege">
+                <form name="ssoForm" class="form-horizontal ssoForm" style="padding: 24px 16px;" novalidate>
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <p style="margin: 20px">{{'settings.ssoDescription'|translate}}<a
+                                href='https://connect.euqa.nuclias.com/' target='_blank'>
+                            {{'settings.nucliasLink'|translate}} </a>{{'settings.ssoDescription2'|translate}}</p>
+                        <div class="box-content">
+                            <div class="form-group">
+                                <div class="col-sm-3" ng-if="col3">
+                                    <label class="checkLabel" style="left: 18px;">
+                                        <input type="checkbox" ng-model="sso.ssoEnable" ng-change="changeSsoStatus()">{{'settings.ssoEnableCkeckbox'|translate}}
+                                        <p>
+                                            <md-icon md-svg-icon="modal:checkbox" ng-show="sso.ssoEnable"></md-icon>
+                                        </p>
+                                    </label>
+                                </div>
+                                <div class="col-sm-2" style="width: 200px;" ng-if="!col3">
+                                    <label class="checkLabel" style="left: 18px;">
+                                        <input type="checkbox" ng-model="sso.ssoEnable" ng-change="changeSsoStatus()">{{'settings.ssoEnableCkeckbox'|translate}}
+                                        <p>
+                                            <md-icon md-svg-icon="modal:checkbox" ng-show="sso.ssoEnable"></md-icon>
+                                        </p>
+                                    </label>
+                                </div>
+                                <div class="col-sm-6" style="margin-top: 3px;">
+                                    <span style="color: #e6185a;" ng-show="ssoTimeOut">{{'settings.ssoStatusTimeOut'|translate}}</span>
+                                    <span style="color: #e6185a;" ng-show="NSError">{{'settings.ssoStatusNSError'|translate}}</span>
+                                    <span style="color: #e6185a;" ng-show="tokenError">{{'settings.ssoStatustokenError'|translate}}</span>
+                                    <span style="color: #e6185a;" ng-show="forgot">{{'settings.ssoStatusforgot'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.ssoAccount'|translate}}<span
+                                        class="required-span-show">*</span></label>
+                                <div class="col-sm-9"
+                                     ng-class="ssoForm.ssoEmail.$invalid && emailBlur ? 'error-login':''">
+                                    <input type="email" name="ssoEmail" class="form-control w320 ssoUsername"
+                                           ng-model="sso.ssoEmail" autocomplete="off"
+                                           ng-disabled="!sso.ssoEnable||ssoCurrentStatus"
+                                           ng-blur="emailBlur=true" ng-focus="emailBlur=false"
+                                           ng-change="changeSsoStatus()">
+                                    <span class="hint-span">{{'invalid.email'|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.ssoPassword'|translate}}<span
+                                        class="required-span-show">*</span></label>
+                                <div class="col-sm-9"
+                                     ng-class="ssoForm.ssoPass.$invalid && passBlur ? 'error-login':''">
+                                    <input style="display: inline-block;" ng-model="sso.password" name="ssoPass"
+                                           type="password"
+                                           class="form-control w320 ssoPassword"
+                                           ng-disabled="!sso.ssoEnable||ssoCurrentStatus"
+                                           ng-change="changeSsoStatus()"
+                                           ng-blur="passBlur=true" ng-focus="passBlur=false" minlength="8"
+                                           maxlength="64" autocomplete="off">
+                                    <span class="control-label hintTip" style=" padding-left: 20px;">{{'settings.ssoPasswordMsg'|translate}}</span>
+                                    <span class="hint-span">{{'settings.ssoPasswordError'|translate}}</span>
+                                </div>
+                            </div>
+                            <!--ip start-->
+                            <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">{{'settings.ssoIPAddress'|translate}}<span-->
+                            <!--class="required-span-show">*</span></label>-->
+
+                            <!--<div class="col-sm-9"-->
+                            <!--ng-class="ssoIPAddressBlur&&ssoForm.ssoIPAddress.$dirty&&ssoForm.ssoIPAddress.$invalid?'error':''">-->
+                            <!--<div style="width: 160px;" class="pull-left mgr8">-->
+                            <!--<input type="text" name="ssoIPAddress" class="form-control"-->
+                            <!--autocomplete="off" ng-disabled="!sso.ssoEnable||ssoCurrentStatus"-->
+                            <!--ng-model="sso.public_ip" required-->
+                            <!--ng-pattern="addressRe" maxlength="199"-->
+                            <!--ng-blur="ssoIPAddressBlur=true"-->
+                            <!--ng-focus="ssoIPAddressBlur=false">-->
+                            <!--</div>-->
+                            <!--<label class="control-label hint-span tip"-->
+                            <!--style="display:inline-block;width: 400px;text-align: left; padding-top: 4px;color: #f25130">{{'settings.ssoServerTip'|translate}}</label>-->
+                            <!--<span class="hint-span w550 f-l">{{'configuration.ssid.invalidIP'|translate}}</span>-->
+                            <!--</div>-->
+
+                            <!--</div>-->
+                            <!--ip end-->
+                            <!--port start-->
+                            <!--<div class="form-group">-->
+                            <!--<label for="name"-->
+                            <!--class="col-sm-3 control-label">{{'settings.ssoPort'|translate}}<span-->
+                            <!--class="required-span-show">*</span></label>-->
+
+                            <!--<div class="col-sm-5">-->
+                            <!--<div style="width: 100px;height: 32px;float:left;"-->
+                            <!--ng-class="((ssoForm.port.$dirty&&ssoForm.port.$invalid)||invalidPort.ssoPort)?'error':''">-->
+                            <!--<input type="number" name="port" class="form-control"-->
+                            <!--placeholder="{{'settings.webPort_holder'|translate}}"-->
+                            <!--ng-model="sso.port" required-->
+                            <!--max="65535"-->
+                            <!--oninput="if(value.length>5)value=value.slice(0,5)"-->
+                            <!--ng-disabled="!sso.ssoEnable||ssoCurrentStatus"-->
+                            <!--ng-keyup="SSOPortKeyup('ssoPort')"-->
+                            <!--autocomplete="off">-->
+                            <!--<span class="hint-span w550">{{'settings.fwUpgrade.invalidPort'|translate}}</span>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;<span class="hint-span tip" style="display: inline-block;padding-left:8px;line-height:32px;" translate="settings.port_change_Tip"></span>&ndash;&gt;-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label for="name"
+                                       class="col-sm-3 control-label"></label>
+                                <div class="col-sm-5">
+                                    <a style="display: block; margin: 20px 0 0 0px; width: 180px;"
+                                       ng-keydown="connectNuclias($event)" ng-click="nucliasUrl();">{{'settings.ssoCreateAccountLink'|translate}}</a>
+                                </div>
+                            </div>
+                            <!--port end-->
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <div class="col-sm-12">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <button id="ssoApplyButton" type="submit" class="btn btn-common"
+                                            ng-click="ssoApply();"
+                                            ng-disabled="(ssoForm.$invalid || !sso.ssoEmail || !sso.password || ssoBtnDisabled) ? true: false"
+                                            style="float:left; margin-right: 20px;">{{'common.apply'|translate}}
+                                    </button>
+                                    <span class="hint-span state processing-msg" ng-show="state.sso.processing"
+                                          style="float: left">
+                                        <img src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}
+                                    </span>
+                                    <span class="hint-span state success-msg" style="float: left"
+                                          ng-show="ssoSuccessEnable">{{'settings.ssoEnableSuccess'|translate}}</span>
+                                    <span class="hint-span state success-msg" ng-show="ssoSuccessDisable"
+                                          style="float: left">{{'settings.ssoDisableSuccess'|translate}}</span>
+                                    <span class="hint-span state error-msg" ng-show="ssoError" style="float: left">{{'settings.ssoNucliasError'|translate}}({{ssoErrorMessage}})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </uib-tab>
+            <!--Single sign end-->
+
+            <uib-tab index="8" heading="{{'settings.restapi'|translate}}" select="" ng-if="nodeEnv">
+                <form name="restForm" class="form-horizontal" style="padding: 24px 16px;">
+                    <div class="box mgb16" style="border-radius: 4px;">
+                        <div class="box-header">
+                            <h3>{{'settings.restapi'|translate}}</h3>
+                        </div>
+                        <div class="box-content">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{'settings.restapikey'|translate}}</label>
+
+                                <div class="col-sm-6 ">
+                                    <input id="restapikey" type="text" name="restapikey" class="form-control"
+                                           readonly
+                                           ng-model="restAPIKey" placeholder="{{'settings.restapikey'|translate}}"
+                                           autocomplete="off">
+
+                                </div>
+                            </div>
+                            <div class="form-group mgb0" ng-if="hasPrivilege">
+                                <label class="col-sm-3 control-label"></label>
+
+                                <div class="col-sm-9">
+                                    <button class="btn btn-common pull-right" type="button" ng-click="regenerateKEY()"
+                                            style="float: left;margin-right: 20px">{{'settings.generateKey'|translate}}
+                                    </button>
+                                    <button class="btn btn-common pull-right" ng-disabled="!restAPIKey" type="button"
+                                            ng-click="copyKEY()"
+                                            style="float: left;margin-right: 20px">{{'common.copy'|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </uib-tab>
+            <tic-tok class="set-height" id="tictoc_div" data-info="dataInfo" style="display: none;">
+            </tic-tok>
+        </uib-tabset>
+    </div>
+    <!--<tic-tok class="set-height" id="tictoc_div" data-info="dataInfo" style="display: none;">-->
+    <!--</tic-tok>-->
+
+    <script type="text/ng-template" id="supplierItem.html">
+        <div class="modal-header">
+            <a class="logo">
+                <md-icon md-svg-icon="common:{{iconName}}"></md-icon>
+            </a><span>{{'settings.'+title|translate}}</span>
+            <a class="close pull-right"
+               ng-click="cancel()" title="{{'title.close'|translate}}">
+                <md-icon md-svg-icon="modal:close"></md-icon>
+            </a>
+        </div>
+        <div class="modal-body">
+            <form name="supplierForm" class="form-horizontal clear">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'supplier.supplier'|translate}}</label>
+
+                    <div class="col-sm-9"
+                         ng-class="((supplierForm.name.$dirty&&supplierForm.name.$invalid)||(supplierForm.year.$dirty&&supplierForm.year.$invalid)||invalidSupplier)?'error':''">
+                        <input type="text" class="form-control" style="width: 215px"
+                               name="name" required
+                               maxlength="32" minlength="3"
+                               placeholder="Name" autocomplete="off"
+                               ng-model="supplier.name">
+                        <input type="text" class="form-control" style="width: 100px"
+                               name="year" title="eg.1982" required ng-pattern="/^(1|2)\d{3}$/"
+                               maxlength="4" minlength="4"
+                               placeholder="Year" autocomplete="off"
+                               ng-model="supplier.year">
+                        <span ng-if="supplierForm.name.$dirty&&supplierForm.name.$invalid"
+                              class="hint-span">{{'invalid.supplierName'|translate}}</span>
+                        <span ng-if="supplierForm.year.$dirty&&supplierForm.year.$invalid"
+                              class="hint-span">{{'invalid.year'|translate}}</span>
+                        <span ng-if="invalidSupplier" class="hint-span">{{invalidSupplierMsg}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'supplier.liaison'|translate}}</label>
+
+                    <div class="col-sm-9"
+                         ng-class="supplierForm.liaison.$dirty&&supplierForm.liaison.$invalid?'error':''">
+                        <input type="text" class="form-control w320"
+                               name="liaison" required maxlength="16" minlength="3"
+                               placeholder="{{'supplier.liaison'|translate}}" autocomplete="off"
+                               ng-model="supplier.liaison">
+                        <span class="hint-span">{{'invalid.liaison'|translate}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'supplier.tel'|translate}}</label>
+
+                    <div class="col-sm-9" ng-class="supplierForm.tel.$dirty&&supplierForm.tel.$invalid?'error':''">
+                        <input type="text" class="form-control w320"
+                               name="tel" maxlength="16" ng-pattern="/^[0-9+()]*$/"
+                               placeholder="Telephone" autocomplete="off"
+                               ng-model="supplier.tel">
+                        <span class="hint-span">{{'invalid.telephone'|translate}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'supplier.site'|translate}}</label>
+
+                    <div class="col-sm-9" ng-class="supplierForm.site.$dirty&&supplierForm.site.$invalid?'error':''">
+                        <input type="text" class="form-control w320"
+                               name="site" required
+                               ng-pattern="/^[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$/"
+                               placeholder="Site" autocomplete="off"
+                               ng-model="supplier.site">
+                        <span class="hint-span">{{'invalid.site'|translate}}</span>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-common" type="button" ng-click="save()"
+                    ng-disabled="supplierForm.$invalid">
+                {{'common.'+buttonName|translate}}
+            </button>
+            <button class="btn btn-cancel" type="button" ng-click="cancel()">{{'common.cancel'|translate}}
+            </button>
+        </div>
+    </script>
+</div>

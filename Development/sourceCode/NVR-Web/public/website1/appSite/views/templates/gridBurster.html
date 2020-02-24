@@ -1,0 +1,58 @@
+<div class=" ui-grid-pager-panel ng-scope" 
+     ui-grid-pager role="contentinfo"
+     style="display: flex;flex-flow: column wrap;justify-content: space-between;"
+     >
+     <!-- <div class="grid-refresh" >
+         <i class="glyphicon glyphicon-refresh" style="color: #225783;"></i>&nbsp;
+         <span>{{'common.refresh' | translate}}</span>
+    </div> -->
+    <div class="my-totalItems ui-grid-pager-container" style="padding-left: 0;text-align: center;">
+        <span>
+            {{1+ grid.options.paginationPageSize * (grid.options.paginationCurrentPage-1)}}
+            &nbsp;-&nbsp;{{grid.options.paginationPageSize * grid.options.paginationCurrentPage}}
+            &nbsp;of&nbsp;{{grid.options.totalItems}}&nbsp;
+            {{'grid.totalItems'|translate}}: {{grid.options.totalItems}}
+        </span>
+    </div>
+    <div class="my-pagination clear ui-grid-pager-count-container"
+         style="display: flex;
+                flex-flow: row wrap;
+                justify-content:center;
+                align-items: center;
+                margin-bottom: 0.2rem;
+                width: 13rem;
+                ">
+        <div class="pull-left" style="width: 70%;">
+            <button ng-click="pageFirstPageClick()"
+                    style="width: 1.1rem;height: 1.2rem;"
+                    ng-disabled="cantPageBackward()">
+                <md-icon md-svg-icon="gridpager:first"></md-icon>
+            </button>
+            <button ng-click="pagePreviousPageClick()" 
+                    ng-disabled="cantPageBackward()"
+                    style="width: 1.1rem;height: 1.2rem;"
+                   >
+                <md-icon md-svg-icon="gridpager:pre"></md-icon>
+            </button>
+            <input type="number" readonly class="page-num" ng-model="grid.options.paginationCurrentPage" ng-max="paginationApi.getTotalPages()"><span class="page-maxnum">/&nbsp;{{paginationApi.getTotalPages()}}</span>
+            <button ng-click="pageNextPageClick()" 
+                    style="width: 1.1rem;height: 1.2rem;"
+                    ng-disabled="cantPageForward()">
+                <md-icon md-svg-icon="gridpager:next"></md-icon>
+            </button>
+            <button ng-click="pageLastPageClick()" 
+                    style="width: 1.1rem;height: 1.2rem;"
+                    ng-disabled="cantPageToLast()">
+                <md-icon md-svg-icon="gridpager:last"></md-icon>
+            </button>
+        </div>
+        <div class="pull-left" style="width: 2.6rem;">
+            <ui-select class="uiSelect" ng-model="grid.options.paginationPageSize" theme="bootstrap" on-select="pageFirstPageClick()">
+                <ui-select-match placeholder="">{{$select.selected}}</ui-select-match>
+                <ui-select-choices repeat="o in grid.options.paginationPageSizes">{{o}}</ui-select-choices>
+            </ui-select>    
+        </div>
+    </div>
+</div>
+
+

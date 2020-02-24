@@ -1,0 +1,94 @@
+{
+  "id": "organization",
+  "name": "Organization",
+  "moudles": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard"
+    },
+    {
+      "id": "monitor",
+      "name": "Device View",
+      "moudles": [
+        {
+          "id": "accessPoint",
+          "name": "Access Point"
+        },
+        {
+          "id": "wirelessClient",
+          "name": "Wireless Client"
+        }
+      ]
+    },
+    {
+      "id": "configuration",
+      "name": "Maintenance",
+      "moudles": [
+        {
+          "id": "network"
+        },
+        {
+          "id": "profile"
+        },
+        {
+          "id": "firmware"
+        },
+        {
+          "id": "ssl"
+        },
+        {
+          "id": "paymentGateway"
+        }
+      ]
+    },
+    {
+      "id": "report",
+      "name": "Report & Logs",
+      "moudles": [
+        {
+          "id": "hotTime"
+        },
+        {
+          "id": "hourly"
+        },
+        {
+          "id": "daily"
+        },
+        {
+          "id": "hotAP"
+        }
+      ]
+    },
+    {
+      "id": "log",
+      "moudles": [
+        {
+          "id": "traplog"
+        },
+        {
+          "id": "syslog"
+        },
+        {
+          "id": "systemlog"
+        },
+        {
+          "id": "devicelog"
+        }
+      ]
+    },
+    {
+      "id": "system",
+      "moudles": [
+        {
+          "id": "deviceManage"
+        },
+        {
+          "id": "settings"
+        },
+        {
+          "id": "about"
+        }
+      ]
+    }
+  ]
+}

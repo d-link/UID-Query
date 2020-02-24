@@ -1,0 +1,8 @@
+<div id="status-buttons" class="text-center step-style clear" ng-class="{'two-steps':lastIndex==2,'three-steps':lastIndex==3,'four-steps':lastIndex==4}">
+    <span></span><i></i><i></i>
+    <div ng-class="step.index==currentIndex?'active-status':''" ng-repeat="step in steps">
+        <span ng-show="currentIndex<=step.index" >{{step.index}}</span>
+        <md-icon ng-show="currentIndex>step.index" md-svg-icon="icon24:forgot-passed"></md-icon>
+    </div>
+    <h5>{{currentStep.title}}</span>
+</div>

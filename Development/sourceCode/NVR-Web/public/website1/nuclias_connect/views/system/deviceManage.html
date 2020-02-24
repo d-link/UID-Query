@@ -1,0 +1,88 @@
+<div ng-controller="deviceManageController" class="bg-fafafa clear subpage device-manage site"
+     ng-class="showContentSide?'':'hide-content-side'">
+
+    <div class="col-xs-2 col-md-2  content-side">
+        <div class="subpage-tree-title">
+            <md-icon md-svg-icon="modal:devicemanage" class="title pull-left"></md-icon>
+            <span>{{'deviceManage.networks'|translate}}</span>
+        </div>
+        <div class="data-show-menu-main" style="border-bottom: none;overflow-y: auto;">
+            <!-- <a type="button" ng-class="network._id==curNetwork._id?'list-group-item active':'list-group-item'" ng-repeat="network in networks" ng-click="changeNetwork(network);" title="{{network.name}}">{{network.name}}
+                <span ng-if="network.devCount&&network.devCount!=0"  class="isNew"></span></a> -->
+            <ul class="site-menu-one">
+                <li ng-repeat="site in listData">
+                    <a ng-click="toggleSite(site);" ng-class="{'active':siteActive._id == site._id}"
+                       title="{{site.siteName}}">{{site.siteName}}</a>
+                    <ul class="site-menu-two" ng-show="siteActive._id == site._id">
+                        <li ng-repeat="network in site.networks">
+                            <a  ng-click="changeNetwork(network);"
+                               ng-class="curNetwork._id == network._id?'active':''" title="{{network.name}}">
+                                <md-icon md-svg-icon="menu11:network_icon"></md-icon>
+                                <span>{{network.name}}</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-10 col-md-10 set-height content-content">
+        <a ng-click="sideToggle()" class="side-toggle">
+            <md-icon ng-if="showContentSide" md-svg-src="images/common/show_hide_left.svg"></md-icon>
+            <md-icon ng-if="!showContentSide" md-svg-src="images/common/show_hide_right.svg"></md-icon>
+        </a>
+        <uib-tabset active="activeForm">
+            <uib-tab index="0" heading="{{'deviceManage.managed'|translate}}" select="resetGridSize('manageGrid');">
+                <div ng-if="show.tab1">
+                    <div class="grid-top-menu elementFlag1" ng-if="hasPrivilege" style="height:40px;">
+                            <button ng-if="nodeEnv" class="btn btn-common pull-right mgr16" style="padding: 8px;" ng-click="exportCSV('managed');" ng-disabled="exporting" title="{{'common.exportCSV' | translate}}"><md-icon md-svg-icon="user:_export"></md-icon></button>
+                        <button ng-class="nodeEnv?'btn btn-common pull-right mgr8':'btn btn-common pull-right mgr16'" ng-disabled="isDisabled" type="button"
+                                ng-click="isDisabled?'':RemoveDevice()">{{'deviceManage.removeToUnmanaged'|translate}}
+                        </button>
+
+                    </div>
+                    <div id="manageGrid" ui-grid="manageOptions"  ui-grid-pagination ui-grid-selection
+                         ui-grid-auto-resize ui-grid-resize-columns class="grid" style="border-radius: 4px;">
+                        <loading-directive ng-if="manageOptions.isLoading"></loading-directive>
+                        <nodata-directive ng-if="!manageOptions.isLoading" ng-show="manageOptions.data.length == 0"
+                                          desc="{{'deviceManage.noManaged'|translate}}"></nodata-directive>
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="{{'deviceManage.unmanaged'|translate}}" select="resetGridSize('ignoredGrid');">
+                <div ng-if="show.tab2">
+                    <div class="grid-top-menu elementFlag1" ng-if="hasPrivilege" style="height:40px;">
+                        <button ng-if="nodeEnv" class="btn btn-common pull-right mgr16" style="padding: 8px;" ng-click="exportCSV('ignored');" ng-disabled="exporting" title="{{'common.exportCSV' | translate}}"><md-icon md-svg-icon="user:_export"></md-icon></button>
+
+                        <button ng-class="nodeEnv?'btn btn-common pull-right mgr8':'btn btn-common pull-right mgr16'" ng-disabled="ignored_isDisabled" type="button"
+                                ng-click="applyItem('del');">{{'deviceManage.del'|translate}}
+                        </button>
+                        <!-- <button class="btn btn-common pull-right mgr8" ng-disabled="ignored_isDisabled" type="button"  ng-click="moveToManage();" >{{'deviceManage.moveToManage'|translate}}</button> -->
+                        <div class="btn-group pull-right mgr8" uib-dropdown>
+                            <button id="single-button" type="button" class="btn btn-common"
+                                    ng-click="applyItem(dropdownValue)" ng-disabled="ignored_isDisabled">
+                                {{dropdownValue.name}}
+                            </button>
+                            <button id="single-button1" type="button" class="btn btn-common" uib-dropdown-toggle
+                                    ng-disabled="ignored_isDisabled"><span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu style="max-height: 300px;overflow-y: auto;">
+                                <li ng-repeat="item in dropdownItems">
+                                    <a ng-click="applyItem(item)">{{item.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="ignoredGrid" ui-grid="ignoredOptions" class="grid" ui-grid-pagination ui-grid-selection
+                         ui-grid-auto-resize ui-grid-resize-columns>
+                        <loading-directive ng-if="ignoredOptions.isLoading"></loading-directive>
+                        <nodata-directive ng-if="!ignoredOptions.isLoading" ng-show="ignoredOptions.data.length == 0"
+                                          desc="{{'deviceManage.noIgnore'|translate}}"></nodata-directive>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

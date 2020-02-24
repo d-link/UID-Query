@@ -1,0 +1,112 @@
+@CHARSET "utf-8";
+#select_full_window {
+    display: none;
+    height: 100%;
+    position: fixed;
+    z-index: 2000;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(0, 0, 0, .5);
+    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr="#7f000000", EndColorStr="#7f000000");
+}
+
+#select_full_window:not(s) {
+    filter: none;
+}
+
+#select_full_window .select_gc_main {
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 60rem;
+    height: 100%;
+}
+
+#select_full_window .select_gc_main .select_content {
+    position: absolute;
+    width: 100%;
+    height: 191px;
+    top: 20px;
+    top: calc((100% - 191px) / 5);
+    background: #fff;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_title {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    position: relative;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_title h2 {
+    font-size: 0.875rem;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_title .iconfont {
+    position: absolute;
+    color: #818a91;
+    cursor: pointer;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_title .iconfont:hover {
+    color: #4080f8;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_bottom {
+    height: 3.1875rem;
+    border-top: 0.0625rem #ececec solid;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_bottom button {
+    float: left;
+    width: 50%;
+    background: #f8f9fa;
+    border: 0 none;
+    height: 100%;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_bottom button:hover {
+    background: #dae0e5;
+    border-color: #d3d9df;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_bottom button.select_button_case {
+    border-right: 0.0625rem #ececec solid;
+    color: #666;
+    width: 50%;
+    width: calc(50% - 1px);
+}
+
+#select_full_window .select_gc_main .select_content .select_content_bottom button.select_button_sure {
+    color: #4080f8;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_main {
+    padding-left: 15px;
+    padding-right: 12px;
+    height: 80px;
+    margin-top: 20px;
+}
+
+#select_full_window .select_gc_main .select_content .select_content_main select {
+    float: left;
+    width: 19%;
+    width: calc((100% - 27px) / 5 - 3px);
+    margin-right: 3px;
+    vertical-align: middle;
+    height: 2.0625rem;
+    border: 0.0625rem solid #c6d1d9;
+    border-radius: 0.1875rem;
+}
+
+.close {
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    top: 7px;
+    right: 9px;
+    text-indent: -9999px;
+}
+
+/*background:url(img/close.png) no-repeat 0 0;*/

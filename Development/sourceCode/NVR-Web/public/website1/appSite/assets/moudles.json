@@ -1,0 +1,76 @@
+{
+  "id": "organization",
+  "name": "Organization",
+  "moudles": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard",
+      "icons":"images/appIcons/icon-1.png",
+      "menuName":"Dashboard"
+    },
+    {
+      "id": "monitor",
+      "name": "Device View",
+      "icons":"images/appIcons/icon-2.png",
+      "menuName":"Monitor",
+      "moudles": [
+        {
+          "id": "accessPoint",
+          "name": "Access Point",
+          "menuName":"Access Point"
+        },
+        {
+          "id": "wirelessClient",
+          "name": "Wireless Client",
+          "menuName":"Wireless Clients"
+        }
+      ]
+    },
+    {
+      "id": "configuration",
+      "name": "Maintenance",
+      "icons":"images/appIcons/icon-3.png",
+      "menuName":"Config Info",
+      "moudles": [
+        {
+          "id": "configuration"
+        },
+        {
+          "id": "network"
+        }
+      ]
+    },
+    {
+      "id": "log",
+      "icons":"images/appIcons/icon-4.png",
+      "menuName":"Log",
+      "moudles": [
+        {
+          "id": "syslog",
+          "menuName":"SysLogs"
+        },
+        {
+          "id": "captive",
+          "menuName":"Captive Portal Log"
+        },
+        {
+          "id": "systemlog",
+          "menuName":"System Event Log"
+        }
+
+      ]
+    },
+    {
+      "id": "home",
+      "name": "Home",
+      "icons":"images/appIcons/icon-5.png",
+      "menuName":"Home"
+    },
+    {
+      "id": "logout",
+      "name": "Log out",
+      "icons":"images/appIcons/icon-6.png",
+      "menuName":"Log out"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+/*device journey*/
+
+.trigger .rules{
+    display: inline-block;
+    padding: 0px 7px;
+    margin: 16px 0;
+    border-radius: 4px;
+    list-style: none;
+}
+.trigger .rules>li:nth-of-type(4n) {
+    margin-right: 0px;
+}
+.trigger .rules>li{
+    width:187px;
+    height: 48px;
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 16px 8px;
+    margin:0 24px 24px 0;
+    text-align: center;
+    position:relative;
+    cursor: pointer;
+}
+.trigger .rules>li:hover > span{
+    visibility: visible;
+    background-color: rgba(38, 166, 154, .33);
+}
+.trigger .rules>li.active > span{
+    visibility: visible;
+    background-color: rgba(38, 166, 154, .66);
+}
+.trigger .rules>li.active:hover > span {
+    background-color: rgba(38, 166, 154, .66);
+}
+.trigger .rules>li > span{
+    visibility: hidden;
+    color:#fff;
+    position:absolute;
+    top:0px;
+    right:0px;
+    height: 0;
+    width: 0;
+    padding: 15px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    transition:background-color linear .3s;
+    -moz-transition:background-color linear .3s;
+    -webkit-transition:background-color linear .3s;
+}
+.trigger .rules>li span md-icon {
+    display: none;
+}
+.trigger .rules>li.active > span > md-icon {
+    display: inline-block;
+}
+.trigger .rules>li a {
+    color: #444;
+}
+.trigger .rules>li.active span{
+    display:block;
+}
+span.step{
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    background: #f57f17;
+    color: #fff;
+    font-size: 16px;
+    height: 20px;
+    width: 20px;
+    padding: 2px 8px;
+    margin: 0 0 0 16px;
+}
+
+.trigger .tableshow .box-header h3,
+.create-task .box-header h3 {
+    font-size: 12px;
+}
+#schedleTB td{
+ padding:0;
+    border:solid 1px #ffffff;
+}
+#schedleTB{
+    min-width:inherit;
+}
+#schedleTB  thead th{
+    padding:0;
+    width:20px;
+}
+#schedleTB tbody tr{
+    background:#f5f5f5;
+}
+td.checked{
+    background:#f57f17;
+}
+.report-manage .thumbnail{
+    height:360px;
+
+}
+.report-manage .thumbnail .content{
+    padding:8px 16px;
+}
+.report-manage .thumbnail .content .subscribe{
+    padding:2px 16px;
+}
+.bg-fff{
+    background:#ffffff;
+}
+.isNew{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: block;
+    width: 0;
+    height: 0;
+    border-right: 4px solid #f59d24;
+    border-top: 4px solid #f59d24;
+    border-left: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}

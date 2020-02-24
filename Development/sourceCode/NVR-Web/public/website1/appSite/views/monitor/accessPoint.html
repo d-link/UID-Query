@@ -1,0 +1,112 @@
+<div class="refreshBtn" id="accRefreshData">
+	<img class="search-icons" ng-src="images/appIcons/icon_refresh.png"/>
+</div>
+<div ng-controller="accessPointController" class="grid-page" >
+	 <div  class="set-height" id="accessPointPage">	 
+           <div class="gird-containner" >		   
+				<div class="ip-header-containner">
+						<span >{{$root.cwmName}}</span>
+						<span >{{$root.windowIp}}</span>
+				</div>
+				<div style="padding: 0.2rem;">
+					<div class="box-containner">
+						<div class="box-header" style="width:65%">
+							<h3>
+							{{'common.total'|translate}} 
+							<i style="font-style: normal;font-size: 0.8rem;color: #ef9212;">
+							{{totalOnline}}
+							</i>
+							/{{accessPointsOptions.totalItems}} 
+							<!-- {{'common.online' | translate}}{{'common.points' | translate }} -->
+							{{'common.access'|translate}}
+							</h3>
+						</div>
+						<div class="clear" id="accTools">
+							<div class="btn-group" 
+								is-open="isOpenAccessPointMenu" 
+								auto-close="disabled"
+								uib-dropdown>		
+
+									<button type="button" 
+											id="access-ipad-btn"
+											class="btn btn-cancel pull-right"
+											ng-click="openAccessPointMenu();"
+											uib-dropdown-toggle >
+											<img class="search-icons" ng-src="images/appIcons/icon-search.png"/>
+									</button>
+
+									<div class="dropdown-menu" 
+										template-url="accessPointMenu.html"										
+										uib-dropdown-menu>
+									</div>
+							</div>								
+							<!-- 预留按钮 -->
+							<!-- <button id="accRefreshData" type="button" class="btn btn-cancel pull-right" style="background-color: #192860;margin-left: 0.2rem;margin-bottom: 0.2rem;">
+								<img class="search-icons" ng-src="images/appIcons/icon_refresh.png"/>
+							</button> -->
+						</div>
+					</div>
+
+					<div id="accessPointLoading" class="la-ball-clip-rotate" style="height:22rem;">
+						<div></div>
+					</div>
+
+					<div  ui-grid="accessPointsOptions" 
+						  id="accessPointsOptions"
+						  class="grid" 
+						  ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection
+						  style="margin-right: 5px;">
+						<!--遮挡层，用于消除表格控件表头长按呼出菜单的BUG-->
+						<div style="height: 1.2rem;position: absolute;width: 100%;z-index: 1;top: 0"></div>
+						<!-- <loading-directive ng-if="accessPointsOptions.isLoading"></loading-directive> -->
+						<nodata-directive ng-show="accessPointsOptions.totalItems==0" desc="{{'accessPoint.noAP'|translate}}"></nodata-directive>
+					</div>
+				</div>
+			</div>			
+    </div>
+</div>
+
+
+
+<script type="text/ng-template" id="accessPointMenu.html">
+
+   <div id="accessPointDropMenu"
+		 class="dropdown-menu-right"
+		 uib-dropdown-menu>
+        <div class="dropdown-containner">
+					<div class="dropdown-containner-title">
+						<span>{{ 'accessPoint.searchBy' | translate}}</span>
+					</div>
+			<div class="dropdown-containner-content">
+					<div class="dropdown-containner-content-title-left">
+							<span style="color:#000000;font-size:0.6rem;">{{$root.Keyword}}</span>
+					</div>
+				<div style="margin-top:0.6rem;padding: 0.2rem;">	 
+					<div style="width:40%;float:left;">
+							<ui-select class="uiSelect" ng-model="searchData.type" theme="bootstrap" ng-change="addressTypeChange()">
+									<ui-select-match placeholder="{{'common.pickone'|translate}}">{{'column.'+$select.selected|translate}}</ui-select-match>
+									<ui-select-choices repeat="type in optionTypes">{{'column.'+type|translate}}</ui-select-choices>
+							</ui-select>    
+					</div>
+					<div id="accessPointInput" style="width:57%;float:left;margin-left:0.3rem;">
+							<input style="height: 1.3rem;"  
+								id="searchAddressText" 
+								ng-change="addressTextChange()"
+								ng-model="addressText" 
+								class="form-control"
+								placeholder="{{'common.searchKey'|translate}}"/>
+					</div>
+			</div>	 
+			<div class="dropdown-containner-content-footer" style="padding:0.2rem;margin-top:2rem;">
+					<div ng-click="clean();">
+							<span>{{ 'common.clear' | translate}}</span>
+					</div>
+					<div style="visibility:hidden;min-width:0.4rem;"></div>
+					<div  ng-click="searchAddress()">
+							<span>{{ 'common.confirm' | translate}}</span>
+					</div>
+			</div>
+		 </div>
+   </div>
+</div>
+</script>

@@ -1,0 +1,20 @@
+<div class="row forgot-profile" ng-class="InvalidEmail==true||InvalidSMTP==true||sendEmailFailed==true?'error':''">
+    <input type="email" name="email" class="form-control" id="inputEmail" required
+           placeholder="{{'login.email'|translate}}" ng-model="userInfo.email"
+           autocomplete="off" ng-change="forgotStates.userEmail.btnDisabled=false">
+    <md-icon md-svg-icon="status:input-status" ng-show="forgotStates.userEmail.passed"></md-icon>
+    <span class="hint-span" ng-if="InvalidEmail">{{'invalid.emailNotExist'|translate}}</span>
+    <span class="hint-span" ng-if="InvalidSMTP">{{'invalid.smtpInvalid'|translate}}</span>
+    <span class="hint-span" ng-if="sendEmailFailed">{{'invalid.testFailed'|translate}}</span>
+</div>
+<div class="row">
+    <span class="forgot-colorfff">{{'login.forgot.step1'|translate}}</span>
+</div>
+<div class="row">
+    <!--  <button type="submit" class="btn btn_login" ng-click="login();">Send Email</button>-->
+    <button type="submit" class="btn btn_login" ng-click="testEmail();"
+            ng-disabled="!forgotForm.email.$dirty||forgotForm.email.$invalid||forgotStates.userEmail.btnDisabled">{{'login.next'|translate}}
+    </button>
+</div>
+    
+

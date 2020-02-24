@@ -1,0 +1,79 @@
+/*===================================== edit workspace begin ========================================*/
+.edit-workspace .col-sm-4 label {
+    color: #999;
+    font-weight: normal;
+    margin-bottom: 8px;
+}
+
+.edit-workspace div.col-sm-4 {
+    width: 256px;
+}
+
+.edit-workspace div.col-sm-4 > div {
+    height: 220px;
+    padding: 12px 24px;
+    overflow: auto;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+.edit-workspace div.col-sm-4 > div ul,
+.edit-workspace div.col-sm-4 > div li {
+    list-style: none;
+    margin-bottom: 0px;
+    width: 190px;
+}
+
+.edit-workspace div.col-sm-4 label.checkLabel {
+    padding-left: 0px;
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    margin-bottom: 0px;
+    padding-right: 24px;
+    color: #444;
+}
+
+.edit-workspace div.col-sm-4 label.checkLabel > p {
+    left: 173px;
+    top: 50%;
+    margin-top: -8px;
+}
+
+.edit-workspace div.col-sm-4 label.checkLabel > span {
+    display: inline-block;
+    width: 100%;
+    line-height: 14px;
+    word-wrap: break-word;
+}
+
+.edit-workspace > div:nth-of-type(1) {
+    padding-right: 0px;
+}
+
+.edit-workspace > div:nth-of-type(3) {
+    padding-left: 0px;
+}
+
+.edit-workspace > div.col-sm-1 {
+    width: 48px;
+    padding: 90px 8px 70px;
+}
+
+.edit-workspace > div.col-sm-1 > button {
+    display: block;
+    width: 32px;
+    height: 32px;
+    padding: 8px;
+    color: #fff;
+    background-color: #bbb;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-workspace > div.col-sm-1 > button + button {
+    margin-top: 16px;
+}
+
+/*===================================== edit workspace end ========================================*/

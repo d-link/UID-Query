@@ -1,0 +1,65 @@
+<aside class="main-sidebar" ng-mouseover="showMenu();" ng-mouseleave="hideMenu();">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar" style="overflow:hidden;" ng-mouseover="showScroll();" ng-mouseleave="hideScroll();">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+            <!--  一级-->
+            <li ng-class="sub.Active?'treeview active':'treeview'" ng-repeat="sub in moudle">
+                <a ng-if="!sub.moudles" ui-sref="user.org.detail({moudleId:sub.id})" ng-click="showSub(sub.id);">
+                    <md-icon md-svg-icon="menu:{{sub.id}}"></md-icon>
+                    <span>{{'menu.'+sub.id|translate}}</span>
+                </a>
+                <a ng-if="sub.moudles" ng-click="openSub(sub.id);">
+                    <md-icon md-svg-icon="menu:{{sub.id}}"></md-icon>
+                    <span> {{'menu.'+sub.id|translate}}</span>
+                    <md-icon md-svg-src="{{getArrow(sub.isOpen)}}" class="pull-right"></md-icon>
+                </a>
+                
+                <ul class="treeview-menu clear" ng-if="sub.moudles" ng-style="{'height': sub.isOpen&&!isHide ? '{{sub.moudles.length *32 +8}}px' : '0px','padding': sub.isOpen&&!isHide ? '4px 0px' : '0px','border-top': sub.isOpen&&!isHide ? '1px solid #eaeef4' : '0px solid #eaeef4'}">
+                    <span></span>
+                    <!--二级菜单-->
+                    <li ng-class="sub1.Active?'active':''" ng-repeat="sub1 in sub.moudles" style="position:relative;">
+
+                    <span></span>
+                    <a ng-if="!sub1.moudles" ui-sref="user.org.subdetail({moudleId:sub1.id,parentId:sub.id})"
+                           ng-click="showSub(sub1.id);">
+                            <span >  {{'menu.'+sub1.id|translate}}</span>
+                        </a>
+                       <!-- <a ng-if="!sub1.moudles&&sub1.id=='deviceManage'" ui-sref="user.org.subdetail.sub({moudleId:sub1.id,parentId:sub.id,pageId:'newarrival'})"
+                           ng-click="showSub(sub1.id);" >
+                            <span > {{'menu.'+sub1.id|translate}}</span>
+                        </a>-->
+                    </li>
+                        <!--    <a ng-if="sub1.moudles"  ng-click="showSub(sub1.id);">
+                                <span> {{sub1.name}}</span>
+                                <md-icon md-svg-src="{{getArrow(sub1.isOpen)}}" class="pull-right"></md-icon>
+                               &lt;!&ndash; <i ng-class="sub1.isOpen?'glyphicon glyphicon-menu-down pull-right':'glyphicon glyphicon-menu-left pull-right'"
+                                   ></i>&ndash;&gt;
+                            </a>
+                            <ul class="treeview-menu" ng-if="sub1.moudles" ng-show="sub1.isOpen">
+                                &lt;!&ndash; 三级菜单&ndash;&gt;
+                                <li ng-class="sub2.Active?'active':''" ng-repeat="sub2 in sub1.moudles">
+                                    <a ui-sref="user.org.detail2({moudleId:sub2.id,parentId:sub1.id,superId:sub.id})"
+                                       ng-click="showSub(sub2.id);">{{sub2.name}}</a>
+                                </li-->
+                </ul>
+            </li>
+        </ul>
+        </li>
+        </ul>
+
+    </section>
+
+    <div style="width:2px;"></div>
+    <!-- /.sidebar -->
+</aside>
+<div class="content-wrapper">
+    <section class="content" >
+        <div ui-view="contentView" ></div>
+    </section>
+</div>
+
+<!-- /.control-sidebar -->
+<!-- Add the sidebar's background. This div must be placed
+     immediately after the control sidebar -->
+

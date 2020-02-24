@@ -1,0 +1,504 @@
+<div class="modal-header">
+    <a class="logo">
+        <md-icon md-svg-src="/public/images/Wizard_24.svg"></md-icon>
+    </a><span>{{'addNetwork.'+titleArr[step]|translate}}</span>
+    <a class="close pull-right" ng-if="step>0"
+       ng-click="cancel()" title="{{'title.close'|translate}}">
+        <md-icon md-svg-icon="modal:close"></md-icon>
+    </a>
+</div>
+<div id="addNetworkDialog" class="modal-body">
+    <!-- <div wizard-template steps="steps" current-index="step"></div>-->
+
+    <form name="networkForm" class="form-horizontal" novalidate>
+        <div ng-if="step==0">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{'label.deviceAccessAddress'|translate}}</label>
+
+                <div class="col-sm-8">
+                    <div style="width: 220px;height: 32px;">
+                        <ui-select ng-model="org.devAccessAddress" theme="bootstrap" required autofocus>
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{$select.selected|translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in addresses">{{item|translate}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <label class="col-sm-4 control-label" ng-if="org.devAccessAddress=='other'"></label>
+
+                <div class="col-sm-8"
+                     ng-class="devAccessAddressBlur&&networkForm.devAccessAddress.$dirty&&networkForm.devAccessAddress.$invalid?'error':''"
+                     ng-if="org.devAccessAddress=='other'" style="margin-top: 8px;">
+                    <input type="text" name="devAccessAddress" class="form-control w320"
+                           autocomplete="off" required
+                           ng-model="dataForShow.otherAddress"
+                           ng-pattern="addressRe"
+                           ng-blur="devAccessAddressBlur=true"
+                           ng-focus="devAccessAddressBlur=false">
+                    <span class="hint-span w320">{{'invalid.ipdomain'|translate}}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{'label.deviceAccessPort'|translate}}</label>
+
+                <div class="col-sm-8">
+                    <div class="w100" style="float:left;"
+                         ng-class="((networkForm.devPort.$dirty&&networkForm.devPort.$invalid)||invalidIP.devAccessPort)?'error':''">
+                        <input type="number" name="devPort" class="form-control" ng-model="org.devAccessPort"
+                               ng-keyup="devPortKeyup('devAccessPort','webAccessPort')"
+                               autocomplete="off"
+                               max="65535"
+                               oninput="if(value.length>5)value=value.slice(0,5)"
+                               required>
+                        <span class="hint-span w550">{{'addNetwork.devPortError'|translate}}</span>
+                    </div>
+                    <!--<span class="hint-span tip w250" style="display: inline-block;padding-left:8px;line-height:15px;" translate="settings.port_change_Tip"></span>-->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{'settings.webPort'|translate}}</label>
+
+                <div class="col-sm-8">
+                    <div class="w100" style="float:left;"
+                         ng-class="((networkForm.port.$dirty&&networkForm.port.$invalid)||invalidIP.webAccessPort)?'error':''">
+                        <input type="number" name="port" class="form-control"
+                               oninput="if(value.length>5)value=value.slice(0,5)"
+                               max="65535"
+                               placeholder="{{'settings.webPort_holder'|translate}}"
+                               ng-model="org.webAccessPort"
+                               ng-keyup="portKeyup('webAccessPort','devAccessPort')"
+                               autocomplete="off">
+                        <span class="hint-span w550">{{'addNetwork.webPortError'|translate}}</span>
+                    </div>
+                    <!--<span class="hint-span tip w250" style="display: inline-block;padding-left:8px;line-height:15px;" translate="settings.port_change_Tip"></span>-->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{{'label.country'|translate}}</label>
+
+                <div class="col-sm-8">
+                    <div style="width: 220px;height: 32px;" class="batch-config-country">
+                        <ui-select ng-model="org.country" theme="bootstrap" required>
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in selectCountries track by $index">{{item.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="step==1">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.site'|translate}}</label>
+
+                <div class="col-sm-9" ng-class="error.newSiteEmpty?'error':''">
+                    <div style="width: 100px;height: 32px;float: left;margin-right:8px;" class="triggerAddButton"
+                         ng-class="sites.length==1?'noSite':''">
+                        <ui-select ng-model="site.exists" theme="bootstrap" autofocus>
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}" title="{{$select.selected}}">
+                                {{$select.selected}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="s in sites"><span title="{{s}}">{{s}}</span></ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <input type="text" name="newsite" ng-model="site.custom" ng-if="site.exists=='newSite'" required
+                           ng-maxlength="32" maxlength="32" class="form-control" autocomplete="off"
+                           ng-change="error.newSiteEmpty=false"
+                           style="width: 212px; display: inline-block;">
+                    <span class="hint-span w320">{{'invalid.siteEmpty'|translate}}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.networkName'|translate}}</label>
+                <div class="col-sm-9"
+                     ng-class="(error.netNameCheck||error.nameRepeat||(networkForm.netName.$dirty&&networkForm.netName.$invalid))&&netNameBlur?'error':''">
+                    <input type="text" name="netName" class="form-control w320"
+                           ng-model="network.name" minlength="1" maxlength="32" autocomplete="off"
+                           required ng-blur="netNameBlur=true;"
+                           ng-change="error.nameRepeat=false;checkNetworkName()" ng-focus="netNameBlur=false">
+                    <span class="hint-span" ng-show="error.nameRepeat">{{'invalid.nameExist'|translate}}</span>
+                    <span class="hint-span"
+                          ng-show="error.netNameCheck">{{'addNetwork.networkNameLen'|translate}}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"></label>
+                <div class="col-sm-9">
+                    <label class="checkLabel title" ng-if="titleArr[1] == 'en'" style="margin-bottom: 0px;">
+                        <input type="checkbox" ng-model="network.guestSSIDAddEnabled" style="margin-left: -13px;">{{'addNetwork.EnableGuest'|translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="network.guestSSIDAddEnabled"></md-icon>
+                        </p>
+                    </label>
+                </div>
+
+            </div>
+            <div class="form-group" ng-if="titleArr[1] == 'en'">
+                <label class="col-sm-3 control-label">{{'addNetwork.guestSSID'|translate}}</label>
+
+                <div class="col-sm-9"
+                     ng-class="((networkForm.guestSSIDAddName.$dirty&&networkForm.guestSSIDAddName.$invalid)||(error.repeatGuestSSIDAddName&&guestSSIDAddNameBlur))?'error':''">
+                    <input type="text" name="guestSSIDAddName" class="form-control w320"
+                           ng-disabled="!network.guestSSIDAddEnabled" blank-validator="ssid" ng-trim="false"
+                           ng-model="network.guestSSIDAddName" ng-maxlength="32" maxlength="32" autocomplete="off"
+                           ng-required="network.guestSSIDAddEnabled" ng-blur="guestSSIDAddNameBlur=true"
+                           ng-focus="guestSSIDAddNameBlur=false">
+                    <span class="hint-span" ng-show="networkForm.guestSSIDAddName.$error.blank">{{'invalid.blankInvalid'|translate}}</span>
+                    <span class="hint-span"
+                          ng-show="error.repeatGuestSSIDAddName">{{'addNetwork.sameTip'|translate}}</span>
+                </div>
+            </div>
+
+            <div class="form-group mgb0" ng-if="nodeEnv=='Production_hualian'">
+                <label class="col-sm-3 control-label">{{'column.schoolId'|translate}}</label>
+
+                <div class="col-sm-9"
+                     ng-class="(error.schoolIdRepeat||(networkForm.schoolId.$dirty&&networkForm.schoolId.$invalid))&&schoolIdBlur?'error':''">
+                    <input type="text" name="schoolId" class="form-control w320"
+                           ng-pattern="/^\d{6}$/" ng-blur="schoolIdBlur=true" ng-focus="schoolIdBlur=false"
+                           ng-model="network.schoolId" autocomplete="off" required maxlength="6" minlength="6"
+                           ng-change="error.schoolIdRepeat=false"
+                           onkeypress='return( /[\d]/.test(String.fromCharCode(event.keyCode)))'>
+                    <span class="hint-span" ng-show="error.schoolIdRepeat">{{'invalid.schoolIdExist'|translate}}</span>
+                    <span class="hint-span"
+                          ng-show="!error.schoolIdRepeat">{{'invalid.schoolIdInvalid'|translate}}</span>
+                </div>
+            </div>
+        </div>
+        <div ng-if="step==2">
+            <label class="title">{{'addNetwork.wirelessSetting'|translate}}</label>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.ssidName'|translate}}</label>
+
+                <div class="col-sm-9" ng-class="networkForm.ssidName.$dirty&&networkForm.ssidName.$invalid?'error':''">
+                    <input id="ssidName" type="text" name="ssidName" class="form-control w320"
+                           ng-pattern="/^[A-Za-z0-9_.,;:?\[\]<>/\*{}^\|()@#$+=%!\s-]+$/"
+                           ng-model="ssid.ssid" ng-maxlength="32" maxlength="32" autocomplete="off" required
+                           blank-validator="ssid" ng-trim="false" autofocus>
+                    <span class="hint-span" ng-show="networkForm.ssidName.$error.blank">{{'invalid.blankInvalid'|translate}}</span>
+                    <span class="hint-span" ng-show="networkForm.ssidName.$error.pattern">{{'invalid.ssidInvalid'|translate}}</span>
+                </div>
+            </div>
+
+            <input type="password" style="display:none;">
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.security'|translate}}</label>
+
+                <div class="col-sm-9">
+                    <div style="width: 160px;height: 32px;">
+                        <ui-select ng-model="ssid.authentication" theme="bootstrap"
+                                   on-select="securityChange($item, $model)" autocomplete="off">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                {{'configuration.ssid.security' +
+                                $select.selected | translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in authentications">{{'configuration.ssid.security' + item |
+                                translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-if="ssid.authentication!=1 &&ssid.authentication!=101">
+                <!--108是锁，8是锁，1是开放，101是开放-->
+                <label for="password" class="col-sm-3 control-label">{{'label.ssidPassword'|translate}}<span
+                        class="required-span-show">*</span></label></label>
+
+                <div class="col-sm-9"
+                     ng-class="(networkForm.ssidPassword.$dirty&&networkForm.ssidPassword.$invalid)||phraseError?'error':''">
+                    <password-input class="w320" id="password" name="ssidPassword"
+                                    autocomplete="off"
+                                    min-length="(ssid.authentication!='8')&&(ssid.authentication!='108')?13:8"
+                                    max-length="(ssid.authentication!='8')&&(ssid.authentication!='108')?13:64"
+                                    ng-model="ssid.passPhrase"
+                                    ng-blank="true" required lost-focus="checkPhrase()"></password-input>
+                    <span class="hint-span" ng-show="phraseError">{{'configuration.ssid.invalidHex' | translate}}</span>
+                    <span class="hint-span" ng-show="!phraseError">{{'configuration.ssid.invalid2'|translate}}</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"></label>
+                <div class="col-sm-9">
+                    <label class="checkLabel title" style="margin-bottom: 0px;">
+                        <input type="checkbox" ng-model="ssid.guestSSIDEnabled" style="margin-left: -13px;">{{'addNetwork.EnableGuest'|translate}}
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="ssid.guestSSIDEnabled"></md-icon>
+                        </p>
+                    </label>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'addNetwork.guestSSID'|translate}}</label>
+
+                <div class="col-sm-9"
+                     ng-class="(networkForm.guestSSIDName.$dirty&&networkForm.guestSSIDName.$invalid)||(ssid.guestSSIDName==ssid.ssid&&guestSSIDNameBlur)?'error':''">
+                    <input type="text" name="guestSSIDName" class="form-control w320"
+                           ng-pattern="/^[A-Za-z0-9_.,;:?\[\]<>/\*{}^\|()@#$+=%!\s-]+$/"
+                           ng-disabled="!ssid.guestSSIDEnabled" blank-validator="ssid" ng-trim="false"
+                           ng-model="ssid.guestSSIDName" ng-maxlength="32" maxlength="32" autocomplete="off"
+                           ng-required="ssid.guestSSIDEnabled" ng-blur="guestSSIDNameBlur=true"
+                           ng-focus="guestSSIDNameBlur=false">
+                    <span class="hint-span" ng-show="networkForm.guestSSIDName.$error.blank">{{'invalid.blankInvalid'|translate}}</span>
+                    <span class="hint-span" ng-show="networkForm.guestSSIDName.$error.pattern">{{'invalid.ssidInvalid'|translate}}</span>
+                    <span class="hint-span" ng-show="ssid.guestSSIDName==ssid.ssid&&guestSSIDNameBlur">{{'addNetwork.sameTip'|translate}}</span>
+                </div>
+            </div>
+            <label class="title">{{'addNetwork.deviceSetting'|translate}}</label>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.country'|translate}}</label>
+
+                <div class="col-sm-9">
+                    <div style="width: 220px;height: 32px;" class="batch-config-country">
+                        <ui-select ng-model="devSet.countrycode" theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in selectCountries track by $index">{{item.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.timeZone'|translate}}</label>
+
+                <div class="col-sm-9">
+                    <div style="width: 320px;height: 32px;" class="batch-config-country">
+                        <ui-select ng-model="devSet.sntpTimeZoneIndex" theme="bootstrap">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in timeZones track by $index">{{item.name}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.username'|translate}}</label>
+
+                <div class="col-sm-9" ng-class="networkForm.name.$dirty&&networkForm.name.$invalid?'error':''">
+                    <input type="text" name="username" class="form-control w320" required minlength="1"
+                           ng-pattern="/^[0-9A-Za-z]{0,64}$/" ng-model="devSet.userName" maxlength="64"
+                           autocomplete="off">
+                    <span class="hint-span">{{'invalid.userName'|translate}}</span>
+                </div>
+            </div>
+            <!--new pwd-->
+            <div class="form-group">
+                <label class="col-sm-3 control-label">{{'label.newPassword'|translate}}<span class="required-span-show">*</span></label></label>
+
+                <div class="col-sm-9"
+                     ng-class="(networkForm.password.$dirty&&networkForm.password.$invalid)||devSet.userName==devSet.password||error.devicePassword?'error':''">
+                    <password-input class="w320" max-length="30" min-length="8" name="password"
+                                    ng-model="devSet.password" required
+                                    pattern-str="^(?![^A-Za-z]+$)(?![^0-9]+$)[\x21-\x7e]{8,30}$"
+                                    lost-focus="error.devicePassword=false"
+                                    ></password-input>
+                    <span class="hint-span"
+                          ng-show="error.devicePassword||networkForm.password.$error.pattern||networkForm.password.$error.blank">{{'invalid.strongPass'|translate}}</span>
+                    <span class="hint-span" ng-if="!networkForm.password.$invalid&&devSet.userName==devSet.password">{{'invalid.sameNameAndPass'|translate}}</span>
+                </div>
+            </div>
+        </div>
+        <div ng-if="step==3">
+            <div class="form-group">
+                <div class="col-sm-12" style="padding-left: 24px">
+                    <label class="checkLabel">
+                        <input type="checkbox" id="checkbox_layer2" ng-model="network.discover.layer2"
+                               ng-change="layer2Click()">{{'label.layer'|translate}}
+                        2
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="network.discover.layer2"></md-icon>
+                        </p>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12" style="padding-left: 24px">
+                    <label class="checkLabel">
+                        <input type="checkbox" ng-model="network.discover.layer3" ng-change="layer3Click()">{{'label.layer'|translate}}
+                        3
+                        <p>
+                            <md-icon md-svg-icon="modal:checkbox" ng-show="network.discover.layer3"></md-icon>
+                        </p>
+                        (IP)
+                    </label>
+                </div>
+            </div>
+            <div id="iprange" class="clear mgb0 ">
+                <div class="form-inline clear" ng-if="network.discover.layer3"
+                     ng-repeat="layer in network.discover.layer3List track by $index">
+                    <div style="width: 120px;height: 32px;">
+                        <ui-select ng-model="layer.type" class="lType{{$index}}" theme="bootstrap" 
+						           ng-disabled="!network.discover.layer3" ng-change="checkModel(layer,$index)">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="type in layerTypes">{{type}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="fromIPError form-group ml16" ng-if="layer.type=='IP'">
+                        <input name="fromIP" type="text" placeholder="{{'addNetwork.fromIP'|translate}}"
+                               class="form-control fromIP{{$index}}" style="width: 183px;"
+                               ng-model="layer.IP.from" required ng-blur="checkModel(layer,$index)" ng-change="checkModel(layer,$index)"/>
+                        <span ng-show="fromIPRule{{$index}}">{{'addNetwork.IPError1'|translate}}</span>
+                        <span ng-show="fromIPMulticast{{$index}}">{{'addNetwork.IPError2'|translate}}</span>
+                        <span ng-show="fromIPStartRule{{$index}}">{{'addNetwork.IPError3'|translate}}</span>
+                    </div>
+                    <div class="toIPError form-group" ng-if="layer.type=='IP'">
+                        <div style="display: inline-flex;">
+                            <label for="ipto" class="ipto_to">&nbsp;-&nbsp;</label>
+                            <input name="toIp" type="text" placeholder="{{'addNetwork.toIP'|translate}}"
+                                   class="form-control toIP{{$index}}" style="width: 183px;"
+                                   ng-model="layer.IP.to" required ng-blur="checkModel(layer,$index)" ng-change="checkModel(layer,$index)"/>
+                        </div>
+                        <span ng-show="toIPRule{{$index}}">{{'addNetwork.IPError1'|translate}}</span>
+                        <span ng-show="toIPMulticast{{$index}}">{{'addNetwork.IPError2'|translate}}</span>
+                        <span ng-show="toIPStartRule{{$index}}">{{'addNetwork.IPError3'|translate}}</span>
+                        <span ng-show="CompareIP{{$index}}">{{'addNetwork.IPError4'|translate}}</span>
+                        <span ng-show="CalcIPCount{{$index}}">{{'addNetwork.IPError5'|translate}}</span>
+                    </div>
+                    <div class="fromIPError form-group ml16" ng-if="layer.type=='Prefix'">
+                        <input type="text" placeholder="{{'addNetwork.subnetIP'|translate}}" class="form-control subIP{{$index}}"
+                               style="width: 183px;"
+                               ng-pattern="/^(((\d{1,2})|(1\d{1,2})|(2[0-4]\d)|(25[0-5]))\.){3}((\d{1,2})|(1\d{1,2})|(2[0-4]\d)|(25[0-5]))$/"
+                               ng-model="layer.Prefix.net" required ng-blur="checkModel(layer,$index)" ng-change="checkModel(layer,$index)"/>
+                        <span ng-show="subnetIPRule{{$index}}">{{'addNetwork.IPError1'|translate}}</span>
+                        <span ng-show="subnetIPMulticast{{$index}}">{{'addNetwork.IPError2'|translate}}</span>
+                        <span ng-show="subnetIPStartRule{{$index}}">{{'addNetwork.IPError3'|translate}}</span>
+                    </div>
+                    <div class="toIPError form-group " ng-if="layer.type=='Prefix'">
+                        <div style="display: inline-flex;">
+                            <label for="ipto" class="ipto_to">&nbsp;/&nbsp; </label>
+                            <input type="text" name="" class="form-control prefix{{$index}}" ng-model="layer.Prefix.mask" maxlength="2"
+                                   min="24" max="32" title="24 ~ 32"
+                                   required ng-blur="checkModel(layer,$index)" ng-change="checkModel(layer,$index)" style="width: 183px;">
+                        </div>
+                        <span ng-show="toIPRule{{$index}}">{{'addNetwork.IPError1'|translate}}</span>
+                        <span ng-show="prefixCount{{$index}}">{{'addNetwork.IPError5'|translate}}</span>
+                    </div>
+                    <button class="btn btn-small" type="button" ng-click="removeRange($index);"
+                            ng-disabled="!network.discover.layer3||(network.discover.layer3&&network.discover.layer3List.length<=1)">
+                        <md-icon md-svg-icon="modal:minus"></md-icon>
+                    </button>
+                </div>
+
+                <div class="form-inline" ng-if="network.discover.layer3List.length<5">
+                    <div style="width: 120px;height: 32px;">
+                        <ui-select ng-model="type.selected" theme="bootstrap" ng-disabled="true">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="type in rangeType">{{type}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="form-group ml16">
+                        <input type="text" class="form-control" style="width: 183px;" disabled/>
+                    </div>
+                    <div class="form-group" style="display: inline-flex;">
+                        <div style="display: inline-flex;">
+                            <label class="ipto_to">&nbsp;-&nbsp;</label>
+                            <input type="text" class="form-control" style="width: 183px;" id="ipto" disabled/>
+                        </div>
+                    </div>
+                    <button class="btn btn-small" type="button" ng-click="addRange();"
+                            ng-disabled="!network.discover.layer3">
+                        <md-icon md-svg-icon="modal:plus"></md-icon>
+                    </button>
+                    <span class="hint-span" ng-class="viewIpTip?'error-msg':'none-msg'">{{'addNetwork.conflictIP'|translate}}</span>
+                    <span class="hint-span" ng-class="validIP!=''?'error-msg':'none-msg'">{{validIP}}</span>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="form-horizontal">
+        <div ng-if="step==4">
+            <div class="form-group" style="margin-bottom:16px;">
+                <div class="col-sm-12">
+                    <div ng-if="discoveryStep==0">
+                        <button class="btn btn-common" ng-click="startDiscovery()" id="discover_button">
+                            {{'addNetwork.startDiscovery'|translate}}
+                        </button>
+                    </div>
+                    <div ng-if="discoveryStep==1">
+                        <span class="hint-span state processing-msg"
+                              style="float: left; line-height: 32px;margin-bottom: 0px;"><img
+                                src="./../public/images/processing.gif" alt="processing" class="mgl8">{{'addNetwork.scanning'|translate}}</span>
+
+                    </div>
+                    <div ng-if="discoveryStep==2">
+                        <button class="btn btn-common" ng-click="startDiscovery()">
+                            {{'addNetwork.reDiscovery'|translate}}
+                        </button>
+                        <span class="mgl8" style="line-height: 32px;">{{'addNetwork.scanned'|translate}}</span>
+                        <span>({{discoverTime|date:"yyyy-MM-dd HH:mm:ss"}})</span>
+                    </div>
+                </div>
+            </div>
+            <uib-tabset active="activeForm" style="border: 1px solid #ddd;border-radius: 4px;margin-bottom: 8px">
+                <uib-tab index="0" heading="{{'addNetwork.standalone'|translate}}"
+                         select="resetGridSize('user-grid-standalone');">
+
+                    <div ui-grid="gridOptionsDiscovered" ng-if="show.tab1" id="user-grid-standalone" ui-grid-selection
+                         ui-grid-auto-resize
+                         ui-grid-resize-columns class="grid" style="height: 280px">
+                        <nodata-directive ng-show="gridOptionsDiscovered.data.length == 0"
+                                          desc="{{'addNetwork.noDevice'|translate}}"></nodata-directive>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="{{'addNetwork.managed'|translate}}"
+                         select="resetGridSize('user-grid-managed');">
+                    <div ng-if="show.tab2" ui-grid="gridOptionsManaged" id="user-grid-managed" ui-grid-selection
+                         ui-grid-auto-resize
+                         ui-grid-resize-columns class="grid" style="height: 280px">
+                        <nodata-directive ng-show="gridOptionsManaged.data.length == 0"
+                                          desc="{{'addNetwork.noDevice'|translate}}"></nodata-directive>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+            <div class=" grid-top-menu">
+                <label class="control-label">{{'label.setProfile'|translate}}</label>
+                <input style="width:120px;margin-left:8px;margin-right:4px;display:inline;" class="form-control"
+                       type="text"
+                       placeholder="{{'addNetwork.apUsername'|translate}}"
+                       ng-model="authentic.authenticUserName" ng-maxlength="32" maxlength="32" autocomplete="off"
+                       required><label class="control-label">*</label>
+                <password-input style="width:120px;margin-left:8px;margin-right:8px;display: inline-block"
+                                placeholder="{{'addNetwork.apPassword'|translate}}"
+                                ng-model="authentic.authenticPassword" ng-maxlength="32" maxlength="32"
+                                autocomplete="off"></password-input>
+
+                <button type="button"
+                        ng-disabled="!authentic.authenticUserName||(show.tab1&&gridApi.selection.getSelectedRows() == 0)||(show.tab2&&gridApi_managed.selection.getSelectedRows() == 0)"
+                        class="btn btn-common"
+                        ng-click="apply()">{{'common.apply'|translate}}
+                </button>
+                <span class="hint-span state processing-msg" style="display:contents; margin-right:100px;"
+                      ng-show="state.processing"><img
+                        src="./../public/images/processing.gif" style="margin-left:10px;" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                <span class="hint-span state success-msg" style="display:contents; margin-right:100px;"
+                      ng-show="state.isSuccess"><p
+                        style="margin-left:10px;display:inline;">{{state.msgTrue|translate}}</p></span>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+
+    <button class="btn btn-common" type="button" ng-click="pre()"
+            ng-if="(tag==0&&(step>0&&step!=3))||(tag==3&&step>3)||(tag==1&&(step>1&&step!=3))">
+        {{'common.back'|translate}}
+    </button>
+    <button class="btn btn-common" type="button" ng-click="next()" ng-if="step<4"
+            ng-disabled="(networkForm.$invalid||invalidPort.devAccessPort||invalidPort.webAccessPort||error.netNameCheck||nextDisabled()) ? true: false">
+        {{'common.next'|translate}}
+    </button>
+    <button class="btn btn-cancel" type="button" ng-click="exit()" ng-if="(step>0&&step!=2)||(step==0&&exist0&&!secondaryTime)">
+        {{'common.exit'|translate}}
+    </button>
+</div>

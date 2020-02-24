@@ -1,0 +1,66 @@
+{
+  "SOID": "1.3.6.1.4.1.171.11.124.1",
+  "DevL1Class": "Wireless Switch",
+  "DevL2Class": "Wireless Switch",
+  "ModuleType": "DWS-4026",
+  "Vendor": "D-Link",
+  "Commands": {
+    "PortInfo": "public",
+    "SystemInfo": "public",
+    "MemoryFreeReal": {
+      "nodes": [
+        {
+          "name": "rlFileFreeSizeOfFlash",
+          "oid": "1.3.6.1.4.1.171.10.73.50.1.1.4.1",
+          "type": "Integer"
+        },
+        {
+          "name": "rlFileTotalSizeOfFlash",
+          "oid": "1.3.6.1.4.1.171.10.73.50.1.1.4.2",
+          "type": "Integer"
+        }
+      ],
+      "get": {
+        "actions": [
+          {
+            "inf": "get",
+            "node": "rlFileFreeSizeOfFlash",
+            "suffix": ".0"
+          },
+          {
+            "inf": "get",
+            "node": "rlFileTotalSizeOfFlash",
+            "suffix": ".0"
+          }
+        ],
+        "result": "1-{0}/{1}"
+      }
+    },
+    "CPULoadPercent": {
+      "nodes": [
+        {
+          "name": "CPULoadPercent",
+          "oid": "1.3.6.1.4.1.171.10.73.50.1.1.4.9",
+          "type": "Integer"
+        }
+      ],
+      "get": {
+        "actions": [
+          {
+            "inf": "get",
+            "node": "CPULoadPercent",
+            "suffix": ".0"
+          }
+        ],
+        "result": "expression({0},'***',1)"
+      }
+    },
+    "RFManagement": {},
+    "SNMPTrap": {},
+    "lldpStatus": {
+      "version":"lldpStatus_All"
+    },
+    "telnetStatus": {}
+  },
+  "customized": {}
+}

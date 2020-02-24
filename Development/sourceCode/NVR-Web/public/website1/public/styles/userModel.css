@@ -1,0 +1,77 @@
+/*===================================== inviteuser begin ========================================*/
+.inviteuser p {
+    margin-bottom: 0px;
+    line-height: 1.5;
+}
+
+.inviteuser label {
+    position: relative;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    height: 32px;
+    line-height: 32px;
+    text-align: right;
+    color: #999;
+    font-weight: normal;
+}
+
+.inviteuser .form-group {
+    margin-bottom: 0px;
+}
+
+.invite-email div {
+    margin-bottom: 8px;
+}
+
+.invite-email > div:last-child {
+    margin-bottom: 0px;
+}
+
+.inviteuser .btn-small {
+    margin-left: 8px;
+}
+
+.inviteuser.modal-body .account-type {
+    width: 100px;
+}
+
+.inviteuser.modal-body .account-status input {
+    position: relative;
+}
+
+.inviteuser .ui-grid {
+    margin-top: 0px;
+    border-radius: 4px;
+}
+
+.modal-usermanage .ui-grid-render-container .ui-grid-viewport .ui-grid-canvas .ui-grid-cell {
+    overflow: initial;
+}
+
+.modal-usermanage .ui-grid-viewport {
+    overflow: initial !important;
+}
+
+.modal-usermanage .ui-select-search {
+    margin-top: 0px !important;
+    border-radius: 4px;
+}
+
+.modal-usermanage .form-control:focus,
+.modal-usermanage .form-control:active {
+    border-color: #e6185a;
+}
+
+.modal-usermanage .grid,
+.modal-usermanage .ui-grid-contents-wrapper .ui-grid-render-container .ui-grid-viewport .ui-grid-canvas
+    /*.modal-usermanage .modal-usermanage .ui-grid-viewport,*/
+    /*.modal-usermanage .ui-grid-viewport*/
+{
+    height: auto !important;
+}
+
+.modal-usermanage .ui-grid-contents-wrapper .ui-grid-render-container .ui-grid-viewport .ui-grid-canvas {
+    width: 100%;
+}
+
+/*===================================== inviteuser end ========================================*/

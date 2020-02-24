@@ -1,0 +1,195 @@
+<div style="border: 1px solid #eee;border-radius: 4px 4px 0px 0px;padding: 24px;">
+    <form name="scheduleForm">
+        <div class="mgb8 clear">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">{{'label.wirelessSchedule' | translate}}</label>
+
+                <div class="col-sm-4">
+                    <div style="width: 100px;height: 32px;">
+                        <ui-select ng-model="scheduleShowData.status" theme="bootstrap"  ng-change="scheduleChange()">
+                            <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected |
+                                translate}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="item in statuses">{{'configuration.able' + item | translate}}
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <label class="title">{{'configuration.schedule.addScheduleRule' | translate}}</label>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'label.name' | translate}}<span
+                    ng-class="scheduleShowData.status==1?'required-span-show':'required-span'">*</span></label>
+
+            <div class="col-sm-4" ng-class="scheduleForm.name.$dirty&&scheduleForm.name.$invalid?'error':''">
+                <input  type="text" class="form-control w320" ng-model="temporary.ruleName"   ng-pattern="/^[A-Za-z0-9_.,;:?\[\]<>/\*{}^\|()@#$+=%!\s-]+$/"
+                       ng-disabled="scheduleShowData.status==0" name="name" maxlength="32" required  blank-validator="name" ng-trim="false" autocomplete="off">
+                <span class="hint-span" ng-show="scheduleForm.name.$error.blank" style="width:280px;">{{'invalid.blankInvalid'|translate}}</span>
+                <span class="hint-span" ng-show="scheduleForm.name.$dirty&&scheduleForm.name.$error.pattern&&!scheduleForm.name.$error.blank">{{'configuration.schedule.nameValid'|translate}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'label.index' | translate}}</label>
+
+            <div class="col-sm-4">
+                <!-- <input type="text" class="form-control"> -->
+                <div style="width: 160px;height: 32px;">
+                    <ui-select ng-model="temporary.ssidIndex" theme="bootstrap"
+                               ng-disabled="scheduleShowData.status==0||editRuleStatus"
+                               on-select="indexChoice($item, $model)">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.schedule.ssid' +$select.selected |
+                            translate}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in scheduleIndexes | filter:indexFilter">
+                            {{'configuration.schedule.ssid' +item | translate}}
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">SSID</label>
+
+            <div class="col-sm-4">
+                <input type="text" class="form-control w320" disabled="true" ng-model="temporary.ssid">
+            </div>
+        </div>
+        <div class="form-group special-radio">
+            <label class="col-sm-2 control-label">{{'label.day_s' | translate}}</label>
+
+            <div class="col-sm-9" ng-class="scheduleShowData.status==0?'disable':''">
+                <label class="radio-inline">
+                    <input type="radio" value="all" ng-model="all.week" ng-disabled="scheduleShowData.status==0">{{'label.allWeek'
+                    | translate}}
+                    <p><span ng-show="all.week =='all'"></span></p>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" value="select" ng-model="all.week" ng-disabled="scheduleShowData.status==0">{{'label.selectDay_s'
+                    | translate}}
+                    <p><span ng-show="all.week =='select'"></span></p>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div style="width: 386px;" class="col-sm-offset-2 col-sm-9">
+                <div class="week-btn">
+                    <label class="week-choice" ng-repeat="weekend in weekendItems"
+                           ng-model="temporary.daysSelect[weekend]" uib-btn-checkbox
+                           ng-disabled="scheduleShowData.status==0||all.week =='all'">{{'configuration.schedule.week' +
+                        weekend | translate}}</label>
+                </div>
+                <!-- <span style="display: block;padding-top: 4px;margin-bottom: -16px;color: #aaa;">可以圈点</span> -->
+            </div>
+        </div>
+        <div class="form-group special-radio">
+            <label class="col-sm-2 control-label">{{'label.time_s' | translate}}</label>
+
+            <div class="col-sm-9" ng-class="scheduleShowData.status==0?'disable':''">
+                <label class="radio-inline">
+                    <input type="radio" value="1" ng-model="temporary.allDaySelect"
+                           ng-disabled="scheduleShowData.status==0">{{'label.allDay' | translate}}
+                    <p><span ng-show="temporary.allDaySelect==1"></span></p>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" value="0" ng-model="temporary.allDaySelect"
+                           ng-disabled="scheduleShowData.status==0">{{'label.selectTime_s' | translate}}
+                    <p><span ng-show="temporary.allDaySelect==0"></span></p>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'label.startTime' | translate}}</label>
+            <div class="col-sm-10" ng-class="(timeNotSame||timeOverRange)&&temporary.allDaySelect==0?'error':''">
+                <div class="input-group date-picker" uib-dropdown auto-close="outsideClick"
+                     on-toggle="toggledStart(open)">
+                    <input type="value" class="form-control" ng-model="temporary.startTime" readonly
+                           ng-disabled="scheduleShowData.status==0 || temporary.allDaySelect ==1" id="startTime">
+                    <a type="button" class="btn btn-default" uib-dropdown-toggle id="time-picker1"
+                       ng-disabled="scheduleShowData.status==0 || temporary.allDaySelect ==1">
+                        <md-icon md-svg-icon="user:time"></md-icon>
+                    </a>
+
+                    <div uib-dropdown-menu aria-labelledby="time-picker" style="margin-top: 0px;">
+                        <div uib-timepicker ng-model="scheduleValue.startTime" ng-change="timeChanged(true)"
+                               hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"
+                             style="box-shadow: 0px 1px 3px #ddd;border-radius: 4px;"></div>
+                    </div>
+                </div>
+                <span class="hint-span" ng-if="timeOverRange">{{'invalid.timeRangeOver'|translate}}</span>
+                <span class="hint-span" ng-if="timeNotSame">{{'invalid.timeRangeNotSame'|translate}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">{{'label.endTime' | translate}}</label>
+
+            <div class="col-sm-10">
+                <div class="input-group date-picker" uib-dropdown auto-close="outsideClick"
+                     on-toggle="toggledEnd(open)">
+                    <input type="value" class="form-control" ng-model="temporary.endTime" readonly
+                           ng-disabled="scheduleShowData.status==0 || temporary.allDaySelect ==1" id="endTime">
+                    <a type="button" class="btn btn-default" uib-dropdown-toggle id="time-picker2"
+                       ng-disabled="scheduleShowData.status==0 || temporary.allDaySelect ==1">
+                        <md-icon md-svg-icon="user:time"></md-icon>
+                    </a>
+
+                    <div uib-dropdown-menu aria-labelledby="time-picker" style="margin-top: 0px;">
+                        <div uib-timepicker ng-model="scheduleValue.endTime" ng-change="timeChanged(false)"
+                             hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"
+                             style="box-shadow: 0px 1px 3px #ddd;border-radius: 4px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-10"
+                 ng-class="disableTimeOverNight||(scheduleShowData.status==0 || temporary.allDaySelect ==1?'disable':'')">
+                <label class="checkLabel">
+                    <input type="checkbox" ng-model="temporary.overnight" ng-change="timeChanged()"
+                           ng-disabled="disableTimeOverNight||(scheduleShowData.status==0 || temporary.allDaySelect ==1)">{{'label.overNight'|translate}}
+                    <p id="enable_schedule_checkbox">
+                        <md-icon md-svg-icon="modal:checkbox" ng-show="temporary.overnight"></md-icon>
+                    </p>
+                </label>
+
+            </div>
+        </div>
+        <div class="form-group mgb0" ng-class="addRuleResult.isError?'error':''">
+            <div class="col-sm-offset-2 col-sm-3" style="width: 211px; right: 17px" ng-if="hasPrivilege">
+                <a class="btn btn-cancel pull-right" style="margin-left: 8px;" ng-disabled="scheduleShowData.status==0"
+                   ng-click="clearRule()">{{'common.clear'|translate}}</a>
+                <button class="btn btn-common pull-right" ng-if="!editRuleStatus"
+                        ng-disabled="scheduleShowData.status==0||timeOverRange||timeNotSame||scheduleForm.name.$invalid||checkdaysSelect()"
+                        ng-click="addRule()">
+                    {{'common.add'|translate}}
+                </button>
+                <button class="btn btn-common pull-right" ng-if="editRuleStatus"
+                        ng-disabled="scheduleShowData.status==0||timeOverRange||timeNotSame||scheduleForm.name.$invalid||checkdaysSelect()"
+                        ng-click="saveRule()">{{'common.save'|translate}}
+                </button>
+
+            </div>
+            <span class="hint-span" style="margin-top:8px;">{{addRuleResult.msg|translate}}</span>
+        </div>
+    </form>
+</div>
+<div style="border: 1px solid #eee;border-top: none;border-radius: 0px 0px 4px 4px;margin-bottom: 24px; ">
+    <div id="scheduleGrid" ui-grid="scheduleOptions" class="grid remove-last-btn" ui-grid-auto-resize ui-grid-resize-columns>
+
+        <nodata-directive ng-show="scheduleOptions.data.length == 0" desc="{{'common.noData'|translate}}" small="true"></nodata-directive>
+    </div>
+</div>
+<div class="form-group mgb0" ng-if="hasPrivilege">
+    <div class="col-sm-offset-3 col-sm-9">
+        <button class="btn btn-common pull-right" ng-click="save()" ng-disabled="editRuleStatus">
+            {{'common.save'|translate}}
+        </button>
+        <span class="hint-span state processing-msg" ng-show="state.schedule.processing"><img
+                src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+        <span class="hint-span state success-msg" ng-show="state.schedule.isSuccess">{{state.schedule.msgTrue|translate}}</span>
+        <span class="hint-span state error-msg"
+              ng-show="state.schedule.isError">{{state.schedule.msgFalse|translate}}</span>
+    </div>
+</div>

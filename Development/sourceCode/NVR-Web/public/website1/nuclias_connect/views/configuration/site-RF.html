@@ -1,0 +1,49 @@
+<div class="box subpage mgb24">
+    <div class="box-header">
+        <h3>{{'configuration.rf.rfOptimization' | translate}}</h3>
+    </div>
+    <div class="box-content">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" style="width: 130px;">{{'label.adjustFrequency' | translate}}</label>
+            <div class="col-sm-8">
+                <div class="pull-left mgr8" style="width: 80px;height: 32px;display: inline-block;">
+                    <ui-select ng-model="rfOptData.rfReportFrequency" theme="bootstrap">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected}}</ui-select-match>
+                        <ui-select-choices repeat="frequency in frequencies">{{frequency}}</ui-select-choices>
+                    </ui-select>    
+                </div>
+                <label class="control-label">{{'label.hours' | translate}}</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <label class="checkLabel">
+                    <input type="checkbox" ng-model="rfOptData.enableACA" ng-change="ACPChange()">{{'label.autoCA' |
+                    translate}}
+                    <p>
+                        <md-icon md-svg-icon="modal:checkbox" ng-show="rfOptData.enableACA"></md-icon>
+                    </p>
+                </label>
+            </div>
+        </div>
+        <div class="form-group mgb0">
+            <div class="col-sm-12" ng-class="!rfOptData.enableACA?'disable':''">
+                <label class="checkLabel">
+                    <input type="checkbox" ng-model="rfOptData.enableAPA" ng-disabled="!rfOptData.enableACA">{{'label.autoPA'
+                    | translate}}
+                    <p>
+                        <md-icon md-svg-icon="modal:checkbox" ng-show="rfOptData.enableAPA"></md-icon>
+                    </p>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group" ng-if="hasPrivilege">
+    <div class="col-sm-offset-3 col-sm-9">
+        <button class="btn btn-common pull-right" ng-click="save()">{{'common.save'|translate}}</button>
+        <span class="hint-span state processing-msg" ng-show="state.rf.processing"><img src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+        <span class="hint-span state success-msg" ng-show="state.rf.isSuccess">{{state.rf.msgTrue|translate}}</span>
+        <span class="hint-span state error-msg" ng-show="state.rf.isError">{{state.rf.msgFalse}}</span>
+    </div>
+</div>

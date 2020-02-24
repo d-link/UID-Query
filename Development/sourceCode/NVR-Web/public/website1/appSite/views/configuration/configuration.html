@@ -1,0 +1,48 @@
+<div ng-controller="configurationController" class="grid-page">
+    <div class="set-height" id="configurationPage"> 
+        <div class="gird-containner" >
+            <div class="ip-header-containner">
+                <span >{{$root.cwmName}}</span>
+                <span >{{$root.windowIp}}</span>
+            </div>
+
+            <div style="padding: 0.2rem;">
+                <div style="width: 100%; margin-top:2%;">
+                    <div class="select-timeDay-first-49">
+                        <ui-select ng-model="SSIDSelect.site" 
+                                    class="uiSelect"
+                                    theme="bootstrap" 
+                                    on-select="changeSite($item);">
+                            <ui-select-match  placeholder="{{'common.site'|translate}}">{{$select.selected.siteName|translate}}</ui-select-match>
+                            <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="select-timeDay-second-49">
+                        <ui-select class="uiSelect"
+                                    ng-model="SSIDSelect.net" 
+                                    theme="bootstrap" 
+                                    ng-disabled="optionNetworks.length == 0" 
+                                    on-select="changeNet($item);">
+                            <ui-select-match   placeholder="{{'common.networks'|translate}}">{{$select.selected.name|translate}}</ui-select-match>
+                            <ui-select-choices repeat="net in optionNetworks">{{net.name|translate}}</ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+
+                <div ui-grid="SSIDOptions" 
+                        id="SSIDOptions"
+                        class="grid" 
+                        ui-grid-pagination 
+                        ui-grid-auto-resize 
+                        ui-grid-resize-columns 
+                        ui-grid-selection
+                        style="margin-top: 0.4rem;">
+                        <!--遮挡层，用于消除表格控件表头长按呼出菜单的BUG-->
+						<div style="height: 1.2rem;position: absolute;width: 100%;z-index: 1;top: 0"></div>
+                    <nodata-directive ng-show="SSIDOptions.totalItems==0" desc="{{'common.noData'|translate}}">
+                    </nodata-directive>
+                </div>
+        </div>
+    </div>
+</div>

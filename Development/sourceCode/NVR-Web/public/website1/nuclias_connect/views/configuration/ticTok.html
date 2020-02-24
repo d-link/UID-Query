@@ -1,0 +1,31 @@
+<div class="dialog-wrapper-div" ng-if="showTic">
+    <form name="tictokForm" class="form-horizontal tictok-form" style="padding: 24px 16px;">
+        <!--lanSetting-->
+        <div class="mgb16" style="border-radius: 4px;" ng-if="showTickToc">
+            <div class="box-content tictoc-font">
+                <div class="tictoc-font tictoc-margin">{{text.text1}}</div>
+                <div class="tictoc-margin">
+                    <span>{{text.text2}}</span>&nbsp;
+                    <span style="color: red;">{{second}}</span>&nbsp;
+                    <span>{{text.text3}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="mgb16" style="border-radius: 4px;" ng-if="showSDLoading2">
+            <div class="box-content tictoc-font">
+                <div class="tictoc-font tictoc-margin">{{text.text4}}</div>
+            </div>
+        </div>
+        <div class="mgb16" style="border-radius: 4px;" ng-if="showSDLoading">
+            <div class="box-content tictoc-font">
+                <div class="tictoc-font tictoc-margin">{{text.text1}}</div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div class="dialog-wrapper" ng-if="showTic">
+
+</div>
+
+<!--<div timer-btn start-time="time" get-data="getData()"></div>-->

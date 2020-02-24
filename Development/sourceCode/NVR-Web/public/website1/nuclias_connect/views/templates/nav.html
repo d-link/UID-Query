@@ -1,0 +1,110 @@
+
+<header class="main-header">
+    <!-- Logo -->
+    <a class="logo" ng-mouseover="showMenu();" ng-mouseleavet="hideMenu();">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <!--  <span class="logo-mini"><b>A</b>LT</span>-->
+        <!-- logo for regular state and mobile devices -->
+        <div class="logo-lg">
+            <span ng-if="!isHide" style="position: absolute;top: 0px;line-height: 1;"><md-icon style="width:70px;height:28px;" md-svg-src="../public/images/logo.svg"></md-icon></span>
+            <span ng-if="isHide" style="position: absolute;top: 0px;left: -5px;line-height: 1;"> <md-icon style="width:32px;height:19px;" md-svg-src="../public/images/logo_min.svg"></md-icon></span>
+        </div>
+        <div ng-show="isOver" class="hidemenu" >   <md-icon title="{{isHided?'title.show':'title.hide' | translate}}" md-svg-icon="bottom:left_hide" ng-click="changeMenu();"></md-icon></div>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top clearfix" role="navigation" style="display: block;">
+        <div class="col-sm-7">
+            <a class="sidebar-toggle" ng-if="org">
+                <img style="height:28px;margin-right: 4px;margin-top: -8px;" ng-src="{{org.logo}}">
+                <span>{{org.name}}</span>
+            </a>
+        </div>
+
+        <div class="col-sm-5" style="padding-right: 0px;">
+            <ul class="nav navbar-nav" ng-if="auth.isAuthenticated()" style="float:right;">
+                <li uib-dropdown ng-if="false">
+                    <a id="single-button"  class="notification" uib-dropdown-toggle title="{{'title.notification'|translate}}">
+                        <div >
+                            <md-icon md-svg-icon="bottom:head_notification"></md-icon>
+                            <span class="badge">{{totalCount}}</span>
+                        </div>
+                    </a>
+                    <ul uib-dropdown-menu class="notification-menu nav-message subpage" role="menu"
+                        aria-labelledby="single-button">
+                        <li role="menuitem">
+                            <a ng-click="NavigatorNotification('Critical');">
+                                <md-icon md-svg-icon="bottom:critical"></md-icon>
+                                <span class="nav-message-name">{{'common.critical'|translate}}</span>
+                                <span class="badge pull-right nav-message-num">{{notifications.Critical}}</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a ng-click="NavigatorNotification('Warning');">
+                                <md-icon md-svg-icon="bottom:warning"></md-icon>
+                                <span class="nav-message-name">{{'common.warning'|translate}}</span>
+                                <span class="badge pull-right nav-message-num">{{notifications.Warning}}</span>
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a ng-click="NavigatorNotification('Info');">
+                                <md-icon md-svg-icon="bottom:info"></md-icon>
+                                <span class="nav-message-name">{{'common.info'|translate}}</span>
+                                <span class="badge pull-right nav-message-num">{{notifications.Info}}</span>
+                            </a>
+                        </li>
+                        <span>&#9670;</span>
+                        <em>&#9670;</em>
+                    </ul>
+                </li>
+                <li uib-dropdown class="split-dropdown">
+
+                            <a  uib-dropdown-toggle>
+                                <img class="circular--squareP" ng-src="{{user.photo}}" title="{{user.username}}">
+                            <!--    {{user().email}}-->
+                            </a>
+                            <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="nav-user-profile subpage usermenu" ng-style="langStyle">
+                                <li role="menuitem" ng-if="!user.isNSUser"><a ng-click="userProfile();">{{'nav.userProfile'|translate}}</a></li>
+                                <li role="menuitem"><a ng-click="logout()">{{'nav.logout'|translate}}</a></li>
+                                <span>&#9670;</span>
+                                <em>&#9670;</em>
+                            </ul>
+                </li>
+                <li ng-if="hasPrivilege">
+                    <a class="wizard" title="{{'settings.wizard'|translate}}" ng-click="showGuide();">
+                       <div style="height:16px;">
+                           <md-icon md-svg-src="/public/images/Wizard_16.svg"></md-icon>
+                           <!-- <span class="badge">{{user.right.length}}</span> -->
+                       </div>
+
+                    </a>
+                </li>
+                <li uib-dropdown class="split-dropdown">
+
+                    <a  uib-dropdown-toggle style="padding-top:12px;width:60px;">
+                        {{langFlag.selected.langflag.toUpperCase()}}
+                        <md-icon class="dropdown-icon" md-svg-icon="bottom:left_arrow_down" style="right:8px;top:14px;"></md-icon>
+                        <!--    {{user().email}}-->
+                    </a>
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="nav-lang nav-user-profile subpage" style="min-width:110px;">
+                        <li role="menuitem"><a ng-click="changeLang('en')">English</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('tw')">繁體中文</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('cn');">简体中文</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('kr');">한국어.</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('jp');">日本語</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('fr');">Français</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('es');">Español</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('de');">Deutsch</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('ru');">русский язык</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('it');">In Italiano</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('tk');">Turkish</a></li>
+                        <span>&#9670;</span>
+                        <em>&#9670;</em>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+

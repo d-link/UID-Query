@@ -1,0 +1,23 @@
+<div class="row" ng-class="forgotForm.password.$dirty&&forgotForm.password.$invalid&&passBlur||(userInfo.username&&userInfo.username==userInfo.newpass)?'error-login':''">
+    <input ng-model="userInfo.newPass" type="password" placeholder="{{'login.newPass'|translate}}" class="form-control"
+           name="password" ng-pattern="/^(?![^A-Za-z]+$)(?![^0-9]+$)[\x21-\x7e]{8,30}$/" required ng-minlength="8" maxlength="30" ng-blur="passBlur=true" ng-focus="passBlur=false" >
+    <span class="hint-span" ng-if="forgotForm.password.$invalid">{{'invalid.strongPass'|translate}}</span>
+    <span class="hint-span" ng-if="!forgotForm.password.$invalid&&userInfo.username&&userInfo.username==userInfo.newpass">{{'invalid.sameNameAndPass'|translate}}</span>
+</div>
+<div class="row"
+     ng-class="forgotForm.password.$dirty && forgotForm.repeatpassword.$dirty &&userInfo.newPass!==userInfo.repeatePass&&repeatBlur?'error-login':''">
+    <input ng-model="userInfo.repeatePass" type="password" placeholder="{{'login.rePass'|translate}}"
+           class="form-control" name="repeatpassword" ng-blur="repeatBlur=true" ng-focus="repeatBlur=false">
+    <span class="hint-span">{{'invalid.passNotsame'|translate}}</span>
+</div>
+<div class="row">
+    <span class="forgot-colorfff">{{'login.forgot.step3'|translate}}</span>
+</div>
+<div class="row" ng-class="InvalidReset==true?'error':''">
+    <!--  <button type="submit" class="btn btn_login" ng-click="login();">Send Email</button>-->
+    <button type="submit" class="btn btn_login" ng-click="resetPass();"
+            ng-disabled="!forgotForm.password.$dirty || !forgotForm.repeatpassword.$dirty || userInfo.newPass!==userInfo.repeatePass">
+        {{'login.reset'|translate}}
+    </button>
+    <span class="hint-span">{{'invalid.passResetFailed'|translate}}</span>
+</div>

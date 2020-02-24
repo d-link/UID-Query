@@ -1,0 +1,453 @@
+/* =============== Monitor begin =============== */
+/* == device list == */
+
+.device-detail .control-label {
+    color: #999;
+    padding-top: 10px;
+    font-weight: normal;
+}
+
+.device-detail .tab-content {
+    padding: 16px 16px 0px 16px;
+    overflow-y: auto;
+}
+
+.device-detail .row {
+    margin: 0px -16px;
+}
+
+.device-detail .device-overview .control-label {
+    padding-top: 4px;
+}
+
+.device-overview .box {
+    margin-bottom: 16px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.device-overview .device-overview-left {
+    padding-right: 8px;
+}
+
+.device-overview .device-overview-right {
+    padding-left: 8px;
+}
+
+.device-overview .device-overview-right .box-content {
+    padding: 8px 16px 16px;
+}
+
+.device-overview .device-overview-right .box-content .modal-footer {
+    padding: 0px 0px 24px 0px;
+}
+
+.device-overview .device-overview-right .control-label {
+    padding-top: 8px;
+}
+
+.device-overview .form-group {
+    margin-bottom: 24px;
+}
+
+.device-overview-info .box-content {
+    padding: 20px 8px;
+}
+
+.device-overview-info .form-control-static {
+    min-height: 24px;
+    max-height: 24px;
+    padding: 2px 0px;
+}
+
+.device-overview-info .form-control-static {
+    color: #444;
+    line-height: 16px;
+}
+
+.device-overview-info .form-control-static a {
+    color: #e6185a;
+    line-height: 16px;
+    cursor: pointer;
+}
+
+.device-overview-info > .box-content > div > div.form-group:last-child {
+    margin-bottom: 0px;
+}
+
+.device-overview-panel .box-content {
+    padding: 16px 16px 0px 16px;
+}
+
+.device-overview-panel .box-content > div {
+    margin-bottom: 16px;
+}
+
+.device-overview-DMList {
+    padding: 24px 16px;
+}
+
+.device-overview-DMList ul,
+.device-overview-DMList li {
+    list-style: none;
+    overflow: hidden;
+    margin-bottom: 0px;
+    line-height: 16px;
+}
+
+.device-overview-DMList > ul > li > ul > li:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+.device-overview-DMList > ul > li:not(:last-child) {
+    margin-bottom: 32px;
+}
+
+.device-overview-DMList li > a,
+.device-overview-DMList li > a:hover {
+    position: relative;
+    padding-left: 16px;
+    color: #999;
+    line-height: 16px;
+    text-decoration: none;
+}
+
+.device-overview-DMList li > ul {
+    padding-left: 16px;
+    padding-top: 16px;
+    padding-right: 16px;
+}
+
+.device-overview-DMList md-icon,
+.device-overview-DMList li > ul {
+    transition: All 0.3s ease-in-out;
+    -webkit-transition: All 0.3s ease-in-out;
+    -moz-transition: All 0.3s ease-in-out;
+    -o-transition: All 0.3s ease-in-out;
+}
+
+.device-overview-DMList md-icon {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.device-overview-DMList md-icon.open {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform-origin: 50% 50%;
+    -webkit-transform-origin: 50% 50%;
+}
+
+.device-overview-DMList li > ul.closed {
+    height: 0px !important;
+    padding-top: 0px;
+}
+
+.device-configuration-ap .special-active {
+    padding-left: 32px !important;
+}
+
+.device-configuration-ap .special-active.active {
+    padding-left: 30px !important;
+}
+
+/* == devDetail configuration == */
+.devDetail-ssh .col-sm-2 {
+    width: 228px;
+}
+
+.devDetail-ssh .col-sm-10 {
+    width: 132px;
+}
+
+.devDetail-lldp label.checkLabel {
+    top: 3px;
+}
+
+/* device list test begin*/
+.hoverTest {
+    padding: 4px 12px;
+}
+
+.hoverTest > span {
+    width: 100%;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 32px;
+}
+
+.hoverTest > div {
+    display: none;
+}
+
+.error.hoverTest > div {
+    display: inline-block;
+}
+
+.error.hoverTest > span {
+    display: none;
+}
+
+.hoverTest:hover > span {
+    display: none;
+}
+
+.hoverTest:hover > div {
+    display: inline-block;
+}
+
+.hoverTest > div > input.form-control {
+    margin-top: 0px;
+    height: 32px;
+    color: #444;
+    border-radius: 4px;
+}
+
+.ofv {
+    overflow: visible !important;
+}
+
+/* device list test end*/
+/* == position scroll == */
+.position-scroll-menu {
+    width: 150px;
+    position: fixed;
+    top: 122px;
+    right: 51px;
+}
+
+.position-scroll-menu:hover {
+    overflow-y: auto;
+}
+
+.position-scroll-menu, .position-scroll-menu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    display: inline-block;
+    min-width: 168px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.position-scroll-menu a {
+    width: 168px;
+    padding: 0px 16px;
+    line-height: 32px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.position-scroll-menu a:hover {
+    color: #333;
+    text-decoration: none;
+}
+
+.position-scroll-menu a.active {
+    padding-left: 14px;
+    border-left: solid 2px #80cbc4;
+    background-color: #f4fffe;
+    color: #009688;
+}
+
+.position-scroll-menu li {
+    display: inline-block;
+}
+
+.position-scroll-content {
+    overflow-y: scroll;
+    width: 100%;
+    padding-right: 168px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.position-scroll-content .box {
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.apply-trigger {
+    padding: 24px;
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+}
+
+.apply-trigger label {
+    width: 74px;
+    color: #999;
+    font-weight: normal;
+}
+
+.interface-info .box-content {
+    padding: 0px 16px 16px 16px;
+}
+
+.interface-info .ui-grid {
+    padding: 0px;
+}
+
+.auth-info > .box-content > p {
+    color: #444;
+    margin-bottom: 16px;
+}
+
+.auth-info > .box-content > p:nth-of-type(2) {
+    margin-bottom: 24px;
+}
+
+.auth-info .radio-inline + .radio-inline {
+    margin-left: 32px;
+}
+
+.form-control-static {
+    color: #444;
+}
+
+/* == discovery network settings ckeck ip error message== */
+.fromIPError span,
+.toIPError span,
+.IPError span {
+    display: block;
+    margin-bottom: 0px;
+    padding-top: 2px;
+    color: #f25130;
+}
+
+.toIPError span {
+    padding: 2px 0 0 17px;
+}
+
+/* == topology == */
+.topoName {
+    display: block;
+    float: left;
+    font-size: 16px;
+    line-height: 32px;
+    color: #009688;
+    text-shadow: 2px 2px 2px #fff;
+}
+
+.topologyStyle .nav-tabs {
+    margin: 0px -17px 0px -16px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.topologyStyle .content-side {
+    width: 189px;
+}
+
+/* == rack view == */
+.content-rackview .content-content {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+}
+
+.rack-view-sum {
+    position: relative;
+    top: 4px;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+}
+
+.rack-view-sum:nth-of-type(1) {
+    background-color: #00bfa5;
+}
+
+.rack-view-sum:nth-of-type(2) {
+    background-color: #ef6868;
+}
+
+.rack-view-sum:nth-of-type(3) {
+    background-color: #bbbbbb;
+}
+
+.rack-view {
+    padding: 0px 8px 8px;
+    margin: 8px 8px 0px 8px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+.rack-view:last-child {
+    margin-bottom: 8px;
+    height: 40px;
+    padding: 0px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.rack-view-header {
+    position: relative;
+    height: 32px;
+    line-height: 32px;
+}
+
+.rack-view-header > a {
+    color: #444;
+}
+
+.rack-view-header > i {
+    margin-right: 8px;
+}
+
+.rack-view-cont {
+    background-color: #fff;
+    /*  position:relative;*/
+}
+
+.rack-view-header .box-header-btns {
+    top: 4px;
+}
+
+/*.rack-view-header .box-header-btns md-icon {
+    position: absolute;
+    top: 0px;
+}*/
+a.rack-view-add {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    color: #ddd;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+a.rack-view-add md-icon {
+    width: 22px;
+    height: 22px;
+    margin: 9px auto;
+    color: #ddd;
+}
+
+a.rack-view-add:hover {
+    background-color: #f4fffe;
+}
+
+a.rack-view-add:hover md-icon {
+    color: #b2dfdb !important;
+}
+
+div.portDetail {
+    border: 1px solid #bbb;
+    z-index: 9002;
+    position: absolute;
+    background: #fff;
+    padding: 8px 8px;
+}
+
+/* =============== Monitor end =============== */

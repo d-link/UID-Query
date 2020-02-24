@@ -1,0 +1,256 @@
+<div ng-controller="teamController">
+    <div class="grid-top-menu elementFlag" style="padding-top: 0px;height: 44px;">
+        <div class="content-title pull-left">
+            <span class="all-user mgr8">{{'team.allUsers'|translate}}</span>
+            <span class="title-text mgr8">{{'team.totalUsers'|translate}} <span
+                    class="title-im">{{userStatus.all}}</span></span>
+            <span>
+                (
+                <md-icon md-svg-icon="user:user_online" title="{{'common.online'|translate}}"></md-icon>
+                <b>{{userStatus.online}}</b>
+                <md-icon md-svg-icon="user:user_offline" title="{{'common.offline'|translate}}"></md-icon>
+                <b>{{userStatus.offline}}</b>
+                <md-icon md-svg-icon="user:user_disabled" title="{{'common.disabled'|translate}}"></md-icon>
+                <b>{{userStatus.disabled}}</b>
+                )
+            </span>
+        </div>
+        <button class="btn btn-common pull-right" type="button" ng-click="openUserAddModel()" ng-if="power.isRoot">
+            {{'team.addUser'|translate}}
+        </button>
+    </div>
+    <div class="subpage set-height">
+        <uib-tabset active="activeForm">
+            <uib-tab index="0" heading="{{'team.userStatus'|translate}}">
+                <div ui-grid="gridOptionsUser" id="user-grid" ui-grid-pagination ui-grid-auto-resize
+                     ui-grid-resize-columns class="grid"></div>
+            </uib-tab>
+            <uib-tab index="1" heading="{{'team.userPrivilege'|translate}}" select="showUserPrivilege()" deselect="">
+                <div class="data-show-cont clear subpage">
+                    <div class="col-md-2 privilege-height" style="overflow-y: auto;">
+                        <div class="site data-show-menu-main" style="border-bottom: none;">
+                            <ul class="site-menu-one">
+                                <li ng-repeat="site in listData">
+                                    <a ng-click="toggleSite(site);" ng-class="{'active':siteActive._id == site._id}"
+                                       title="{{site.siteName}}">{{site.siteName}}</a>
+                                    <ul class="site-menu-two" ng-show="siteActive._id == site._id">
+                                        <li ng-repeat="network in site.networks">
+                                            <a class="special-active" ng-click="changeNetwork(network);"
+                                               ng-class="curNetwork._id == network._id?'active':''"
+                                               title="{{network.name}}">
+                                                <md-icon md-svg-icon="menu11:network_icon"></md-icon>
+                                                <span>{{network.name}}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-10 privilege-height content-content data-show-main form-horizontal">
+                        <div class="form-group edit-workspace" style="padding: 32px 102px;">
+
+                            <div class="col-sm-4">
+                                <label>{{'addUser.unAuth'|translate}}</label>
+
+                                <div>
+                                    <ul>
+                                        <li ng-repeat="user in unauthorizedUsers">
+                                            <label class="checkLabel clearfix">
+                                                <span style="">{{user.username}} ({{'team.'+user.role|translate}})</span>
+                                                <input type="checkbox" ng-model="user.select" class="f-r">
+                                                <p class="pull-right">
+                                                    <md-icon md-svg-icon="modal:checkbox" ng-show="user.select">
+                                                </p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <button class="btn btn-cancel" ng-click="addToAuthorised();"
+                                        ng-disabled="!power.isRoot">
+                                    <md-icon md-svg-icon="user:userManageLeft"></md-icon>
+                                </button>
+                                <button class="btn btn-cancel" ng-click="addToUnauthorised();"
+                                        ng-disabled="!power.isRoot">
+                                    <md-icon md-svg-icon="user:userManageRight"></md-icon>
+                                </button>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>{{'addUser.auth'|translate}}</label>
+
+                                <div>
+                                    <ul>
+                                        <li ng-repeat="user in authorisedUsers"
+                                            ng-class="user.role=='root admin'||user.role=='root user'?'disable':''">
+                                            <label class="checkLabel clearfix">
+                                                <span style="">{{user.username}} ({{'team.'+user.role|translate}})</span>
+                                                <input type="checkbox" ng-model="user.unselect" class="f-r"
+                                                       ng-disabled="user.role=='root admin'||user.role=='root user'">
+                                                <p class="pull-right">
+                                                    <md-icon md-svg-icon="modal:checkbox" ng-show="user.unselect">
+                                                </p>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12 f-r" style="padding-right:60px ;">
+                                <button class="btn btn-common f-r" ng-click="savePrivilege()" ng-disabled="!curNetwork">
+                                    {{'common.save'|translate}}
+                                </button>
+                                <span class="hint-span state processing-msg"
+                                      ng-show="state.processing"><img
+                                        src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+                                <span class="hint-span state success-msg"
+                                      ng-show="state.isSuccess">{{'settings.saveOK'|translate}}</span>
+                                <span class="hint-span state error-msg"
+                                      ng-show="state.isError">{{'syslog.serverity.Error'|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+
+    <script type="text/ng-template" id="teamUserInvite.html">
+        <div class="modal-header">
+            <a class="logo">
+                <md-icon md-svg-icon="common:{{iconName}}"></md-icon>
+            </a><span>{{'addUser.'+title|translate}}</span>
+            <a class="close pull-right"
+               ng-click="cancel()" title="{{'title.close'|translate}}">
+                <md-icon md-svg-icon="modal:close"></md-icon>
+            </a>
+        </div>
+        <div class="modal-body">
+            <form name="userForm" class="form-horizontal clear" novalidate>
+                <div class="form-group">
+                    <label for="username" class="col-sm-3 control-label">{{'label.username'|translate}}*</label>
+
+                    <div class="col-sm-9"
+                         ng-class="((userForm.username.$dirty&&userForm.username.$invalid)||invalidName)&&usernameBlur?'error':''">
+                        <input type="text" class="form-control w320 username"
+                               name="username" id="username" required autofocus
+                               maxlength="32" minlength="3"
+                               autocomplete="off"
+                               ng-model="teamUser.username"
+                               ng-blur="usernameBlurFun();"
+                               ng-focus="usernameBlur=false"
+                               ng-disabled="adminUser">
+                        <span ng-if="!invalidName" class="hint-span">{{'team.validUsername'|translate}}</span>
+                        <span ng-if="invalidName" class="hint-span">{{invalidNameMsg|translate}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-sm-3 control-label">{{'label.password'|translate}}*</label>
+
+                    <div class="col-sm-9"
+                         ng-class="((userForm.password.$dirty&&passwordBlur&&userForm.password.$invalid)||(teamUser.username&&teamUser.username==teamUser.password)||invalidPassword)&&invitePasswordBlur?'error':''">
+                        <input type="password" class="form-control w320 password"
+                               name="password" id="password" required
+                               maxlength="30" minlength="8"
+                               autocomplete="off"
+                               ng-model="teamUser.password"
+                               ng-pattern="/^(?![^A-Za-z]+$)(?![^0-9]+$)[\x21-\x7e]{8,30}$/"
+                               ng-keydown="(passwordKeydown($event)&&(isEdit&&firstEdit?editPassword():''))"
+                               ng-blur="passwordBlurFun()"
+                               ng-focus="passwordBlur=false">
+                        <span class="hint-span"
+                              ng-if="invalidPassword || userForm.password.$invalid&&!userForm.password.$error.required">{{'invalid.strongPass'|translate}}</span>
+                        <span class="hint-span" ng-if="teamUser.username&&teamUser.username==teamUser.password">{{'invalid.sameNameAndPass'|translate}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inviteEmail" class="col-sm-3 control-label">{{'label.email'|translate}}</label>
+
+                    <div class="col-sm-9"
+                         ng-class="((userForm.inviteEmail.$dirty&&userForm.inviteEmail.$invalid)||invalidEmail)&&inviteEmailBlur?'error':''">
+                        <input type="email" class="form-control w320"
+                               name="inviteEmail" id="inviteEmail"
+                               autocomplete="off"
+                               ng-model="teamUser.email"
+                               ng-blur="emailBlurFun()"
+                               ng-focus="inviteEmailBlur=false">
+                        <span ng-if="!invalidEmail" class="hint-span">{{'invalid.email'|translate}}</span>
+                        <span ng-if="invalidEmail" class="hint-span">{{invalidEmailMsg|translate}}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'label.privilege'|translate}}*</label>
+
+                    <div class="col-sm-9">
+                        <div style="width: 120px;height: 32px;">
+                            <ui-select ng-model="teamUser.role" theme="bootstrap" ng-disabled="!rootAdmin||adminUser">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                                    {{"team."+$select.selected|translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="role in roles">{{"team."+role|translate}}</ui-select-choices>
+                            </ui-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group special-radio">
+                    <label class="col-sm-3  control-label">{{'label.privilegeStatus'|translate}}*</label>
+
+                    <div class="col-sm-9 account-status" ng-class="!rootAdmin||adminUser?'disable':''">
+                        <label class="radio-inline">
+                            <input type="radio" name="inlineRadioOptions" value="enabled"
+                                   ng-model="teamUser.privilegeStatus" ng-disabled="!rootAdmin||adminUser">{{'enum.enable'|translate}}
+                            <p><span ng-show="teamUser.privilegeStatus=='enabled'"></span></p>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="inlineRadioOptions" value="disabled"
+                                   ng-model="teamUser.privilegeStatus" ng-disabled="!rootAdmin||adminUser">{{'enum.disable'|translate}}
+                            <p><span ng-show="teamUser.privilegeStatus=='disabled'"></span></p>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username" class="col-sm-3 control-label">{{'label.location'|translate}}</label>
+
+                    <div class="col-sm-9">
+                        <input type="text" name="location" class="form-control w320"
+                               ng-model="teamUser.address" ng-maxlength="32" maxlength="32" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="username" class="col-sm-3 control-label">{{'label.telephone'|translate}}</label>
+
+                    <div class="col-sm-9"
+                         ng-class="userForm.tel.$dirty&&telBlur&&userForm.tel.$invalid?'error':''">
+                        <input type="tel" name="tel" class="form-control w320"
+                               ng-model="teamUser.phone" ng-pattern="/^\+?[0-9|\s*]{1,}$/" autocomplete="off"
+                               ng-blur="telBlur=true"
+                               ng-focus="telBlur=false">
+                        <span class="hint-span">{{'invalid.invalid'|translate}}</span>
+                    </div>
+                </div>
+                <div class="form-group mgb0">
+                    <label class="col-sm-3 control-label">{{'label.description'|translate}}</label>
+
+                    <div class="col-sm-9">
+                        <textarea cols="50" rows="2" name="desc" class="form-control w320"
+                                  maxlength="255" autocomplete="off"
+                                  ng-model="teamUser.desc"
+                                  ng-maxlength="255">
+                        </textarea>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-common" type="button" ng-click="Invite()"
+                    ng-disabled="userForm.$invalid||userForm.password.$invalid ||teamUser.username==teamUser.password">
+                {{'common.'+buttonName|translate}}
+            </button>
+            <button class="btn btn-cancel" type="button" ng-click="cancel()">{{'common.cancel'|translate}}</button>
+        </div>
+    </script>
+</div>

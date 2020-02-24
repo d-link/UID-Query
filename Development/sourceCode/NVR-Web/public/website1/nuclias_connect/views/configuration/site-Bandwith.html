@@ -1,0 +1,124 @@
+<form name="bandwidthForm">
+<div style="border: 1px solid #eee;border-radius: 4px 4px 0px 0px;padding: 24px;">
+    <div class="mgb8 clear">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.enableBO' | translate}}</label>
+            <div class="col-sm-4">
+                <div style="width: 100px;height: 32px;">
+                    <ui-select ng-model="bandShowData.status" theme="bootstrap" on-select="bandChange()">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.able' + $select.selected | translate}}</ui-select-match>
+                        <ui-select-choices repeat="item in statuses">{{'configuration.able' + item | translate}}</ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.downlink' | translate}}&nbsp;{{'label.bandwidth' | translate}}</label>
+            <div class="col-sm-9" ng-class="bandShowData.status==1&&bandwidthForm.downBandwidth.$dirty&&bandwidthForm.downBandwidth.$invalid?'error':''">
+                <input type="text" style="display: inline-block" name="downBandwidth" class="form-control w100 mgr8" ng-disabled="bandShowData.status==0" ng-model="bandShowData.downlinkBW" maxlength="4" ng-keydown="numberKeydown($event)" ng-keyup="ruleKeyup('downSpeed')" ng-pattern="/^(1300)|^(1[0-2]\d{2})|^([1-9]\d{0,2})$/" required>
+                <label class="control-label">{{'configuration.bps2' | translate}}</label>
+                <span class="hint-span">{{'invalid.bandWidth'|translate}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.uplink' | translate}}&nbsp;{{'label.bandwidth' | translate}}</label>
+            <div class="col-sm-9" ng-class="bandShowData.status==1&&bandwidthForm.upBandwidth.$dirty&&bandwidthForm.upBandwidth.$invalid?'error':''">
+                <input type="text" style="display: inline-block" name="upBandwidth" class="form-control w100 mgr8" ng-disabled="bandShowData.status==0" ng-model="bandShowData.uplinkBW" maxlength="4" ng-keydown="numberKeydown($event)" ng-keyup="ruleKeyup('upSpeed')" ng-pattern="/^(1300)|^(1[0-2]\d{2})|^([1-9]\d{0,2})$/" required>
+                <label class="control-label">{{'configuration.bps2' | translate}}</label>
+                <span class="hint-span">{{'invalid.bandWidth'|translate}}</span>
+            </div>
+        </div>
+    </div>
+    <div>
+        <label class="title">{{'configuration.band.addBORule' | translate}}</label>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.ruleType' | translate}}</label>
+            <div class="col-sm-4">
+                <div style="width: 320px;height: 32px;">
+                    <ui-select ng-model="temporary.type" theme="bootstrap" ng-disabled="bandShowData.status==0">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.band.type' + $select.selected | translate}}</ui-select-match>
+                        <ui-select-choices repeat="item in ruleTypes">{{'configuration.band.type' + item | translate}}</ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.band' | translate}}</label>
+            <div class="col-sm-4">
+                <!-- <input type="text" class="form-control" ng-disabled="bandShowData.status=='disabled'"> -->
+                <div style="width: 100px;height: 32px;">
+                    <ui-select ng-model="temporary.band" theme="bootstrap" ng-disabled="bandShowData.status==0||editRuleStatus" >
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.band' + $select.selected | translate}}</ui-select-match>
+                        <ui-select-choices repeat="item in bands ">{{'configuration.band' + item | translate}}</ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.ssidIndex' | translate}}</label>
+            <div class="col-sm-4">
+                <!-- <input type="text" class="form-control" ng-disabled="bandShowData.status=='disabled'"> -->
+                <div style="width: 100px;height: 32px;">
+                    <ui-select ng-model="temporary.ssidIndex" theme="bootstrap" ng-disabled="bandShowData.status==0||editRuleStatus">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.band.ssid'+ $select.selected | translate}}</ui-select-match>
+                        <ui-select-choices repeat="item in ssidIndexs ">{{'configuration.band.ssid'+ item | translate}}</ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.downlink' | translate}}&nbsp;{{'label.speed' | translate}}</label>
+            <div class="col-sm-9" ng-class="bandShowData.status==1&&(bandwidthForm.downSpeed.$invalid||error.downSpeed)?'error':''">
+                <input type="text"  name="downSpeed" class="form-control w100 pull-left" ng-disabled="bandShowData.status==0" ng-model="temporary.downSpeed" maxlength="6"  ng-keydown="numberKeydown($event)" ng-keyup="ruleKeyup('downSpeed')" ng-pattern="/^(1300000)|^(1[0-2]\d{2})|^([1-9]\d{0,5})$/" required>
+                <div style="width: 100px;height: 32px;float: left;margin-left: 8px;">
+                    <ui-select ng-model="temporary.downSpeedType" theme="bootstrap" ng-disabled="bandShowData.status==0" ng-change="ruleKeyup('downSpeed')">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.bps' + $select.selected | translate}}</ui-select-match>
+                        <ui-select-choices repeat="item in speedTypes">{{'configuration.bps' + item | translate}}</ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="clear"></div>
+                <span class="hint-span">{{'invalid.downlinkSpeed'|translate}}{{(bandShowData.downlinkBW?bandShowData.downlinkBW:1300)*(temporary.downSpeedType==1?1000:1)}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">{{'label.uplink' | translate}}&nbsp;{{'label.speed' | translate}}</label>
+            <div class="col-sm-9" ng-class="bandShowData.status==1&&(bandwidthForm.upSpeed.$invalid||error.upSpeed)?'error':''">
+                <input type="text" name="upSpeed" class="form-control w100 pull-left" ng-disabled="bandShowData.status==0" ng-model="temporary.upSpeed" maxlength="6" ng-keydown="numberKeydown($event)" ng-keyup="ruleKeyup('upSpeed')" ng-pattern="/^(1300000)|^(1[0-2]\d{2})|^([1-9]\d{0,5})$/" required>
+                <div style="width: 100px;height: 32px;float: left;margin-left: 8px;">
+                    <ui-select ng-model="temporary.upSpeedType" theme="bootstrap" ng-disabled="bandShowData.status==0"  ng-change="ruleKeyup('upSpeed')">
+                        <ui-select-match placeholder="{{'common.pickone'|translate}}">{{'configuration.bps' + $select.selected | translate}}</ui-select-match>
+                        <ui-select-choices repeat="item in speedTypes">{{'configuration.bps' + item | translate}}</ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="clear"></div>
+                <span class="hint-span">{{'invalid.uplinkSpeed'|translate}}{{(bandShowData.uplinkBW?bandShowData.uplinkBW:1300)*(temporary.upSpeedType==1?1000:1)}}</span>
+            </div>
+        </div>
+        <div class="form-group mgb0" ng-class="addRuleResult.isError?'error':''">
+            <div class="col-sm-offset-3 col-sm-4" style="width: 240px;" ng-if="hasPrivilege">
+                <div class="pull-right">
+                    <button class="btn btn-common pull-left mgr8" ng-if="editRuleStatus" ng-disabled="bandShowData.status==0||bandwidthForm.$invalid||error.downSpeed||error.upSpeed" ng-click="saveRule()">{{'common.save'|translate}}</button>
+                    <button class="btn btn-common pull-left mgr8" ng-if="!editRuleStatus" ng-disabled="bandShowData.status==0||bandwidthForm.$invalid||error.downSpeed||error.upSpeed" ng-click="addRule()">{{'common.add'|translate}}</button>
+                    <button class="btn btn-cancel pull-left" ng-disabled="bandShowData.status==0" ng-click="resetting()">{{'common.clear'|translate}}</button>
+                </div>
+            </div>
+            <span class="hint-span" style="margin-top:8px;">{{addRuleResult.msg|translate}}</span>
+        </div>
+    </div>
+</div>
+<div style="border: 1px solid #eee;border-top: none;border-radius: 0px 0px 4px 4px;margin-bottom: 24px;">
+    <!-- <label class="title">Bandwidth Optimization Rules</label> -->
+    <div id="optimizationGrid" ui-grid="optimizationOption"  class="grid remove-last-btn" ui-grid-auto-resize ui-grid-resize-columns >
+
+        <nodata-directive ng-show="optimizationOption.data.length == '0'" desc="{{'common.noData'|translate}}"small="true"></nodata-directive>
+    </div>
+</div>
+<div class="form-group" ng-if="hasPrivilege">
+    <div class="col-sm-offset-3 col-sm-9">
+        <button class="btn btn-common pull-right" ng-click="save()" ng-disabled="bandShowData.status==1&&bandwidthForm.$invalid">{{'common.save'|translate}}</button>
+        <span class="hint-span state processing-msg" ng-show="state.band.processing"><img src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+        <span class="hint-span state success-msg" ng-show="state.band.isSuccess">{{state.band.msgTrue|translate}}</span>
+        <span class="hint-span state error-msg" ng-show="state.band.isError">{{state.band.msgFalse|translate}}</span>
+    </div>
+</div>
+</form>

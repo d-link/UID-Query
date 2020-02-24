@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-controller="GlobalController">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title ng-bind="title|translate" class="titleDecide"></title>
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="public/vendor/angular-ui-select/select.min.css">
+    <link rel="stylesheet" href="public/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="public/styles/main.css">
+    <link rel="stylesheet" href="../public/styles/dnh-login.css">
+    <link rel="stylesheet" href="public/styles/theme.css">
+    <link rel="stylesheet" href="public/styles/special.css">
+    <link rel="stylesheet" href="public/vendor/angular-block-ui/dist/angular-block-ui.min.css">
+    <!--<script data-main="main-build.js" src="public/vendor/requirejs/require.js"></script>-->
+    <script data-main="main.js" src="public/vendor/requirejs/require.min.js"></script>
+</head>
+<body ng-cloak ng-class="hold-transition">
+<div class="wrapper">
+    <div  ui-view></div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+{
+  "SOID": "1.3.6.1.4.1.171.11.124.2",
+  "DevL1Class": "Wireless Switch",
+  "DevL2Class": "Wireless Switch",
+  "ModuleType": "DWS-3160-24PC",
+  "Vendor": "D-Link",
+  "Commands": {
+    "PortInfo": "public",
+    "SystemInfo": "public",
+    "RFManagement": {},
+    "SNMPTrap": {},
+    "lldpStatus": {
+      "version":"lldpStatus_Port"
+    },
+    "telnetStatus": {}
+  },
+  "customized": {}
+}

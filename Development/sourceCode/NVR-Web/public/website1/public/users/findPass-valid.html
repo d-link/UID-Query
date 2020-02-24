@@ -1,0 +1,21 @@
+<div class="row forgot-valid">
+    <div class="col-md-9" ng-class="InvalidCaptcha?'error':''">
+        <input type="text" name="email" required placeholder="{{'login.captcha'|translate}}"
+               ng-model="userInfo.validCode" class="form-control" autocomplete="off">
+        <span class="hint-span">{{'invalid.captchaError'|translate}}</span>
+    </div>
+    <div class="col-md-3">
+        <button type="button" class="btn btn_login resetCode" ng-disabled="time!=''" ng-click="resetCode()">
+            <span ng-hide="time!=''">{{'login.forgot.re'|translate}}</span><span ng-show="time!=''">{{time}}s</span>
+        </button>
+    </div>
+</div>
+<div class="row">
+    <span class="forgot-colorfff">{{'login.forgot.step2_1'|translate}}&nbsp;"<span>{{userInfo.email}}</span>",<br>{{'login.forgot.step2_2'|translate}}</span>
+</div>
+<div class="row">
+    <!--  <button type="submit" class="btn btn_login" ng-click="login();">Send Email</button>-->
+    <button type="submit" class="btn btn_login" ng-click="checkCode();" ng-disabled="forgotStates.userInfo.btnDisabled">
+        {{'login.next'|translate}}
+    </button>
+</div>

@@ -1,0 +1,97 @@
+<aside id="main-sidebar" style="width: 58%;" class="main-sidebar" ng-mouseover="showMenu();" ng-mouseleave="hideMenu();">
+    <!-- sidebar: style can be found in sidebar.less  -->
+    <section id="mainSidebarMenu" class="sidebar scrollable"  ng-mouseover="showScroll();" ng-mouseleave="hideScroll();">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+
+            <li ng-class="sub.Active?'treeview active':'treeview'" ng-click="changeMenu();">
+                <a style="width: 100%;">
+                    <i class="glyphicon glyphicon-remove"
+                       style="color: #ffffff;font-size: 0.9rem;margin-top: -1.5px;margin-left: 5px;">
+                   </i>
+                </a>
+            </li>
+            <!--  一级-->
+            <li ng-class="sub.Active?'treeview active':'treeview'"
+                ng-if="sub.id!=='home'&&sub.id!=='logout'"
+                ng-repeat="sub in moudle">
+                <a ng-if="!sub.moudles"
+                   style="width: 100%;"
+                   ui-sref="user.org.detail({moudleId:sub.id})"
+                   ng-click="showSub(sub.id);">
+                    <img ng-src="{{sub.icons}}" class="menu-icons"/>
+                    <span class="menu-font">{{'menu.'+sub.id|translate}}</span>
+                </a>
+                <a  ng-if="sub.moudles"
+                    style="width: 100%;"
+                    ng-click="openSub(sub.id);">
+                    <img ng-src="{{sub.icons}}" class="menu-icons"/>
+                    <span class="menu-font" ng-if="sub.id!='configuration'">{{'menu.'+sub.id|translate}}</span>
+                    <span class="menu-font" ng-if="sub.id=='configuration'">{{'newmenu.'+sub.id|translate}}</span>
+                    <!-- <span class="menu-font">{{'menu.'+sub.id|translate}}</span> -->
+                </a>
+
+                <ul class="treeview-menu clear"
+                    style="width: 100%;"
+                    ng-if="sub.moudles"
+                    ng-style="{'height': sub.isOpen&&!isHide ? 'auto' : '0px',
+                              'padding': sub.isOpen&&!isHide ? '4px 0px' : '0px',
+                              'border-top': sub.isOpen&&!isHide ? '1px solid #444' : '0px solid #444'}">
+
+                    <!--二级菜单-->
+                    <li ng-class="sub1.Active?'active':''"
+                        ng-repeat="sub1 in sub.moudles"
+                        style=" position:relative;
+                                display: flex;
+                                flex-flow: row wrap;
+                                align-items: center;
+                                height: 1.3rem;">
+
+                    <a ng-if="!sub1.moudles"
+                       style="width: 100%;"
+                       ui-sref="user.org.subdetail({moudleId:sub1.id,parentId:sub.id})"
+                       ng-click="showSub(sub1.id);">
+                            <span class="menu-font">  {{'menu.'+sub1.id|translate}}</span>
+                    </a>
+
+                    </li>
+                </ul>
+            </li>
+
+            <!--分割线-->
+            <div class="side-line"></div>
+                <li ng-class="sub.Active?'treeview active':'treeview'"
+                    ng-if="sub.id=='home'||sub.id=='logout'"
+                    ng-repeat="sub in moudle">
+                    <a ng-if="!sub.moudles"
+                    style="width: 100%;"
+                    ui-sref="user.org.detail({moudleId:sub.id})"
+                    ng-click="goHomeOrgoOut(sub.id);">
+                        <img ng-src="{{sub.icons}}" class="menu-icons"/>
+                        <!-- <span class="menu-font">{{sub.menuName}}</span> -->
+                        <span ng-if="sub.id=='home'" class="menu-font">{{'menu.'+sub.id|translate}}</span>
+                        <span ng-if="sub.id=='logout'" class="menu-font">{{'nav.'+sub.id|translate}}</span>
+                    </a>
+                </li>
+
+            </li>
+
+        </ul>
+        </li>
+        </ul>
+
+    </section>
+    <!--app title-->
+    <div class="app-menu-title">
+        <span>{{version}}</span>
+    </div>
+</aside>
+<div class="content-wrapper" ng-click="closeLeftMenu()">
+    <section class="content">
+        <div ui-view="contentView"></div>
+    </section>
+</div>
+
+<!-- /.control-sidebar -->
+<!-- Add the sidebar's background. This div must be placed
+     immediately after the control sidebar -->

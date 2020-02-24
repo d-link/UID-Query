@@ -1,0 +1,361 @@
+.hotTime-content{
+    position: relative;
+    height: auto;
+    background: #ffffff;
+}
+.hotTime-containner{
+    padding: 0px 0px 0px;
+    position:relative;
+    z-index: 2;
+    border-bottom: double 1px #EFEFEF;
+}
+.hotTime-mostClients{
+    border-right: double 1px #EFEFEF;
+	border-bottom: double 1px #EFEFEF;
+	display:flex;
+	flex-flow:row wrap;
+	justify-content: center
+}
+.hotTime-mostClients-title{
+    background: #e4e4e4;
+    position: absolute;
+    width: 100%;
+    text-align: left;
+    height: 30px;
+    line-height: 30px;
+}
+.hotTime-mostClients-title>span{
+    height: 30px;
+    margin-left: 15px;
+}
+.hotTime-mostClients-chart{
+    position: relative;
+    background-color:#ffffff;
+    padding: 16px;
+    width: 100%;
+    border-bottom: 1px solid #cccccc;
+}
+
+.dropdown-menu{
+    padding:0;
+    margin:0;
+    /* min-width: 12rem; */
+    /* min-width: 75vw; */
+}
+.open > .dropdown-menu{
+    -moz-box-shadow: 1px 5px 10px RGBA(0,0,0,0.3);
+    -webkit-box-shadow: 1px 5px 10px RGBA(0,0,0,0.3);
+    box-shadow: 1px 5px 10px RGBA(0,0,0,0.3);
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
+.dropdown-containner{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    width: 100%;
+    margin-right: 100px;
+}
+.dropdown-containner-title{
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    background-color: RGB(23,38,100);
+    width: 100%;
+}
+.dropdown-containner-title>span{
+    height: 1.5rem;
+    font-size: 0.6rem;
+    color: #ffffff;
+}
+.dropdown-containner-content{
+    width: 100%;
+    padding: 2% 5% 5%;
+}
+.dropdown-containner-content-select{
+    width: 100%;
+    margin-top: 5%;
+}
+.dropdown-containner-content-title-left{
+    margin-top: 5%;
+}
+.dropdown-containner-content-title-left>span{
+    color:#000000;
+    font-size: 0.6rem;
+}
+.dropdown-containner-content-arroundbox{
+    margin-top: 5%;
+    /* 下面的grid布局有的手机不兼容，如华为 */
+    /* display: grid;
+    grid-template-columns: 47% 4% 47%;
+    grid-column-gap: 0.13rem; */
+}
+.dropdown-containner-content-arroundbox>span{
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.2rem;
+}
+
+.dropdown-containner-content-footer{
+    /* margin-top: 10px; */
+    /* padding: 20px; */
+    /* margin-top: 20px; */
+    margin-top: 1.2rem;
+    padding: 0px;
+    /* 下面的grid布局有的手机不兼容，如华为 */
+    /* display: grid;
+    grid-template-columns: 47% 4% 47%;
+    grid-column-gap: 0.13rem; */
+
+    /* 下面的flex布局兼容性比grid好 */
+    display: flex;
+    justify-content: center;
+}
+.dropdown-containner-content-footer>div{
+    text-align: center;
+    background-color:RGB(23,38,100);
+    border-radius: 5px;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    min-width: 5rem;
+}
+.dropdown-containner-content-footer>div:active{
+    background-color:RGB(175,203,32);
+}
+.dropdown-containner-content-footer>div>span{
+    height: 1.5rem;
+    color: #ffffff;
+    font-size: 0.6rem;
+}
+.dropdown>button{
+    background: #192860;
+}
+.btn-cancel:hover{
+    background: #192860;
+}
+.pull-right:hover{
+    background-color: #192860;
+}
+
+.pull-right:active:hover, 
+.pull-right.active:hover, .open > 
+.dropdown-toggle.pull-right:hover, 
+.pull-right:active:focus, 
+.pull-right.active:focus, .open > 
+.dropdown-toggle.pull-right:focus, 
+.pull-right:active.focus, 
+.pull-right.active.focus, .open > 
+.dropdown-toggle.pull-right.focus{
+    background: #b5c947;
+}
+.pull-right:active, .pull-right.active, .open > .dropdown-toggle.pull-right{
+    background: #b5c947;
+}
+
+.hotApTime{
+    margin-top: 0.1rem;
+    text-align: center;
+}
+.hotApFooter{
+    margin-top: 0.1rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.ui-select-bootstrap .ui-select-toggle > .caret{
+    width: 1.2rem;
+    height: 1.2rem;
+    top: 0.2rem;
+    right: 0;
+    background: none;
+    background-image: url(../../appSite/images/dropdown.svg);
+}
+#LHSelectDate .ui-select-toggle > .caret{
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 0.06rem;
+    right: 2px;
+    background: none;
+    background-image: url(../../appSite/images/appIcons/icon_cal.svg);
+}
+#LHSelectTime .ui-select-toggle > .caret{
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 0.06rem;
+    right: 2px;
+    background: none;
+    background-image: url(../../appSite/images/appIcons/icon_clock.svg);
+}
+
+label.checkLabel p{
+    position: relative;
+}
+.hotap-selectap{
+    width:100%;
+    background: rgb(244,244,244);
+    padding: 0.5rem;
+}
+.hotap-selectap>ul{
+    list-style: none;
+    font-size: 12px;
+}
+.hotap-title{
+    width: 100%;
+    text-align: left;
+}
+.hotap-title>span{
+    font-weight: bold;
+    font-size: 0.6rem;
+}
+.hotAp-checkLabel{
+    margin-top: 10px;
+    width: 100%;
+    position: relative;
+    margin-bottom: 0px;
+    min-height: 15px;
+    line-height: 15px;
+    padding-left: 12px;
+    color: #444;
+    font-weight: normal;
+}
+
+.hotAp-checkLabel p{
+    margin: 0px;
+    left: 0px;
+    top: 0px;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+
+.box-dashboard-header{
+    border-left:1px solid #ccc;
+    border-right:1px solid #ccc;
+    border-top:1px solid #ccc;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    padding-left: 0;
+    background: #ffffff;
+	display: flex;
+    flex-flow: row nowrap;
+	align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #192860;
+    height: 2rem;
+}
+.box-dashboard-header>span{
+    margin-left: 5%;
+    font-size: 0.5rem;
+    color: RGB(23,38,100);
+}
+.wireless .subpage{
+   height: 3.4rem;
+}  
+.subpage{
+    border-radius: 4px !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background-color: #fff;
+}
+.dashboard-info{
+    display: grid;
+	grid-template-rows: repeat(2,1fr);
+    grid-template-columns: repeat(2,1fr);
+    font-size: 12px
+}
+.wireless .subpage div.wireless-info{
+    top:1rem;
+}
+.wireless .subpage div.wireless-info>a{
+    font-size: 1.3rem;
+}
+.wireless .subpage div.wireless-info > a{
+    margin-bottom: 0px;
+}
+
+.info:hover span, .color-violet{
+    color: #607896 !important;
+}
+.info:hover span, .color-violet:hover{
+    color: RGB(175,203,32) !important
+}
+.warning:hover span, .color-orange:hover{
+    color: RGB(230,24,90) !important;
+}
+.warning:hover span, .color-orange{
+    color: #22b7db !important;
+}
+.skin-green .title-im{
+    /* color:RGB(23,38,100); */
+    color:#f59d24 !important
+}
+.color-blue{
+    color: RGB(175,203,32) !important;
+}
+.mgb24{
+    margin-bottom: 0.2rem !important;
+}
+.caption {
+    border-radius: 0;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    -moz-box-shadow: 0;
+    -webkit-box-shadow: 0;
+    box-shadow:none;
+    position:relative;
+    border: 1px solid #ccc !important;
+    background-color: #ffffff;
+    box-sizing: content-box;
+}
+.hot-ap-title{
+    margin-left: 7%;
+    margin-top: 7%;
+	color:RGB(23,38,100);
+	font-size: 0.5rem;
+    font-family: Helvetica, "Helvetica LT Light", "Helvetica Neue", HeliosThin, Verdana, "sans-serif", "Arial Unicode MS", "微軟正黑體", "Adobe 黑体 Std R";
+}
+.hot-ap-point-text{
+    text-align: center;
+    margin-top: 0.6rem;
+    font-size: 0.6rem;
+}
+.wireless .subpage > md-icon{
+    bottom: 0;
+    top: 0.45rem;
+}
+.col-md-6{
+    display:flex;
+    flex-flow:row wrap;
+    justify-content: center;
+}
+
+.select-timeDay-48 {
+    width:48%;
+    float:left;
+}
+.select-timeInterval {
+    float:left;
+    margin:0.18rem 0 0.1rem 0.1rem;
+    font-size:0.8rem;
+}
+.select-timeHour-47 {
+    width:47%;
+    float:left;
+    margin-left: 0.1rem;
+}
+
+.select-timeDay-first-49 {
+    width:49%;
+    float:left;
+}
+.select-timeDay-second-49 {
+    width:49%;
+    float:left;
+    margin-left:0.1rem;
+}

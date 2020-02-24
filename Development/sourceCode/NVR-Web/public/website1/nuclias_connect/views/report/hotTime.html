@@ -1,0 +1,145 @@
+<div ng-controller="hotTimeController" class="bg-fafafa clear subpage device-manage site">
+
+    <div class="set-height content-content" style="overflow: auto">
+
+        <div class="col-md-12 mgb16" style="padding-top: 16px;display: inline-block;">
+            <div class="pull-left"
+                 style="height: 32px;line-height:32px;display: inline-block;">
+                <p style="color:#444444;font-size: 12px">{{'report.hotTimeTitle'|translate}}</p>
+            </div>
+            <div class="pull-left"
+                 style="width: 172px;height: 32px;display: inline-block;margin-left: 16px">
+                <ui-select ng-model="hotTime.site" theme="bootstrap"
+                           on-select="changeSite($index,$item);">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">
+                        {{$select.selected.siteName|translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="site in optionSites">{{site.siteName|translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="pull-left"
+                 style="width: 172px;height: 32px;display: inline-block;margin-left: 8px">
+                <ui-select ng-model="hotTime.network" theme="bootstrap">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name|translate}}
+                    </ui-select-match>
+                    <ui-select-choices repeat="net in hotTime.site.networks">{{net.name|translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="pull-left" style="height: 32px;display: inline-block;margin-left: 8px;">
+                <button class="btn btn-cancel" style="padding: 8px;"
+                        ng-click="searchHottimeDiagram(true)" title="{{'title.search' | translate}}">
+                    <md-icon md-svg-icon="user:view"></md-icon>
+                </button>
+            </div>
+            <div class="pull-left"
+                 style="height: 32px;line-height:32px;display: inline-block;margin-left: 16px;">
+                <p style="color:#444444;font-size: 12px">{{dayRange}}</p>
+            </div>
+            <button class="btn btn-common pull-right" ng-click="export2PDF()" ng-disabled="exporting"
+                    title="{{'report.exportPdf'|translate}}">
+                <md-icon md-svg-icon="user:_export"></md-icon>
+            </button>
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="caption">
+                <div class="box-header">
+                    <h3>{{'report.hotTimeChartTitle1'|translate}}</h3>
+
+                    <div class="pull-right" style="margin-right: 32px" ng-if="!showSetClients">
+                        <a ng-click="showClientSet();" title="{{'common.modify'|translate}}">
+                            <md-icon md-svg-icon="user:edit"></md-icon>
+                        </a>
+
+                        <h3>{{'report.threshold'|translate}}: <span class="color-orange-title">{{hotTime.uniqueClients.threshold}}</span>
+                        </h3>
+
+                        <h3 style="margin-left: 16px">{{'report.probability'|translate}}: <span
+                                class="color-orange-title">{{hotTime.uniqueClients.probability}}% </span></h3>
+                    </div>
+                    <div class="pull-right"
+                         style="margin-right: 1px; margin-top: 1px; height: 38px; padding:4px;padding-left:16px;border: 1px solid #e7e7e7; border-radius: 3px;background: #fff"
+                         ng-if="showSetClients">
+                        <form name="uniqueClientsForm">
+                            <span>{{'report.threshold'|translate}}:</span>
+                            <input type="number"
+                                   ng-model="set.uniqueClientsThreshold" class="form-control" required
+                                   style="display: inline-block; height: 28px;width: 60px;margin-left: 8px;" step="1"
+                                   min="0" max="65535"
+                                   title="0~65535"
+                                   ng-pattern="/^[1-9]\d*$/">
+                            <button class="btn btn-cancel" ng-click="saveClientSet()"
+                                    title="{{'common.save'|translate}}"
+                                    ng-disabled="uniqueClientsForm.$invalid"
+                                    style="height: 28px;width:32px;padding: 6px;margin-left: 4px;">
+                                <md-icon md-svg-src="/public/images/save_16.svg" style="color: #fff"></md-icon>
+                            </button>
+                            <md-icon md-svg-icon="modal:close" style="margin-left: 8px"
+                                     ng-click="cancelClientSet();"></md-icon>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="box-content" style="height: 320px;">
+                    <div class="box-content" style="position: relative;height: 252px;">
+                        <div id="mostClientsDiv" scatter-chart options="MostClientsHotTimeCharts.options" size="size"
+                             theme="theme" style="position: absolute;left: 0px;top: 0px;"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 mgb24">
+            <div class="caption">
+                <div class="box-header">
+                    <h3>{{'report.hotTimeChartTitle2'|translate}}</h3>
+
+                    <div class="pull-right" style="margin-right: 32px" ng-if="!showSetTraffic">
+                        <a ng-click="showTrafficSet();" title="{{'common.modify'|translate}}">
+                            <md-icon md-svg-icon="user:edit"></md-icon>
+                        </a>
+
+                        <h3>{{'report.threshold'|translate}}: <span class="color-orange-title">{{hotTime.trafficUsage.threshold}}&nbsp{{hotTime.trafficUsage.thresholdUnit}}</span>
+                        </h3>
+
+                        <h3 style="margin-left: 16px">{{'report.probability'|translate}}: <span
+                                class="color-orange-title">{{hotTime.trafficUsage.probability}}%</span></h3>
+                    </div>
+                    <div class="pull-right"
+                         style="margin-right: 1px; margin-top: 1px; height: 38px; padding:4px;padding-left:16px;border: 1px solid #e7e7e7; border-radius: 3px;background: #fff"
+                         ng-if="showSetTraffic">
+                        <form name="trafficUsageForm">
+                            <span>{{'report.threshold'|translate}}:</span>
+                            <input type="number" ng-model="set.trafficUsageThreshold" class="form-control"
+                                   style="display: inline-block; height: 28px;width: 60px;margin-left: 8px;" step="0.01"
+                                   min="0" max="65535"
+                                   required
+                                   title="0~65535" ng-pattern="/^[0-9]+([.]{1}[0-9]{1,2})?$/">
+                            <select ng-model="set.trafficUsageThresholdUnit" ng-options="x for x in unitTypes"
+                                    style="height: 28px;width: 60px;border-color: #ddd;border-radius: 4px">
+                            </select>
+                            <button class="btn btn-cancel" ng-click="saveTrafficSet()"
+                                    title="{{'common.save'|translate}}"
+                                    style="height: 28px;width:32px;padding: 6px;margin-left: 4px;"
+                                    ng-disabled="trafficUsageForm.$invalid">
+                                <md-icon md-svg-src="/public/images/save_16.svg" style="color: #fff"></md-icon>
+                            </button>
+                            <md-icon md-svg-icon="modal:close" style="margin-left: 8px"
+                                     ng-click="cancelTrafficSet();"></md-icon>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="box-content" style="height: 320px;">
+                    <div class="box-content" style="position: relative;height: 252px;">
+                        <div id="mostTrafficDiv" scatter-chart options="MostTrafficUsageCharts.options" size="size"
+                             theme="theme" style="position: absolute;left: 0px;top: 0px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

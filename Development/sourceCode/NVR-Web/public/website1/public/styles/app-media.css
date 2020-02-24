@@ -1,0 +1,1746 @@
+/*表格筛选按钮 base*/
+.ui-grid-menu-button{
+    z-index: 9999;
+    background-color: RGB(23,38,100);
+    /* top: -1.55rem; */
+    top: -1.6rem;
+    text-align: center;
+    height: 1.4rem;
+    width: 1.65rem;
+}
+.grid-page{
+    background-color: #f5f5f5;
+    margin: -5px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    /* height: 26.5rem; */
+    height: 93vh;
+    margin: -0.1rem -1rem 0.5rem -0.5rem;
+}
+
+.dropdown-menu-right{
+    /* left: -12.4rem;
+    width: 14rem;
+    top: 1.75rem; */
+    left: -80vw;
+    width: 88vw;
+    top: 1.5rem;
+}
+
+#networkTools {
+    /* display: inline-block; */
+    float: right;
+    margin-top: 0.1rem;
+    margin-right: 0.2rem;
+}
+
+#wirTools {
+    position: relative;
+    z-index: 1;
+    margin-right: 2.08rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.35rem;
+}
+#accTools {
+    position: relative;
+    z-index: 1;
+    margin-right: 2.08rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.35rem;
+}
+#logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+    position: relative;
+    z-index: 1;
+    margin-right: 2.08rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.35rem;
+    /*预留样式*/
+    /* margin-top: 0.2rem; */
+}
+.hotTimeSty{
+    display: flex;
+    flex-flow: column wrap;
+    margin-left: 5%;
+    align-items: left;
+}
+.hotTimeSty>span:nth-child(1){
+    font-size: 0.5rem;
+    color: RGB(23,38,100);
+}
+.hotTimeSty>span:nth-child(2){
+    margin-top: 0.3rem;
+    font-size: 0.4rem;
+}
+.hotTimeChartSty1{
+    width: 100%;
+    margin-top: 2%;
+    display: -webkit-flex;/*新版本语法：chrome 21+*/
+    display: flex;/*新版本语法:opera 12.1,Firefox 22+*/
+    flex-flow: column wrap;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.hotTimeChartSty1>div:nth-child(1)>span{
+    font-weight: bold;
+    color: RGB(23,38,100);
+    /* font-size: 0.4rem; */
+}
+.hotTimeChartSty1>div:nth-child(2){
+    margin-top: 1%;
+    display:flex;
+    flex-flow:row wrap;
+}
+.hotTimeChartSty1>div:nth-child(2)>div{
+    background-image: url(../../appSite/images/dropdown.svg);
+    width: 1.2rem;
+    height: 1.2rem;
+}
+.hotTimeChartSty1>div:nth-child(2)>span{
+    font-size: 0.5rem;
+    line-height: 30px;
+}
+.hotTimeChartSty1>div:nth-child(2)>span:nth-child(2){
+    font-size: 0.6rem;
+    color: #ef9212;
+    line-height: 28px;
+}
+.hotTimeChartSty1>div:nth-child(2)>span:nth-child(4){
+    font-size: 0.6rem;
+    color: #ef9212;
+    line-height: 28px;
+}
+.threshold{
+    left: 2rem;
+}
+.Tthreshold{
+    left: 2rem;
+}
+.lastTimeChartTitle{
+    margin-top: 0.2rem;
+    font-size: 0.5rem;
+    font-weight: bold;
+    color: RGB(23,38,100);
+}
+.hotTimeChartTitleC{
+    font-size: 0.5rem;
+}
+.hotTimeChartTitleT{
+    font-size: 0.5rem;
+}
+.hot-ap-title{
+    font-weight: bold;
+    color: RGB(23,38,100);
+    font-size: 0.5rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+.hotApInfo{
+    margin-left: 1rem;
+    display: flex;
+    flex-flow: column wrap;
+}
+.hotApInfo>div{
+    margin-top: 0.2rem;
+}
+.hotApInfo>div>span:nth-child(1){
+    font-size: 0.5rem;
+}
+.hotApInfo>div>span:nth-child(2){
+    font-size: 0.5rem;
+    color: #ef9212;
+}
+#dashboardPage{
+    margin-top:1rem;
+}
+
+/* 配合解决IOS滑动触发Body的滑动用  */
+.noscroll,
+.noscroll body {
+    overflow: hidden;
+}
+.noscroll body {
+    position: relative;
+}
+.main-sidebar .scrollable {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 适配所有 手机屏 */
+@media screen and (min-device-width: 200px) and (max-device-width: 699px) {
+    .grid-page{
+        margin-top: 1.25rem;
+    }
+    .wireless .row {
+        margin-top: 0.65rem;
+    }
+    .dropdown-menu{
+        min-width: 75vw;
+    }
+    .ui-grid-menu-button {
+        top: -1.6rem;
+        text-align: center;
+        height: 1.22rem;
+        width: 1.5rem;
+    }
+    #lastHourDiagramsMenuDropdown{
+        left: -78vw;
+    }
+    #hotTimeMenusDropdown{
+        left: -78vw;
+    }    
+    #hotAPMenusDropdown{
+        left: -78vw; 
+    }
+    #hotHourlyMenusDropdown{
+        left: -78vw;
+    }
+    #hotDailyMenusDropdown{
+        left: -78vw;
+    }
+    #accessPointDropMenu{
+        /* left: -8.4rem;
+        width: 14rem; */
+        left: -68vw;
+        width: 88vw;
+    }
+    #wirelessPointDropMenu{
+        /* left: -10.8rem;
+        width: 14rem; */
+        left: -68vw;
+        width: 88vw;
+    }
+    #networkDropMenu{
+        /* left: -13.5rem;
+        width: 14rem; */
+        left: -80vw;
+        width: 88vw;
+    }
+    #sysLogDropMenu{
+        /* left: -14rem;
+        width: 14rem; */
+        left: -80vw;
+        width: 88vw;
+    }
+    #sysEventLogDropMenu{
+        /* left: -14rem;
+        width: 14rem; */
+        left: -80vw;
+        width: 88vw;
+    }
+}
+@media screen and (min-device-width: 200px) and (max-device-width: 299px) {
+    #networkTools {
+        margin-top: -0.03rem;
+    }
+}
+@media screen and (min-device-width: 300px) and (max-device-width: 320px) {
+    #networkTools {
+        margin-top: 0;
+    }
+}
+
+/*iphone 5/SE */
+@media screen and (device-width: 320px) and (device-height: 568px) {
+    .btn-group > .btn:first-child{
+        width: 1.5rem;
+        height: 1.4rem;
+    }
+
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        top: -1.75rem;
+        text-align: center;
+        height: 1.4rem;
+        width: 1.65rem;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /* height: 27rem; */
+        margin: 1.5rem -0.95rem 0.5rem -0.5rem;
+    }
+    #accTools{
+        margin-top: 0rem;
+        position: relative;
+        z-index: 1;
+        margin-right: 2.1rem;
+        margin-bottom: 0.15rem;
+    }
+    #wirTools {
+        margin-top: 0rem;
+        position: relative;
+        z-index: 1;
+        margin-right: 2.1rem;
+        margin-bottom: 0.15rem;
+    }
+    .wireless .box-content{
+        height: 22rem;
+    }
+
+}
+/*iphone 6/7/8 Plus*/
+@media screen and (device-width: 414px) and (device-height: 736px) {
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        top: -1.45rem;
+        text-align: center;
+        height: 1.25rem;
+        width: 1.55rem;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /* height: 26.5rem; */
+        margin: 1.5rem -0.9rem 0.5rem -0.5rem;
+    }
+    #accTools{
+        margin-bottom: 0.2rem;
+    }
+    #wirTools {
+        margin-bottom: 0.2rem;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+        margin-bottom: 0.2rem;
+    }
+
+    .wireless .box-content{
+        height: 18rem;
+    }
+}
+
+/*iphone XR 、XS Max */
+@media screen and (device-width: 414px) and (device-height: 896px) {
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        top: -1.45rem;
+        text-align: center;
+        height: 1.25rem;
+        width: 1.55rem;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 31rem;
+        margin: 1.5rem -0.9rem -0.2rem -0.5rem;
+    }
+    #accTools{
+        margin-bottom: 0.2rem;
+    }
+    #wirTools {
+        margin-bottom: 0.2rem;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+        margin-bottom: 0.2rem;
+    }
+    .wireless .box-content{
+        height: 20rem;
+    }
+}
+
+/*iphone 6/7/8 */
+@media screen   and (device-width: 375px)  and (device-height: 667px) {
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        top: -1.45rem;
+        text-align: center;
+        height: 1.25rem;
+        width: 1.55rem;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /* height: 26.5rem; */
+        margin: 1.5rem -0.95rem 0.5rem -0.5rem;
+    }
+    #accTools{
+        margin-bottom: 0.18rem;
+    }
+    #wirTools {
+        margin-bottom: 0.18rem;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+        margin-bottom: 0.1rem;
+    }
+    .wireless .box-content{
+        height: 19rem;
+    }
+}
+/*iphone X 、XS  */
+@media screen and (device-width: 375px) and (device-height: 812px) {
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        top: -1.4rem;
+        text-align: center;
+        height: 1.2rem;
+        width: 1.55rem;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 30rem;
+        margin: 1.5rem -0.95rem -0.2rem -0.5rem;
+    }
+    #accTools{
+        margin-bottom: 0.19rem;
+    }
+    #wirTools {
+        margin-bottom: 0.19rem;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+        margin-bottom: 0.1rem;
+    }
+    .wireless .box-content{
+        height: 19rem;
+    }
+}
+/* Pixel 2XL */
+@media screen and (device-width: 411px) and (device-height: 823px) {
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        top: -1.48rem;
+        text-align: center;
+        height: 1.2rem;
+        width: 1.5rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.85rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /* height: 26.5rem; */
+        margin: 1.5rem -0.9rem -0.2rem -0.5rem;
+    }
+    #wirTools{
+        margin-top: 0rem;
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-bottom: 0.2rem;
+    }
+    #accTools{
+        margin-top: 0rem;
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-bottom: 0.2rem;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        margin-top: 0rem;
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+        margin-bottom: 0.2rem;
+    }
+    .wireless .box-content{
+        height: 18rem;
+    }
+}
+/* Pixel 2 */
+@media screen and (device-width: 411px) and (device-height: 731px) {
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        top: -1.5rem;
+        text-align: center;
+        height: 1.22rem;
+        width: 1.5rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.85rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /* height: 26.5rem; */
+        margin: 1.5rem -0.9rem 0.5rem -0.5rem;
+    }
+    #accTools{
+        margin-top: 0rem;
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-bottom: 0.2rem;
+    }
+    #wirTools{
+        margin-top: 0rem;
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-bottom: 0.2rem;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        margin-top: 0rem;
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        /* margin-top: 0.25rem; */
+        margin-bottom: 0.2rem;
+    }
+    .wireless .box-content{
+        height: 18rem;
+    }
+}
+/* Galaxy 5 */
+@media screen and (device-width: 360px) and (device-height: 640px) {
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        text-align: center;
+        width: 1.5rem;
+        top: -1.5rem;
+        height: 1.22rem;
+        /*预留*/
+        /* top: -1.63rem;
+        height: 1.4rem; */
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /* height: 26.5rem; */
+        margin: 1.5rem -0.95rem 0.6rem -0.5rem;
+    }
+    #wirTools{
+        margin-bottom: 0.2rem;
+    }
+    #accTools {
+        margin-bottom: 0.2rem;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.2rem;
+        /* margin-top: 0.2rem; */
+    }
+    .wireless .box-content{
+        height: 20rem;
+    }
+}
+
+@media screen and (device-width: 384px) and (device-height: 640px) {
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        /* height: 26.5rem; */
+        margin: 1.5rem -0.95rem 0.6rem -0.5rem;
+    }
+    #wirTools {
+        margin-top: 0;
+    }
+    #accTools {
+        margin-top: 0;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.20rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+    }
+}
+
+@media screen and (min-device-width: 261px) and (max-device-width: 319px) {
+    .btn-group > .btn:first-child{
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+    .ui-grid-menu-button {
+        top: -1.7rem;
+        text-align: center;
+        height: 1.22rem;
+        width: 1.5rem;
+    }
+    .btn-cancel{
+        padding: 7px 14px;
+    }
+}
+
+@media screen and (min-device-width: 200px) and (max-device-width: 260px) {
+    .btn-group > .btn:first-child{
+        width: 1.3rem;
+        height: 1.2rem;
+    }
+    .ui-grid-menu-button {
+        top: -2.0rem;
+        text-align: center;
+        height: 1.22rem;
+        width: 1.5rem;
+    }
+    .btn-cancel{
+        padding: 7px 14px;
+    }
+}
+
+
+/* 适配所有 大于等于700 平板 */
+@media screen and (min-device-width: 700px) {
+    .grid-page{
+        margin-top: 0rem;
+    }
+    .ui-grid-menu-button {
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        text-align: center;
+        height: 1.25rem;
+        width: 1.5rem;
+    }
+    .dropdown-menu-right{
+        left: auto;
+        width: 75vw;
+    }
+    .dropdown-containner-content{
+        width: 100%;
+        padding: 0 3% 3%;
+    }
+    .dropdown-containner-content-select{
+        width: 100%;
+        margin-top: 3%;
+    }
+    .dropdown-containner-content-title-left{
+        margin-top: 3%;
+    }
+    #lastHourDiagramsMenuDropdown{
+        margin-right: 0.5rem;
+    }
+    #hotTimeMenusDropdown{
+        margin-right: 0.5rem;
+    }    
+    #hotAPMenusDropdown{
+        margin-right: 0.5rem;
+    }
+    #hotHourlyMenusDropdown{
+        margin-right: 0.5rem;
+    }
+    #hotDailyMenusDropdown{
+        margin-right: 0.5rem;
+    }
+}
+
+@media screen and (min-device-width: 700px) and (max-device-width: 1099px) {
+    .dropdown-menu{
+        width: 75vw;
+    }
+}
+
+@media screen and (min-device-width: 1100px) {
+    .dropdown-menu{
+        width: 60vw;
+    }
+}
+
+/*ipad*/
+@media screen and (device-width: 768px) and (device-height: 1024px) {
+    #accessPointsOptions{
+        height: 20rem;
+    }
+    #connected_client{
+        height: 20rem;
+    }
+    #sysLogGrid{
+        height: 20rem;
+    }
+    #systemlogGrid{
+        height: 20rem;
+    }
+    #SSIDOptions{
+        height: 20rem;
+    }
+    #network-grid{
+        height: 20rem;
+    }
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        /* top: -1.65rem; */
+        text-align: center;
+        height: 1.25rem;
+        width: 1.5rem;
+    }
+    .pull-right{
+        height: 1.4rem;
+        width: 1.7rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        top: -0.04rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.9rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 25.5rem;
+        margin: 0rem -0.5rem 0.5rem -0.2rem;
+    }
+    .caption .box-content .clear>div{
+        width: 100%;
+    }
+    .hotTimeChartSty1{
+        width: 100%;
+        margin-top: 2%;
+        display: -webkit-flex;/*新版本语法：chrome 21+*/
+        display: flex;/*新版本语法:opera 12.1,Firefox 22+*/
+        flex-flow: column wrap;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+    .hotTimeChartSty1>div:nth-child(2){
+        margin-top: 0.3%;
+        display:flex;
+        flex-flow:row wrap;
+        /* margin-left: 8px; */
+    }
+    .hotTimeChartSty1>div:nth-child(2)>div{
+        background-image: url(../../appSite/images/dropdown.svg);
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span{
+        font-size: 0.4rem;
+        line-height: 30px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(2){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(4){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .threshold{
+        left: 6rem;
+    }
+    .Tthreshold{
+        left: 6rem;
+    }
+    .hotTimeChartTitleC{
+        font-size: 0.4rem;
+    }
+    .lastTimeChartTitle{
+        font-size: 0.4rem;
+        font-weight: bold;
+        color: RGB(23,38,100);
+    }
+    .hotTimeChartTitleT{
+        font-size: 0.4rem;
+    }
+    .wireless .box-content{
+        height: 14rem;
+    }
+    #wirTools{
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.33rem;
+    }
+    #accTools{
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.33rem;
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.33rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+    }
+
+    #captiveLog{
+        height: 20rem;
+    }
+    #dashboardPage{
+        margin-top:-0.5rem;
+    }
+}
+
+/*ipad Pro 10.5寸 */
+@media screen and (device-width: 834px) and (device-height: 1112px) {
+    #accessPointsOptions{
+        height: 19.7rem;
+    }
+    #connected_client{
+        height: 19.7rem;
+    }
+    #sysLogGrid{
+        height: 20rem;
+    }
+    #systemlogGrid{
+        height: 20rem;
+    }
+    #SSIDOptions{
+        height: 19.5rem;
+    }
+    #network-grid{
+        height: 20rem;
+    }
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        /* top: -1.65rem; */
+        text-align: center;
+        height: 1.25rem;
+        width: 1.5rem;
+    }
+    .pull-right{
+        height: 1.4rem;
+        width: 1.7rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        top: -0.04rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.9rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 25.5rem;
+        margin: 0rem -0.5rem 0.5rem -0.2rem;
+    }
+    .caption .box-content .clear>div{
+        width: 100%;
+    }
+    .hotTimeChartSty1{
+        width: 100%;
+        margin-top: 2%;
+        display: -webkit-flex;/*新版本语法：chrome 21+*/
+        display: flex;/*新版本语法:opera 12.1,Firefox 22+*/
+        flex-flow: column wrap;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+    .hotTimeChartSty1>div:nth-child(2){
+        margin-top: 0.3%;
+        display:flex;
+        flex-flow:row wrap;
+        /* margin-left: 8px; */
+    }
+    .hotTimeChartSty1>div:nth-child(2)>div{
+        background-image: url(../../appSite/images/dropdown.svg);
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span{
+        font-size: 0.4rem;
+        line-height: 30px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(2){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(4){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .threshold{
+        left: 6rem;
+    }
+    .Tthreshold{
+        left: 6rem;
+    }
+    .hotTimeChartTitleC{
+        font-size: 0.4rem;
+    }
+    .lastTimeChartTitle{
+        font-size: 0.4rem;
+        font-weight: bold;
+        color: RGB(23,38,100);
+    }
+    .hotTimeChartTitleT{
+        font-size: 0.4rem;
+    }
+    .wireless .box-content{
+        height: 14rem;
+    }
+    #wirTools{
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.31rem;
+    }
+    #accTools{
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.31rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.31rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+    }
+    #captiveLog{
+        height: 20rem;
+    }
+    #dashboardPage{
+        margin-top:-0.5rem;
+    }
+}
+
+/*ipad 横屏模式 */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px)
+and (orientation : landscape){
+    #accessPointPage{
+        /* height: 13.5rem; */
+        overflow: auto;
+    }
+    #wirelessPage{
+        /* height: 13.5rem; */
+        overflow: auto;
+    }
+    #accessPointsOptions{
+        height: 13.5rem;
+    }
+    #connected_client{
+        height: 13.5rem;
+    }
+    #sysLogGrid{
+        height: 13.3rem;
+    }
+    #systemlogGrid{
+        height: 13.3rem;
+    }
+    #SSIDOptions{
+        height: 12.8rem;
+    }
+    #network-grid{
+        height: 13.3rem;
+    }
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        /* top: -1.63rem; */
+        text-align: center;
+        height: 1.22rem;
+        width: 1.5rem;
+    }
+    .pull-right{
+        height: 1.4rem;
+        width: 1.7rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        top: -0.04rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.96rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 31rem;
+        margin: 0rem -0.5rem -0.3rem -0.2rem;
+    }
+    .hotTimeSty{
+        display: flex;
+        flex-flow: row nowrap;
+        margin-left: 5%;
+        width: 100%;
+        align-items: center;
+    }
+    .hotTimeSty>span:nth-child(2){
+        font-size: 0.4rem;
+        margin-left: 3%;
+        margin-top: 0rem;
+        align-items: center;
+    }
+    .caption .box-content .clear>div{
+        width: 100%;
+    }
+    .hotTimeChartSty1{
+        /* margin-top: 2%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        align-items: center; */
+        margin-top: 2%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 67% 33%;
+        align-items: center;
+    }
+    .hotTimeChartSty1>div:nth-child(2){
+        margin-top: 0.3%;
+        display:flex;
+        flex-flow:row wrap;
+        /* margin-left: 5rem; */
+    }
+    .hotTimeChartSty1>div:nth-child(2)>div{
+        background-image: url(../../appSite/images/dropdown.svg);
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span{
+        font-size: 0.4rem;
+        line-height: 30px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(2){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(4){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .threshold{
+        left: 12rem;
+    }
+    .Tthreshold{
+        left: 12rem;
+    }
+    .hotTimeChartTitleC{
+        font-size: 0.4rem;
+    }
+    .lastTimeChartTitle{
+        font-size: 0.4rem;
+        font-weight: bold;
+        color: RGB(23,38,100);
+    }
+    .hotTimeChartTitleT{
+        font-size: 0.4rem;
+    }
+    .wireless .box-content{
+        height: 14rem;
+    }
+    #captiveLog{
+        height: 13.5rem;
+    }
+    #dashboardPage{
+        margin-top:-0.5rem;
+    }
+}
+
+/*ipad pro 12.9寸 */
+@media screen   and (device-width: 1024px)  and (device-height: 1366px) {
+    #accessPointsOptions{
+        height: 20rem;
+    }
+    #connected_client{
+        height: 20rem;
+    }
+    #sysLogGrid{
+        height: 20rem;
+    }
+    #systemlogGrid{
+        height: 20rem;
+    }
+    #SSIDOptions{
+        height: 20rem;
+    }
+    #network-grid{
+        height: 20rem;
+    }
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        /* top: -1.63rem; */
+        text-align: center;
+        height: 1.25rem;
+        width: 1.5rem;
+    }
+    .pull-right{
+        height: 1.4rem;
+        width: 1.7rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        top: -0.04rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.96rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 31rem;
+        margin: 0rem -0.5rem -0.3rem -0.2rem;
+    }
+    .caption .box-content .clear>div{
+        width: 100%;
+    }
+    .hotTimeChartSty1{
+        /* margin-top: 2%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        align-items: center; */
+        margin-top: 2%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 70% 30%;
+        align-items: center;
+    }
+    .hotTimeChartSty1>div:nth-child(2){
+        margin-top: 0.3%;
+        display:flex;
+        flex-flow:row wrap;
+        /* margin-left: 5rem; */
+    }
+    .hotTimeChartSty1>div:nth-child(2)>div{
+        background-image: url(../../appSite/images/dropdown.svg);
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span{
+        font-size: 0.4rem;
+        line-height: 30px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(2){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(4){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .threshold{
+        left: 12rem;
+    }
+    .Tthreshold{
+        left: 12rem;
+    }
+    .hotTimeChartTitleC{
+        font-size: 0.4rem;
+        /* margin-right: 10rem; */
+    }
+    .lastTimeChartTitle{
+        font-size: 0.4rem;
+        font-weight: bold;
+        color: RGB(23,38,100);
+    }
+    .hotTimeChartTitleT{
+        font-size: 0.4rem;
+        /* margin-right: 10rem; */
+    }
+    .wireless .box-content{
+        height: 14rem;
+    }
+    #captiveLog{
+        height: 20rem;
+    }
+    #network-grid{
+        height: 20rem;
+    }
+    #dashboardPage{
+        margin-top:-0.5rem;
+    }
+}
+/** iPad pro 横屏模式*/
+@media screen   and (device-width: 1366px)  and (device-height: 1024px) {
+    #accessPointsOptions{
+        height: 19.5rem;
+    }
+    #connected_client{
+        height: 19.5rem;
+    }
+    #sysLogGrid{
+        height: 19.5rem;
+    }
+    #systemlogGrid{
+        height: 19.5rem;
+    }
+    #SSIDOptions{
+        height: 19rem;
+    }
+    #network-grid{
+        height: 19.5rem;
+    }
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        /* top: -1.63rem; */
+        text-align: center;
+        height: 1.25rem;
+        width: 1.5rem;
+    }
+    .pull-right{
+        height: 1.4rem;
+        width: 1.7rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        top: -0.04rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.96rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 25.6rem;
+        margin: 0rem -0.5rem -0.3rem -0.2rem;
+    }
+    .hotTimeSty{
+        display: flex;
+        flex-flow: row nowrap;
+        margin-left: 5%;
+        width: 100%;
+    }
+    .hotTimeSty>span:nth-child(2){
+        font-size: 0.4rem;
+        margin-left: 3%;
+        margin-top: 0rem;
+        align-items: center;
+    }
+    .caption .box-content .clear>div{
+        width: 100%;
+    }
+    .hotTimeChartSty1{
+        /* margin-top: 2%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        align-items: center; */
+        margin-top: 2%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 70% 30%;
+        align-items: center;
+    }
+    .hotTimeChartSty1>div:nth-child(2){
+        margin-top: 0.3%;
+        display:flex;
+        flex-flow:row wrap;
+        /* margin-left: 10rem; */
+    }
+    .hotTimeChartSty1>div:nth-child(2)>div{
+        background-image: url(../../appSite/images/dropdown.svg);
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span{
+        font-size: 0.4rem;
+        line-height: 30px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(2){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(4){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .threshold{
+        left: 21rem;
+    }
+    .Tthreshold{
+        left: 21rem;
+    }
+    .hotTimeChartTitleC{
+        font-size: 0.4rem;
+        /* margin-right: 13.5rem; */
+    }
+    .lastTimeChartTitle{
+        font-size: 0.4rem;
+        font-weight: bold;
+        color: RGB(23,38,100);
+    }
+    .hotTimeChartTitleT{
+        font-size: 0.4rem;
+        /* margin-right: 13.5rem; */
+    }
+    .wireless .box-content{
+        height: 14rem;
+    }
+    #captiveLog{
+        height: 19.5rem;
+    }
+    #network-grid{
+        height: 19.5rem;
+    }
+    #dashboardPage{
+        margin-top:-0.5rem;
+    }
+}
+/*800*1280*/
+@media screen   and (device-width: 800px)  and (device-height: 1280px) {
+    #accessPointsOptions{
+        height: 20rem;
+    }
+    #connected_client{
+        height: 20rem;
+    }
+    #sysLogGrid{
+        height: 20rem;
+    }
+    #systemlogGrid{
+        height: 20rem;
+    }
+    #SSIDOptions{
+        height: 20rem;
+    }
+    #network-grid{
+        height: 20rem;
+    }
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        /* top: -1.65rem; */
+        text-align: center;
+        height: 1.25rem;
+        width: 1.5rem;
+    }
+    .pull-right{
+        height: 1.4rem;
+        width: 1.7rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        top: -0.04rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.9rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 25.5rem;
+        margin: 0rem -0.5rem 0.5rem -0.2rem;
+    }
+    .caption .box-content .clear>div{
+        width: 100%;
+    }
+    .hotTimeChartSty1{
+        width: 100%;
+        margin-top: 2%;
+        display: -webkit-flex;/*新版本语法：chrome 21+*/
+        display: flex;/*新版本语法:opera 12.1,Firefox 22+*/
+        flex-flow: column wrap;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+    .hotTimeChartSty1>div:nth-child(2){
+        margin-top: 0.3%;
+        display:flex;
+        flex-flow:row wrap;
+        /* margin-left: 8px; */
+    }
+    .hotTimeChartSty1>div:nth-child(2)>div{
+        background-image: url(../../appSite/images/dropdown.svg);
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span{
+        font-size: 0.4rem;
+        line-height: 30px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(2){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(4){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .threshold{
+        left: 6rem;
+    }
+    .Tthreshold{
+        left: 6rem;
+    }
+    .hotTimeChartTitleC{
+        font-size: 0.4rem;
+    }
+    .lastTimeChartTitle{
+        font-size: 0.4rem;
+        font-weight: bold;
+        color: RGB(23,38,100);
+    }
+    .hotTimeChartTitleT{
+        font-size: 0.4rem;
+    }
+    .wireless .box-content{
+        height: 14rem;
+    }
+    #wirTools{
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.32rem;
+    }
+    .btn-group > .btn:first-child {
+        width: 1.5rem;
+        height: 1.20rem;
+    }
+    #accTools{
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.32rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.32rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+    }
+    #captiveLog{
+        height: 20rem;
+    }
+    #dashboardPage{
+        margin-top:-0.5rem;
+    }
+}
+/*1100*800 横屏模式 */
+@media screen   and (min-device-width: 1100px)  and (max-device-height: 800px) {
+    #accessPointPage{
+        /* height: 13.5rem; */
+        overflow: auto;
+    }
+    #wirelessPage{
+        /* height: 13.5rem; */
+        overflow: auto;
+    }
+    #accessPointsOptions{
+        height: 13.5rem;
+    }
+    #connected_client{
+        height: 13.5rem;
+    }
+    #sysLogGrid{
+        height: 13.3rem;
+    }
+    #systemlogGrid{
+        height: 13.3rem;
+    }
+    #SSIDOptions{
+        height: 12.8rem;
+    }
+    #network-grid{
+        height: 13.5rem;
+    }
+    .ui-grid-menu-button{
+        z-index: 9999;
+        background-color: RGB(23,38,100);
+        /* top: -1.63rem; */
+        text-align: center;
+        height: 1.22rem;
+        width: 1.5rem;
+    }
+    .pull-right{
+        height: 1.4rem;
+        width: 1.7rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        top: -0.04rem;
+    }
+    .fn-btn-sepbar {
+        width: 8px;
+        height: 1rem;
+        border-right: 1px solid #999;
+        left: 1.96rem;
+        top: 0.2rem;
+        position: absolute;
+    }
+    .grid-page{
+        background-color: #f5f5f5;
+        margin: -5px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: 31rem;
+        margin: 0rem -0.5rem -0.3rem -0.2rem;
+    }
+    .hotTimeSty{
+        display: flex;
+        flex-flow: row nowrap;
+        margin-left: 5%;
+        width: 100%;
+        align-items: center;
+    }
+    .hotTimeSty>span:nth-child(2){
+        font-size: 0.4rem;
+        margin-left: 3%;
+        margin-top: 0rem;
+        align-items: center;
+    }
+    .caption .box-content .clear>div{
+        width: 100%;
+    }
+    .hotTimeChartSty1{
+        /* margin-top: 2%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+        align-items: center; */
+        margin-top: 2%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 67% 33%;
+        align-items: center;
+    }
+    .hotTimeChartSty1>div:nth-child(2){
+        margin-top: 0.3%;
+        display:flex;
+        flex-flow:row wrap;
+        /* margin-left: 5rem; */
+    }
+    .hotTimeChartSty1>div:nth-child(2)>div{
+        background-image: url(../../appSite/images/dropdown.svg);
+        width: 0.8rem;
+        height: 0.8rem;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span{
+        font-size: 0.4rem;
+        line-height: 30px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(2){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .hotTimeChartSty1>div:nth-child(2)>span:nth-child(4){
+        font-size: 0.45rem;
+        color: #ef9212;
+        line-height: 28px;
+    }
+    .threshold{
+        left: 12rem;
+    }
+    .Tthreshold{
+        left: 12rem;
+    }
+    .hotTimeChartTitleC{
+        font-size: 0.4rem;
+    }
+    .lastTimeChartTitle{
+        font-size: 0.4rem;
+        font-weight: bold;
+        color: RGB(23,38,100);
+    }
+    .hotTimeChartTitleT{
+        font-size: 0.4rem;
+    }
+    .wireless .box-content{
+        height: 14rem;
+    }
+    #captiveLog{
+        height: 13.5rem;
+    }
+    #dashboardPage{
+        margin-top:-0.5rem;
+    }
+    .app-menu-title{
+        /* position:absolute; */
+        position:relative;
+        text-align: center;
+        color: #ffffff;
+        /* bottom: 2%; */
+        width: 100%;
+        /* top: 20rem; */
+        height: 1rem;
+        line-height: 1.5rem;
+    }
+    .sidebar-menu{
+        /* height: 25rem; */
+        height: 18.5rem;
+        overflow-y: scroll;
+    }
+    #main-sidebar{
+        overflow-y: scroll;
+    }
+}
+
+/*1440*900 横屏模式 */
+@media screen   and (min-device-width: 1440px)  and (min-device-height: 800px) {
+    .btn-group > .btn:first-child {
+        width: 1.5rem;
+        height: 1.35rem;
+    }
+    #wirTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.20rem;
+    }
+    #accTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.20rem;
+        /* margin-top: 0.2rem; */
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.20rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+    }
+}
+
+/*1280*950 横屏模式 */
+@media screen   and (min-device-width: 1280px)  and (min-device-height: 950px) {
+    .btn-group > .btn:first-child {
+        width: 1.5rem;
+        height: 1.35rem;
+    }
+    #wirTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.21rem;
+    }
+    #accTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.21rem;
+        /* margin-top: 0.2rem; */
+    }
+    #logMenuTools, #eventLogMenuTools, #captiveLogMenuTools {
+        position: relative;
+        z-index: 1;
+        margin-right: 2.08rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.21rem;
+        /*预留样式*/
+        /* margin-top: 0.2rem; */
+    }
+}
+
+
+.caption .box-content .clear>div{
+    width: 100%;
+}

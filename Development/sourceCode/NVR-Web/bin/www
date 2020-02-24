@@ -1,0 +1,260 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+const http = require('http');
+const app = require('../app');
+const path = require('path');
+const https = require('https');
+const fs = require('fs');
+const os = require('os');
+const util = require("../lib/util");
+const schedule = require("../lib/schedule");
+const tokenmanager = require("../lib/tokenManager");
+const db = util.db;
+const config = util.config;
+const org = db.cwmOrg;
+const gridFS = db.cwmFileAPI.gridFS;
+let httpsserver;
+let certPath = path.resolve(path.join(process.cwd(), './config/cwmserver-cert.pem'));
+let keyPath = path.resolve(path.join(process.cwd(), './config/cwmserver-key.pem'));
+let sslport;
+let host;
+if (config.enableHttp) {
+    let server = http.createServer(app);
+    var httpport = normalizePort(config.port || '30002');
+    server.listen(httpport);
+    server.on('error', (err) => {
+    });
+    server.on('listening', () => {
+    });
+}
+
+function getCredentials(callback) {
+    /*let sslVersion = "";
+     if (fs.existsSync(certPath)) {
+     let certBuf = fs.readFileSync(certPath);
+     let cert = sshpk.parseCertificate(certBuf, 'pem');
+     sslVersion = cert.fingerprint('md5').toString();
+     }*/
+    function readCertFromDB(callback) {
+        org.findOrg((err, result) => {
+            if (result) {
+                // sslport = result.webAccessPort;
+                // host = result.webAccessAddress;
+
+                //检查版本是否一致
+                let sslcert = result.sslCertification;
+                /* if (sslcert && (sslVersion == sslcert.sslVer)) {
+                 callback(result);
+                 } else {*/
+                if (sslcert && sslcert.urlCert && sslcert.urlKeyFile) {
+                    //todo 初始化时取出证书文件
+                    gridFS.readFileToLocalById(certPath, sslcert.urlCert.fileId, (error) => {
+                        if (error) {
+                            org.resetCert(result, (err, re) => {
+                                console.log('certPath',certPath);
+                                gridFS.readFileToLocalById(certPath, sslcert.urlCert.fileId, (error) => {
+                                    gridFS.readFileToLocalById(keyPath, sslcert.urlKeyFile.fileId, (error) => {
+                                        callback(result);
+                                    })
+                                });
+                            });
+                        } else {
+                            gridFS.readFileToLocalById(keyPath, sslcert.urlKeyFile.fileId, (error) => {
+                                callback(result);
+                            })
+                        }
+
+                    })
+                } else {
+                    callback(result);
+                }
+                //}
+            } else {
+                callback(null);
+            }
+        })
+    }
+
+    if (db.isInit) {
+        readCertFromDB(callback);
+    } else {
+        db.initCompletedEvent.on('isInit', function () {
+            console.log("on data init completed event");
+            readCertFromDB(callback);
+        });
+    }
+
+}
+
+getCredentials((orgInfo) => {
+    //db.User.initialUser();  //admin账号已存在system-data.db的User_Info表中，不需要NC再创建
+    db.cwmConfigProfile.initTemplate();
+    org.findOrg((err, record) => {
+        if(null==record){
+            record = {webAccessPort: 443};
+        }
+        sslport = normalizePort(record.webAccessPort || '443');
+        //sslport = normalizePort(config.sslport || '443');
+        if (orgInfo) {
+            org.updateWebPort(orgInfo._id, sslport, (err, result) => {
+            });
+        }
+        host = config.serverIP;
+        app.set('port', sslport);
+        let credentials = {
+            key: fs.readFileSync(keyPath),
+            cert: fs.readFileSync(certPath),
+            secureProtocol: 'TLSv1_2_server_method',
+
+            //ciphers: 'AES128-GCM-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH'
+            //兼容IE6
+            //ciphers:'ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH;',
+            //在保证安全性和兼容性
+            //ciphers:'EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;',
+            //最好的安全性
+            //ciphers:'EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256::!MD5',
+            //最好的安全性基础上，关闭sslciphercheck.v.1.4.2检测出的几项
+            ciphers:'EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256::!MD5:!ECDHE-RSA-AES128-SHA:!AES128-SHA:!ECDHE-RSA-AES256-SHA!AES256-SHA',
+        };
+        console.log("init httpsserver");
+        httpsserver = https.createServer(credentials, app);
+        try{
+            fs.unlinkSync(certPath);
+            fs.unlinkSync(keyPath);
+        }
+        catch(e) {
+            console.log(e.message);
+        }
+        if (host) {
+            let netinterface = os.networkInterfaces();
+            let ipOK = false;
+            for (let pp in netinterface) {
+                if (netinterface[pp].length > 0) {
+                    for (let net of netinterface[pp]) {
+                        if (host == net.address) {
+                            ipOK = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (ipOK) {
+                httpsserver.listen(sslport, host);
+            } else {
+                httpsserver.listen(sslport);
+            }
+        } else {
+            httpsserver.listen(sslport);
+        }
+        httpsserver.on('error', onError);
+        httpsserver.on('listening', onListening);
+        //  monitor.init();
+    });
+});
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof sslport === 'string'
+        ? 'Pipe ' + sslport
+        : 'Port ' + sslport;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            console.error(`Network Interface is down for webServer ,error info : ${JSON.stringify(error)}`);
+            process.exit(1);
+            break;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    var addr = httpsserver.address();
+    console.log(`Listening on ${addr.address}:${addr.port}`);
+}
+
+function portArrToStr(arr) {
+    let temp = [];
+    for (let i = 0; i < arr.length; i++) {
+        let port = arr[i];
+        let find = false;
+        for (let j = 0; j < temp.length; j++) {
+            if (temp[j][temp[j].length - 1] + 1 == port) {
+                temp[j].push(port);
+                find = true;
+                break;
+            }
+        }
+        if (!find) {
+            temp.push([port]);
+        }
+    }
+    let result = "";
+    for (let j = 0; j < temp.length; j++) {
+        if (result) result += ",";
+        if (temp[j].length == 1) {
+            result += temp[j][0];
+        } else {
+            result += temp[j][0] + "-" + temp[j][temp[j].length - 1];
+        }
+    }
+    return result;
+}
+
+setInterval(function () {
+    tokenmanager.refreshWSStatus();
+}, 10 * 1000);
+
+schedule.jobAutoGC.start();

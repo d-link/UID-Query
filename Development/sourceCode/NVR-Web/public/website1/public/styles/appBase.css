@@ -1,0 +1,589 @@
+/*这段代码是用来解决IOS下滚动条的问题*/
+/* .ui-grid-render-container{
+    overflow: scroll;
+}
+.ui-grid-header{
+    width: 51rem !important;
+}
+.ui-grid-viewport{
+    width: 51rem !important;
+} */
+
+/* .ui-grid-render-container{
+    overflow: scroll;
+}
+.ui-grid-header-viewport{
+    overflow-x: scroll !important;
+} */
+
+/*这段代码是用来解决IOS下滚动条的问题*/
+
+.btn-group > .btn:first-child{
+    width: 1.5rem;
+    height: 1.22rem;
+}
+.refreshBtn{
+    z-index: 9999;
+    position: fixed;
+    right: 1rem;
+    top: 0.45rem;
+}
+.noneBtn{
+    width: 100%;
+    text-align: center;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    margin-top: 1rem;
+}
+.noneBtn>span{
+    color: #ffffff;
+    font-size: 0.6rem;
+}
+.doneBtn{
+    width: 100%;
+    text-align: center;
+    background-color: RGB(23,38,100);
+    border-radius: 5px;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    margin-top: 1rem;
+}
+.cencalBtn{
+    width: 0.8rem;
+    height: 0.8rem;
+    position: absolute;
+    right: 0.2rem;
+    top: 0.3rem;
+    background-size: 100% 100%;
+    background-image: url(../../appSite/images/cencal.png);
+}
+.doneBtn>span{
+    color: #ffffff;
+    font-size: 0.6rem;
+}
+.doneBtn:active{
+    background-color: #b5c847;
+}
+.main-header .logo .logo-lg{
+    width: auto;
+    margin-top: -5px;
+    text-align: center;
+}
+/*app nav head*/
+.skin-green .main-header .logo{
+    background: RGB(23,38,100);
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    justify-content: space-around;
+    text-decoration: none;
+}
+.skin-green .main-header .logo:hover{
+    background: RGB(23,38,100);
+}
+/*app menu title*/
+.app-menu-title{
+    position:absolute;
+    text-align: center;
+    color: #ffffff;
+    bottom: 2%;
+    width: 100%;
+}
+.sidebar-menu .treeview-menu > li.active > a, .sidebar-menu .treeview-menu > li.active:hover > a{
+    color: #ffffff;
+}
+.sidebar-menu .treeview-menu > li.active{
+    background: #131212;
+}
+.app-menu-title>span{
+    font-size: 0.4rem;
+}
+/*app nav button*/
+.hidemenu{
+    background-color: transparent;
+}
+.main-header .logo .hidemenu:hover{
+    background-color: transparent;   
+}
+.main-header .logo .hidemenu:hover{
+    background-color: transparent;
+}
+.main-header .logo .hidemenu{
+    background-color: transparent;   
+}
+/*app side a*/
+.sidebar-menu{
+    background-color: #3f3f3f;
+}
+.skin-green .sidebar-menu > li:hover > a, .skin-green .sidebar-menu > li.active > a{
+    background: #3f3f3f;
+}
+.sidebar-menu > li{
+    border-bottom:1px solid #5f5f5f;
+    background-color: #3f3f3f;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+.sidebar-menu > li > a>span{
+    line-height: 1rem;
+}
+.sidebar-menu > li > a{
+    background: #3f3f3f;  
+}
+.skin-green .sidebar-menu > li:hover > a>md-icon, .skin-green .sidebar-menu > li.active > a>span{
+    color: #ffffff;
+}
+.skin-green .sidebar-menu > li:hover > a>md-icon, .skin-green .sidebar-menu > li.active > a>md-icon{
+    color: #ffffff;
+}
+.skin-green .sidebar-menu > li > a>md-icon, .skin-green .sidebar-menu > li > a>md-icon{
+    color: #ffffff;
+}
+.skin-green .sidebar-menu > li > a>md-icon, .skin-green .sidebar-menu > li > a>span{
+    color: #ffffff;
+}
+.sidebar-menu .treeview-menu > li:hover > a{
+    color: #ffffff;
+}
+.sidebar-menu .treeview-menu > li > a{
+    color: #ffffff;
+}
+.sidebar-menu li.active > .treeview-menu{
+    background: #3f3f3f;
+}
+.sidebar-menu .treeview-menu > li:hover{
+    background: #3f3f3f;  
+}
+.sidebar-menu .treeview-menu > li{
+    background: #3f3f3f;  
+}
+.sidebar-menu .treeview-menu > li > a{
+    color: #ffffff;
+}
+.side-line{
+    height:1.3rem;
+    background: #333333;
+}
+
+
+
+
+
+
+
+.login_container .loginMain{
+    padding:10px;
+}
+.login_container .content .container{
+    width:100%;
+    padding:0;
+}
+.login_container .content .container .form-control{
+    width:100%;
+}
+button[disabled], .btn[disabled], .form-control[disabled]{
+    width:100%;
+}
+.login_container .title{
+    width:100%;
+}
+.login_container .title p{
+    font-size:22px;
+    text-align: center;
+}
+.btn_login{
+    width:100%;
+}
+.main-header .logo .hidemenu{
+    position: absolute;
+    left: 0;
+    margin-left:5%;
+}
+.main-header .logo .menumessage{
+    position: absolute;
+    right: 0;
+    margin-right:5%;
+    margin-top: -1%;
+}
+.main-sidebar, .left-side{
+    top:42px;
+    width:100%;
+}
+.main-header .navbar .nav>li> .nav-user-profile{
+    position: absolute;
+    background-color: #ffffff;
+    left: 5px;
+}
+.main-header .navbar .nav>li> .nav-user-profile > li > a{
+    color: #000000;
+}
+.modal-w700{
+    width:auto;
+}
+.modal-body{
+    padding:0;
+}
+.modal-footer{
+    margin-top: 15px;
+}
+.modal-content{
+    margin-top:30px;
+}
+
+.modal-footer .btn + .btn{
+    width:auto;
+}
+.content-wrapper{
+    padding: 5px 5px 5px 10px;
+    overflow:hidden;
+}
+
+.my-pagination button[disabled]{
+    width:auto;
+}
+.main-sidebar, .left-side{
+    z-index: 99999;
+    padding: 0;
+    top: 0;
+    box-shadow: 1px 1px 5px 1px #000;
+}
+.menumessage-badge{
+    color: #ffffff;
+    background: #bd401e;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 20px;
+    position: absolute;
+    text-align: center;
+    top: 1px;
+    right: 15px;
+}
+.menumessage-badge>span{
+    height: 20px;
+}
+.inputPrompt{
+    padding: 0.5rem;
+    position: absolute;
+    z-index: 99999;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 0.1rem;
+    max-height: 10rem;
+    overflow-y: scroll;
+}
+.inputPrompt>ul{
+    list-style-type:none;
+}
+.inputPrompt>ul>li{
+    margin: 0.5rem auto;
+    font-size: 0.6rem;
+    height: 1rem;
+    line-height: 1rem;
+}
+.inputPrompt>ul>li:hover{
+   background: #9ea1a7;
+   color: #ffffff;
+}
+
+
+
+
+
+.skin-green a:hover{
+    text-decoration: none;
+}
+.wireless .subpage div.wireless-info > a{
+    margin-right: 8px;
+}
+.wireless .subpage div.wireless-info > a:hover{
+    text-decoration: none;
+}
+
+/* input[type=text]{
+	-webkit-appearance:none;
+    outline:none;
+    border-radius: 0;
+} */
+.ip-header-containner{
+    line-height: 48px;
+    height: 48px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    border-bottom: 2px solid #192860;
+    padding: 1%;
+}
+
+.ip-header-containner :nth-child(1){
+    margin-left: 10px;
+    font-size: 0.8rem;
+    height: 40px;
+    color: RGB(23,38,100);
+}
+.ip-header-containner :nth-child(2){
+    margin-right: 10px;
+    font-size: 0.6rem;
+    height: 40px;
+}
+
+.wireless .row{
+    margin: 1rem 5px 20px 10px;
+}
+.wireless > div{
+    margin: -15px;
+    padding: 0;
+}
+
+.grid-no-data > img + p{
+    font-size: 0.9rem;
+}
+.content-wrapper, .right-side, .main-footer{
+    margin-left: 0;
+}
+.main-header .logo .hidemenu{
+    padding: 0;
+    margin: 0;
+    line-height: unset !important;
+    margin-left: 5%;
+}
+
+.main-header .logo{
+    height: 1.6rem;
+    line-height: 1.6rem;
+    font-size: 0.7rem;
+    font-weight: 400;
+}
+.main-header .logo .hidemenu md-icon{
+    height: 0.9rem;
+    width: 0.9rem;
+}
+.menu-font{
+    font-size: 0.5rem;
+}
+.menu-icons{
+    height: 1.3rem;
+    width: 1.3rem;
+}
+.sidebar-menu li > a > md-icon.pull-right{
+    margin-top: 0px;
+}
+.pull-right{
+	height: 1.4rem;
+	width: 1.7rem;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+}
+.search-icons{
+    height: 0.75rem;
+    margin-top: -0.05rem;
+}
+.fn-btn-sepbar{
+    width: 8px;
+    height: 1rem;
+    border-right: 1px solid #999;
+    left: 1.77rem;
+    top: 0.2rem;
+    position: absolute;
+}
+.grid-refresh{
+    padding: 0.4rem;
+    font-size: 0.6rem;
+    width: 5.2rem;
+}
+.wireless .subpage div.wireless-info > a + span{
+    font-size: 0.6rem;
+}
+/*kalendae */
+.date-picker{
+    width: 100%;
+}
+.date-picker > input{
+    height: 1.3rem;
+}
+.date-picker > a{
+    padding: 1px;
+    height: 100%;
+    width: 0.8rem;
+}
+
+#connected_client{
+    /* height: 21rem; */
+    height: 76vh;
+}
+#accessPointsOptions{
+    /* height: 21rem; */
+    height: 76vh;
+}
+#sysLogGrid{
+    /* height: 21rem; */
+    height: 76vh;
+}
+#systemlogGrid{
+    /* height: 21rem; */
+    height: 76vh;
+}
+#SSIDOptions{
+    /* height: 21rem; */
+    height: 75vh;
+}
+#captiveLog{
+    /* height: 21rem; */
+    height: 76vh;
+}
+#network-grid{
+    /* height: 21rem; */
+    height: 76vh;
+}
+
+
+/*针对Ipad*/
+/* @media screen   and (min-width: 768px){   */
+@media screen and (min-width: 700px){  
+    .wireless .row{
+        margin: 2.5rem 5px 10px 10px; 
+    }
+    .gird-containner{
+        background-color: #ffffff; 
+        border-radius: 0.2rem;
+        margin: 2rem 30px 10px 20px;
+        border: 1px solid #ccc;
+    }
+    .ip-header-containner{
+        line-height: 40px;
+        height: 55px;
+    }
+} 
+
+
+/*else device*/ 
+/* @media screen and  (max-width: 767px){   */
+/* @media screen and  (max-width: 699px){
+    .gird-containner{
+        background-color: #ffffff; 
+        border-radius: 0.2rem;  
+        margin: 10px 10px 10px 5px;
+        border: 1px solid #ccc;
+    }
+} */
+
+@media screen and (min-device-width: 200px) and (max-device-width: 414px) {
+    .gird-containner{
+        background-color: #ffffff; 
+        border-radius: 0.2rem;  
+        margin: 10px 12px 10px 5px;
+        border: 1px solid #ccc;
+    }
+}
+
+@media screen and (min-device-width: 415px) and (max-device-width: 500px) {
+    .gird-containner{
+        background-color: #ffffff; 
+        border-radius: 0.2rem;  
+        margin: 16px 20px 10px 12px;
+        border: 1px solid #ccc;
+    }
+}
+
+@media screen and (min-device-width: 501px) and (max-device-width: 580px) {
+    .gird-containner{
+        background-color: #ffffff; 
+        border-radius: 0.2rem;  
+        margin: 16px 26px 10px 14px;
+        border: 1px solid #ccc;
+    }
+}
+
+@media screen and (min-device-width: 581px) and (max-device-width: 699px) {
+    .gird-containner{
+        background-color: #ffffff; 
+        border-radius: 0.2rem;  
+        margin: 18px 30px 10px 18px;
+        border: 1px solid #ccc;
+    }
+}
+
+
+/**平板横屏模式*/
+@media screen   and (min-width: 1366px){
+    #connected_client{
+        height: 16rem;
+    }
+    #accessPointsOptions{
+        height: 16rem;
+    }
+    #network-grid{
+        height: 16rem;  
+    }
+    #sysLogGrid{
+        height: 16rem; 
+    }
+    #systemlogGrid{
+        height: 16rem; 
+    }
+    #SSIDOptions{
+        height: 16rem; 
+    }
+}
+@media screen   and (min-width: 1000px) and (max-width: 1365px){  
+    #accessPointPage{
+        height: 30rem;
+        overflow: auto;
+    }
+    #wirelessPage{
+        height: 30rem;
+        overflow: auto;
+    }
+    #syslogPage{
+        height: 30rem;
+        overflow: auto;
+    }
+    #systemlogPage{
+        height: 30rem;
+        overflow: auto;
+    }
+    #configurationPage{
+        height: 30rem;
+        overflow: auto;
+    }
+    #connected_client{
+        height: 13.5rem;
+    }
+    #accessPointsOptions{
+        height: 13.5rem;
+    }
+    #network-grid{
+        height: 13.5rem;  
+    }
+    #sysLogGrid{
+        height: 13.5rem; 
+    }
+    #systemlogGrid{
+        height: 13.5rem; 
+    }
+    #SSIDOptions{
+        height: 12.8rem; 
+    }
+}
+
+#tipdiv{
+    padding: 0.5rem;
+}
+#tipdiv>p>span{
+   margin-left: 10px;
+}
+#tipdiv>p{
+    text-align: left;
+    margin-left: 1rem;
+    font-size: 0.5rem;
+    margin-top: 0.5rem;
+    color: #ffffff;
+    font-weight: bold;
+}
+.wireless .box-content{
+    height: 18rem;
+}

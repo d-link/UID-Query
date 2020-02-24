@@ -1,0 +1,45 @@
+<div class="form-horizontal ">
+    <label class="title">Supported Device Model List</label>
+    <div class="form-group mgb32">
+        <label class="col-md-2 control-label" style="width: 132px;">Select One Model</label>
+        <div class="col-md-8">
+            <div style="width: 160px;height: 32px;">
+                <ui-select ng-model="curModel.selected" theme="bootstrap">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.moduleType|translate}}</ui-select-match>
+                    <ui-select-choices repeat="model in (allModels | filter: $select.search) track by model.moduleType">
+                        {{model.moduleType|translate}}
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </div>
+    </div>
+    <label class="title">Devices List related to selected model</label>
+    <div style="padding: 0px 8px;margin-bottom: 0px;">
+        <div style="border: 1px solid #eee;border-radius: 4px;">
+            <uib-tabset active="activeForm">
+                <uib-tab index="0" heading="All">
+                    <div style="height: 40px; padding: 8px 16px 0px;" class="clear">
+                        <div class="pull-right" style="width: 100px;height: 32px;">
+                            <ui-select ng-model="selTag.selected" theme="bootstrap">
+                                <ui-select-match placeholder="Pick one tag...">{{$select.selected.name|translate}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="tag in (tags | filter: $select.search) track by tag._id">
+                                    {{tag.name|translate}}
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <span class="pull-right control-label" style="padding-right: 10px;">Filter By Tag</span>
+                    </div>
+                    <div ui-grid="gridOptions" ui-grid-selection class="grid" style="height:260px;">
+                        <div ng-show="gridOptions.data.length == '0'" style="position:absolute;left: 50%;top: 50%;margin-left: -50px;margin-top: 22px;color: #aaaaaa;">No data found</div>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="Selected" select="showGrid();"  deselect="changeTabShow();">
+                    <div id="grid_multiInterface_selected" ui-grid="selectedOptions" ui-grid-selection ui-grid-auto-resize class="grid" style="height:260px;">
+                        <div ng-show="gridOptions.data.length == '0'" style="position:absolute;left: 50%;top: 50%;margin-left: -50px;margin-top: 22px;color: #aaaaaa;">No data found</div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+        </div>
+    </div>
+</div>

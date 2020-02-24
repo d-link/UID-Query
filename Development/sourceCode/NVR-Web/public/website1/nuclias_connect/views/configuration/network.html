@@ -1,0 +1,84 @@
+<div ng-controller="networkController" class="cwm-net">
+    <div class="set-height">
+        <div class="grid-top-menu elementFlag clear" style="height: 44px;padding-top: 0px;">
+            <div style="width: 172px;height: 32px;" class="select-autowidth pull-left mgr8">
+                <ui-select ng-model="filterSite.select" theme="bootstrap" on-select="selectSite($item)">
+                    <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected|translate}}</ui-select-match>
+                    <ui-select-choices repeat="site in filterSites">{{site|translate}}</ui-select-choices>
+                </ui-select>    
+            </div>
+            <div class="network-title pull-left clear mgb8">
+                <div class="title-text">
+                    <span>{{'common.total'|translate}}</span>
+                    <span class="title-im color-orange-title">{{gridOptionsNetwork.data.length}}</span>
+                    <span>{{'common.networks'|translate}}</span>
+                </div>
+                <div>
+                    <span>{{'common.total'|translate}}</span>
+                    <span class="title-im color-orange-title">{{total.aps}}</span>/{{total.totalAps}}
+                    <span>{{'common.online'|translate}} {{'common.aps'|translate}}</span>
+                </div>
+                <div>
+                    <span>{{'common.total'|translate}}</span>
+                    <span class="title-im color-orange-title">{{total.clients}}</span>
+                    <span>{{'common.clients'|translate}}</span>
+                </div>
+            </div>
+            <button type="button" class="btn btn-common pull-right" ng-click="addNetwork()" ng-if="power.hasCreate">
+                {{'addNetwork.an'|translate}}
+            </button>
+         <!--   <div class="pull-right" style="position:relative;" ng-class="power.isRoot?'mgr8':''">
+                <a style="position: absolute;right: 8px;top: 8px;display: block;width: 16px;height: 16px;z-index: 1;cursor: pointer;color: #999;" ng-click="search.fun()"><md-icon md-svg-icon="user:search"></md-icon></a>
+                <input type="text" class="pull-right form-control" placeholder="Search..." ng-model="search.value" style="width: 160px;">
+            </div>-->
+        </div>
+        <div class="subpage">
+            <div ui-grid="gridOptionsNetwork" id="network-grid" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns class="grid"></div>
+        </div>
+
+    </div>
+    <script type="text/ng-template" id="copyNetwork.html">
+        <div class="modal-header">
+            <a class="logo">
+                <md-icon md-svg-icon="user:{{title}}"></md-icon>
+            </a><span>{{'title.'+title|translate}}</span>
+            <a class="close pull-right"
+               ng-click="cancel()" title="{{'title.close'|translate}}">
+                <md-icon md-svg-icon="modal:close"></md-icon>
+            </a>
+        </div>
+        <div class="modal-body">
+            <form name="userForm" class="form-horizontal clear">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'label.site'|translate}}</label>
+
+                    <div class="col-sm-9">
+                        <div style="width: 120px;height: 32px;">
+                            <ui-select ng-model="select.site" theme="bootstrap" ng-disabled="adminUser">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.siteName}}</ui-select-match>
+                                <ui-select-choices repeat="site in optionSites">{{site.siteName}}</ui-select-choices>
+                            </ui-select>    
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{'column.network'|translate}}</label>
+
+                    <div class="col-sm-9">
+                        <div style="width: 120px;height: 32px;">
+                            <ui-select ng-model="select.network" theme="bootstrap" ng-disabled="adminUser">
+                                <ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="network in select.site.networks">{{network.name}}</ui-select-choices>
+                            </ui-select>    
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-common" type="button" ng-click="ok()" ng-disabled="userForm.$invalid">{{'common.'+title|translate}}</button>
+            <button class="btn btn-cancel" type="button" ng-click="cancel()">{{'common.cancel'|translate}}</button>
+        </div>
+    </script>
+</div>

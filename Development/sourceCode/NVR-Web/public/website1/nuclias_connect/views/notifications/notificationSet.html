@@ -1,0 +1,11 @@
+<div ng-controller="notificationSetController">
+    <div class="grid-top-menu elementFlag" style="height: 44px;margin-top: -12px;padding-top: 0px;">
+     <!--   <div class="network-title">
+            <div><span >Notification Rules</span></div>
+        </div>-->
+        <button type="button" class="btn btn-common pull-right"   ng-click="openAddModel()">{{'notificationSetting.addRule'|translate}}</button>
+    </div>
+    <div class="subpage set-height">
+    <div ui-grid="gridOptions" class="grid" id="grid" ui-grid-pagination ui-grid-auto-resize></div>
+    </div>
+</div>

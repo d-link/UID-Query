@@ -1,0 +1,12 @@
+apps:
+  - script: /app/bin/www
+    name: dview7-sp1-web
+    # instances: 0
+    # exec_mode: cluster
+    # max_memory_restart: 200M
+    instances: 1
+    exec_mode: fork
+#    env:
+#     NODE_ENV: development
+#   env_production:
+#     NODE_ENV: production

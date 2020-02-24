@@ -1,0 +1,150 @@
+<div ng-controller="aboutController">
+    <div class="subpage set-height form-horizontal site aboutController">
+        <uib-tabset active="0">
+            <uib-tab index="0" heading="{{'about.sysInfo'|translate}}">
+                <div class="container" style="margin: 30px;">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.deviceName'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{deveiceName}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.firmwareVersion'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{firmwareVersion}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.hardwareVersion'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{hardwareVersion}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.nucliasConnectVersion'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{nucliasConnectVersion}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.ddpClientVersion'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{ddpClientVersion}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.ipMode'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{ipMode}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.ipAddress'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{ipAddress}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.netmask'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{netmask}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.gateway'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{gateway}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.dns1'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{dns1}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.dns2'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{dns2}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.macAddress'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{macAddress}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.systemUsage'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class=" control-label" style="text-align: left;">{{systemUsage}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.MicroSDUsage'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{microSDUsage}}
+                                <span ng-if="SDStatus1 == 0">({{'nav.sdStatusError'|translate}})</span>
+                                <span ng-if="SDStatus1 == 2">({{'nav.sdStatusError2'|translate}})</span>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.usbUsage'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{usbUsage}}</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;padding-left: 9px;">{{'settings.sysInfo.ntp'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <span class="control-label" style="text-align: left;">{{ntp}}</span>
+                        </div>
+                        <div class="row" ng-if="NTPStatus1!=undefined && NTPStatus1 != 1">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;padding-left: 9px;"></label>
+                            <label class="control-label" style="padding-right: 10px;"></label>
+                            <span class="control-label"
+                                  style="text-align: left;">({{'nav.ntpStatusError'|translate}})</span>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.time'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{time}}</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.timezone'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{timezone}}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-sm-2 control-label" style="padding-right: 5px;">{{'settings.sysInfo.upTime'|translate}}</label>
+                            <label class="control-label" style="padding-right: 10px;">:</label>
+                            <label class="control-label" style="text-align: left;">{{upTime}}</label>
+                        </div>
+                    </div>
+
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="{{'about.modelList'|translate}}">
+                <div>
+                    <div class="content-title" style="margin: 10px 10px 0px 10px;">
+                        <div class="col-sm-12">
+                            <button class="btn btn-common pull-right" type="button" ng-disabled="state.processing"
+                                    ng-click="updateList();">{{'about.update'|translate}}
+                            </button>
+                            <span class="hint-span state processing-msg" ng-show="state.processing"><img
+                                    src="./../public/images/processing.gif" alt="processing" class="mgr8">{{'common.processing'|translate}}</span>
+                            <span class="hint-span state success-msg"
+                                  ng-show="state.isSuccess">{{state.msgTrue|translate}}</span>
+                            <span class="hint-span state error-msg" ng-show="state.isError" translate
+                                  translate-values="{{state.msgFalse.contentvals}}">{{state.msgFalse.content}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div ui-grid="gridOptionsAbout" id="about-grid" ui-grid-pagination ui-grid-auto-resize
+                     ui-grid-resize-columns class="grid clearfix" style="height: 85%;padding-bottom: 10px;">
+                </div>
+
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

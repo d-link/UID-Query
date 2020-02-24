@@ -1,0 +1,16 @@
+{
+  "summary":[{"deviceType": "DGS-1210", "online": 24, "offline": 4, "unknown": 1, "total": 29},
+    {"deviceType": "DGS-3000", "online": 8, "offline": 4, "unknown": 1, "total": 13},
+    {"deviceType": "DAP-2590", "online": 10, "offline": 1, "unknown": 1, "total": 12},
+    {"deviceType": "DES-3028", "online": 6, "offline": 0, "unknown": 0, "total": 6}],
+ "responseState":[{"source":{"sysName":"DES1228P","ip":"172.18.191.29"},"value":123},
+   {"source":{"sysName":"DES-3052P","ip":"172.18.191.48"},"value":59},
+   {"source":{"sysName":"D-Link","ip":"172.18.191.51"},"value":80}],
+  "loadState":[{"sysName":"DES1228P","ip":"172.18.191.29","value":85,"type":"CPU"},
+    {"sysName":"DES-3052P","ip":"172.18.191.48","value":91,"type":"CPU"},
+    {"sysName":"D-Link","ip":"172.18.191.51","value":89,"type":"MEM"}],
+  "interfaceState":[{"sysName":"DES1228P","ip":"172.18.191.28","value":"82","type":"Error","port":"1/10,1/12"},
+    {"sysName":"DES1228P","ip":"172.18.191.29","value":"85","type":"Discard","port":"1/40,1/12"},
+    {"sysName":"DES-3052P","ip":"172.18.191.48","value":"91","type":"RelativeSpeed","port":"1/1"},
+    {"sysName":"D-Link","ip":"172.18.191.51","value":"DOWN","type":"Status","port":"1/5,1/11,1/12"}]
+}

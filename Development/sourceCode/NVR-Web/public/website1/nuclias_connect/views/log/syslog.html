@@ -1,0 +1,85 @@
+<div ng-controller="syslogController" >
+
+	<div class="grid-top-menu elementFlag clear" style="padding-top: 0px;" >
+		<div class="pull-right">
+		<div class="clear" style="position: relative;z-index: 1;">
+			<div class="pull-left mgr8 mgb8" style="width: 200px;height: 32px;display: inline-block;" ng-if="showTab=='syslog-eu'">
+				<ui-select ng-model="searchTab.action" theme="bootstrap">
+					<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected=='All'?("syslog.action.All"|translate):($select.selected|euLogActionFilter)}}</ui-select-match>
+					<ui-select-choices repeat="action in actions">{{action=='All'?("syslog.action.All"|translate):(action|euLogActionFilter)}}</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="pull-left mgr8 mgb8" style="width: 140px;height: 32px;display: inline-block;" ng-if="showTab=='syslog'">
+				<ui-select ng-model="searchTab.severity" theme="bootstrap">
+					<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected=='All'?("syslog.serverity."+$select.selected|translate):$select.selected}}</ui-select-match>
+					<ui-select-choices repeat="severity in severities">{{severity=='All'?("syslog.serverity."+severity|translate):severity}}</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="pull-left mgr8 mgb8" style="width: 140px;height: 32px;display: inline-block;" ng-if="showTab=='syslog'">
+				<ui-select ng-model="searchTab.facility" theme="bootstrap">
+					<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected=='All'?("syslog.facility."+$select.selected|translate):$select.selected}}</ui-select-match>
+					<ui-select-choices repeat="facility in facilities">{{facility=='All'?("syslog.facility."+facility|translate):facility}}</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="pull-left mgr8 mgb8" style="height: 32px;display: inline-block;">
+				<div class="col-sm-6" style="padding:0;">
+					<p class="input-group date-picker">
+						<input type="text" class="pull-left form-control" style="width: 160px;background-color: #fff;" readonly id="kalendae_timeFrom" ng-model="searchTab.from">
+						<a type="button" class="btn btn-default" id="btnId11" ng-click="showCalendae('from')"><md-icon md-svg-icon="user:date"></md-icon></a>
+					</p>
+				</div>
+				<div class="col-sm-6" style="padding-left:0;">
+					<p class="input-group date-picker">
+						<input type="text" class="form-control" style="width: 160px;background-color: #fff;" readonly id="kalendae_timeTo" ng-model="searchTab.to">
+						<a type="button" class="btn btn-default" id="btnId12" ng-click="showCalendae('to')"><md-icon md-svg-icon="user:date"></md-icon></a>
+					</p>
+				</div>
+
+				<!--    <input type="text" class="pull-left form-control mgr8" ng-model="searchTab1.from" placeholder="From" style="width: 80px;">
+                    <input type="text" class="pull-left form-control" ng-model="searchTab1.to" placeholder="To" style="width: 80px;">-->
+			</div>
+			<div class="pull-left mgr8 mgb8" style="height: 32px;display: inline-block;">
+				<div style="width: 140px;height: 32px;display: inline-block;">
+					<ui-select ng-model="searchData.type" theme="bootstrap">
+						<ui-select-match placeholder="{{'common.pickone'|translate}}">{{$select.selected.name|translate}}</ui-select-match>
+						<ui-select-choices repeat="type in optionTypes">{{type.name|translate}}</ui-select-choices>
+					</ui-select>
+				</div>
+			</div>
+			<div class="pull-left mgr8 mgb8" style="height: 32px;display: inline-block;">
+				<input type="text" class="pull-right form-control" placeholder="{{'common.searchKey'|translate}}" ng-model="searchData.value" style="width: 160px;">
+			</div>
+			<div class="pull-left mgb8" style="position: relative;">
+				<!--<button class="btn btn-common pull-left mgr8" type="button" ng-click="searchTab.search()">{{'common.search'|translate}}</button>
+				<button class="btn btn-common pull-left mgr8" type="button" ng-click="searchTab.export()">{{'common.export'|translate}}</button>-->
+				<button class="btn btn-cancel pull-left mgr8" style="padding: 8px;" ng-click="searchTab.search()" title="{{'common.search' | translate}}"><md-icon md-svg-icon="user:view"></md-icon></button>
+				<button class="btn btn-common pull-left" style="padding: 8px;" ng-click="searchTab.export()" ng-disabled="exporting" title="{{'common.exportCSV' | translate}}"><md-icon md-svg-icon="user:_export"></md-icon></button>
+
+			</div>
+</div>
+		</div>
+	</div>
+	<div class="subpage set-height">
+	<uib-tabset active="activeForm" class="bg-fff">
+		<uib-tab index="0" heading="{{'syslog.syslogs'|translate}}" select="changeTab('syslog')">
+
+			<div class="grid-top-menu elementFlag1">
+
+	    	</div>
+			<div id="syslog" ui-grid="gridOptions" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns class="grid" ng-if="showTab=='syslog'">
+				<loading-directive ng-if="gridOptions.isLoading"></loading-directive>
+				<nodata-directive ng-if="!gridOptions.isLoading" ng-show="gridOptions.data.length==0" desc="{{'common.noData'|translate}}"></nodata-directive>
+			</div>
+		</uib-tab>
+		<uib-tab index="1" heading="{{'syslog.captive'|translate}}" select="changeTab('syslog-eu')">
+			<div class="grid-top-menu elementFlag1">
+
+	    	</div>
+			<div id="syslog-eu" ui-grid="eulogOptions" ui-grid-pagination ui-grid-exporter ui-grid-auto-resize ui-grid-resize-columns class="grid" ng-if="showTab=='syslog-eu'">
+				<loading-directive ng-if="eulogOptions.isLoading"></loading-directive>
+				<nodata-directive ng-if="!eulogOptions.isLoading" ng-show="eulogOptions.data.length==0" desc="{{'common.noData'|translate}}"></nodata-directive>
+			</div>
+		</uib-tab>
+
+	</uib-tabset></div>
+</div>
