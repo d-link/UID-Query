@@ -152,7 +152,14 @@ define(['app'], function (app) {
             }).state('ecp', {
                 url: '/ecp',
                 templateUrl: 'public/users/ecp.html'
-            });
+            }).state('anon.nvr', {
+                url: '/NVR',
+                templateUrl: 'public/nvr-user/nvrUserForm.html'
+            }).state('anon.nvr.nvrLogin', {
+                url: '/nvrLogin',
+                templateUrl: 'public/nvr-user/nvr-login.html',
+                controller: "nvrLoginController"
+            });;
 
         $urlRouterProvider.when("/DNH", "/DNH")
             //.when('/appLogin','/loading')
