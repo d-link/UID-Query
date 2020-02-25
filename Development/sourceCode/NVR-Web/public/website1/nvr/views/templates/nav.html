@@ -6,31 +6,118 @@
  * @Date: 2020-02-24 14:10:30
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-24 14:45:56
+ * @LastEditTime: 2020-02-25 18:44:33
  -->
 
 <!-- <header class="main-header"> -->
 <header class="main-header" ng-controller="navCtrl">
-    <!-- Logo -->
-    <a class="logo">
-
+    <!-- logo -->
+    <a class="logo" ng-mouseover="showMenu();" ng-mouseleave="hideMenu();">
         <div class="logo-lg">
-            <span style="position: absolute;top: 0px;line-height: 1;">
+            <!-- 大logo -->
+            <span ng-if="!isHide" style="position: absolute;top: 0px;line-height: 1;">
                 <md-icon style="width:70px;height:28px;" md-svg-src="../public/images/logo.svg"></md-icon>
             </span>
-
+            <!-- 小logo -->
+            <span ng-if="isHide" style="position: absolute;top: 0px;left: -5px;line-height: 1;">
+                <md-icon style="width:32px;height:19px;" md-svg-src="../public/images/logo_min.svg"></md-icon>
+            </span>
         </div>
-        <div class="hidemenu">
-
+        <!-- 是否开启 最大化最小化左侧菜单栏切换的功能 -->
+        <div ng-show="isOver" class="hidemenu">
+            <md-icon title="{{isHided?'title.show':'title.hide' | translate}}" md-svg-icon="bottom:left_hide"
+                ng-click="changeMenu();"></md-icon>
         </div>
     </a>
-    <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top clearfix" role="navigation" style="display: block;">
         <div class="col-sm-7">
-            <a class="sidebar-toggle" ng-if="org">
-                <!-- <img style="height:28px;margin-right: 4px;margin-top: -8px;" ng-src="{{org.logo}}"> -->
-                <!-- <span>{{org.name}}</span> -->
+            <a class="sidebar-toggle">
+                <img style="height:28px;margin-right: 4px;margin-top: -8px;" ng-src="{{user.photo}}">
+                <span>DNR-1010</span>
             </a>
+        </div>
+        <div class="col-sm-5" style="padding-right: 0px;">
+            <!-- 要判断是否登陆再显示 -->
+            <ul class="nav navbar-nav" style="float:right;">
+                <!-- 用户 -->
+                <li uib-dropdown class="split-dropdown">
+                    <!--弹出框按钮 -->
+                    <a uib-dropdown-toggle>
+                        <img class="circular--squareP" ng-src="{{user.photo}}" title="{{user.username}}">
+                    </a>
+                    <!-- 弹出框 -->
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"
+                        class="nav-user-profile subpage usermenu" ng-style="langStyle">
+                        <!-- userProfile -->
+                        <li role="menuitem" ng-if="!user.isNSUser">
+                            <a ng-click="userProfile();">{{'nav.userProfile'|translate}}</a>
+                        </li>
+                        <!-- logout -->
+                        <li role="menuitem">
+                            <a ng-click="logout()">{{'nav.logout'|translate}}</a>
+                        </li>
+                        <span>&#9670;</span>
+                        <em>&#9670;</em>
+                    </ul>
+                </li>
+                <!-- 跳转 -->
+                <li uib-dropdown class="split-dropdown">
+                    <!--弹出框按钮 -->
+                    <a uib-dropdown-toggle class="jumpPage">
+                        <md-icon title="{{user.username}}" md-svg-src="menu:liveView"></md-icon>
+                    </a>
+                    <!-- 弹出框 -->
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="nav-user-profile"
+                        ng-style="langStyle">
+                        <!-- DNR -->
+                        <li role="menuitem">
+                            <a ng-click="gotoDNR();">
+                                <md-icon title="{{user.username}}" md-svg-src="menu:system"></md-icon>
+                                <span>DNR Device Homepage</span>
+                            </a>
+                        </li>
+                        <!-- DNH -->
+                        <li role="menuitem">
+                            <a ng-click="gotoDNH();">
+                                <md-icon title="{{user.username}}" md-svg-src="menu:system"></md-icon>
+                                <span>AP Controller System</span>
+                            </a>
+                        </li>
+                        <span>&#9670;</span>
+                        <em>&#9670;</em>
+                    </ul>
+                </li>
+                <li>
+                    <a class="wizard" title="{{'settings.wizard'|translate}}" ng-click="showGuide();">
+                        <div style="height:16px;">
+                            <md-icon md-svg-src="/public/images/Wizard_16.svg"></md-icon>
+                        </div>
+                    </a>
+                </li>
+                <li uib-dropdown class="split-dropdown">
+                    <a uib-dropdown-toggle style="padding-top:12px;width:60px;">
+                        {{langFlag.selected.langflag.toUpperCase()}}
+                        <md-icon class="dropdown-icon" md-svg-icon="bottom:left_arrow_down" style="right:8px;top:14px;">
+                        </md-icon>
+                    </a>
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"
+                        class="nav-lang nav-user-profile subpage" style="min-width:110px;">
+                        <li role="menuitem"><a ng-click="changeLang('en')">English</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('tw')">繁體中文</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('cn');">简体中文</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('kr');">한국어.</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('jp');">日本語</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('fr');">Français</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('es');">Español</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('de');">Deutsch</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('ru');">русский язык</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('it');">In Italiano</a></li>
+                        <li role="menuitem"><a ng-click="changeLang('tk');">Turkish</a></li>
+                        <span>&#9670;</span>
+                        <em>&#9670;</em>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </nav>
 </header>

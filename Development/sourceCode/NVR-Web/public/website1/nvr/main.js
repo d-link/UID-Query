@@ -6,7 +6,7 @@
  * @Date: 2020-02-19 15:39:07
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-24 17:39:16
+ * @LastEditTime: 2020-02-25 17:06:37
  */
 require.config({
     // baseUrl: '',
@@ -52,6 +52,8 @@ require.config({
         'crypto-js': '../public/vendor/crypto-js/crypto-js',
         // <md-icon > 图标
         'dview8-components': '../public/scripts/dviewComponents',
+        // angular-ui-bootstrap,//基于bootstrap的 angular的ui组件
+        'ui-bootstrap': '../public/vendor/angular-bootstrap/ui-bootstrap-tpls.min',
 
 
 
@@ -68,6 +70,22 @@ require.config({
     deps: ['bootstrap']
 });
 
+// 请求地址开头,
 var base_url = "/api/web";
 var root_url = "";
+var NCTime = new Date();
+// ---------以下为全局方法---------
+/**
+ * @Description: 左侧栏的高度自适应
+ * @Param: 
+ * @Return: 
+ * @Author: lizhimi
+ */
+function changeDivHeight() {
+    var left = document.getElementsByClassName('main-sidebar')[0];
+    if (left) {
+        var height = left.clientHeight;
+        document.getElementsByClassName('sidebar')[0].style.height = (height - 42) + "px";
+    }
+}
 

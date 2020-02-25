@@ -1,17 +1,16 @@
 /*
- * @Description: 
+ * @Description: 加载所有services
  * @Version: 0.4.0
  * @Vender: D-link
  * @Author: YueXiangling
  * @Date: 2020-02-24 15:27:37
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-24 16:02:26
+ * @LastEditTime: 2020-02-25 15:37:27
  */
 define([
     // 'serviceModule',
-
-    // 'scripts/services/moudlesService',
+    // 公共services
     '../public/scripts/common/storageService',
     '../public/scripts/common/avtService',
     '../public/scripts/common/nucliasService',
@@ -23,7 +22,10 @@ define([
     '../public/scripts/common/authentication',
     '../public/scripts/common/moudlesService',
     '../public/scripts/common/translateService',
+    // nvr services
+    'scripts/services/organization/organizationService',
+
 
 ], function () {
-    console.log(22222)
+
 });
