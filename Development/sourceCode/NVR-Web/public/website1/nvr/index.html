@@ -6,7 +6,7 @@
  * @Date: 2020-02-19 15:38:44
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-24 18:31:49
+ * @LastEditTime: 2020-02-25 15:11:55
  -->
 <!DOCTYPE html>
 <html lang="en" ng-controller="GlobalController">
@@ -21,8 +21,9 @@
     <link rel="stylesheet" href="styles/nvr-main.css">
     <script data-main="main.js" src="../public/vendor/requirejs/require.min.js"></script>
 </head>
+<!-- isHide控制左侧菜单栏的最大化和最小化显示,类名-->
 
-<body>
+<body ng-cloak ng-class="isHide?'hold-transition skin-green sidebar-mini':'hold-transition'">
     <ui-view></ui-view>
 </body>
 

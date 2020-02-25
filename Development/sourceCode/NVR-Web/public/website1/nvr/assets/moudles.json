@@ -24,7 +24,11 @@
     },
     {
       "id": "log",
-      "name": "Log",
+      "name": "Log"
+    },
+    {
+      "id": "system",
+      "name": "System",
       "moudles": [
         {
           "id": "recordingSchedule",

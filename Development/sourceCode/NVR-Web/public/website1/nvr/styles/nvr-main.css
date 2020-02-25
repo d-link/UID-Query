@@ -7,11 +7,15 @@
  * @Date: 2020-02-21 18:16:00
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-24 17:48:59
+ * @LastEditTime: 2020-02-25 18:41:27
  */
-/* .active {
-  color: blueviolet;
+.modal-userprofile .modal-dialog {
+  max-width: 90vw;
 }
-li {
-  text-align: center;
-} */
+.main-header .navbar .nav > li.dropdown.split-dropdown > a.jumpPage {
+  padding: 8px 12px;
+}
+.main-header .navbar .nav > li.dropdown.split-dropdown > a.jumpPage md-icon {
+  width: 24px;
+  height: 24px;
+}

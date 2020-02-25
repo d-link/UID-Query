@@ -6,17 +6,19 @@
  * @Date: 2020-02-21 09:48:46
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-24 16:56:09
+ * @LastEditTime: 2020-02-25 17:42:34
  */
 define([
     // 'controllerModule',
     // 所有控制器在这里引入，意味着一开始就会全部加载，会影响速度，后续改用按需加载
-    '../public/scripts/common/globalController',
+    '../public/scripts/common/globalController',//最大的控制器，index.html的控制器
 
     'views/cameras/cameraDetailController',
     'views/cameras/camerasController',
     'views/templates/navController',
     'views/templates/asideController',
+    'views/templates/userProfileController',
+
 ], function (controllers) {
     'use strict';
     // 给index也添加一个控制器
