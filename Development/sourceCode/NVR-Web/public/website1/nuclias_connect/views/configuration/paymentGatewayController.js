@@ -55,6 +55,10 @@ define(["app"], function (app) {
                 if (e.currentTarget.value === "0.00") {
                     $scope.payment.options[index].cost = 0;
                 }
+            } else {
+                if (e.currentTarget.value.length > 1 && e.currentTarget.value.indexOf(".") == -1 && e.currentTarget.value.substr(0, 1) == 0) {
+                    $scope.payment.options[index].cost = e.currentTarget.value.substr(1, 2);
+                }
             }
         };
 

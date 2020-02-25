@@ -670,10 +670,10 @@ define(["app"], function (app) {
                         $scope.org.defaultGateWay = res.data.defaultGateWay;
                         $scope.org.primaryDNS = res.data.primaryDNS;
                         $scope.org.secondDNS = res.data.secondDNS;
-                        $scope.org.changeDAA = res.data.changeDAA;
+                        //$scope.org.changeDAA = res.data.changeDAA;
                     }
                     // res.data = {
-                    //     "ipType": "dncp",
+                    //     "ipType": "dhcp",
                     //     // "ipAddress": "172.18.192.140",
                     //     // "subnetMask": "255.255.255.0",
                     //     // "defaultGateWay": "172.18.192.1",
@@ -694,11 +694,13 @@ define(["app"], function (app) {
                     $scope.originalField.primaryDNS = $scope.org.primaryDNS || "";
                     $scope.originalField.secondDNS = $scope.org.secondDNS || "";
                     if ($scope.org.ipType == "static") {
-                        if ($scope.org.changeDAA == 0) {
-                            $scope.org.changeDAA = false;
-                        } else if ($scope.org.changeDAA == 1) {
-                            $scope.org.changeDAA = true;
-                        }
+                        // if ($scope.org.changeDAA == 0) {
+                        //     $scope.org.changeDAA = false;
+                        // } else if ($scope.org.changeDAA == 1) {
+                        //     $scope.org.changeDAA = true;
+                        // }
+                        //默认勾选
+                        $scope.org.changeDAA = true;
                     }
                     $scope.originalField.changeDAA = $scope.org.changeDAA;
                     //多选框置灰
@@ -798,7 +800,6 @@ define(["app"], function (app) {
                                 $scope.connection.devAccessAddress = 'other';
                                 $scope.dataForShow.deviceAddress = d;
                             }
-                            ;
                         }
                         for (var i = 0; i < $scope.addresses.length; i++) {
                             if ($scope.addresses[i] == w) {
@@ -1027,16 +1028,45 @@ define(["app"], function (app) {
         };
 
         $scope.uploadSSL = function () {
+            //出现弹框提示要重启系统才会生效
+            var modalInstance = $uibModal.open({
+                backdrop: 'static',
+                animation: true,
+                keyboard: false,
+                templateUrl: './views/templates/dialogConfirm.html',
+                windowClass: 'modal-saveLanSetting',
+                size: "w500",
+                controller: function ($scope, $uibModalInstance) {
+                    $scope.con = {
+                        title: TS.ts("settings.updateSSLCertificate"),
+                        content: TS.ts("settings.SSLTip"),
+                        type: 'menu:system'
+                    };
+                    $scope.ok = function (r) {
+                        $uibModalInstance.close(r);
+                        uploadSysSSL();
+                    };
+                    $scope.cancel = function () {
+                        $uibModalInstance.dismiss('cancel');
+                    };
+                }
+            });
+
+        }
+
+        function uploadSysSSL() {
             $scope.state.ssl.processing = true;
             $scope.state.ssl.isSuccess = false;
             $scope.state.ssl.isError = false;
-
             if (!$scope.ssl.certificate || !$scope.ssl.key) {
                 $scope.state.ssl.processing = false;
                 $scope.state.ssl.isError = true;
                 $scope.state.ssl.msgFalse = 'Files needed!';
                 return;
             }
+            //不可点击
+            var loadingIndicator = document.getElementsByClassName("loading-indicator");
+            loadingIndicator[0].style.display = "block";
             var params = {
                 url: base_url + '/org/certificate',
                 method: 'POST',
@@ -1056,6 +1086,7 @@ define(["app"], function (app) {
                 if (result.status == 200) {
                     if (!result.data.success) {
                         $scope.state.ssl.processing = false;
+                        loadingIndicator[0].style.display = "none";
                         $scope.state.ssl.isError = true;
                         if (result.data.error == 1) {
                             $scope.state.ssl.msgFalse = "ssl.msgFalse1";
@@ -1066,8 +1097,12 @@ define(["app"], function (app) {
                             $scope.state.ssl.msgFalse = 'ssl.msgFalse3';
                         }
                     } else {
-                        $scope.state.ssl.processing = false;
-                        $scope.state.ssl.isSuccess = true;
+                        //$scope.state.ssl.isSuccess = true;
+                        //转圈30s显示之后再跳出系统
+                        setTimeout(function () {
+                            $scope.state.ssl.processing = false;
+                            window.location = "/";
+                        }, 30000);
                     }
 
                 }
@@ -1602,7 +1637,7 @@ define(["app"], function (app) {
                             setTimeout(function () {
                                 $scope.state.restore.processing = false;
                                 window.location = "/";
-                            }, 10000);
+                            }, 30000);
                         }
 
                     }
@@ -1611,35 +1646,38 @@ define(["app"], function (app) {
             });
         }
         function sendRebootConfirm(param, ipType, ipAddress, webAccessPort, type) {
+            if (param.step != -1) {
+                //不可点击
+                var loadingIndicator = document.getElementsByClassName("loading-indicator");
+                loadingIndicator[0].style.display = "block";
+                $scope.state.restore.processing = true;
+            }
             OrganizationService.restoreConfig(param, function (res) {
                 if (param.step == -1) {
                     $scope.state.restore.processing = false;
                     $scope.state.restore.isSuccess = false;
                     $scope.state.restore.isError = false;
-                }
-                else {
+                } else {
                     if (res.success || res.error == 408) {
                         //分确认和取消，取消不用管
                         if (type == "ok") {
                             //转圈显示10s之后再跳出系统
                             $scope.state.restore.processing = true;
-                            //不可点击
-                            var loadingIndicator = document.getElementsByClassName("loading-indicator");
-                            loadingIndicator[0].style.display = "block";
+                            $scope.restoreIP = ipAddress;
+                            $scope.restorePort = webAccessPort;
                             setTimeout(function () {
                                 $scope.state.restore.processing = false;
-                                if (ipType == "static") {
-                                    var webAccessPort = webAccessPort || 443;
-                                    window.location = "https://" + ipAddress + ":" + webAccessPort;
-                                } else {
-                                    window.location = "/";
-                                }
-                            }, 10000)
+                                loadingIndicator[0].style.display = "none";
+                                var ipAddress1 = $scope.restoreIP || window.location.hostname;
+                                var webAccessPort1 = $scope.restorePort || 443;
+                                window.location = "https://" + ipAddress1 + ":" + webAccessPort1;
+                            }, 30000)
 
                         }
                     } else {
                         $scope.state.restore.processing = false;
                         $scope.state.restore.isError = true;
+                        loadingIndicator[0].style.display = "none";
                         if (res.error == 1) {
                             $scope.state.restore.msgFalse = "settings.db.restoreTip1";
                         }
@@ -1897,8 +1935,8 @@ define(["app"], function (app) {
                         $scope.org.subnetMask == $scope.originalField.subnetMask &&
                         $scope.org.defaultGateWay == $scope.originalField.defaultGateWay &&
                         $scope.org.primaryDNS == $scope.originalField.primaryDNS &&
-                        $scope.org.secondDNS == $scope.originalField.secondDNS &&
-                        $scope.org.changeDAA == $scope.originalField.changeDAA) {
+                        $scope.org.secondDNS == $scope.originalField.secondDNS) {
+                        //&& $scope.org.changeDAA == $scope.originalField.changeDAA 不要管changeDAA的状态
                         $scope.disabledLanSetting = true;//不可以保存
                     } else {
                         $scope.disabledLanSetting = false;//可以保存
@@ -2039,8 +2077,8 @@ define(["app"], function (app) {
                         $scope.org.subnetMask == $scope.originalField.subnetMask &&
                         $scope.org.defaultGateWay == $scope.originalField.defaultGateWay &&
                         $scope.org.primaryDNS == $scope.originalField.primaryDNS &&
-                        $scope.org.secondDNS == $scope.originalField.secondDNS &&
-                        value == $scope.originalField.changeDAA) {
+                        $scope.org.secondDNS == $scope.originalField.secondDNS) {
+                        //&&value == $scope.originalField.changeDAA 不需要记住changeDAA的状态
                         $scope.disabledLanSetting = true;//不可以保存
                     }
                 }
@@ -2049,6 +2087,39 @@ define(["app"], function (app) {
 
         //保存lansetting，同步到systemcli那边，还要调so的接口
         $scope.saveLanSetting = function () {
+            if ($scope.org.ipType == "dhcp") {
+                saveLan(0);
+            } else {
+                var modalInstance = $uibModal.open({
+                    backdrop: 'static',
+                    animation: true,
+                    keyboard: false,
+                    templateUrl: './views/templates/dialogConfirm.html',
+                    windowClass: 'modal-saveLanSetting',
+                    size: "w500",
+                    controller: function ($scope, $uibModalInstance) {
+                        $scope.con = {
+                            title: TS.ts("addChipSystemData.lanSetting"),
+                            content: TS.ts("settings.syncDAA"),
+                            type: 'menu:system'
+                        };
+                        $scope.ok = function (r) {
+                            $uibModalInstance.close(r);
+                            //changeDAA：1
+                            saveLan(1);
+
+                        };
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss('cancel');
+                            //changeDAA：0
+                            saveLan(0);
+                        };
+                    }
+                });
+            }
+        };
+
+        function saveLan(changeDAA) {
             //Dynamic IP (DHCP) 換到 Static IP (Manual) 且未編輯Static IP (Manual):
             // 按下Save按鈕, 應該會跳出視窗
             // 因無更改IP所以只須跳出視窗告知使用者不須重新斷線與登入
@@ -2075,7 +2146,7 @@ define(["app"], function (app) {
                         $scope.ok = function (r) {
                             $uibModalInstance.close(r);
                             //弹框之后确认保存设置
-                            handleSaveLanSetting(true, false, true);
+                            handleSaveLanSetting(changeDAA, true, false, true);
 
                         };
                         $scope.cancel = function () {
@@ -2111,7 +2182,7 @@ define(["app"], function (app) {
                             $scope.ok = function (r) {
                                 $uibModalInstance.close(r);
                                 //弹框之后确认保存设置并且要倒计时
-                                handleSaveLanSetting(changeIPAddress, true);
+                                handleSaveLanSetting(changeDAA, changeIPAddress, true, false);
                             };
                             $scope.cancel = function () {
                                 $uibModalInstance.dismiss('cancel');
@@ -2120,20 +2191,21 @@ define(["app"], function (app) {
                     });
                 } else {
                     //不用倒计时，直接保存就行
-                    handleSaveLanSetting(changeIPAddress, false);
+                    handleSaveLanSetting(changeDAA, changeIPAddress, false);
                 }
             }
-        };
+        }
 
-        function handleSaveLanSetting(changeIPAddress, isTictoc, changeOriginalIPType) {
+        function handleSaveLanSetting(changeDAA, changeIPAddress, isTictoc, changeOriginalIPType) {
             $scope.state.lanSetting.processing = true;
             $scope.state.lanSetting.isSuccess = false;
             $scope.state.lanSetting.isError = false;
-            if (!$scope.org.changeDAA || $scope.org.changeDAA == false) {
-                $scope.org.changeDAA = 0;
-            } else if ($scope.org.changeDAA == true) {
-                $scope.org.changeDAA = 1;
-            }
+            // if (!$scope.org.changeDAA || $scope.org.changeDAA == false) {
+            //     $scope.org.changeDAA = 0;
+            // } else if ($scope.org.changeDAA == true) {
+            //     $scope.org.changeDAA = 1;
+            // }
+            $scope.org.changeDAA = changeDAA;
             if ($scope.org.changeDAA == 1) {//因为没改changeDAA这个checkbox的时候，ip会不同步
                 $scope.org.devAccessAddress = $scope.org.ipAddress;
             }
@@ -2622,7 +2694,12 @@ define(["app"], function (app) {
                             text3: TS.ts("settings.secondInfo"),
                         }
                         var second = 140;
-                        tictoc(text, second, $scope.org.webAccessPort, $scope.org.ipAddress);
+                        if($scope.exceptIPAddress) {
+                            tictoc(text, second, 443, $scope.org.ipAddress);
+                        }
+                        else {
+                            tictoc(text, second, 443, "192.168.0.200");
+                        }
                         $scope.isShowForm = false;
                     } else {
                         $scope.state.restoreFactory.processing = false;

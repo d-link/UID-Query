@@ -641,6 +641,7 @@ define({
             "invalid1": "300-9999999の値を入力してください。",
             "invalid2": "有効なパスフレーズ長はASCIIでは8～63文字、16進数では64文字です。",
             "invalidRadius": "RADIUSサーバに有効なIPアドレスを指定してください。",
+            "invalidAccountServer": "アカウンティングサーバーの有効なIPアドレスを指定してください",
             "invalidPOP3": "POP3サーバに有効なアドレスを指定してください。",
             "invalidLDAP": "LDAPサーバに有効なアドレスを指定してください。",
             "requireLDAPUser": "LDAPサーバにユーザ名を指定してください。",
@@ -1103,6 +1104,7 @@ define({
         "systemConf": "システム設定",
         "lanSettingConfirm": "LAN設定が更新されようとしています。デバイスは切断される可能性があります。",
         "lanSettingUpdate": "LAN設定が更新されようとしています。",
+        "syncDAA": "このIPアドレスをデバイスアクセスアドレスで使用しますか？",
         "lanSettingInfo1": "LAN設定を更新しています…デバイスの電源をオフにしないでください。",
         "restartInfo1": "デバイスが再起動しています…デバイスの電源をオフにしないでください。",
         "restoreInfo1": "デバイスはリストアしています…デバイスの電源をオフにしないでください。",
@@ -1183,6 +1185,7 @@ define({
             "MicroSDUsage": "MicroSDの使用"
         },
         "connectionTip": "Nuclias Connectを有効にするために再起動し、Web/デバイスアクセスポートを更新しますか?",
+        "SSLTip": "Nuclias Connectを再起動して有効にするSSL証明書を更新してもよろしいですか？",
         "ncRestartInfo1": "Nuclias Connectは再起動中です…デバイスの電源をオフにしないでください。",
         "formatTitle": "マイクロSDカードをフォーマット",
         "formatTip": "Nuclias Connectを再起動して有効にするためにSDカードをフォーマットしますか？",

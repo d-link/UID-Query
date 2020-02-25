@@ -9,6 +9,7 @@ const systemCli = util.common.systemCli;
 const User = db.User;
 const cwmOrg = db.cwmOrg;
 const firmware = db.Firmware;
+const cwmNCStats = db.cwmNCStats;
 const cwmSSOStatus = db.cwmSSOStatus;
 const cwmSSOStatusHistory = db.cwmSSOStatusHistory;
 const cwmSSOInfo = db.cwmSSOInfo;
@@ -384,6 +385,11 @@ function enableSSO(req, res, next) {
                                         // 更新SSO狀態,只保存一条
                                         cwmSSOStatus.updateSSOStatus(true, reqbody.modifier, function (err, result) {
                                             console.log("Save SSO status");
+                                            systemCli.setSsoLedBySo(1, function (err, result) {
+                                                if(err) {
+                                                    console.log("Set SSO led error: " + result);
+                                                }
+                                            });
                                         });
 
                                         // 新增SSO的修改歷史紀錄
@@ -476,10 +482,15 @@ function disableSSO(req, res, next) {
 
                 });
                 cwmSSOInfo.updateAccountStatus(false, null, (err, result) => {
-                })
+                });
                 // 更新SSO狀態,只保存一条
                 cwmSSOStatus.updateSSOStatus(false, reqbody.modifier, function (err, result) {
                     console.log("Save sso status");
+                    systemCli.setSsoLedBySo(0, function (err, result) {
+                        if(err) {
+                            console.log("Set SSO led error: " + result);
+                        }
+                    });
                 });
                 // 新增SSO的修改歷史紀錄
                 cwmSSOStatusHistory.save({
@@ -513,9 +524,14 @@ function disableSSO(req, res, next) {
 
                         });
                         cwmSSOInfo.updateAccountStatus(false, null, (err, result) => {
-                        })
+                        });
                         cwmSSOStatus.updateSSOStatus(false, reqbody.modifier, function (err, result) {
                             console.debug_log("Save sso status");
+                            systemCli.setSsoLedBySo(0, function (err, result) {
+                                if(err) {
+                                    console.log("Set SSO led error: " + result);
+                                }
+                            });
                         });
                         cwmSSOStatusHistory.save({
                             enableSSO: false,
@@ -623,6 +639,11 @@ function statistic(callback) {
                                 console.log('Statistic success');
                                 //连线OK了，更新状态
                                 cwmSSOInfo.updateAccountStatus(true, null, (err, result) => {
+                                    systemCli.setSsoLedBySo(1, function (err, result) {
+                                        if(err) {
+                                            console.log("Set SSO led error: " + result);
+                                        }
+                                    });
                                 })
                                 callback({success: true, data: body});
                             })
@@ -636,6 +657,11 @@ function statistic(callback) {
                                         // 更新SSO狀態,只保存一条
                                         cwmSSOStatus.updateSSOStatus(false, "system", function (err, result) {
                                             console.debug_log("save sso status, sso disabled by NS");
+                                            systemCli.setSsoLedBySo(0, function (err, result) {
+                                                if(err) {
+                                                    console.log("Set SSO led error: " + result);
+                                                }
+                                            });
                                         });
                                         // 新增SSO的修改歷史紀錄
                                         cwmSSOStatusHistory.save({
@@ -680,6 +706,12 @@ function statistic(callback) {
                                         cwmSSOStatus.getSSOStatus((err, status) => {
                                             if (status && status.enableSSO) {
                                                 cwmSSOInfo.updateAccountStatus(false, error, (err, result) => {
+                                                    let ssoMode = (error == 'timeout' ? 2 : 3);
+                                                    systemCli.setSsoLedBySo(ssoMode, function (err, result) {
+                                                        if(err) {
+                                                            console.log("Set SSO led error: " + result);
+                                                        }
+                                                    });
                                                 })
                                             }
 
@@ -1000,13 +1032,27 @@ function timerStopForOwn() {
 }
 
 function checkSSOStatus() {
-    cwmSSOStatus.getSSOStatus((err, result) => {
-        if (result && result.enableSSO) {
-            statistic(function(result){
-            });
-            timerStart();
-        }
-    })
+    let checkCSTimer = setInterval (function() {
+        cwmNCStats.checkCSOnlineStatus((err, result) => { //等待CS启动正常后再进行SSO同步
+            if (result) {
+                clearInterval(checkCSTimer);
+                cwmSSOStatus.getSSOStatus((err, result) => {
+                    if (result && result.enableSSO) {
+                        statistic(function(result){
+                        });
+                        timerStart();
+                    }
+                    else {
+                        systemCli.setSsoLedBySo(0, function (err, result) { //SSO disable时，设置led灯橘色闪烁
+                            if(err) {
+                                console.log("Set SSO led error: " + result);
+                            }
+                        });
+                    }
+                })
+            }
+        })
+    }, 5000);
 }
 
 module.exports = {

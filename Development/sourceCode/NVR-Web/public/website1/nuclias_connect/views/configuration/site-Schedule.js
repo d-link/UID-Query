@@ -52,7 +52,7 @@ define(["app"], function (app) {
         //utils.getNodeTime(function () {
         $scope.scheduleValue.startTime = new Date(NCTime);
         //开始时间不能跟结束时间相等
-        var temTime = utils.format((new Date(NCTime).getTime() + 60000), 'yyyy-MM-dd HH:mm:ss');
+        var temTime = utils.format((new Date(NCTime).getTime() + 60000), 'yyyy/MM/dd HH:mm:ss');
         $scope.scheduleValue.endTime = new Date(temTime);
         $scope.ismeridian = true;
         $scope.hstep = 1;

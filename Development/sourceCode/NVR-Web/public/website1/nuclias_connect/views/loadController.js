@@ -55,9 +55,9 @@ define(["app"], function (app) {
                 if (orgs && orgs.length > 0) {
                     var org = orgs[0];
                     org.orgId = org._id;
-                    if (Current.org() && Current.org().logo) {
-                        org.logo = Current.org().logo;
-                    }
+                    // if (Current.org() && Current.org().logo) {
+                    //     org.logo = Current.org().logo;
+                    // }
                     Current.setOrg(org);
                     $scope.org = Current.org();
                     Current.broadcast('current org changed');

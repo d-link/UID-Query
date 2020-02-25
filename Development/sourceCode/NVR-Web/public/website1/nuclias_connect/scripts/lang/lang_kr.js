@@ -641,6 +641,7 @@ define({
             "invalid1": "300-9999999 사이의 값을 입력하십시오",
             "invalid2": "유효한 암호 길이는 8~63자 입니다",
             "invalidRadius": "RADIUS 서버에 유효한 IP주소를 입력하십시오",
+            "invalidAccountServer": "계정 서버에 유효한 IP 주소를 지정하십시오",
             "invalidPOP3": "POP3 서버에 유효한 주소를 입력하십시오",
             "invalidLDAP": "LLDP 서버에 유효한 주소를 입력하십시오",
             "requireLDAPUser": "LLDP 서버에 사용자 이름을 입력하십시오",
@@ -1104,6 +1105,7 @@ define({
         "systemConf": "시스템 운영",
         "lanSettingConfirm": "LAN 설정이 업데이트 됩니다. 장치 연결이 끊어질 수 있습니다.",
         "lanSettingUpdate": "LAN 설정이 업데이트 됩니다.",
+        "syncDAA": "이 IP 주소를 장치 액세스 주소로 사용 하시겠습니까?",
         "lanSettingInfo1": "LAN 설정이 업데이트 중입니다 ... 장치의 전원을 끄지 마십시오.",
         "restartInfo1": "장치가 재부팅 중입니다 ... 장치의 전원을 끄지 마십시오.",
         "restoreInfo1": "장치가 복원 중입니다 ... 장치의 전원을 끄지 마십시오.",
@@ -1184,6 +1186,7 @@ define({
             "MicroSDUsage": "MicroSD 사용법"
         },
         "connectionTip": "Nuclias Connect가 다시 시작되도록 웹 / 장치 액세스 포트를 업데이트 하시겠습니까?",
+        "SSLTip": "Nuclias Connect가 다시 시작되도록 SSL 인증서를 업데이트 하시겠습니까?",
         "ncRestartInfo1": "Nuclias Connect를 다시 시작하는 중 ... 장치의 전원을 끄지 마십시오",
         "formatTitle": "MicroSD 카드 포멧",
         "formatTip": "Nuclias Connect를 다시 시작하려면 SD 카드를 포맷 하시겠습니까?",

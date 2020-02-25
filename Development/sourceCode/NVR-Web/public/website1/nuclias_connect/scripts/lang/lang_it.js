@@ -641,6 +641,7 @@ define({
             "invalid1": "Inserire un valore compreso tra 300 e 9999999",
             "invalid2": "8-63 in ASCII o 64 in esa.",
             "invalidRadius": "Specificare un indirizzo IP valido per il server RADIUS",
+            "invalidAccountServer": "Specificare un indirizzo IP valido per il server di contabilità",
             "invalidPOP3": "Specificare un indirizzo IP valido per il server POP3",
             "invalidLDAP": "Specificare un indirizzo valido per il server LDAP",
             "requireLDAPUser": "Specificare il nome utente per il server LDAP",
@@ -1110,6 +1111,7 @@ define({
         "systemConf": "Operazione di sistema",
         "lanSettingConfirm": "Le impostazioni della LAN stanno per essere aggiornate.                          Il dispositivo potrebbe essere disconnesso. ",
         "lanSettingUpdate": "Le impostazioni della LAN stanno per essere aggiornate.",
+        "syncDAA": "Vuoi usare questo indirizzo IP sull'indirizzo di accesso al dispositivo?",
         "lanSettingInfo1": "Aggiornamento impostazione LAN in corso... Non spegnere il dispositivo.",
         "restartInfo1": "Riavvio dispositivo in corso... Non spegnere il dispositivo.",
         "restoreInfo1": "Ripristino dispositivo in corso... Non spegnere il dispositivo.",
@@ -1190,6 +1192,7 @@ define({
             "MicroSDUsage": "Uso di MicroSD"
         },
         "connectionTip": "Aggiornare la porta di accesso a Web/Dispositivo? Per rendere effettivo l'aggiornamento, Nuclias Connect dovrà essere riavviato.",
+        "SSLTip": "Sei sicuro di voler aggiornare il certificato SSL che Nuclias Connect verrà riavviato per rendere effettivo?",
         "ncRestartInfo1": "Riavvio di Nuclias Connect in corso... Non spegnere il dispositivo",
         "formatTitle": "Formatta scheda MicroSD",
         "formatTip": "Sei sicuro di voler formattare la scheda SD per riavviare Nuclias Connect affinché abbia effetto?",

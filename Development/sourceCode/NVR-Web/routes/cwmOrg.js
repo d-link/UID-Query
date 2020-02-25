@@ -157,7 +157,13 @@ exports.uploadCertificate = function (req, res) {
 
                 cwmOrg.updateSslCertification(orgId, files, function (err, result) {
                     if (!err) {
-                        return res.json({success: true});
+                        systemCli.restartMonitoringBySo(function (err, data) {
+                            if (err) {
+                                return res.json({success: false, error: err});
+                            } else {
+                                return res.json({success: true});
+                            }
+                        });
                     } else {
                         return res.json({success: false, error: err});
                     }
@@ -178,8 +184,8 @@ exports.updateSMTP = function (req, res, next) {
         || [false,true].indexOf(smtpServer.secure) == -1
         || ['SSL','None'].indexOf(smtpServer.secureText) == -1
         || ['UTF-8','ASC-II'].indexOf(smtpServer.encoding) == -1
-        || (smtpServer.auth && !regCheck.isEmail(smtpServer.auth.username))
-        || (smtpServer.auth && !regCheck.isSMTPAuthPassword(smtpServer.auth.username,smtpServer.auth.password))){
+        || (smtpServer.auth && Object.keys(smtpServer.auth).length != 0 && !regCheck.isEmail(smtpServer.auth.username))
+        || (smtpServer.auth && Object.keys(smtpServer.auth).length != 0 && !regCheck.isSMTPAuthPassword(smtpServer.auth.username,smtpServer.auth.password))){
         return res.json({success: false, error: "Request parameter validation failed"}); 
     }
     db.User.getUserRoleById(opeUserId, function (err, opeUser) {
@@ -419,6 +425,7 @@ exports.updatePayment = function (req, res, next) {
 
 };
 exports.testSMTP = function (req, res, next) {
+    res.connection.setTimeout(0);
     let smtpServer = req.body.smtpServer;
     let testEmail = req.body.testEmail;
     if (!smtpServer || !testEmail) {

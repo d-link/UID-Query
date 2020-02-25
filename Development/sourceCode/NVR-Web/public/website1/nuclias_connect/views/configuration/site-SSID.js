@@ -3456,7 +3456,13 @@ define(["app"], function (app) {
                             $scope.maclistLen24 += (-$scope.addressOptions.data.length);
                             $scope.addressOptions.data = [];
                             for (var i = 0; i < uploadList.length; i++) {
-                                $scope.addMacAddress(uploadList[i]);
+                                var re = /[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}:[A-Fa-f0-9]{2}/;
+                                //var re = /((([a-f0-9]{2}:){5})|(([a-f0-9]{2}-){5}))[a-f0-9]{2}/gi;
+                                if (re.test(uploadList[i])) {
+                                    if (uploadList[i].length == 17) {
+                                        $scope.addMacAddress(uploadList[i]);
+                                    }
+                                }
                             }
                         } else {
                             $scope.acl.error = true;
@@ -3813,7 +3819,8 @@ define(["app"], function (app) {
                         }
                     }
                     $scope.fileNameFilter = function (ssidName) {
-                        $scope.loginFile.name = (ssidName || "").replace(/[_.,;:?\[\]<>/\*{}^\|()@#$+=%!\s-"'~&\\`~！￥…*（）—｛｝：“”《》？、。，；‘’【】、=·]/g, "");
+                        $scope.loginFile.name = (ssidName || "").replace(/[.,;:?\[\]<>/\*{}^\|()@#$+=%!\s"'~&\\`~！￥…*（）—｛｝：“”《》？、。，；‘’【】、=·]/g, "");
+                        $scope.loginFile.name = (ssidName || "").replace(/[\u4E00-\u9FA5]/g, "");//core在取压缩包的时候压缩中文字符取不到，所以要限制中文字符
                     }
                     $scope.ok = function () {
                         $scope.fileNameFilter($scope.loginFile.name);

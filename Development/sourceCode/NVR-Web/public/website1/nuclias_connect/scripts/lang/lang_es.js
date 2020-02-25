@@ -641,6 +641,7 @@ define({
             "invalid1": "introduzca un valor entre 300 y 9999999",
             "invalid2": "8-63 caracteres en ASCII o 64 caracteres en Hexadecimal.",
             "invalidRadius": "Especifique una dirección IP válida para el servidor RADIUS",
+            "invalidAccountServer": "Especifique una dirección IP válida para el servidor de contabilidad",
             "invalidPOP3": "Especifique una dirección válida para el servidor POP3",
             "invalidLDAP": "Especifique una dirección válida para el servidor LDAP",
             "requireLDAPUser": "Especifique un nombre de usuario para el servidor LDAP",
@@ -1110,6 +1111,7 @@ define({
         "systemConf": "Operación del sistema",
         "lanSettingConfirm": "Se va a actualizar la configuración de LAN.                          Es posible que su dispositivo esté desconectado. ",
         "lanSettingUpdate": "Se va a actualizar la configuración de LAN. ",
+        "syncDAA": "¿Desea usar esta dirección IP en la dirección de acceso del dispositivo?",
         "lanSettingInfo1": "La configuración de LAN se está actualizando; no apague el dispositivo.",
         "restartInfo1": "El dispositivo se está reiniciando; no apague el dispositivo.",
         "restoreInfo1": "El dispositivo se está restaurando; no apague el dispositivo.",
@@ -1190,6 +1192,7 @@ define({
             "MicroSDUsage": "Uso de MicroSD"
         },
         "connectionTip": "¿Seguro que desea actualizar el puerto de acceso web/del dispositivo en el que se va a reiniciar Nuclias Connect para que entre en vigor?",
+        "SSLTip": "¿Está seguro de que desea actualizar el Certificado SSL de que Nuclias Connect se reiniciará para que surta efecto?",
         "ncRestartInfo1": "Nuclias Connect se está reiniciando... No apague el dispositivo",
         "formatTitle": "Formatear tarjeta microSD",
         "formatTip": "¿Está seguro de que desea formatear la tarjeta SD para reiniciar Nuclias Connect para que surta efecto?",

@@ -6,6 +6,10 @@ define(["app", "canvasContainer"], function (app) {
         setHeight(); //test
         setHeight('data-show-menu-main', [], -40);
         setHeight('site-set-height', ['elementFlag']);
+        var currentLang = $translate.proposedLanguage() || $translate.use();
+        if (currentLang == 'ru') {
+            document.getElementById("hot-ap-title").style.display = "contents";
+        }
         $scope.timer = null;
 
 

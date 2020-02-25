@@ -98,8 +98,8 @@
                                         <md-icon class="pull-left mgt4"
                                                  md-svg-icon="bottom:left_arrow_right" ng-click="site.open=!site.open"
                                                  ng-show="!site.open"></md-icon>
-                                <span class="pull-left mgt6"
-                                      style="width: 88px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{site.siteName}}</span>
+                                        <span class="pull-left mgt6"
+                                              style="width: 88px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{site.siteName}}</span>
                                         <md-icon class='mgt4' style="margin-left: 8px;" ng-show="!site.check"
                                                  md-svg-icon="check:uncheck"
                                                  ng-click="site.check=!site.check;siteCheckChange(site);"></md-icon>
@@ -118,14 +118,14 @@
                                                          md-svg-icon="bottom:left_arrow_right"
                                                          ng-click="network.open=!network.open"
                                                          ng-show="!network.open"></md-icon>
-                                        <span class="pull-left mgt6"
-                                              style="width: 80px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{network.name}}</span>
+                                                <span class="pull-left mgt6"
+                                                      style="width: 80px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{network.name}}</span>
                                                 <md-icon class='mgt4' style="margin-left: 8px;" ng-show="!network.check"
                                                          md-svg-src="images/grid/grid_uncheck.svg"
-                                                         ng-click="network.check=!network.check;networkCheckChange(network);"></md-icon>
+                                                         ng-click="network.check=!network.check;site.check=false;networkCheckChange(network);"></md-icon>
                                                 <md-icon class='mgt4' style="margin-left: 8px;" ng-show="network.check"
                                                          md-svg-icon="check:check"
-                                                         ng-click="network.check=!network.check;networkCheckChange(network);"></md-icon>
+                                                         ng-click="network.check=!network.check;site.check=false;networkCheckChange(network);"></md-icon>
                                             </a>
                                             </a>
                                             <ul ng-show="network.open" style="list-style:none;margin-left: 26px">
@@ -137,11 +137,11 @@
                                                         <md-icon class='mgt4' style="margin-left: 8px;"
                                                                  ng-show="!device.check"
                                                                  md-svg-icon="check:uncheck"
-                                                                 ng-click="device.check=!device.check;deviceCheckChange(device);"></md-icon>
+                                                                 ng-click="device.check=!device.check;site.check=false;network.check=false;deviceCheckChange(device);"></md-icon>
                                                         <md-icon class='mgt4' style="margin-left: 8px;"
                                                                  ng-show="device.check"
                                                                  md-svg-icon="check:check"
-                                                                 ng-click="device.check=!device.check;deviceCheckChange(device);"></md-icon>
+                                                                 ng-click="device.check=!device.check;site.check=false;network.check=false;deviceCheckChange(device);"></md-icon>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -159,8 +159,8 @@
                                                  md-svg-icon="bottom:left_arrow_right"
                                                  ng-click="hotAPMap.open=!hotAPMap.open"
                                                  ng-show="!hotAPMap.open"></md-icon>
-                                <span class="pull-left mgt6"
-                                      style="width: 88px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">Deleted Aps</span>
+                                        <span class="pull-left mgt6"
+                                              style="width: 88px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">Deleted Aps</span>
                                         <md-icon class='mgt4' style="margin-left: 8px;"
                                                  ng-show="!hotAPMap.check"
                                                  md-svg-icon="check:uncheck"
@@ -174,8 +174,8 @@
                                             style="clear: both;margin-left: 34px;list-style: none;">
                                             <a style="display:block; position:relative;">
                                                 <span class="circle"></span>
-                                                        <span class="mgt6"
-                                                              style="display:inline-block;width:67px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{device.name}}</span>
+                                                <span class="mgt6"
+                                                      style="display:inline-block;width:67px;white-space: nowrap;overflow: hidden;text-overflow:ellipsis">{{device.name}}</span>
                                                 <md-icon class='mgt4' style="margin-left: 8px;"
                                                          ng-show="!device.check"
                                                          md-svg-icon="check:uncheck"
