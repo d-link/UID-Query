@@ -1,0 +1,21 @@
+<!--
+ * @Description: 左侧、顶部、主体
+ * @Version: 0.4.0
+ * @Vender: D-link
+ * @Author: YueXiangling
+ * @Date: 2020-02-24 10:51:21
+ * @LastEditRelease: 
+ * @LastEditors: YueXiangling
+ * @LastEditTime: 2020-02-24 14:50:31
+ -->
+
+<!-- 顶部，nav -->
+<div ng-include="'views/templates/nav.html'"></div>
+<!-- 左侧栏 -->
+<div ng-include="'views/templates/aside.html'"></div>
+<!-- 主体 -->
+<div class="content-wrapper">
+    <section class="content">
+        <ui-view></ui-view>
+    </section>
+</div>

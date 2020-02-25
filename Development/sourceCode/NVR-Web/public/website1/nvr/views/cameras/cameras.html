@@ -1,0 +1,19 @@
+<!--
+ * @Description: 
+ * @Version: 0.4.0
+ * @Vender: D-link
+ * @Author: YueXiangling
+ * @Date: 2020-02-20 11:31:31
+ * @LastEditRelease: 
+ * @LastEditors: YueXiangling
+ * @LastEditTime: 2020-02-24 13:51:27
+ -->
+<div ng-controller="camerasCtrl">
+    <h1>cameras</h1>
+    <p>{{title}}</p>
+    <ul>
+        <li ng-repeat="x in list">
+            <a ui-sref="user.cameraDetail" ui-sref-active="active"> name: {{x.name}}</a>
+        </li>
+    </ul>
+</div>
