@@ -1,0 +1,54 @@
+<!--
+ * @Description: 
+ * @Version: 0.4.0
+ * @Vender: D-link
+ * @Author: liushiyu
+ * @Date: 2020-02-24 09:25:59
+ * @LastEditRelease: 
+ * @LastEditors: liushiyu
+ * @LastEditTime: 2020-02-25 11:09:53
+ -->
+<div class="login_nvrBackground">
+    <div class="title">
+        <div style="display: contents">
+            <md-icon style="width: 200px; height:38px; margin-left: 0px;margin-top: 20px"
+                md-svg-src="../public/images/logo.svg">
+            </md-icon>
+        </div>
+        <div class="selectLanguage">
+            <ui-select class=" focusLoginElement focusModifyElement focusActElement" tabIndex="5" id="selectLan"
+                ng-model="langFlag.selected" theme="bootstrap" on-select="langSelect($item)">
+                <ui-select-match>{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="lang in langFlags">{{lang.name}}</ui-select-choices>
+            </ui-select>
+
+        </div>
+    </div>
+    <div class="content">
+        <div ui-view class="contentSize"></div>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer_main">
+                    <div class="footer">
+                        <div>
+                            <p class="statement">
+                                &copy;
+                                Copyright © 2020 D-Link Corporation. All rights reserved.</p>
+                            <p class="statement">Terms of
+                                Service | Privacy Policy</p>
+
+                        </div>
+
+                    </div>
+                    <div>
+                        <!-- <p style="line-height:32px;height:32px;text-align: right;">
+                            首次登录入口</p> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
