@@ -1,0 +1,44 @@
+{
+  "id": "organization",
+  "name": "Organization",
+  "moudles": [
+    {
+      "id": "cameras",
+      "name": "Cameras"
+    },
+    {
+      "id": "liveView",
+      "name": "Live View"
+    },
+    {
+      "id": "recordings",
+      "name": "Recordings"
+    },
+    {
+      "id": "playback",
+      "name": "Playback"
+    },
+    {
+      "id": "eMap",
+      "name": "e-Map"
+    },
+    {
+      "id": "log",
+      "name": "Log",
+      "moudles": [
+        {
+          "id": "recordingSchedule",
+          "name": "Recording Schedule"
+        },
+        {
+          "id": "about",
+          "name": "About"
+        },
+        {
+          "id": "cameraGeneralSettings",
+          "name": "Camera General Settings"
+        }
+      ]
+    }
+  ]
+}

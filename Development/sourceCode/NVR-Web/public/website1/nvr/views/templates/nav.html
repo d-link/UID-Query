@@ -1,0 +1,36 @@
+<!--
+ * @Description: 顶部nav
+ * @Version: 0.4.0
+ * @Vender: D-link
+ * @Author: YueXiangling
+ * @Date: 2020-02-24 14:10:30
+ * @LastEditRelease: 
+ * @LastEditors: YueXiangling
+ * @LastEditTime: 2020-02-24 14:45:56
+ -->
+
+<!-- <header class="main-header"> -->
+<header class="main-header" ng-controller="navCtrl">
+    <!-- Logo -->
+    <a class="logo">
+
+        <div class="logo-lg">
+            <span style="position: absolute;top: 0px;line-height: 1;">
+                <md-icon style="width:70px;height:28px;" md-svg-src="../public/images/logo.svg"></md-icon>
+            </span>
+
+        </div>
+        <div class="hidemenu">
+
+        </div>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top clearfix" role="navigation" style="display: block;">
+        <div class="col-sm-7">
+            <a class="sidebar-toggle" ng-if="org">
+                <!-- <img style="height:28px;margin-right: 4px;margin-top: -8px;" ng-src="{{org.logo}}"> -->
+                <!-- <span>{{org.name}}</span> -->
+            </a>
+        </div>
+    </nav>
+</header>

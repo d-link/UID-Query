@@ -1,0 +1,73 @@
+<!--
+ * @Description: 
+ * @Version: 0.4.0
+ * @Vender: D-link
+ * @Author: YueXiangling
+ * @Date: 2020-02-24 13:55:33
+ * @LastEditRelease: 
+ * @LastEditors: YueXiangling
+ * @LastEditTime: 2020-02-25 10:06:17
+ -->
+<!-- <aside class="main-sidebar"> -->
+<aside class="main-sidebar" ng-controller="asideCtrl">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+
+        <ul class="sidebar-menu">
+            <!--  一级-->
+            <li ng-repeat="sub in moudle">
+                <a ng-if="!sub.moudles" ui-sref="user.menu({moudleId:sub.id})">
+                    <md-icon md-svg-icon="menu:{{sub.id}}"></md-icon>
+                    <span>{{sub.name}}</span>
+                </a>
+                <a ng-if="sub.moudles">
+                    <md-icon md-svg-icon="menu:{{sub.id}}"></md-icon>
+                    <span> {{'menu.'+sub.id|translate}}</span>
+                    <md-icon md-svg-src="{{getArrow(sub.isOpen)}}" class="pull-right"></md-icon>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <div style="width:2px;"></div>
+</aside>
+
+<!-- 
+<aside class="main-sidebar" ng-mouseover="showMenu();" ng-mouseleave="hideMenu();">
+    <section class="sidebar" style="overflow:hidden;" ng-mouseover="showScroll();" ng-mouseleave="hideScroll();">
+        <ul class="sidebar-menu">
+            <li ng-class="sub.Active?'treeview active':'treeview'" ng-repeat="sub in moudle">
+                <a ng-if="!sub.moudles" ui-sref="user.org.detail({moudleId:sub.id})" ng-click="showSub(sub.id);">
+                    <md-icon md-svg-icon="menu:{{sub.id}}"></md-icon>
+                    <span>{{'menu.'+sub.id|translate}}</span>
+                </a>
+                <a ng-if="sub.moudles" ng-click="openSub(sub.id);">
+                    <md-icon md-svg-icon="menu:{{sub.id}}"></md-icon>
+                    <span> {{'menu.'+sub.id|translate}}</span>
+                    <md-icon md-svg-src="{{getArrow(sub.isOpen)}}" class="pull-right"></md-icon>
+                </a>
+
+                <ul class="treeview-menu clear" ng-if="sub.moudles"
+                    ng-style="{'height': sub.isOpen&&!isHide ? '{{sub.moudles.length *32 +8}}px' : '0px','padding': sub.isOpen&&!isHide ? '4px 0px' : '0px','border-top': sub.isOpen&&!isHide ? '1px solid #eaeef4' : '0px solid #eaeef4'}">
+                    <span></span>
+                    <li ng-class="sub1.Active?'active':''" ng-repeat="sub1 in sub.moudles" style="position:relative;">
+
+                        <span></span>
+                        <a ng-if="!sub1.moudles" ui-sref="user.org.subdetail({moudleId:sub1.id,parentId:sub.id})"
+                            ng-click="showSub(sub1.id);">
+                            <span> {{'menu.'+sub1.id|translate}}</span>
+                        </a>
+
+                    </li>
+
+                </ul>
+            </li>
+        </ul>
+        </li>
+        </ul>
+
+    </section>
+
+    <div style="width:2px;"></div>
+</aside> -->
