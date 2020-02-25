@@ -494,10 +494,14 @@
             ng-if="(tag==0&&(step>0&&step!=3))||(tag==3&&step>3)||(tag==1&&(step>1&&step!=3))">
         {{'common.back'|translate}}
     </button>
-    <button class="btn btn-common" type="button" ng-click="next()" ng-if="step<4"
+    <button class="btn btn-common" type="button" ng-click="next()" ng-if="(step==0 && !restartProcess) || (step!=0 && step<4) "
             ng-disabled="(networkForm.$invalid||invalidPort.devAccessPort||invalidPort.webAccessPort||error.netNameCheck||nextDisabled()) ? true: false">
         {{'common.next'|translate}}
     </button>
+    <span class="hint-span state processing-msg" style="float: right"
+          ng-show="step==0&&restartProcess"><img
+            src="./../public/images/processing.gif" alt="processing" class="mgr8">{{common.processing|translate}}</span>
+
     <button class="btn btn-cancel" type="button" ng-click="exit()" ng-if="(step>0&&step!=2)||(step==0&&exist0&&!secondaryTime)">
         {{'common.exit'|translate}}
     </button>

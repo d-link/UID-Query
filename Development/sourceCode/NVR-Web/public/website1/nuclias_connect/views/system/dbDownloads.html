@@ -70,7 +70,7 @@
             </div>
             <div style="float: right;">
                 <button class="btn btn-common" type="button" ng-click="download()"
-                        ng-disabled="disableDelete || backups.length == 0">
+                        ng-disabled="disableDownload||disableDelete || backups.length == 0">
                     {{'settings.db.download'|translate}}
                 </button>
                 <button class="btn btn-cancel" type="button" ng-click="cancel()">{{'common.cancel'|translate}}</button>

@@ -1889,7 +1889,7 @@ function uploadLoginFile(req, callback) {
      * @desc 不信任前端输入，增加判断，强制过滤，并校验长度不超过251，避免系统报错崩溃。
      * */
     if(fileName){
-        fileName = fileName.replace(/[_.,;:?\[\]<>/\*{}^\|()@#$+=%!\s-"'~&\\`~！￥…*（）—｛｝：“”《》？、。，；‘’【】、=·]/g,"");
+        fileName = fileName.replace(/[.,;:?\[\]<>/\*{}^\|()@#$+=%!\s"'~&\\`~！￥…*（）—｛｝：“”《》？、。，；‘’【】、=·]/g, "");
     }
     if(!fileName || fileName.length == 0){
         fileName = new Date().getTime()+"";
@@ -2812,7 +2812,7 @@ function uploadSSLCerInfo(req, callback) {
                 };
                 let promises = [];
                 promises.push(new Promise((resolve, reject) => {
-                    gridFS.writeFileFromPath(certPath, rs.urlCert, {
+                    gridFS.writeFileFromPath(certPath, rs.urlCert.name, {
                         orgId: fields.orgId,
                         type: "sslcert",
                         uuid: network.agentUUID,
@@ -2827,7 +2827,7 @@ function uploadSSLCerInfo(req, callback) {
                     });
                 }));
                 promises.push(new Promise((resolve, reject) => {
-                    gridFS.writeFileFromPath(keyPath, rs.urlKeyFile, {
+                    gridFS.writeFileFromPath(keyPath, rs.urlKeyFile.name, {
                         orgId: fields.orgId,
                         type: "sslkey",
                         uuid: network.agentUUID,

@@ -87,7 +87,7 @@ define(["app", "canvasContainer",], function (app) {
                                 (function (network) {
                                     InventoryService.listManagedDevicesByNetwork(network, function (result) {
                                         network.devices = result.data;
-                                        if (network.devices.length > 0)network.open = true;
+                                        if (network.devices.length > 0) network.open = true;
                                         for (var k = 0; k < network.devices.length; k++) {
                                             var device = network.devices[k];
 
@@ -183,7 +183,7 @@ define(["app", "canvasContainer",], function (app) {
         $scope.$watch('mapFile', function (file) {
             $scope.maxSizeErr = 0;
             $scope.typeErr = 0;
-            if (!file)return;
+            if (!file) return;
             $scope.mapTempFile = file;
             if (file.size > 1024 * 1024 * 10) {
                 $scope.maxSizeErr = 1;
@@ -243,9 +243,10 @@ define(["app", "canvasContainer",], function (app) {
             refreshDrawDevices();
         }
         $scope.deviceCount = 0;
+
         function refreshDrawDevices() {
-            if (!canvasContainer)return;
-            if (!$scope.allSiteNetworks)return;
+            if (!canvasContainer) return;
+            if (!$scope.allSiteNetworks) return;
             var devices = [];
             for (var i = 0; i < $scope.allSiteNetworks.length; i++) {
                 var site = $scope.allSiteNetworks[i];
@@ -257,6 +258,17 @@ define(["app", "canvasContainer",], function (app) {
                                 devices.push(network.devices[k]);
                             }
                         }
+                        //network全选
+                        const index = network.devices.filter(device => device.check == true);
+                        if (index.length > 0 && index.length == network.devices.length) {
+                            network.check = true;
+                        }
+                    }
+                    //所有的network的check值为false，则没有勾选site，去掉勾选site的值，在页面操作
+                    //site全选
+                    const index1 = site.networks.filter(net => net.check == true);
+                    if (index1.length > 0 && index1.length == site.networks.length) {
+                        site.check = true;
                     }
                 }
             }

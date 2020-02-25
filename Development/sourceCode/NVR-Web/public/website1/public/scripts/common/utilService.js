@@ -863,7 +863,7 @@ define(["serviceModule", "moment"], function (services, moment) {
                 //将数据库的iso时间转换为跟本系统的时间一样的，显示时区之类的
                 var time = ISOTime.replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
                 time = moment(time).utcOffset(-NCTimeOffset)._d;
-                time = format(time, 'yyyy-MM-dd HH:mm:ss');
+                time = format(time, 'yyyy/MM/dd HH:mm:ss');
                 //time = moment(time).utcOffset(-NCTimeOffset).format('YYYY-MM-DD HH:mm:ss');
                 return time;
             } else {

@@ -1,10 +1,9 @@
-
 /**
  * Created by lizhimin on 2015/12/7.
  */
 //define(["app","localStorage"], function (app) {
 define(["serviceModule", "crypto-js"], function (services) {
-    services.service('Auth', function ($http, $location, $rootScope, StorageService, AccessLevels, ajaxService, Current, utils) {
+    services.service('Auth', function ($http, $location, $rootScope, StorageService, AccessLevels, ajaxService, Current,utils) {
         this.globalAction = {};
         this.browserOs = function (userAgent) {
             var na = window.navigator;
@@ -18,7 +17,7 @@ define(["serviceModule", "crypto-js"], function (services) {
 
             var OS2 = getOS(ua);
 
-            return { browser: browser, os: OS2.system + (OS2.version ? ' ' + OS2.version : '') };
+            return {browser: browser, os: OS2.system + (OS2.version ? ' ' + OS2.version : '')};
         };
         function getUA(ua) {
             var bs = {
@@ -139,7 +138,7 @@ define(["serviceModule", "crypto-js"], function (services) {
         this.login = function (credentials, status, mode, success) {
 
             credentials = angular.copy(credentials);
-            credentials.password = utils.encryptMethod(credentials.email, credentials.password);
+            credentials.password = utils.encryptMethod(credentials.email,credentials.password );
 
             ajaxService.post(base_url + '/auth/login', {
                 userInfo: credentials,
@@ -155,7 +154,7 @@ define(["serviceModule", "crypto-js"], function (services) {
         };
         this.NSlogin = function (credentials, status, mode, success) {
             credentials = angular.copy(credentials);
-            credentials.password = utils.encryptMethod(credentials.email, credentials.password);
+            credentials.password = utils.encryptMethod(credentials.email,credentials.password );
 
             ajaxService.post(base_url + '/auth/loginNC', {
                 userInfo: credentials,
@@ -178,7 +177,7 @@ define(["serviceModule", "crypto-js"], function (services) {
                 }
             });
         };
-        this.nuclusLogin = function (credentials, success) {
+        this.nuclusLogin= function (credentials, success) {
             ajaxService.post(base_url + '/auth/nucliasLogin', credentials, function (result) {
                 if (result.success) {
                     Current.setUser(result.data);
@@ -212,7 +211,7 @@ define(["serviceModule", "crypto-js"], function (services) {
         this.getNeedCAPTCHA = function (success, error) {
             ajaxService.post(base_url + '/auth/needCAPTCHA', success, error);
         };
-        this.getIsBlocked = function (success, error) {
+        this.getIsBlocked=function(success,error){
             ajaxService.post(base_url + '/auth/checkBlockIP', success, error);
         }
         this.getUserInfo = function (formData, success, error) {
@@ -229,15 +228,15 @@ define(["serviceModule", "crypto-js"], function (services) {
         this.upGrade = function (success, error) {
             ajaxService.post(base_url + '/auth/getFirmwareUpgradeStatus', function (result) {
                 success(result);
-            }, function (err) {
-                if (error) error(err)
+            },function(err){
+                if(error) error(err)
             });
         };
         this.changePassInitial = function (formData, success, error) {
 
             formData = angular.copy(formData);
-            formData.oldpass = utils.encryptMethod(formData.userId, formData.oldpass);
-            formData.newpass = utils.encryptMethod(formData.userId, formData.newpass);
+            formData.oldpass =  utils.encryptMethod(formData.userId,formData.oldpass);
+            formData.newpass = utils.encryptMethod(formData.userId,formData.newpass);
             formData.confirmPassword = formData.newpass;
 
             ajaxService.post(base_url + '/auth/changePass', formData, success, error);
@@ -245,8 +244,8 @@ define(["serviceModule", "crypto-js"], function (services) {
         this.changePass = function (formData, success, error) {
 
             formData = angular.copy(formData);
-            formData.oldpass = utils.encryptMethod(formData.userId, formData.oldpass);
-            formData.newpass = utils.encryptMethod(formData.userId, formData.newpass);
+            formData.oldpass =  utils.encryptMethod(formData.userId,formData.oldpass);
+            formData.newpass = utils.encryptMethod(formData.userId,formData.newpass);
 
             ajaxService.post(base_url + '/user/changePass', formData, success, error);
         };
@@ -254,26 +253,26 @@ define(["serviceModule", "crypto-js"], function (services) {
             ajaxService.post(base_url + '/user/changeEmail', formData, success, error);
         };
         this.checkEmailExist = function (email, success, error) {
-            $http.post(base_url + "/auth/emailExist", { email: email }).then(success);
+            $http.post(base_url + "/auth/emailExist", {email: email}).then(success);
         };
         this.checkValidCode = function (email, validCode, success, error) {
-            $http.post(base_url + "/auth/checkCaptcha", { email: email, code: validCode }).then(success);
+            $http.post(base_url + "/auth/checkCaptcha", {email: email, code: validCode}).then(success);
         };
         this.getCaptcha = function (success) {
             $http.get(base_url + '/auth/getCaptcha?width=100&height=26').then(success);
         };
         this.forgotPass = function (email, success, error) {
-            $http.post(base_url + "/auth/forgotPass", { email: email }).then(success);
+            $http.post(base_url + "/auth/forgotPass", {email: email}).then(success);
         };
         this.resetPass = function (email, pass, validCode, success, error) {
-            $http.post(base_url + "/auth/resetPass", { email: email, newPassword: pass, code: validCode }).then(success);
+            $http.post(base_url + "/auth/resetPass", {email: email, newPassword: pass, code: validCode}).then(success);
         };
         this.loadMode = function (mode) {
             //获取用户信息
             var user = Current.user();
             //对入口进行判断
             if (mode == "DNH") {
-                window.location = "/entrance/";
+                 window.location = "/entrance/";
                 // window.location = "/nuclias_connect/#!/dnh";
             } else if (mode == "APP") {
                 window.location = "/appSite";
@@ -301,8 +300,8 @@ define(["serviceModule", "crypto-js"], function (services) {
         * 尹雪雪 2019.6.25
         * App Mobile页，执行logout时调用些接口，用于注销用户并更新用户在线状态
         */
-        this.appLogout = function () {
-            // 由于base_url的值来源 public\website1\nuclias_connect\main.js 中的定义的：var base_url = "/api/web/nuclias_connect";
+       this.appLogout = function () {
+            // 由于base_url的值来源 public\website1\nuclias_connect\main.js 中的定义的：var base_url = "/api/web/dnh";
             // /api/web/auth 路径来源于app.js 中定义的：app.use("/api/web/auth", routes);
             ajaxService.post('/api/web/auth/appLogout');
         };

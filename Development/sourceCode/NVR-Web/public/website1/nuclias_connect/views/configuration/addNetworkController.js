@@ -726,9 +726,9 @@ define(["app"], function (app) {
         }
 
         function logout() {
-            if ($scope.org.ipAddress) {
+            if ($scope.org.webAccessAddress) {
                 $scope.org.webAccessPort = $scope.org.webAccessPort || 443;
-                window.location = "https://" + $scope.org.ipAddress + ":" + $scope.org.webAccessPort;
+                window.location = "https://" + $scope.org.webAccessAddress + ":" + $scope.org.webAccessPort;
             }
             else {
                 window.location = '/';
@@ -745,9 +745,12 @@ define(["app"], function (app) {
                     if (isPortChanged) {
                         OrganizationService.restartMonitoring(function (result) {
                         });
+                        $scope.restartProcess = true;
+                        var loadingIndicator = document.getElementsByClassName("loading-indicator");
+                        loadingIndicator[0].style.display = "block";
                         setTimeout(function () {
                             logout();
-                        }, 2000);
+                        }, 30000);
                     } else {
                         $scope.step += 1;
                     }

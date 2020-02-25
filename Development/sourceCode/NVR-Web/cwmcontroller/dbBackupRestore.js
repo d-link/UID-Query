@@ -565,13 +565,29 @@ function packFiles(payload) {
                             cb(null,null);
                         });
                     }
+                    /*
+                    else if(_temp.metadata.type == 'fw'||_temp.metadata.type == 'sslcert'||_temp.metadata.type == 'sslkey'){
+                        if(typeof _temp.filename == "object" && _temp.filename.name) { //旧的db可能filename字段存{"name":"server-cert.pem"}
+                            filesArray.push(_temp.filename.name);
+                            fs.copyFile(_temp.path,`${uploadDir}/${_temp.filename.name}`,(err)=>{
+                                cb(null,null);
+                            });
+                        } else {
+                            filesArray.push(_temp.filename);
+                            fs.copyFile(_temp.path,`${uploadDir}/${_temp.filename}`,(err)=>{
+                                cb(null,null);
+                            });
+                        }
+
+                    }
                     else if (_temp.metadata.type == 'servercert' && !_temp.metadata.isDefault) {
                         filesArray.push(_temp.filename);
                         fs.copyFile(_temp.path,`${uploadDir}/${_temp.filename}`,(err)=>{
                             cb(null,null);
                         });
                     }
-                    else if (_temp.metadata.type == 'photo' || _temp.metadata.type == 'logo') {
+                    */
+                    else if (_temp.metadata.type == 'photo' || _temp.metadata.type == 'logo' || _temp.metadata.type == 'HotAPMap') {
                         filesArray.push(_temp.filename);
                         fs.copyFile(_temp.path,`${uploadDir}/${_temp.filename}`,(err)=>{
                             cb(null,null);
@@ -624,13 +640,18 @@ function packFiles(payload) {
 function restoreConfiguration(targetPath, payload, callback) {
     if (payload) {
         payload = JSON.parse(payload);
+        let setAdminPassword = true;
         let dbTables = payload.dbTables;
         let systemSettings = payload.systemSettings;
         async.series([(cb)=> {
             if (systemSettings && systemSettings.hasOwnProperty('System')) { //Admin password
                 let adminPassword = util.decrptyMethod("admin", systemSettings.System.admin_password);
                 systemCli.setAdminPasswordBySo([adminPassword], (err, result)=> {
-                    cb(err, result);
+                    if(err) {
+                        console.log('Restore admin password [' + adminPassword +'] failed');
+                        setAdminPassword = false;
+                    }
+                    cb();
                 })
             } else {
                 cb();
@@ -712,17 +733,42 @@ function restoreConfiguration(targetPath, payload, callback) {
                 async.series([
                     (cb)=> {
                         if (dbTables && dbTables.hasOwnProperty('User_Info')) {
-                            db.User.clear((err, result)=> {
-                                console.log("=======>User_Info.clear",err)
-                                if (!err) {
-                                    db.User.insertMany(dbTables.User_Info, (err, result)=> {
-                                        console.log("=======>User_Info.insertMany",err)
-                                        cb(err, result);
-                                    });
-                                }else{
-                                    cb();
-                                }
-                            })
+                            if(setAdminPassword) {
+                                db.User.clear((err, result)=> {
+                                    console.log("=======>User_Info.clear",err)
+                                    if (!err) {
+                                        db.User.insertMany(dbTables.User_Info, (err, result)=> {
+                                            console.log("=======>User_Info.insertMany",err)
+                                            cb(err, result);
+                                        });
+                                    }else{
+                                        cb();
+                                    }
+                                })
+                            }
+                            else {  //不修改admin password
+                                db.User.findOneUserByUserName('admin', (err, user)=> {
+                                    if(user) {
+                                        for(let i = 0; i< dbTables.User_Info.length; i++) {
+                                            if(dbTables.User_Info[i].username == "admin" && dbTables.User_Info[i].role == "root admin") {
+                                                dbTables.User_Info[i].password = user.password;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    db.User.clear((err, result)=> {
+                                        console.log("=======>User_Info.clear",err)
+                                        if (!err) {
+                                            db.User.insertMany(dbTables.User_Info, (err, result)=> {
+                                                console.log("=======>User_Info.insertMany",err)
+                                                cb(err, result);
+                                            });
+                                        }else{
+                                            cb();
+                                        }
+                                    })
+                                })
+                            }
                         } else {
                             cb();
                         }
@@ -742,8 +788,13 @@ function restoreConfiguration(targetPath, payload, callback) {
                                     if(!dbTables.CWM_Org_Info.country){
                                         dbTables.CWM_Org_Info.country=oldInfo.country;
                                     }
+                                    /*
                                     if(!dbTables.CWM_Org_Info.hasOwnProperty("sslCertification")){
                                         dbTables.CWM_Org_Info.sslCertification=oldInfo.sslCertification;
+                                    }
+                                    */
+                                    if(oldInfo.sslCertification) { //保留原ssl信息,DNH备份和恢复不包含ssl
+                                        dbTables.CWM_Org_Info.sslCertification = oldInfo.sslCertification;
                                     }
                                     if(!dbTables.CWM_Org_Info.hasOwnProperty("basicConfigured")){
                                         dbTables.CWM_Org_Info.basicConfigured=oldInfo.basicConfigured;
@@ -765,9 +816,9 @@ function restoreConfiguration(targetPath, payload, callback) {
                                         if(!dbTables.CWM_Org_Info.hasOwnProperty('payment')){
                                             dbTables.CWM_Org_Info.payment={  options: []};
                                         }
-                                        if(!dbTables.CWM_Org_Info.hasOwnProperty('supportListVersion')){
-                                            dbTables.CWM_Org_Info.supportListVersion='0.0';
-                                        }
+                                        // if(!dbTables.CWM_Org_Info.hasOwnProperty('supportListVersion')){
+                                        //     dbTables.CWM_Org_Info.supportListVersion='0.0';
+                                        // }
                                         if(!dbTables.CWM_Org_Info.hasOwnProperty('keepAlive')){
                                             dbTables.CWM_Org_Info.keepAlive=60;
                                         }
@@ -777,6 +828,7 @@ function restoreConfiguration(targetPath, payload, callback) {
                                         };
                                         delete dbTables.CWM_Org_Info.name;
                                         delete dbTables.CWM_Org_Info.devAccessAddress;
+                                        delete dbTables.CWM_Org_Info.supportListVersion;
                                         db.cwmOrg.save(dbTables.CWM_Org_Info, (err, result)=> {
                                             console.log("=======>CWM_Org_Info",err)
                                             if(err) {
@@ -963,9 +1015,28 @@ function restoreConfiguration(targetPath, payload, callback) {
                                                 cb(err);
                                             }
                                             else {
-                                                async.map(cwmFiles, (fileC, cb1)=> {
-                                                    let copyFileToDB = false;
-                                                    if (!fileC.metadata.isDefault) {
+                                                async.mapSeries(cwmFiles, (fileC, cb1)=> {
+                                                    //if (!fileC.metadata.isDefault) {
+                                                    if (!fileC.metadata.isDefault &&
+                                                        fileC.metadata.type != 'fw' &&
+                                                        fileC.metadata.type != 'sslcert' &&
+                                                        fileC.metadata.type != 'sslkey' &&
+                                                        fileC.metadata.type != 'servercert') {
+                                                        async.mapSeries(list, (file, cb2)=> {
+                                                            if (file == fileC.filename) {
+                                                                file = path.join(targetPath, file);
+                                                                gridFS.restoreFileFromPath(file, fileC, (err, result)=> {
+                                                                    cb2();
+                                                                })
+                                                            }
+                                                            else {
+                                                                cb2();
+                                                            }
+                                                        }, function () {
+                                                            cb1();
+                                                        });
+
+                                                        /*
                                                         for (let i = 0; i < list.length; i++) {
                                                             let file = list[i];
                                                             if (file == fileC.filename) {
@@ -979,26 +1050,29 @@ function restoreConfiguration(targetPath, payload, callback) {
                                                             }
                                                         }
                                                         if (!copyFileToDB) {
-                                                            db.cwmFileAPI.replace(fileC, (err, result)=> {})
-                                                            //cb1();
+                                                            cb1();
                                                         }
+                                                        */
                                                     } else {
                                                         if (fileC.metadata.type == 'loginFiles') {
                                                             db.cwmConfigProfile.restoreTemplate(fileC, (err, result)=> {
-                                                                //cb1();
+                                                                cb1();
                                                             })
                                                         }
+                                                        /*
                                                         else if (fileC.metadata.type == 'servercert') {
                                                             db.cwmOrg.restoreDefaultCert(fileC, (err, result)=> {
-                                                                //cb1();
+                                                                cb1();
                                                             })
-                                                        } else {
-                                                            db.cwmFileAPI.replace(fileC, (err, result)=> {})
-                                                            //cb1();
+                                                        }
+                                                        */
+                                                        else {
+                                                            cb1();
                                                         }
                                                     }
+                                                }, function () {
+                                                    cb();
                                                 });
-                                                cb();
                                             }
                                         });
                                     } else {

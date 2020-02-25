@@ -641,6 +641,7 @@ define({
             "invalid1": "请输入从300到9999999之间的值",
             "invalid2": "有效的口令长度为8~63个ASCII字符或64个十六进制字符",
             "invalidRadius": "请输入RADIUS服务器的IP地址",
+            "invalidAccountServer": "请为计费服务器指定一个有效的IP地址",
             "invalidPOP3": "请输入POP3服务器的IP地址",
             "invalidLDAP": "请输入LDAP服务器的IP地址",
             "requireLDAPUser": "请输入LDAP服务器的用户名",
@@ -1104,6 +1105,7 @@ define({
         "systemConf": "系统设置",
         "lanSettingConfirm": "您的网络设置即将更新。您可能已断开连接。",
         "lanSettingUpdate": "您的网络设置即将更新。",
+        "syncDAA": "您要在设备访问地址上使用此IP地址吗？",
         "lanSettingInfo1": "网络设置正在更新...,请不要关闭设备电源。",
         "restartInfo1": "设备正在重新启动...，请不要关闭设备电源。",
         "restoreInfo1": "设备正在还原...，请不要关闭设备电源。",
@@ -1184,6 +1186,7 @@ define({
             "MicroSDUsage": "MicroSD用量"
         },
         "connectionTip": "你确定要更新Nuclias连接Web /设备访问端口进行重启生效吗?",
+        "SSLTip": "您确定要更新SSL证书并重启Nuclias Connect生效吗?",
         "ncRestartInfo1": "Nuclias连接重启……请不要关闭设备",
         "formatTitle": "格式化MicroSD卡",
         "formatTip": "您确定要格式化SD卡以重启Nuclias Connect才能生效吗?",

@@ -641,6 +641,7 @@ define({
             "invalid1": "300-9999999 arasında bir değer girin",
             "invalid2": "ASCII 8-63 veya Hex 64.",
             "invalidRadius": "Lütfen RADIUS sunucusu için geçerli bir IP adresi belirtin",
+            "invalidAccountServer": "Lütfen Muhasebe sunucusu için geçerli bir IP adresi belirtin",
             "invalidPOP3": "POP3 sunucusu için geçerli bir adres belirtin",
             "invalidLDAP": "LDAP sunucusu için geçerli bir adres belirtin",
             "requireLDAPUser": "LDAP sunucusu için kullanıcı adı belirtin",
@@ -1113,6 +1114,7 @@ define({
         "systemConf": "Sistem ayarları",
         "lanSettingConfirm": "LAN ayarlarınız güncellenmek üzere. Cihazınızın bağlantısı kesilebilir.",
         "lanSettingUpdate": "LAN ayarlarınız güncellenmek üzere.",
+        "syncDAA": "Bu IP adresini cihaz erişim adresinde kullanmak istiyor musunuz?",
         "lanSettingInfo1": "LAN Ayarı güncelleniyor ..., Lütfen cihazı kapatmayın.",
         "restartInfo1": "Cihaz yeniden başlatılıyor ..., lütfen cihazı kapatmayın.",
         "restoreInfo1": "Cihaz geri yüklüyor ..., lütfen cihazı kapatmayın.",
@@ -1193,6 +1195,7 @@ define({
             "MicroSDUsage": "MicroSD kullanımı"
         },
         "connectionTip": "Nuclias Connect'in etkili olması için yeniden başlatılacak Web / Aygıt Erişim Bağlantı Noktasını güncellemek istediğinizden emin misiniz?",
+        "SSLTip": "Nuclias Connect'in yürürlüğe girmesi için yeniden başlatılacak SSL Sertifikasını güncellemek istediğinizden emin misiniz?",
         "ncRestartInfo1": "Nuclias Connect yeniden başlatılıyor ... Lütfen cihazı kapatmayın",
         "formatTitle": "MicroSD kartı biçimlendir",
         "formatTip": "Nuclias Connect'i yeniden başlatmak üzere SD kartı biçimlendirmek istediğinizden emin misiniz?",

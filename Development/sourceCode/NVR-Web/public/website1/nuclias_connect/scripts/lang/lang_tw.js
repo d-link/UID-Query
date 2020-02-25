@@ -641,6 +641,7 @@ define({
             "invalid1": "請輸入300~9999999的值",
             "invalid2": "有效長度為ASSCII 8~63個字元, Hex 64個字元",
             "invalidRadius": "請輸入RADIUS伺服器的IP位址",
+            "invalidAccountServer": "請為計費服務器指定一個有效的IP地址",
             "invalidPOP3": "請輸入POP3伺服器的IP位址",
             "invalidLDAP": "請輸入LDAP伺服器的IP位址",
             "requireLDAPUser": "請輸入LDAP伺服器的帳號",
@@ -1104,6 +1105,7 @@ define({
         "systemConf": "系統操作",
         "lanSettingConfirm": " 您的網路設定即將更新。您可能已斷開連接。",
         "lanSettingUpdate": "您的網路設定即將更新。",
+        "syncDAA": "您要在設備訪問地址上使用此IP地址嗎？",
         "lanSettingInfo1": " 網路設定正在更新…，請不要關閉設備電源。",
         "restartInfo1": " 設備正在重新啟動…，請不要關閉設備電源。",
         "restoreInfo1": " 設備正在還原…，請不要關閉設備電源。",
@@ -1184,6 +1186,7 @@ define({
             "MicroSDUsage": "MicroSD用量"
         },
         "connectionTip": "您確定要更新將重新啟動Nuclias Connect生效的Web /設備訪問埠口嗎？",
+        "SSLTip": "您確定要更新SSL證書並重啟Nuclias Connect執行嗎？",
         "ncRestartInfo1": "Nuclias Connect正在重新啟動...請不要關閉設備電源",
         "formatTitle": "格式化MicroSD卡",
         "formatTip": "您確定要格式化SD卡以重啟Nuclias Connect才能生效嗎？",

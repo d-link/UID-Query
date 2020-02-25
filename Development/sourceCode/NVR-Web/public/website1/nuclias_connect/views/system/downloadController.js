@@ -66,6 +66,8 @@ define(["app"], function (app) {
          * @author 李莉红
          * */
         function downloadBackup() {
+            var loadingIndicator = document.getElementsByClassName("loading-indicator");
+            loadingIndicator[0].style.display = "block";
             utils.getNodeTime(function(result){
                 let now = new Date();
                 var systimeByDay = `${now.getFullYear()}${('0'+(now.getMonth()+1)).slice(-2)}${('0'+now.getDate()).slice(-2)}`;
@@ -107,19 +109,27 @@ define(["app"], function (app) {
                         }
                         data.flag = flag;
                         data.type = "success";
-                        $uibModalInstance.close(data);
+                        setTimeout(function () {
+                            $scope.disableDownload = false;
+                            $uibModalInstance.close(data);
+                            loadingIndicator[0].style.display = "none";
+                        }, 10 * 1000);
                     } else {
                         if (result.success) {
-                            $scope.state.download.processing = false;
-                            $scope.state.download.isSuccess = true;
+                            $scope.state.download.processing = true;
+                            //$scope.state.download.isSuccess = true;
                             data.flag = flag;
                             data.type = "success";
+                            $scope.disableDownload = false;
                             $uibModalInstance.close(data);
+                            loadingIndicator[0].style.display = "none";
                         } else {
                             data.flag = flag;
                             data.type = "failed";
                             $scope.state.download.processing = false;
                             $scope.state.download.isError = true;
+                            loadingIndicator[0].style.display = "none";
+                            $scope.disableDownload = false;
                             $scope.state.msgFalse = 'settings.db.downloadFailed';
                         }
                     }
@@ -132,7 +142,11 @@ define(["app"], function (app) {
          * @author 李莉红
          * */
         $scope.download = function () {
+            $scope.disableDownload = true;
             if ($scope.location == 'computer') {
+                $scope.state.download.processing = true;
+                $scope.state.download.isSuccess = false;
+                $scope.state.download.isError = false;
                 downloadBackup();
             } else {
 
@@ -146,6 +160,7 @@ define(["app"], function (app) {
                         $scope.usbStoragePath = result.data[0];
                         downloadBackup();
                     } else {
+                        $scope.disableDownload = false;
                         $scope.usbStorageStatus = false;
                         $scope.state.usbStorage.processing = false;
                         $scope.state.usbStorage.isError = true;

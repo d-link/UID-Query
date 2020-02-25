@@ -641,6 +641,7 @@ define({
             "invalid1": "Veuillez saisir une valeur comprise entre 300-9999999",
             "invalid2": "8-63 caractères ASCII ou 64 caractères Hex.",
             "invalidRadius": "Veuillez spécifier une adresse IP valide pour le serveur RADIUS",
+            "invalidAccountServer": "Veuillez spécifier une adresse IP valide pour le serveur de comptabilité",
             "invalidPOP3": "Veuillez spécifier une adresse valide pour le serveur POP3",
             "invalidLDAP": "Veuillez spécifier une adresse valide pour le serveur LDAP",
             "requireLDAPUser": "Veuillez spécifier le nom d'utilisateur pour le serveur LDAP",
@@ -1107,6 +1108,7 @@ define({
         "systemConf": "Opération système",
         "lanSettingConfirm": "Vos paramètres LAN sont sur le point d'être mis à jour.                          Votre appareil est peut-être déconnecté. ",
         "lanSettingUpdate": "Vos paramètres LAN sont sur le point d'être mis à jour.",
+        "syncDAA": "Voulez-vous utiliser cette adresse IP sur l'adresse d'accès à l'appareil?",
         "lanSettingInfo1": "Le réglage du réseau local est en cours de mise à jour..., veuillez ne pas éteindre le périphérique.",
         "restartInfo1": "L'appareil redémarre..., veuillez ne pas l'éteindre.",
         "restoreInfo1": "Le périphérique est en cours de restauration ..., veuillez ne pas l'éteindre.",
@@ -1187,6 +1189,7 @@ define({
             "MicroSDUsage": "Utilisation de la MicroSD"
         },
         "connectionTip": "Êtes-vous sûr de vouloir mettre à jour le port d'accès Web/périphérique pour que Nuclias Connect soit redémarré pour prendre effet ?",
+        "SSLTip": "Voulez-vous vraiment mettre à jour le certificat SSL pour que Nuclias Connect soit redémarré pour prendre effet?",
         "ncRestartInfo1": "Nuclias Connect redémarre... N’éteignez pas le périphérique",
         "formatTitle": "Formater la carte microSD",
         "formatTip": "Êtes-vous sûr de vouloir formater la carte SD pour pouvoir redémarrer Nuclias Connect afin de prendre effet?",
