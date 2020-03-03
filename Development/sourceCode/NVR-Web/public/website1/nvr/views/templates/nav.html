@@ -6,7 +6,7 @@
  * @Date: 2020-02-24 14:10:30
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-25 18:44:33
+ * @LastEditTime: 2020-03-03 10:15:21
  -->
 
 <!-- <header class="main-header"> -->
@@ -25,8 +25,7 @@
         </div>
         <!-- 是否开启 最大化最小化左侧菜单栏切换的功能 -->
         <div ng-show="isOver" class="hidemenu">
-            <md-icon title="{{isHided?'title.show':'title.hide' | translate}}" md-svg-icon="bottom:left_hide"
-                ng-click="changeMenu();"></md-icon>
+            <md-icon title="{{isHided?'title.show':'title.hide' | translate}}" md-svg-icon="bottom:left_hide" ng-click="changeMenu();"></md-icon>
         </div>
     </a>
     <nav class="navbar navbar-static-top clearfix" role="navigation" style="display: block;">
@@ -40,14 +39,13 @@
             <!-- 要判断是否登陆再显示 -->
             <ul class="nav navbar-nav" style="float:right;">
                 <!-- 用户 -->
-                <li uib-dropdown class="split-dropdown">
+                <li uib-dropdown class="split-dropdown user-profile">
                     <!--弹出框按钮 -->
                     <a uib-dropdown-toggle>
                         <img class="circular--squareP" ng-src="{{user.photo}}" title="{{user.username}}">
                     </a>
                     <!-- 弹出框 -->
-                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"
-                        class="nav-user-profile subpage usermenu" ng-style="langStyle">
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="subpage usermenu" ng-style="langStyle">
                         <!-- userProfile -->
                         <li role="menuitem" ng-if="!user.isNSUser">
                             <a ng-click="userProfile();">{{'nav.userProfile'|translate}}</a>
@@ -61,14 +59,13 @@
                     </ul>
                 </li>
                 <!-- 跳转 -->
-                <li uib-dropdown class="split-dropdown">
+                <li uib-dropdown class="split-dropdown jumpPage">
                     <!--弹出框按钮 -->
-                    <a uib-dropdown-toggle class="jumpPage">
+                    <a uib-dropdown-toggle>
                         <md-icon title="{{user.username}}" md-svg-src="menu:liveView"></md-icon>
                     </a>
                     <!-- 弹出框 -->
-                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="nav-user-profile"
-                        ng-style="langStyle">
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="dropdown-menu subpage">
                         <!-- DNR -->
                         <li role="menuitem">
                             <a ng-click="gotoDNR();">
@@ -87,21 +84,20 @@
                         <em>&#9670;</em>
                     </ul>
                 </li>
+                <!-- 连接 -->
                 <li>
-                    <a class="wizard" title="{{'settings.wizard'|translate}}" ng-click="showGuide();">
-                        <div style="height:16px;">
-                            <md-icon md-svg-src="/public/images/Wizard_16.svg"></md-icon>
-                        </div>
+                    <a class="btn wizard" title="{{'settings.wizard'|translate}}" ng-click="showGuide();">
+                        <md-icon md-svg-src="/public/images/Wizard_16.svg"></md-icon>
                     </a>
                 </li>
-                <li uib-dropdown class="split-dropdown">
-                    <a uib-dropdown-toggle style="padding-top:12px;width:60px;">
+                <!-- 切换语言 -->
+                <li uib-dropdown class="split-dropdown language">
+                    <a uib-dropdown-toggle>
                         {{langFlag.selected.langflag.toUpperCase()}}
                         <md-icon class="dropdown-icon" md-svg-icon="bottom:left_arrow_down" style="right:8px;top:14px;">
                         </md-icon>
                     </a>
-                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button"
-                        class="nav-lang nav-user-profile subpage" style="min-width:110px;">
+                    <ul uib-dropdown-menu role="menu" aria-labelledby="single-button" class="nav-lang subpage" style="min-width:110px;">
                         <li role="menuitem"><a ng-click="changeLang('en')">English</a></li>
                         <li role="menuitem"><a ng-click="changeLang('tw')">繁體中文</a></li>
                         <li role="menuitem"><a ng-click="changeLang('cn');">简体中文</a></li>

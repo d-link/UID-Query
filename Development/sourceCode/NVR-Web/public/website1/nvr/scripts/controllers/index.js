@@ -6,20 +6,21 @@
  * @Date: 2020-02-21 09:48:46
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-25 17:42:34
+ * @LastEditTime: 2020-03-03 16:25:38
  */
 define([
     // 'controllerModule',
     // 所有控制器在这里引入，意味着一开始就会全部加载，会影响速度，后续改用按需加载
-    '../public/scripts/common/globalController',//最大的控制器，index.html的控制器
-
+    '../public/scripts/common/globalController', //公用最大的控制器，index.html的控制器
+    'views/myGlobalController', //我自己项目内的最大的控制器，nvr全局可以写在这里
     'views/cameras/cameraDetailController',
     'views/cameras/camerasController',
     'views/templates/navController',
     'views/templates/asideController',
     'views/templates/userProfileController',
+    'views/liveView/liveViewController',
 
-], function (controllers) {
+], function () {
     'use strict';
     // 给index也添加一个控制器
     // controllers.controller('indexController', function ($scope) {

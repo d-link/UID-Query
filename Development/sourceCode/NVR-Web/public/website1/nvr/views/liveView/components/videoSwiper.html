@@ -1,0 +1,41 @@
+<!--
+ * @Description: 
+ * @Version: 0.4.0
+ * @Vender: D-link
+ * @Author: YueXiangling
+ * @Date: 2020-03-03 14:46:23
+ * @LastEditNote: 
+ * @LastEditors: YueXiangling
+ * @LastEditTime: 2020-03-03 18:38:07
+ -->
+<div class="swiper-container" id="videoSwiper" ng-style="{height:height+'px'}">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide" ng-repeat="slide in slides track by slide.idx">
+            <div class="contanier">
+                <!-- 单屏 -->
+                <!-- <div class="grid-row" ng-repeat="rowObj in slide.list">
+                    <div class="grid-col" ng-repeat="video in rowObj track by video.idx" ng-style="video.style">
+                        <div ng-if="!video.isEmpty">
+                            <video class="video" ng-attr-src="{{video.video}}" muted autoplay preload loop></video>
+                            <div class="text">
+                                <p>{{video.id}}</p>
+                                <p>{{video.video}}</p>
+                            </div>
+                        </div>
+                        <div ng-if="video.isEmpty" class="empty"></div>
+                    </div>
+                </div> -->
+                <div class="grid" ng-repeat="video in slide.list track by video.idx" ng-style="video.style">
+                    <div ng-if="!video.isEmpty">
+                        <video class="video" ng-attr-src="{{video.video}}" muted autoplay preload loop></video>
+                        <div class="text">
+                            <p>{{video.id}}</p>
+                            <p>{{video.video}}</p>
+                        </div>
+                    </div>
+                    <div ng-if="video.isEmpty" class="empty"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

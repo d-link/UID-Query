@@ -1,21 +1,136 @@
 /*
- * @Description: 只用于nvr的css
-
+ * @Description: 
  * @Version: 0.4.0
  * @Vender: D-link
  * @Author: YueXiangling
- * @Date: 2020-02-21 18:16:00
+ * @Date: 2020-02-27 09:44:27
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-25 18:41:27
+ * @LastEditTime: 2020-03-03 15:58:51
  */
+html,
+body,
+ui-view,
+.container-full {
+  height: 100%;
+}
+.container-full > div {
+  height: 100%;
+}
+.btn-icon {
+  padding: 0 12px;
+  height: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.btn:hover,
+.btn:focus,
+.btn.focus {
+  color: inherit;
+}
+.hr-v {
+  width: 1px;
+  height: 100%;
+  background-color: #eee;
+  margin: 0;
+}
+.hr-l {
+  width: 100%;
+  height: 1px;
+  background-color: #eee;
+  margin: 0;
+}
+.content-wrapper {
+  height: 100%;
+}
+.content-wrapper .content {
+  background-color: #fff;
+  height: 100%;
+}
+/* model弹出框限定最大宽度 */
 .modal-userprofile .modal-dialog {
   max-width: 90vw;
 }
-.main-header .navbar .nav > li.dropdown.split-dropdown > a.jumpPage {
-  padding: 8px 12px;
+.dropdown .dropdown-toggle {
+  padding: 0 12px !important;
+  width: auto !important;
+  line-height: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
-.main-header .navbar .nav > li.dropdown.split-dropdown > a.jumpPage md-icon {
+.dropdown .dropdown-toggle .dropdown-icon {
+  position: static;
+  vertical-align: text-top;
+}
+.dropdown .dropdown-menu {
+  top: 47px;
+  left: auto;
+}
+.dropdown .dropdown-menu > span,
+.dropdown .dropdown-menu > em {
+  font-style: normal;
+  font-size: 22px;
+  position: absolute;
+  top: -11px;
+  color: #ddd;
+  line-height: 1;
+  cursor: pointer;
+  left: 85px;
+}
+.dropdown .dropdown-menu > span {
+  top: -10px;
+  z-index: 2;
+  color: #fff;
+}
+/* 顶部导航 */
+.main-header .navbar .nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.main-header .navbar .nav > li {
+  float: none;
+  height: 40px;
+}
+.main-header .navbar .nav > li .btn {
+  border: none;
+}
+.main-header .navbar .nav > li > a {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.main-header .navbar .nav li.user-profile .dropdown-toggle img {
+  margin: 0;
+}
+.main-header .navbar .nav li.user-profile .dropdown-menu {
+  right: -30px;
+}
+.main-header .navbar .nav li.user-profile .dropdown-menu > span,
+.main-header .navbar .nav li.user-profile .dropdown-menu > em {
+  left: 56px;
+}
+.main-header .navbar .nav li.jumpPage .dropdown-toggle md-icon {
   width: 24px;
   height: 24px;
+  min-width: fit-content;
+}
+.main-header .navbar .nav li.jumpPage .dropdown-menu {
+  right: -80px;
+}
+.main-header .navbar .nav li.jumpPage .dropdown-menu a > md-icon {
+  vertical-align: text-top;
+}
+.main-header .navbar .nav li.jumpPage .dropdown-menu > span,
+.main-header .navbar .nav li.jumpPage .dropdown-menu > em {
+  left: 85px;
+}
+.main-header .navbar .nav li.language .dropdown-menu {
+  right: 20px;
+}
+.main-header .navbar .nav li.language .dropdown-menu > span,
+.main-header .navbar .nav li.language .dropdown-menu > em {
+  left: 96px;
 }

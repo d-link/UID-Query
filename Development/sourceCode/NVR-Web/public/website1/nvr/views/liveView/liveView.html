@@ -6,6 +6,98 @@
  * @Date: 2020-02-24 18:07:39
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-24 18:07:47
+ * @LastEditTime: 2020-03-03 17:47:00
  -->
-<h1>liveview</h1>
+
+<div class="liveview" ng-controller="liveViewCtrl">
+    <div class="headline">
+        <div class="left">
+            <h3 class="time">{{currentTime}}</h3>
+            <p class="date">{{currentDate}}</p>
+        </div>
+        <!-- 选择几宫格 -->
+        <div class="middle">
+            <div class="btns-less">
+                <button type="button" class="btn btn-primary">4</button>
+                <button type="button" class="btn btn-primary">6</button>
+                <button type="button" class="btn btn-primary">9</button>
+                <button type="button" class="btn btn-primary">12</button>
+                <button type="button" class="btn btn-primary">20</button>
+            </div>
+            <!-- 箭头组 -->
+            <div class="arrow" uib-dropdown>
+                <!--弹出框按钮 -->
+                <a class="btn" uib-dropdown-toggle>
+                    <md-icon class="dropdown-icon" md-svg-icon="bottom:left_arrow_down" style="right:8px;top:14px;">
+                </a>
+                <!-- 弹出框 -->
+                <div uib-dropdown-menu aria-labelledby="single-button">
+                    <button type="button" class="btn btn-primary">4</button>
+                    <button type="button" class="btn btn-primary">6</button>
+                    <button type="button" class="btn btn-primary">9</button>
+                    <button type="button" class="btn btn-primary">12</button>
+                    <button type="button" class="btn btn-primary">20</button>
+
+                    <span>&#9670;</span>
+                    <em>&#9670;</em>
+                </div>
+            </div>
+            <!-- 当前页码 -->
+            <div class="pgNum">
+                <span class="red">{{currentPageIndex}}</span>
+                <span>/{{totalPageNum}}</span>
+            </div>
+            <!-- 选择轮播时间 -->
+            <!-- <div class="interval" uib-dropdown>
+                <button type="button" class="btn" uib-dropdown-toggle>
+                    5s <md-icon class="dropdown-icon" md-svg-icon="bottom:left_arrow_down">
+                </button>
+                <ul uib-dropdown-menu aria-labelledby="single-button" class="">
+                    <li><a>5s</a></li>
+                    <li><a>10s</a></li>
+                    <li><a>15s</a></li>
+                    <span>&#9670;</span>
+                    <em>&#9670;</em>
+                </ul>
+            </div> -->
+            <ui-select class="interval" ng-model="selected.value">
+                <ui-select-match>
+                    <span ng-bind="$select.selected.name">
+                    </span>
+                </ui-select-match>
+                <ui-select-choices repeat="item in (intervalTime | filter:$select.search) track by item.id">
+                    <span ng-bind="item.name">
+                    </span>
+                </ui-select-choices>
+            </ui-select>
+            <!-- 停止轮播 -->
+            <a class="btn stop">Stop</a>
+        </div>
+        <div class="right">
+            <a class="btn btn-icon scale">
+                <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+            </a>
+            <hr class="hr-v">
+            <a class="btn btn-common emap">Show e-Map</a>
+            <a class="btn btn-common btn-icon cameras" ng-click="toggleCameraList()">
+                <span class="glyphicon glyphicon-camera" aria-hidden="true"></span>
+            </a>
+        </div>
+    </div>
+    <div class="wrap">
+        <video-swiper class="videoSwiper" camera-list="_cameraList"></video-swiper>
+        <div class="camera" ng-class="{'camera-hide':!isShowCamereList,'camera':true}">
+            <div class="title">
+                <h4>Camera</h4>
+            </div>
+            <ul class="list">
+                <li ng-repeat="camera in _cameraList track by camera.id">
+                    <div class="img">
+                        <img ng-src="{{camera.image}}" alt="img">
+                    </div>
+                    <p class="name">{{camera.name}}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

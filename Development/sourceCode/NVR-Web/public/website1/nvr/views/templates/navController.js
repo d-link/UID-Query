@@ -6,15 +6,15 @@
  * @Date: 2020-02-24 14:38:12
  * @LastEditRelease:
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-25 18:29:10
+ * @LastEditTime: 2020-02-28 10:03:31
  */
 define([
-    'controllerModule'
+    'controllerModule',
 ], function (controllers) {
     'use strict';
     controllers.controller('navCtrl', function ($scope, $uibModal, Auth, Current) {
         $scope.user = Current.user();
-        console.log($scope.user)
+        // console.log($scope.user)
         // 鼠标移入logo ，左侧菜单最大化显示
         $scope.showMenu = function () {
             $scope.$emit('hide', false);
@@ -66,6 +66,10 @@ define([
         // 跳转到dnh
         $scope.gotoDNH = function () {
             window.location = '/nuclias_connect/#!/DNH';
+        }
+        // 
+        $scope.showGuide = function () {
+
         }
     })
 });

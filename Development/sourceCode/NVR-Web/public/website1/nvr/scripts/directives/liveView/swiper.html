@@ -1,0 +1,32 @@
+<!--
+ * @Description: 
+ * @Version: 0.4.0
+ * @Vender: D-link
+ * @Author: YueXiangling
+ * @Date: 2020-02-28 09:27:13
+ * @LastEditNote: 
+ * @LastEditors: YueXiangling
+ * @LastEditTime: 2020-03-03 11:22:54
+ -->
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide" ng-repeat="slide in slides track by slide.id">
+            <div class="contanier">
+                <!-- 单个格子 -->
+                <div class="grid" ng-repeat="video in slide.list track by video.idx">
+                    <!-- 非空格子 -->
+                    <div ng-if="!video.isEmpty">
+                        <video class="video" ng-attr-src="{{video.video}}" muted autoplay preload loop></video>
+                        <!-- <img class="video" ng-src="{{video.image}}"> -->
+                        <div class="text">
+                            <p>{{video.id}}</p>
+                            <p>{{video.video}}</p>
+                        </div>
+                    </div>
+                    <!-- 空格子 -->
+                    <div ng-if="video.isEmpty" class="empty"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

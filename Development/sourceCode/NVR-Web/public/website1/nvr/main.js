@@ -6,7 +6,7 @@
  * @Date: 2020-02-19 15:39:07
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-25 17:06:37
+ * @LastEditTime: 2020-03-03 15:23:47
  */
 require.config({
     // baseUrl: '',
@@ -20,6 +20,12 @@ require.config({
 
         'serviceModule': 'scripts/services/module',
         'service': "scripts/services/index",
+
+        'directiveModule': 'scripts/directives/module',
+        'directive': "scripts/directives/index",
+
+        'componentModule': "scripts/components/module",
+        'component': "scripts/components/index",
 
         'globalEnum': '../public/scripts/common/globalEnum',
 
@@ -38,6 +44,12 @@ require.config({
 
         // --------以下为插件/第三方包----------
         "angular": "../public/vendor/angular/angular.min",
+        // angular-ui-bootstrap,//基于bootstrap的 angular的ui组件
+        'ui-bootstrap': '../public/vendor/angular-bootstrap/ui-bootstrap-tpls.min',
+        // 下拉框组件
+        "angular-ui-select": "../public/vendor/angular-ui-select/select.min",
+        // angular-ui-select需要的依赖
+        'angular-sanitize': '../public/vendor/angular-sanitize/angular-sanitize.min',
         // 基于angular的第三方路由模块
         "angular-ui-router": "../public/vendor/angular-ui-router/release/angular-ui-router.min",
         // 监听路由状态的， 和angular-route一起用。
@@ -52,19 +64,18 @@ require.config({
         'crypto-js': '../public/vendor/crypto-js/crypto-js',
         // <md-icon > 图标
         'dview8-components': '../public/scripts/dviewComponents',
-        // angular-ui-bootstrap,//基于bootstrap的 angular的ui组件
-        'ui-bootstrap': '../public/vendor/angular-bootstrap/ui-bootstrap-tpls.min',
-
-
-
+        // 假数据
+        'mock': 'scripts/libs/mock-min',
+        // 轮播图
+        'swiper': 'scripts/libs/swiper/swiper.min',
     },
-    shim: {//让不支持模块化的插件，重新包装下支持模块化，并指定导出对象
+    shim: { //让不支持模块化的插件，重新包装下支持模块化，并指定导出对象
         "angular": {
-            "exports": "angular"//使用时angular/ng都有效
+            "exports": "angular" //使用时angular/ng都有效
         },
         "angular-ui-router": ["angular"],
+        'angular-ui-select': ['angular'],
         "angular-translate": ["angular"],
-
     },
     // 会执行的
     deps: ['bootstrap']
@@ -81,6 +92,8 @@ var NCTime = new Date();
  * @Return: 
  * @Author: lizhimi
  */
+
+
 function changeDivHeight() {
     var left = document.getElementsByClassName('main-sidebar')[0];
     if (left) {
@@ -88,4 +101,3 @@ function changeDivHeight() {
         document.getElementsByClassName('sidebar')[0].style.height = (height - 42) + "px";
     }
 }
-

@@ -1,0 +1,195 @@
+/*
+ * @Description: 
+ * @Version: 0.4.0
+ * @Vender: D-link
+ * @Author: YueXiangling
+ * @Date: 2020-02-27 09:44:27
+ * @LastEditRelease: 
+ * @LastEditors: YueXiangling
+ * @LastEditTime: 2020-03-03 15:58:51
+ */
+@import "variable.less";
+
+html,
+body,
+ui-view,
+.container-full {
+    height: 100%;
+}
+
+// 主体第一个盒子满高
+.container-full {
+    >div {
+        height: 100%;
+    }
+}
+
+.btn-icon {
+    padding: 0 12px;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.btn:hover,
+.btn:focus,
+.btn.focus {
+    color: inherit;
+}
+
+.hr-v {
+    width: 1px;
+    height: 100%;
+    background-color: #eee;
+    margin: 0;
+}
+
+.hr-l {
+    width: 100%;
+    height: 1px;
+    background-color: #eee;
+    margin: 0;
+}
+
+.content-wrapper {
+    height: 100%;
+
+    .content {
+        background-color: #fff;
+        height: 100%;
+    }
+}
+
+/* model弹出框限定最大宽度 */
+.modal-userprofile {
+    .modal-dialog {
+        max-width: 90vw;
+    }
+}
+
+// 按钮组弹出框共用样式
+// 公共的
+.dropdown {
+    .dropdown-toggle {
+        padding: 0 12px !important;
+        width: auto !important;
+        line-height: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .dropdown-icon {
+            position: static;
+            vertical-align: text-top;
+        }
+    }
+
+    .dropdown-menu {
+        top: 47px;
+        left: auto;
+
+        >span,
+        >em {
+            font-style: normal;
+            font-size: 22px;
+            position: absolute;
+            top: -11px;
+            color: #ddd;
+            line-height: 1;
+            cursor: pointer;
+            left: 85px;
+        }
+
+        >span {
+            top: -10px;
+            z-index: 2;
+            color: #fff;
+        }
+    }
+}
+
+/* 顶部导航 */
+.main-header {
+    .navbar {
+        .nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            >li {
+                float: none;
+                height: @navHeight;
+
+                .btn {
+                    border: none;
+                }
+
+                >a {
+                    // height: 100%;
+                    padding-left: 16px;
+                    padding-right: 16px;
+                }
+            }
+
+            li.user-profile {
+                .dropdown-toggle {
+
+                    img {
+                        margin: 0;
+                    }
+                }
+
+                .dropdown-menu {
+                    right: -30px;
+
+                    >span,
+                    >em {
+                        left: 56px;
+                    }
+                }
+            }
+
+            li.jumpPage {
+                .dropdown-toggle {
+
+                    md-icon {
+                        width: 24px;
+                        height: 24px;
+                        min-width: fit-content;
+                    }
+                }
+
+                .dropdown-menu {
+                    right: -80px;
+
+                    a {
+                        >md-icon {
+                            vertical-align: text-top;
+                        }
+                    }
+
+                    >span,
+                    >em {
+                        left: 85px;
+                    }
+                }
+            }
+
+            li.language {
+                .dropdown-toggle {}
+
+                .dropdown-menu {
+                    right: 20px;
+
+                    >span,
+                    >em {
+                        left: 96px;
+                    }
+
+                }
+            }
+        }
+    }
+}

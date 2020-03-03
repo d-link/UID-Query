@@ -6,7 +6,7 @@
  * @Date: 2020-02-24 14:38:12
  * @LastEditRelease:
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-25 14:39:08
+ * @LastEditTime: 2020-02-26 17:44:18
  */
 define([
     'controllerModule'
@@ -14,8 +14,8 @@ define([
     'use strict';
     controllers.controller('asideCtrl', function ($scope, $state, moudlesService) {
         // 初始化显示的菜单：cameras
-        $state.go('user.menu', { moudleId: 'cameras' });
-        moudlesService.showMenu('cameras');//激活cameras菜单状态
+        $state.go('user.menu', { moudleId: 'liveView' });
+        moudlesService.showMenu('liveView');//激活cameras菜单状态
         // changeDivHeight();
         // 切换高亮状态
         $scope.showSub = function (id) {

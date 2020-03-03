@@ -6,7 +6,7 @@
  * @Date: 2020-02-20 14:00:32
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-21 18:25:17
+ * @LastEditTime: 2020-02-26 18:17:27
  */
 define(['angular', 'app', 'routes'], function (ng) {
     'use strict';

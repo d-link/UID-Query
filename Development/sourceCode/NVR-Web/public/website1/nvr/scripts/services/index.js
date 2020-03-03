@@ -6,7 +6,7 @@
  * @Date: 2020-02-24 15:27:37
  * @LastEditRelease: 
  * @LastEditors: YueXiangling
- * @LastEditTime: 2020-02-25 15:37:27
+ * @LastEditTime: 2020-02-26 16:15:57
  */
 define([
     // 'serviceModule',
@@ -24,6 +24,7 @@ define([
     '../public/scripts/common/translateService',
     // nvr services
     'scripts/services/organization/organizationService',
+    'scripts/services/video/videoService',
 
 
 ], function () {
