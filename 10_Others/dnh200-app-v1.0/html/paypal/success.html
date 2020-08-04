@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body {
+            font-family: Tahoma, Helvetica, Geneva, Arial, sans-serif;
+            font-size: 12px;
+            background-color: #202020
+        }
+
+        #mainDiv {
+            position: absolute;
+            left: 50%;
+        }
+
+        @media (max-width: 827px) and (min-width: 480px) {
+            #mainDiv {
+                width: 52%;
+                margin-left: -26%;
+            }
+        }
+
+        @media (max-width: 479px) {
+            #mainDiv {
+                width: 90%;
+                margin-left: -45%;
+            }
+        }
+
+        @media (min-width: 828px) {
+            #mainDiv {
+                width: 520px;
+                margin-left: -260px;
+            }
+        }
+
+        td {
+            padding: 8px;
+        }
+
+    </style>
+    <script language="javascript">
+        function copy() {
+            const input = document.querySelector('#passcode');
+            input.select();
+            input.setSelectionRange(0, input.value.length);
+            if (document.execCommand('copy')) {
+                document.execCommand('copy');
+                alert('Copy success!');
+            }
+        }
+        function InitInput() {
+            var type = "<%=type%>";
+            if (type == 0) {
+                document.getElementById("form1").style.display = "none";
+            } else {
+                document.getElementById("form2").style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body onload="InitInput();" leftmargin="0" topmargin="0" style="overflow-x: auto; overflow-y: auto;" marginheight="0"
+      marginwidth="0">
+<div id="mainDiv">
+    <h2 style="height: 40px;line-height: 40px;color: #00b0e3;">Payment Success</h2>
+
+    <form id="form1" class="form-horizontal site" style="padding: 24px;background-color: #dfdfdf;"
+          action="/api/authentication/paypal/back" method="post">
+        <table>
+            <tr>
+                <td>Transaction ID:</td>
+                <td>
+                    <script>document.write("<%=paymentId%>")</script>
+                </td>
+            </tr>
+            <tr>
+                <td>User Limit:</td>
+                <td>
+                    <script>document.write("<%=connectionLimit%>")</script>
+                </td>
+            </tr>
+            <tr>
+                <td>Last Active Day:</td>
+                <td>
+                    <script>document.write("<%=lastActiveTime%>")</script>
+                </td>
+            </tr>
+            <tr>
+                <td>Passcode:</td>
+                <td>
+                    <input id="passcode" readonly value="<%=passcode%>"
+                           style="width: 80px;line-height: 28px;padding-left: 8px;">
+                    <input type="button" onclick="copy()" value="copy">
+                </td>
+            </tr>
+        </table>
+
+        <hr style="margin-left: -24px;margin-right: -24px;height: 1px;background-color: #cdcdcd;">
+        <input type="hidden" name="cwmkey" value='<%=cwmkey%>'/>
+
+        <div>
+            <label>Go to passcode login:</label>
+            <input type="submit" style="width: 120px;height: 38px" value="OK">
+        </div>
+    </form>
+
+    <form id="form2" class="form-horizontal site" style="padding: 24px;background-color: #dfdfdf;">
+        <label>No payment data in system. Please contact Administrator. Your Transaction ID is </label><span><script>document.write("<%=paymentId%>")</script></span>
+        <label>, and token is <span><script>document.write("<%=token%>")</script></span>.</label>
+    </form>
+</div>
+
+</body>
+</html>

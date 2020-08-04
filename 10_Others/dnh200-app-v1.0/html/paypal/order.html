@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body {
+            font-family: Tahoma, Helvetica, Geneva, Arial, sans-serif;
+            font-size: 12px;
+            background-color: #202020
+        }
+
+        #mainDiv {
+            position: absolute;
+            left: 50%;
+        }
+
+        @media (max-width: 827px) and (min-width: 480px) {
+            #mainDiv {
+                width: 52%;
+                margin-left: -26%;
+            }
+        }
+
+        @media (max-width: 479px) {
+            #mainDiv {
+                width: 90%;
+                margin-left: -45%;
+            }
+        }
+
+        @media (min-width: 828px) {
+            #mainDiv {
+                width: 520px;
+                margin-left: -260px;
+            }
+        }
+
+        ul{
+            list-style: none;
+            -webkit-padding-start: 10px;
+        }
+
+        li {
+            display: inline;
+            line-height: 60px;
+            margin-left: 20px;
+        }
+
+        li > input {
+            width: 120px;
+            height: 44px;
+        }
+
+        div > span {
+            font-weight: bold;
+            color: #00AC7F;
+        }
+    </style>
+</head>
+<script language="javascript">
+    function cost(ele, cost, id) {
+        document.getElementById("total").innerHTML = cost;
+        document.getElementById("optionId").value = id;
+        var arr = document.getElementsByClassName("option");
+        for (var i = 0; i < arr.length; i++) {
+            arr[i].style.borderColor = "";
+        }
+        ele.style.borderColor = "#00AC7F";
+    }
+
+    window.onload = function () {
+        var arr = document.getElementsByClassName("option");
+        arr[0].onclick();
+    };
+
+</script>
+<body leftmargin="0" topmargin="0" style="overflow-x: auto; overflow-y: auto;" marginheight="0" marginwidth="0">
+<div id="mainDiv">
+    <h2 style="height: 40px;line-height: 40px;color: #00b0e3;">Get New Passcode</h2>
+
+    <form class="form-horizontal site" style="background-color: #dfdfdf; padding: 24px"
+          action="/api/authentication/paypal/payment" method="post">
+        <div>
+            <label>PayPal Currency Code:</label>
+            <span>{{currencyCode}}</span>
+        </div>
+        <ul>
+            {{options}}
+        </ul>
+        <hr style="margin-left: -24px;margin-right: -24px;height: 1px;background-color: #cdcdcd;">
+        <input type="hidden" id="optionId" name="optionId" value=""/>
+        <input type="hidden" name="cwmkey" value="{{cwmkey}}"/>
+
+        <div>
+            <label>Total Cost</label>
+
+            <p>{{currencyCode}}<span
+                    style="margin: 0 16px;font-weight: bold;color: #00AC7F" id="total">0</span></p>
+
+        </div>
+        <div>
+            <input type="submit" value=""
+                   style="width: 228px;height: 44px;border: none;  background: url(https://www.paypalobjects.com/webstatic/en_AU/i/buttons/btn_paywith_primary_l.png)">
+
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

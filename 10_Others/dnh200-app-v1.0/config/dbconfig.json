@@ -1,0 +1,10 @@
+{
+	"configFilePath": "/userdata/config/config-data.db",
+	"systemFilePath": "/userdata/config/system-data.db",
+	"logFilePath": "/mnt/ramdisk/log-data.db",
+	"taskFilePath": "/userdata/config/task-data.db",
+	"clientFilePath": "/mnt/sdcard/statistic-client-data.db",
+	"wlanInfoFilePath": "/mnt/sdcard/statistic-wlanInfo-data.db",
+	"clientTemporaryFilePath": "/mnt/ramdisk/statistic-client-data.db",
+	"wlanInfoTemporaryFilePath": "/mnt/ramdisk/statistic-wlanInfo-data.db"
+}
