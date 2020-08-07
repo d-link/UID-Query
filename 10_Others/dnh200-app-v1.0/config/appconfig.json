@@ -11,6 +11,7 @@
   "mediaFileDir": "/mnt/hdd_NVR2/fmp4Videos",
   "enableHddRecording":true,
   "maxStorageDays": 5,
+  "appHeartbeatTolerance": 60,
   "development": {
     "enableHttp": false,
     "serverIP": "",
