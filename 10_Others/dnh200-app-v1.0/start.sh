@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-#SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
+export NODE_ENV=Production_dnh
+SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
+cd $SHELL_FOLDER
 #start_time=`date +%Y%m%d%H%M`
 if [[ ! -d "/userdata/config" ]]
 then
@@ -16,12 +18,20 @@ then
 	nohup ./watcher >/dev/null 2>&1 &
 fi
 sleep 10
+chmod -R 777 nuclias-core
+#nohup ./nuclias-core >"/userdata/log/CS_"$start_time".log" 2>&1 &
+nohup ./nuclias-core >/dev/null 2>&1 &
+if [ $? -ne 0 ]
+then
+	echo -e "\033[31mERROR\033[0m: Start the Nuclias Connect core service failed, Please make sure that the environment there is no problem."
+	exit 1
+fi
 chmod -R 777 nuclias-media
 #nohup ./nuclias-media >"/userdata/log/CS_"$start_time".log" 2>&1 &
 nohup ./nuclias-media >/dev/null 2>&1 &
 if [ $? -ne 0 ]
 then
-	echo -e "\033[31mERROR\033[0m: Start the Nuclias Connect core service failed, Please make sure that the environment there is no problem."
+	echo -e "\033[31mERROR\033[0m: Start the Nuclias Connect media service failed, Please make sure that the environment there is no problem."
 	exit 1
 fi
 sleep 2

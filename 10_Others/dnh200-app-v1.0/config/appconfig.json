@@ -1,68 +1,65 @@
+
 {
-  "model": "NVR",
-  "version": "1.0.1.0",
-  "subversion": "v20200608.01",
-  "nucliasPath": "",
-  "backupPath": "/userdata/backupcfg",
-  "serverPort": 8443,
-  "serverIP": "",
-  "receiveUDPstartPort": 15000,
-  "rtpType": "udp",
-  "mediaFileDir": "/mnt/hdd_NVR2/fmp4Videos",
-  "enableHddRecording":true,
-  "maxStorageDays": 5,
-  "appHeartbeatTolerance": 60,
-  "development": {
-    "enableHttp": false,
+    "serverPort": 8443,
     "serverIP": "",
-    "port": 30002,
-    "sslport": 443,
-    "starterEdition": false,
-    "base_url": "",
-    "jwt_secret": "b3eaad0a469d13a884f3d09e0952b72b",
-    "client": "*",
-    "taskValidity": 30,
-    "supportModuleUrl": " https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist",
-    "sso": {
-      "hostname": "API.nuclias.com",
-      "tokenExpiresInMinutes": 4320,
-      "register": "register.nuclias.com",
-      "connect": "connect.nuclias.com"
-    }
+    "appHeartbeatTolerance": 60,
+    "development": {
+      "mongodb": {
+        "serverIP": "127.0.0.1",
+        "serverPort": 27010,
+        "useAuth": true
+      },
+      "log": {
+        "logLevel": "debug",
+        "logFilePath": "./logFiles",
+        "filename": "nuclias_connect_core.log",
+        "compress": true,
+        "keepFileExt": true,
+        "alwaysIncludePattern": true,
+        "daysToKeep": 30
+      }
+    },
+   "production": {
+     "mongodb": {
+       "serverIP": "127.0.0.1",
+       "serverPort": 27010,
+       "useAuth": true
+     },
+     "log": {
+       "logLevel": "info",
+       "logFilePath": "./logFiles",
+       "filename": "nuclias_connect_core.log",
+       "compress": true,
+       "keepFileExt": true,
+       "alwaysIncludePattern": true,
+       "daysToKeep": 30
+     }
   },
   "Production_hualian": {
-    "enableHttp": true,
-    "serverIP": "",
-    "port": 30002,
-    "sslport": 443,
-    "starterEdition": false,
-    "base_url": "",
-    "jwt_secret": "b3eaad0a469d13a884f3d09e0952b72b",
-    "client": "*",
-    "taskValidity": 30,
-    "supportModuleUrl": "https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist_hualien_edu",
-    "sso": {
-      "hostname": "API.nuclias.com",
-      "tokenExpiresInMinutes": 4320,
-      "register": "register.nuclias.com",
-      "connect": "connect.nuclias.com"
+    "mongodb": {
+      "serverIP": "127.0.0.1",
+      "serverPort": 27010,
+      "useAuth": true
+    },
+    "log": {
+      "logLevel": "debug",
+      "logFilePath": "./logFiles",
+      "filename": "nuclias_connect_core.log",
+      "compress": true,
+      "keepFileExt": true,
+      "alwaysIncludePattern": true,
+      "daysToKeep": 30
     }
   },
-  "production": {
-    "enableHttp": true,
-    "port": 30002,
-    "sslport": 443,
-    "starterEdition": false,
-    "base_url": "",
-    "jwt_secret": "b3eaad0a469d13a884f3d09e0952b72b",
-    "client": "*",
-    "taskValidity": 30,
-    "supportModuleUrl": " https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist",
-    "sso": {
-      "hostname": "API.nuclias.com",
-      "tokenExpiresInMinutes": 4320,
-      "register": "register.nuclias.com",
-      "connect": "connect.nuclias.com"
+  "Production_dnh": {
+    "log": {
+      "logLevel":"debug",
+      "logFilePath": "/mnt/sdcard/dnhlog",
+      "filename": "CS.log",
+      "compress": true,
+      "keepFileExt": true,
+      "alwaysIncludePattern": true,
+      "daysToKeep": 7
     }
   }
 }
