@@ -1,0 +1,33 @@
+{
+    "serverPort": 9443,
+    "serverIP": "",
+    "receiveUDPstartPort": 15000,
+    "rtpType": "udp",
+    "mediaFileDir": "./fmp4Videos",
+    "maxStorageDays": 1,
+    "enableHddRecording":true,
+    "development": {
+        "jwt_secret":"b3eaad0a469d13a884f3d09e0952b72b",
+        "log": {
+            "logLevel":"debug",
+            "logFilePath": "/mnt/sdcard/dnhlog",
+            "filename": "MS.log",
+            "compress": true,
+            "keepFileExt": true,
+            "alwaysIncludePattern": true,
+            "daysToKeep": 7
+        }
+    },
+    "Production_dnh": {
+        "jwt_secret":"b3eaad0a469d13a884f3d09e0952b72b",
+        "log": {
+            "logLevel":"debug",
+            "logFilePath": "/mnt/sdcard/dnhlog",
+            "filename": "MS.log",
+            "compress": true,
+            "keepFileExt": true,
+            "alwaysIncludePattern": true,
+            "daysToKeep": 7
+        }
+    }
+}

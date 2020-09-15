@@ -2,7 +2,6 @@
 {
     "serverPort": 8443,
     "serverIP": "",
-    "appHeartbeatTolerance": 60,
     "development": {
       "mongodb": {
         "serverIP": "127.0.0.1",
