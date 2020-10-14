@@ -3,7 +3,7 @@
     "serverIP": "",
     "receiveUDPstartPort": 15000,
     "rtpType": "udp",
-    "mediaFileDir": "./fmp4Videos",
+    "mediaFileDir": "/mnt/hdd_NVR/fmp4Videos",
     "maxStorageDays": 1,
     "enableHddRecording":true,
     "development": {
