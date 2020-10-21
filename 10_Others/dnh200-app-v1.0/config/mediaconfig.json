@@ -1,12 +1,11 @@
 {
-    "serverPort": 9443,
-    "serverIP": "",
-    "receiveUDPstartPort": 15000,
-    "rtpType": "udp",
-    "mediaFileDir": "/mnt/hdd_NVR/fmp4Videos",
-    "maxStorageDays": 1,
-    "enableHddRecording":true,
     "development": {
+        "serverPort": 9443,
+        "serverIP": "",
+        "receiveUDPstartPort": 15000,
+        "rtpType": "udp",
+        "mediaFileDir": "/mnt/hdd_NVR/fmp4Videos",
+        "enableHddRecording":true,
         "jwt_secret":"b3eaad0a469d13a884f3d09e0952b72b",
         "log": {
             "logLevel":"debug",
@@ -19,6 +18,12 @@
         }
     },
     "Production_dnh": {
+        "serverPort": 9443,
+        "serverIP": "",
+        "receiveUDPstartPort": 15000,
+        "rtpType": "udp",
+        "mediaFileDir": "/mnt/hdd_NVR/fmp4Videos",
+        "enableHddRecording":true,
         "jwt_secret":"b3eaad0a469d13a884f3d09e0952b72b",
         "log": {
             "logLevel":"debug",
