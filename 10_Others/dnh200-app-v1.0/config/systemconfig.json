@@ -12,17 +12,18 @@
     "taskValidity":30,
     "snapshotPath": "/mnt/hdd_NVR/SnapShot",
     "backupPath": "/userdata/backupcfg",
-    "autoLogBackupPath": "/mnt/sdcard",
+    "autoLogBackupPath": "/mnt/hdd_SYS",
     "autoLogBackupFileSizeLimit": 10485760,
     "supportModuleUrl":" https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist",
     "log": {
       "logLevel":"debug",
-      "logFilePath": "/mnt/sdcard/dnhlog",
+      "logFilePath": "/mnt/hdd_SYS/dnhlog",
       "filename": "WS.log",
       "compress": true,
       "keepFileExt": true,
       "alwaysIncludePattern": true,
-      "daysToKeep": 7
+      "daysToKeep": 7,
+      "maxLogSize": 4294966272
     },
     "fota": {
       "host_gl": "https://api.fota.dlink.com",
@@ -47,17 +48,18 @@
     "taskValidity":30,
     "snapshotPath": "/mnt/hdd_NVR/SnapShot",
     "backupPath": "/userdata/backupcfg",
-    "autoLogBackupPath": "/mnt/sdcard",
+    "autoLogBackupPath": "/mnt/hdd_SYS",
     "autoLogBackupFileSizeLimit": 10485760,
     "supportModuleUrl":" https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist",
     "log": {
       "logLevel":"debug",
-      "logFilePath": "/mnt/sdcard/dnhlog",
+      "logFilePath": "/mnt/hdd_SYS/dnhlog",
       "filename": "WS.log",
       "compress": true,
       "keepFileExt": true,
       "alwaysIncludePattern": true,
-      "daysToKeep": 7
+      "daysToKeep": 7,
+      "maxLogSize": 4294966272
     },
     "fota": {
       "host_gl": "https://api.fota.dlink.com",

@@ -15,7 +15,8 @@
         "compress": true,
         "keepFileExt": true,
         "alwaysIncludePattern": true,
-        "daysToKeep": 30
+        "daysToKeep": 30,
+        "maxLogSize": 4294966272
       }
     },
    "production": {
@@ -31,7 +32,8 @@
        "compress": true,
        "keepFileExt": true,
        "alwaysIncludePattern": true,
-       "daysToKeep": 30
+       "daysToKeep": 30,
+       "maxLogSize": 4294966272 
      }
   },
   "Production_hualian": {
@@ -47,18 +49,20 @@
       "compress": true,
       "keepFileExt": true,
       "alwaysIncludePattern": true,
-      "daysToKeep": 30
+      "daysToKeep": 30,
+      "maxLogSize": 4294966272
     }
   },
   "Production_dnh": {
     "log": {
       "logLevel":"debug",
-      "logFilePath": "/mnt/sdcard/dnhlog",
+      "logFilePath": "/mnt/hdd_SYS/dnhlog",
       "filename": "CS.log",
       "compress": true,
       "keepFileExt": true,
       "alwaysIncludePattern": true,
-      "daysToKeep": 7
+      "daysToKeep": 7,
+      "maxLogSize": 4294966272
     }
   }
 }
