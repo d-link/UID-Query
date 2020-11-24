@@ -4,18 +4,19 @@
         "serverIP": "",
         "receiveUDPstartPort": 15000,
         "rtpType": "udp",
-        "mediaFileDir": "/mnt/hdd_NVR/fmp4Videos",
+        "mediaFileDir": "./fmp4Videos",
         "enableHddRecording":true,
         "jwt_secret":"b3eaad0a469d13a884f3d09e0952b72b",
         "log": {
-            "logLevel":"debug",
-            "logFilePath": "/mnt/hdd_SYS/dnhlog",
-            "filename": "MS.log",
+            "type": "file",
+            "level":"debug",
+            "filename": "/mnt/hdd_SYS/dnhlog/MS.log",
+            "pattern": "yyyy-MM-dd",
             "compress": true,
             "keepFileExt": true,
             "alwaysIncludePattern": true,
-            "daysToKeep": 7,
-            "maxLogSize": 4294966272
+            "backups": 50,
+            "maxLogSize": 996147200
         }
     },
     "Production_dnh": {
@@ -27,14 +28,15 @@
         "enableHddRecording":true,
         "jwt_secret":"b3eaad0a469d13a884f3d09e0952b72b",
         "log": {
-            "logLevel":"debug",
-            "logFilePath": "/mnt/hdd_SYS/dnhlog",
-            "filename": "MS.log",
+            "type": "file",
+            "level":"debug",
+            "filename": "/mnt/hdd_SYS/dnhlog/MS.log",
+            "pattern": "yyyy-MM-dd",
             "compress": true,
             "keepFileExt": true,
             "alwaysIncludePattern": true,
-            "daysToKeep": 7,
-            "maxLogSize": 4294966272
+            "backups": 50,
+            "maxLogSize": 996147200
         }
     }
 }
