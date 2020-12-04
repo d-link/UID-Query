@@ -69,10 +69,10 @@
       "host_cn": "https://api.fota.dlink.com.cn"
     },
     "sso": {
-      "hostname": "us2-rdqa.nuclias.com",
+      "hostname": "API.nuclias.com",
       "tokenExpiresInMinutes": 4320,
-      "register": "register.us2-rdqa.nuclias.com",
-      "connect": "connect.us2-rdqa.nuclias.com"
+      "register": "register.nuclias.com",
+      "connect": "connect.nuclias.com"
     }
   }
 }
