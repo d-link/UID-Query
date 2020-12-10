@@ -1,0 +1,31 @@
+{
+  "name": "fotaClient",
+  "version": "1.0.0",
+  "description": "FOTA Client",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pkg": "pkg -d -t node8-linux ."
+  },
+  "pkg": {
+    "scripts": [],
+    "assets": [
+      "node_modules/ref-napi/**/*"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.0",
+    "axios": "^0.20.0",
+    "better-sqlite3": "^5.4.2",
+    "chalk": "^3.0.0",
+    "ffi": "git+https://github.com/zwy35/node-ffi.git#develop",
+    "fs-extra": "^8.1.0",
+    "node-forge": "^0.10.0",
+    "node-watch": "^0.7.0",
+    "ora": "^4.0.5",
+    "systeminformation": "^4.27.9"
+  }
+}

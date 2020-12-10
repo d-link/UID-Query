@@ -1,0 +1,7 @@
+{
+  "endpoint": "https://qa-api.fota.dlink.com",
+  "series":"DNH",
+  "model":"DNH-200",
+  "hwVersion":"Ax",
+  "variant":"Default"
+}
