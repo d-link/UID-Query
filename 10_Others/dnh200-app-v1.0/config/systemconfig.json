@@ -64,6 +64,10 @@
       "backups": 50,
       "maxLogSize": 996147200
     },
+    "logAutoCleanCfg": {
+      "limit": 100000,
+      "frequencyByMinutes": 5
+    },
     "fota": {
       "host_gl": "https://api.fota.dlink.com",
       "host_cn": "https://api.fota.dlink.com.cn"
