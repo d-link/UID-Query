@@ -3759,10 +3759,10 @@ function analyzeFirmwareInfoBySo(config, callback) {
                 if (err) {
                     callback(40099, err);
                 } else {
-                    resp = resp.replace(/\\\\/gi, '\\'); //去掉返回结果中被多转义的内容
                     let obj = JSON.parse(resp);
                     switch (obj.result) {
                         case 1:
+                            obj = JSON.parse(JSON.stringify(obj).replace(/\\\\/gi,'\\'));
                             callback(null, obj);
                             break;
                         case 2:
