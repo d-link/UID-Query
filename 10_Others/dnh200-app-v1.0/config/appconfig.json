@@ -60,7 +60,7 @@
     "log": {
       "type": "file",
       "level":"debug",
-      "filename": "/mnt/sdcard/dnhlog/CS.log",
+      "filename": "/mnt/hdd_SYS/dnhlog/CS.log",
       "pattern": "yyyy-MM-dd",
       "compress": true,
       "keepFileExt": true,

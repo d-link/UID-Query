@@ -13,7 +13,7 @@
     "taskValidity":30,
     "snapshotPath": "./Snapshot",
     "backupPath": "/userdata/backupcfg",
-    "autoLogBackupPath": "/mnt/sdcard",
+    "autoLogBackupPath": "/mnt/hdd_SYS",
     "autoLogBackupFileSizeLimit": 10485760,
     "supportModuleUrl":" https://s3-us-west-1.amazonaws.com/download-site/download-file/cwm_aplist",
     "log": {
